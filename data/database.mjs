@@ -13,9 +13,9 @@ import {initialize_models } from './models.mjs';
  */
 const Config = {
 	database: 'goldentv',
-	username: 'root',
-	password: 'password',
-	host    : 'localhost',
+	username: 'goldentv',
+	password: 'goldentv',
+	host: 'goldentv.c2kflfe02lhl.us-east-2.rds.amazonaws.com',
 	port    : 3306
 };
 /**
