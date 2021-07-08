@@ -1,0 +1,41 @@
+<style>
+
+body {
+  background-color: black;
+}
+
+div.blackblock {
+  background-color: black;
+  width: 800px;
+  height: 358px;
+}
+
+.btn#query {
+  background-color: black;
+  color: gold;
+  border: 1px solid white;
+}
+
+.btn#query:hover {
+  background-color: grey;
+  color: white;
+}
+</style>
+
+<body>
+<h1 class="display-4">Edit Home Description</h1>
+
+<h5>Home Description</h5>
+<form method="post" action="/edithomedes" name="">
+  <div class="form-group">
+    
+    <input type="homedescription" name="homedescription" class="form-control" value="{{homedes.homedescription}}" required>
+  </div>
+
+  <input class="btn" id="query" type="submit">
+
+  <div class="blackblock">
+  </div>
+</form>
+
+</body>

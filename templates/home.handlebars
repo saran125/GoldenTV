@@ -1,0 +1,84 @@
+<title>Home</title>
+<link rel="stylesheet" type="text/css" href="public/css/home.css" media="screen"/>
+
+<body>
+<div class="homedescription">
+    <div class="homecontent">
+        {{ homedescription }}
+    </div>
+{{!-- {{#if Admin}} --}}
+    <div class="homecontentedit1">
+        <form action="../edithomedes">
+            <input type="submit" value="Edit" class="btn btn-outline-warning">
+        </form>
+    </div>
+{{!-- {{/if}} --}}
+</div>
+
+
+<div class="homeimageandpolicy">
+    <div class="homeimage">
+		<img style="width:500px; " src="public/uploads/{{ homeimage }}">
+    </div>
+    <div class="homeimagedes">
+        {{ homepolicy }}
+        {{!-- {{#if Admin}} --}}
+        <div class="homecontentedit2">
+            <form action="../edithomeimagepolicy">
+                <input type="submit" value="Edit" class="btn btn-outline-warning">
+            </form>
+        {{!-- {{/if}} --}}
+        </div>
+    </div>
+    <div class="homepolicy">
+	<img style="width:500px; height: 70px;" src="public/uploads/{{ homepolicyimage }}">
+    <div class="footer">© 2020 Teo Heng. All rights reserved.</div>
+    <div class="footer">© 2020 Golden Village. All rights reserved.</div>
+    </div>
+</div>
+
+<div class="moviescomingsoon">
+    <div class="comingsoontitle">BEST RELEASES!</div>
+    <div class="comingsoon1">
+		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
+        src="/public/img/img3722.webp"
+         alt="Norway" class="w3-hover-opacity">
+    <div class="comingsoon1des">
+        {{ release_name1 }}
+    </div>
+    </div>
+    <div class="comingsoon2">
+		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
+        src="/public/img/img3725.webp"
+         alt="Norway" class="w3-hover-opacity">
+    <div class="comingsoon2des">
+        {{ release_name2 }}
+    </div>
+    </div>
+    <div class="comingsoon3">
+		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
+        src="/public/img/orangealbum.jpg"
+         alt="Norway" class="w3-hover-opacity">
+    <div class="comingsoon3des">
+        {{ release_name3 }}
+    </div>
+    </div>
+    <div class="comingsoon4">
+		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
+        src="/public/img/XXXV.jpg"
+         alt="Norway" class="w3-hover-opacity">
+    <div class="comingsoon4des">
+        {{ release_name4 }}
+    </div>
+    </div>
+
+    <!-- <div class="homecontentedit3">
+        <input type="submit" value="Edit" class="btn btn-outline-warning">
+    </div> -->
+
+    <div class="blackblock">
+    </div>
+
+</div>
+
+</body>

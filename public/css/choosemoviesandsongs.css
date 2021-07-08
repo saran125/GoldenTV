@@ -1,0 +1,40 @@
+body {
+    background-color: black;
+  }
+  
+div.MovieInfo, div.SongInfo {
+  width: 150px;
+  }
+
+div.blackblock1 {
+    background-color: black;
+    width: 800px;
+    height: 10px;
+  }
+  
+.btn#query {
+    background-color: black;
+    color: gold;
+    border: 1px solid white;
+  }
+  
+.btn#query:hover {
+    background-color: grey;
+    color: white;
+ }
+
+ div.ChooseMovie {
+  float: left;
+  width: 350px;
+ }
+
+ div.ChooseSong {
+  float: left;
+  top: 92px;
+  left: 375px;
+  width: 350px;
+ }
+
+ div.CreateMoviesAndSongs {
+  left: 375px;
+ }

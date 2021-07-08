@@ -1,0 +1,21 @@
+body {
+    background-color: black;
+  }
+
+.btn#query {
+    background-color: black;
+    color: gold;
+    border: 1px solid white;
+  }
+  
+.btn#query:hover {
+    background-color: grey;
+    color: white;
+ }
+
+   
+div.blackblock1 {
+  background-color: black;
+  width: 800px;
+  height: 20px;
+}

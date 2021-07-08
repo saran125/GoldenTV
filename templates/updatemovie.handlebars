@@ -1,0 +1,83 @@
+<style>
+
+body {
+  background-color: black;
+}
+
+div.blackblock {
+  background-color: black;
+  width: 800px;
+  height: 358px;
+}
+
+.btn#query {
+  background-color: black;
+  color: gold;
+  border: 1px solid white;
+}
+
+.btn#query:hover {
+  background-color: grey;
+  color: white;
+}
+</style>
+
+<h1 class="display-4">Update Movie</h1>
+
+<form method="POST" action="/prodlist/updatemovie/{{movie.uuid}}?_method=PUT" name="" enctype="multipart/form-data">
+  
+  <div class="form-group">
+  <h5>Movie Image</h5>
+  <input type="file" name="movieimage" value="{{movie.movieimage}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Movie Name</h5>
+  <input type="moviename" name="moviename" class="form-control" value="{{movie.moviename}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Movie Age Rating</h5>
+  <input type="movieagerating" name="movieagerating" class="form-control" value="{{movie.movieagerating}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Movie Duration</h5>
+  <input type="movieduration" name="movieduration" class="form-control" value="{{movie.movieduration}}" required>
+  </div>
+
+  <div class="form-group">
+    <h5>Movie Genres</h5>
+	<input type="checkbox" name="movieHorror"  value="{{movie.movieHorror}}">
+	<label class="form-check-label" for="Horror">Horror</label>
+	<div class="blackbox"></div>
+	<input type="checkbox" name="movieComedy"  value="{{movie.movieComedy}}">
+	<label class="form-check-label" for="Comedy">Comedy</label>
+	<div class="blackbox"></div>
+	<input type="checkbox" name="movieScience"  value="{{movie.movieScience}}">
+	<label class="form-check-label" for="Science">Science</label>
+	<div class="blackbox"></div>
+	<input type="checkbox" name="movieRomance"  value="{{movieRomance}}">
+	<label class="form-check-label" for="Romance">Romance</label>
+	<div class="blackbox"></div>
+	<input type="checkbox" name="movieAnimation"  value="{{movie.movieAnimation}}">
+	<label class="form-check-label" for="Animation">Animation</label>
+	<div class="blackbox"></div>
+	<input type="checkbox" name="movieAdventure"  value="{{movie.movieAdventure}}">
+	<label class="form-check-label" for="Adventure">Adventure</label>
+	<div class="blackbox"></div>
+	<input type="checkbox" name="movieEmotional"  value="{{movie.movieEmotional}}">
+	<label class="form-check-label" for="Emotional">Emotional</label>
+	<div class="blackbox"></div>
+	<input type="checkbox" name="movieMystery"  value="{{movie.movieMystery}}">
+	<label class="form-check-label" for="Mystery">Mystery</label>
+	<div class="blackbox"></div>
+	<input type="checkbox" name="movieAction"  value="{{movie.movieAction}}">
+	<label class="form-check-label" for="Action">Action</label>
+  </div>
+
+  <div class="submit">
+    <input class="btn" id="query" type="submit">
+  </div>
+
+</form>

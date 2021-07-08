@@ -1,0 +1,76 @@
+<style>
+
+body {
+  background-color: black;
+}
+
+div.blackblock {
+  background-color: black;
+  width: 800px;
+  height: 358px;
+}
+
+.btn#query {
+  background-color: black;
+  color: gold;
+  border: 1px solid white;
+}
+
+.btn#query:hover {
+  background-color: grey;
+  color: white;
+}
+</style>
+
+<h1 class="display-4">Edit Best Releases</h1>
+
+<form method="POST" action="/editbestreleases" name="" enctype="multipart/form-data">
+  
+  <div class="form-group">
+  <h5>Newest Release Image 1</h5>
+  <input type="file" name="release_image1" value="{{release_image1}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Newest Release Name 1</h5>
+  <input type="release_name1" name="release_name1" class="form-control" value="{{release_name1}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Newest Release Image 2</h5>
+  <input type="file" name="release_image2" value="{{release_image2}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Newest Release Name 2</h5>
+  <input type="release_name2" name="release_name2" class="form-control" value="{{release_name2}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Newest Release Image 3</h5>
+  <input type="file" name="release_image3" value="{{release_image3}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Newest Release Name 3</h5>
+  <input type="release_name3" name="release_name3" class="form-control" value="{{release_name3}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Newest Release Image 4</h5>
+  <input type="file" name="release_image4" value="{{release_image4}}" required>
+  </div>
+
+  <div class="form-group">
+  <h5>Newest Release Name 4</h5>
+  <input type="release_name4" name="release_name4" class="form-control" value="{{release_name4}}" required>
+  </div>
+
+  <div class="submit">
+    <input class="btn" id="query" type="submit">
+  </div>
+
+  <div class="blackblock1">
+  </div>
+
+</form>

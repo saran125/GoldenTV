@@ -1,0 +1,152 @@
+<title>Movie/Karaoke Selection</title>
+<link rel="stylesheet" type="text/css" href="public/css/prodlist.css" media="screen"/>
+<div class="RoomsPricing">
+
+<h2>{{ room_title }}</h2>
+
+<form action="../prodlist/editroominfo">
+<input type="submit" value="Edit" class="btn btn-outline-warning">
+</form>
+
+<div class="w3-third w3-container w3-margin-bottom">
+    <div class="w3-container w3-white">
+        <h4>{{ small_roominfo }}</h4>
+        <h4>${{ small_roomprice }}</h4>
+    </div>
+    <div class="w3-container w3-white">
+		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
+        src="public/uploads/{{ small_roomimage1 }}"
+         alt="Norway" class="w3-hover-opacity">
+        <img style="width: 110px; height: 160px; padding-bottom: 5px;" 
+        src="public/uploads/{{ small_roomimage2 }}"
+         alt="Norway" class="w3-hover-opacity">
+    </div>
+</div>
+<div class="w3-third w3-container w3-margin-bottom">
+    <div class="w3-container w3-white">
+        <h4>{{ med_roominfo }}</h4>
+        <h4>${{ med_roomprice }}</h4>
+    </div>
+    <div class="w3-container w3-white">
+		<img style="width: 220px; height: 205px; padding-bottom: 25px;" 
+        src="public/uploads/{{ med_roomimage }}"
+         alt="Norway" class="w3-hover-opacity">
+    </div>
+</div>
+<div class="w3-third w3-container w3-margin-bottom">
+    <div class="w3-container w3-white">
+        <h4>{{ large_roominfo }}</h4>
+        <h4>${{ large_roomprice }}</h4>
+    </div>
+    <div class="w3-container w3-white">
+		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
+        src="public/uploads/{{ large_roomimage1 }}"
+         alt="Norway" class="w3-hover-opacity">
+        <img style="width: 110px; height: 160px; padding-bottom: 5px;" 
+        src="public/uploads/{{ large_roomimage2 }}"
+         alt="Norway" class="w3-hover-opacity">
+    </div>
+</div>
+</div>
+
+<div class="List">
+
+</div>
+
+<div class="List">
+<h3>Book a room now for singing/watching movies!</h3>
+<div class="List">
+</div>
+
+<form action="../prodlist/chooseeditmoviestable">
+<input type="submit" value="Movies Information" class="btn btn-outline-warning">
+</form>
+
+<div class="List">
+
+</div>
+
+<form action="../prodlist/chooseeditsongstable">
+<input type="submit" value="Songs Information" class="btn btn-outline-warning">
+</form>
+
+<div class="List">
+    <div class="w3-container w3-white1">
+        <img src="/public/img/moviewatch.png" alt="Norway" class="w3-hover-opacity">
+    </div>
+    <div class="w3-container w3-white2">
+        <div class="Title">
+            <h6>Movies Added:</h6>
+        </div>
+
+        <div class="MoviesAdded">
+            <div class="MovieAdd1">
+                <img style="width: 75px; height: 100px;" 
+                src="/public/img/img3722.webp"
+                alt="Norway" class="w3-hover-opacity">
+                <div class="GenreTags1">
+                    <div class="MovieTag"> Horror </div>
+                </div>
+                <div class="MovieName">{{ moviename }} </div>
+                <div class="MovieRating">{{ movieagerating }}</div>  
+                <div class="MovieDuration">{{ movieduration }}</div>
+            </div>
+
+            <div class="MovieAdd2">
+                <img style="width: 75px; height: 100px;" 
+                src="/public/img/img3725.webp"
+                alt="Norway" class="w3-hover-opacity">
+                <div class="GenreTags2">
+                    <div class="MovieTag"> Comedy </div>
+                    <div class="MovieTag"> Animation </div>
+                </div>
+                <div class="MovieName">{{ moviename }} </div>
+                <div class="MovieRating">{{ movieagerating }}</div>  
+                <div class="MovieDuration">{{ movieduration }}</div>  
+            </div>
+        </div>
+
+        <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
+        <p><a href="/Purchase/{{ userid }}/{{movie_id}}"><button class="purchase"> Book Now! </button></a></p>
+    </div>
+    
+</div>
+
+<div class="List">
+    <div class="w3-container w3-white1">
+        <img src="/public/img/karaokesing.png" alt="Norway" class="w3-hover-opacity">
+    </div>
+    <div class="w3-container w3-white2">
+        <div class="Title">
+            <h6>Songs Added:</h6>
+        </div>
+        <div class="SongsAdded">
+            <div class="SongAdd1">
+                <img style="width: 75px; height: 100px;" 
+                src="/public/img/orangealbum.jpg"
+                alt="Norway" class="w3-hover-opacity">
+                <div class="GenreTags1">
+                    <div class="SongTag"> Pop </div>
+                </div>
+                <div class="SongName">{{ songname }} </div>
+                <div class="SongRating">{{ songagerating }}</div>  
+                <div class="SongDuration">{{ songduration }}</div> 
+            </div>
+
+            <div class="SongAdd2">
+                <img style="width: 75px; height: 100px;" 
+                src="/public/img//XXXV.jpg"
+                alt="Norway" class="w3-hover-opacity">
+                <div class="GenreTags2">
+                    <div class="SongTag"> Rock </div>
+                    <div class="SongTag"> Rap </div>
+                </div>
+                <div class="SongName">{{ songname }} </div>
+                <div class="SongRating">{{ songagerating }}</div>  
+                <div class="SongDuration">{{ songduration }}</div>   
+            </div>
+        </div>
+        <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
+        <p><a href="/Purchase/{{ userid }}/{{movie_id}}"><button class="purchase"> Book Now! </button></a></p>
+    </div>
+</div>

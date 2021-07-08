@@ -1,0 +1,46 @@
+<link rel="stylesheet" type="text/css" href="public/css/edithomeimagepolicy.css" media="screen"/>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<h1 class="display-4">Edit Home Policy and Images</h1>
+
+<form method="post" action="/edithomeimagepolicy" name="" enctype="multipart/form-data">
+
+  <div class="form-group">
+    
+    {{ hey }} 
+    {{!-- Gonna replace with flashmsg --}}
+
+  <h5>Home Image</h5>
+  <input type="file" name="homeimage" value="{{ homeimagepolicy.homeimage}}" accept="image/png,image/jpeg,image/jpg,image/gif" required>
+  </div>
+  {{!-- <img src="<%= typeof homeimage != 'undefined' ? homeimage : '' %>" class="responsive-img"> --}}
+
+  <h5>Home Policy</h5>
+  <div class="form-group">
+    <input type="homepolicy" name="homepolicy" class="form-control" value="{{ homeimagepolicy.homepolicy}}" required>
+  </div>
+
+  <h5>Policy Image</h5>
+  <div>
+  <input type="file" value="{{ homeimagepolicy.homepolicyimage}}" name="homepolicyimage" accept="image/png,image/jpeg,image/jpg,image/gif" required>
+  </div>
+  
+  <div class="blackblock1">
+  </div>
+
+  <div class="submit">
+  <input class="btn" id="query" type="submit">
+  </div>
+
+  <div class="blackblock2">
+  </div>
+
+</form>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> 
+</body>
