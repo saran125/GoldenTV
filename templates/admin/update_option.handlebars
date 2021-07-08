@@ -1,0 +1,19 @@
+<style>
+    body {
+        background: #333333;
+        color: rgb(255, 251, 0);
+    }
+</style>
+
+<body>
+    <form method="POST" action="/admin/upate_option/{{option.uuid}}">
+        <h3> Enter the options</h3>
+        <label>Location:</label>
+        <input type="text" id="location" name='location' value="{{option.location}}"><br>
+        <label>Time: </label>
+        <input type="text" id="time" name="time" value="{{option.time}}"><br>
+        <label>Date: </label>
+        <input type="text" id="date" name="date" value="{{option.date}}"><br>
+        <input type="submit" value="Update" class="btn btn-primary" />
+    </form>
+</body>

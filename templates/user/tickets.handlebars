@@ -1,0 +1,101 @@
+<style>
+    #dtBasicExample th {
+        color: gold;
+    }
+
+    body#bodybg,
+    #dtBasicExample td {
+        background: black;
+        color: gold;
+    }
+
+    #dtBasicExample {
+        width: min-content;
+    }
+
+    .List {
+        position: relative;
+        padding-top: 5px;
+        padding-right: 5px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        width: 600px;
+        float: left;
+    }
+
+    .MovieTag {
+        font-size: 12px;
+        width: 75px;
+        background-color: purple;
+        border: 1px solid gold;
+    }
+    tr{
+        color: white;
+    }
+    table#dtBasicExample.dataTable thead .sorting:after,
+    table#dtBasicExample.dataTable thead .sorting_asc:after,
+    table#dtBasicExample.dataTable thead .sorting_asc:before,
+    table#dtBasicExample.dataTable thead .sorting_asc_disabled:after,
+    table#dtBasicExample.dataTable thead .sorting_asc_disabled:before,
+    table#dtBasicExample.dataTable thead .sorting_desc:after,
+    table#dtBasicExample.dataTable thead .sorting_desc:before,
+    table#dtBasicExample.dataTable thead .sorting_desc_disabled:after,
+    table#dtBasicExample.dataTable thead .sorting_desc_disabled:before {
+        bottom: .5em;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+    {{!--
+    <script src="/public/js/businessstatistics.js"></script> --}}
+    {{!--
+    <link rel="stylesheet" href="/public/css/businessstatistics.css"> --}}
+</head>
+<body id='bodybg'>
+    <h1>My Tickets</h1>
+    <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
+        data-data-field="rows" data-side-pagination="server" data-height="460" data-silent-sort="false"
+        data-server-sort="true" data-search="true" data-pagination="true" data-show-refresh="true"
+        data-show-columns="true" data-show-columns-search="true" data-addrbar="true" data-page-list="[10, 25, 50, 100, all]"
+        data-url="/ticketlist/tickettable-data">
+        <thead>
+            <tr>
+                <th data-field="id" >Id</th>
+                <th data-field="choice">Choice</th>
+                <th data-field="location">Location</th>
+                <th data-field="date">Date</th>
+                <th data-field="time">Time</th>
+                <th data-field="roomtype">Roomtype</th>
+                <th data-formatter="table_row_edit">View</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+
+        /**
+         * Formats the action column for each row of data
+         **/
+        function table_row_edit(value, row, index) {
+            return `
+		<a href="/view/${row.uuid}">
+			<i class="fa fa-eye"></i>
+		</a>
+		`;
+        }
+    </script>
+</body>

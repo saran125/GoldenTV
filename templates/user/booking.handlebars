@@ -1,0 +1,201 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<style>
+*{
+margin-top: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+#image{
+	height: 250px;
+	width: 200px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	display: inline-block;
+	float: left;
+}
+.rooms{
+	margin-left: -20px;
+	margin-right: -20px;
+	margin-top: -20px;
+	margin-bottom: -20px;
+	float: right;
+}
+
+#details{
+margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	display: inline-block;
+	font-size: 19px;}
+*{
+  margin:0;
+  padding:0;
+}
+body{
+  font-family:arial,sans-serif;
+  font-size:100%;
+  margin:1em;
+  background:#333333;
+  color:#fff;
+}
+.rooms h2,p{
+  font-size:100%;
+  font-weight:normal;
+}
+.rooms ul,li{
+  list-style:none;
+}
+.rooms ul{
+  overflow:hidden;
+  padding:3em;
+}
+.rooms ul li {
+  text-decoration:none;
+  color:#000;
+  background:#ffc;
+  display:block;
+  height:10em;
+  width:10em;
+  padding:1em;
+  -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+  -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  -moz-transition:-moz-transform .15s linear;
+  -o-transition:-o-transform .15s linear;
+  -webkit-transition:-webkit-transform .15s linear;
+}
+.rooms ul li{
+  margin:1em;
+  float:left;
+}
+.rooms ul li h2{
+  font-size:140%;
+  font-weight:bold;
+  padding-bottom:10px;
+}
+.rooms ul li p{
+  font-family:"Reenie Beanie",arial,sans-serif;
+  font-size:100%;
+}
+.rooms ul li {
+  -webkit-transform: rotate(-6deg);
+  -o-transform: rotate(-6deg);
+  -moz-transform:rotate(-6deg);
+}
+.rooms ul li:nth-child(even) a{
+  -o-transform:rotate(4deg);
+  -webkit-transform:rotate(4deg);
+  -moz-transform:rotate(4deg);
+  position:relative;
+  top:5px;
+  background:#cfc;
+}
+.rooms ul li:nth-child(3n) a{
+  -o-transform:rotate(-3deg);
+  -webkit-transform:rotate(-3deg);
+  -moz-transform:rotate(-3deg);
+  position:relative;
+  top:-5px;
+  background:#ccf;
+}
+.rooms ul li:nth-child(5n) a{
+  -o-transform:rotate(5deg);
+  -webkit-transform:rotate(5deg);
+  -moz-transform:rotate(5deg);
+  position:relative;
+  top:-10px;
+}
+.rooms ul li:hover,ul li:focus{
+  box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+  -webkit-transform: scale(1.25);
+  -moz-transform: scale(1.25);
+  -o-transform: scale(1.25);
+  position:relative;
+  z-index:5;
+}
+.rooms ol{text-align:center;}
+.rooms ol li{display:inline;padding-right:1em;}
+.rooms ol li a{color:#fff;}
+</style>
+{{#noop}}{{> navbar}}{{/noop}}
+
+<h1 >Movie Details</h1>
+<div id="display">
+{{!-- <img src= "{{ url_for('static', filename= 'demonslayer.webp' ) }}" alt="Norway" id="image" > --}}
+</div>
+  <h4> purpose: Booking </h4>
+        <div class="rooms">
+  <ul>
+    <li>
+
+        <h2>Small Room</h2>
+        <p>Up to 2 PAX</p>
+        <p>Price: $28</p>
+
+    </li>
+    <li>
+
+        <h2>Medium Room</h2>
+        <p>Up to 4 PAX</p>
+        <p>Price: $40</p>
+
+    </li>
+    <li>
+
+        <h2>Big Room</h2>
+        <p>Up to 6 Pax</p>
+          <p> Price: $52 </p>
+
+    </li>
+  </ul>
+        </div>
+  <form method="post" action="/user/booking">
+  <table class="table align-middle">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Choice </th>
+      <th scope="col">Date</th>
+      <th scope="col">Time</th>
+      <th scope="col">Location</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><select name="choice">
+  <option >Movie</option>
+  <option >Karaoke</option>
+</select></td>
+        <td><select name = "date">
+  <option >{{choice.date1}}</option>
+  <option >{{choice.date2}}</option>
+<option>{{choice.date3}}</option>
+<option>{{choice.date4}}</option>
+<option>{{choice.date5}}</option>
+</select></td>
+      <td><select name="time" >
+  <option>{{choice.time1}}</option>
+  <option>{{choice.time2}}</option>
+  <option>{{choice.time3}}</option>
+  <option>{{choice.time4}}</option>
+  <option>{{choice.time5}}</option>
+</select></td><td>
+<select name = "location">
+  <option>{{choice.location1}}</option>
+  <option>{{choice.location2}}</option>
+  <option>{{choice.location3}}</option>
+  <option>{{choice.location4}}</option>
+  <option>{{choice.location5}}</option>
+</select></td>
+      <td> <input type="submit" value="Book Room" class="btn btn-primary"/></td>
+    </tr>
+  </tbody>
+</table>
+</form>

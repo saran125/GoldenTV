@@ -1,0 +1,81 @@
+<h1>User {{ targetUser.uuid }} </h1>
+
+<form action="/admin/manage-users/api/update" method="POST" id="form-user" enctype="multipart/form-data"
+    class="form-group">
+    <div class="col">
+        <img id="form-profile-image" src="{{targetUser.resImgUrl}}"
+            onerror="this.src=`/public/img/placeholder-profile.png`;">
+        <input name="image" type="file" accept="image/*" class="form-control" id="file-input"
+            onchange="image_profile_selected(this);">
+    </div>
+
+    <div class="col">
+        <input name="uuid" type="text" value="{{targetUser.uuid}}" hidden readonly>
+        <label for="name">Name</label>
+        <input name="name" type="text" value="{{targetUser.name}}" class="form-control" required readonly>
+
+        <label for="email">Email</label>
+        <input name="email" type="text" value="{{targetUser.email}}" class="form-control" required readonly>
+
+        <div class="form-group">
+            <div>
+                <label for="dateCreated">Date Created</label>
+                <input name="form-dateCreated" type="text" id="form-dateCreated" value="{{targetUser.dateCreated}}"
+                    class="form-control" readonly disabled>
+            </div>
+
+            <div>
+                <label for="form-dateUpdated">Date Updated</label>
+                <input name="dateUpdated" type="text" id="form-dateUpdated" value="{{targetUser.dateUpdated}}"
+                    class="form-control" readonly disabled>
+            </div>
+        </div>
+
+        <label class="form-check-label">Role</label>
+        <select class="form-control" id="form-user-role" name="role" readonly>
+            <option value="admin" {{#if (cmp_eq targetUser.role "admin" )}}selected{{/if}}>Admin</option>
+            <option value="user" {{#if (cmp_eq targetUser.role "user" )}}selected{{/if}}>User</option>
+        </select>
+    </div>
+    <button id="form-user-edit" type="button" class="btn form-control" onclick="enable_form(true);">Edit</button>
+    <div class="btn-group" role="group" id="form-user-edit-actions" hidden>
+        <button id="form-user-submit" type="submit" class="btn form-control">Submit</button>
+        <button id="form-user-cancel" type="button" class="btn form-control"
+            onclick="enable_form(false);">Cancel</button>
+    </div>
+</form>
+
+<script>
+    /**
+     *	@param {boolean} enable
+     */
+    function enable_form(enable) {
+        const form = document.getElementById("form-user");
+        for (var i = 0; i < form.elements.length; ++i) {
+            form.elements[i].readOnly = !enable;
+        }
+        const btnEdit = document.getElementById("form-user-edit");
+        const btnActions = document.getElementById("form-user-edit-actions");
+        btnEdit.hidden = enable;
+        btnActions.hidden = !enable;
+    }
+
+    /**
+     * Callback event when a file is selected
+     * @param {HTMLInputElement} input
+     **/
+    function image_profile_selected(input) {
+        const url = input.value;
+        const fread = new FileReader();
+        fread.onload = image_profile_preview.bind(this);
+        fread.readAsDataURL(input.files[0]);
+    }
+
+    /**
+     * Update the Img preview to show the loaded image
+     * @param {InputEvent} event
+     **/
+    function image_profile_preview(event) {
+        document.getElementById("form-profile-image").src = event.target.result;
+    }
+</script>

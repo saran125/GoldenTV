@@ -12,18 +12,68 @@ import { ModelMovies } from '../data/movies.mjs';
 import { ModelSongs } from '../data/karaoke.mjs';
 import Routerfaq from '../routes/admin/faq.mjs';
 import Review from '../routes/user/review.mjs';
+import { Modelticket } from '../data/ticket.mjs';
 // import Passport from 'passport';
 import path from 'path';
 import multer from 'multer';
 import fs from 'fs';
 import express from 'express';
-import bodyParser from 'body-parser';
-import exphbs from 'express-handlebars';
 import methodOverride from 'method-override';
+import payment from '../routes/payment.mjs';
 const router = Router();
 export default router;
 router.use("/faq", Routerfaq);
 router.use("/review", Review);
+import Admin from '../routes/admin/admin.js';
+import User from '../routes/user/user.js';
+// router.use("/sendemail", Email);
+router.use("/admin", Admin)
+router.use('/user', User)
+router.use("/payment", payment);
+router.get("/paymentOption", async function (req, res) {
+	console.log("Choosing payment method");
+	return res.render('PaymentOption');
+});
+router.get("/ticketlist/tickettable", tickettable);
+router.get("/ticketlist/tickettable-data", tickettable_data);
+async function tickettable(req, res) {
+	return res.render('user/tickets');
+}
+async function tickettable_data(req, res) {
+	const ticket = await Modelticket.findAll({ raw: true });
+	return res.json({
+		"total": ticket.length,
+		"rows": ticket
+	});
+}
+
+router.get("/view/:uuid", async function (req, res, next) {
+	const tid = req.params.uuid;
+	console.log("ticket page accessed");
+	try {
+		if (tid == undefined) {
+			throw new HttpError(400, "Target user id is invalid");
+		}
+		const target_user = await Modelticket.findOne({
+			where: {
+				uuid: tid
+			}
+		});
+		if (target_user == null) {
+			throw new HttpError(410, "User doesn't exists");
+		}
+		console.log(target_user);
+		return res.render("user/view", {
+			target: target_user
+		});
+	}
+	catch (error) {
+		console.error(`Invalid request: ${tid}`);
+		error.code = (error.code == undefined) ? 500 : error.code;
+		console.log(error);
+		return next(error);
+	}
+});
 /**
  * @param database {ORM.Sequelize}
  */
@@ -124,17 +174,15 @@ export function DeleteFilePath(...files) {
 		else
 			console.warn(`Attempting to delete non-existing file(s) ${file}`);
 	}
-}
+} 
 router.post("/edithomeimagepolicy",
 upload.fields([
     { name: 'homeimage', maxCount: 1 },
     { name: 'homepolicyimage', maxCount: 1 },
   ]), 
 edithomeimagepolicy_process);
-
 router.get("/edithomebestreleases", edithomebestreleases_page);
 router.post("/edithomebestreleases", edithomebestreleases_process);
-
 router.get("/prodlist", prodlist_page);
 
 router.get("/prodlist/editroominfo", editrooms_page);

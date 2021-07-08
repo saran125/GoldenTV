@@ -4,7 +4,6 @@
   list-style: none;
   color: gold;
 }
-
 img#imgborder {
 	border-style: solid;
 	border-color: gold;
@@ -102,7 +101,10 @@ div.clock {
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/businessstatistics">Statistics</a>
-				</li>						
+				</li>		
+				<li class="nav-item">
+					<a class="nav-link" href="/ticketlist/tickettable">My Tickets</a>
+				</li>										
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				{{#if user}}
@@ -118,6 +120,14 @@ div.clock {
 						<a href="/auth/logout" class="nav-link">Logout</a>
 					</li>
 				{{else}}
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Admin</a>
+					<div class="dropdown-menu">
+						<a href="/admin/update_choice" class="dropdown-item">Update Choices</a>
+						<a href="/admin/option" class="dropdown-item">Add option</a>
+						<a href="/admin/viewoption" class="dropdown-item">Manage all the Options</a>
+					</div>
+				</li>
 					<li class="nav-item">
 						{{!-- main.js router(/login)--}}
 						<a href="/auth/login" class="nav-link">Login</a>

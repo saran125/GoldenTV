@@ -1,0 +1,136 @@
+<h1>Payment</h1>
+<div>
+	<label>Cents:</label>
+	<input  type="number" name="amount" id="price" value="{{price}}" >
+	<button onclick="generate_qr_code(null)">Proceed to Pay</button>
+	<img src="null" id="qr_code">
+	<h1> Room details</h1>
+	<h2> Choice:   {{room_details.choice}}</h2>
+	<h2> Location: {{room_details.location}}</h2>
+	<h2> Time:     {{room_details.time}}</h2>
+	<h2> Date:   {{room_details.date}}</h2>
+	<h2> Room type:   {{room_details.roomtype}}</h2>
+	<h2> Price:{{dollars}}</h2>
+</div>
+
+
+<script>
+	/**
+	 * Make a request to generate the QR code
+	 * @param {InputEvent} event
+	 **/
+	async function generate_qr_code(event) {
+		const response = await fetch("/example/payment/generate", {
+			headers: {
+				"Content-Type": "application/json"
+			},
+			method: "POST",
+			body:   JSON.stringify({
+				amount: document.getElementById("price").value
+			})
+		});
+		if (response.ok) {
+			const content = await response.json();
+			preview_qr_code(content.qr_code);
+
+			//	Start auto ping
+			setTimeout(ping_transaction_status, 1000, 0, content);
+		}
+	}
+	/**
+	 * Displays the QR code
+	 * @param {string} qr_code
+	 **/
+	function preview_qr_code(qr_code) {
+		document.getElementById("qr_code").src = `data:image;base64,${qr_code}`;
+	}
+
+	/**
+	 * Make a HTTP request to query the generated transaction
+	 * @param {JSON}   transaction
+	 * @param {number} attempt 0 ... N
+	 **/
+	async function ping_transaction_status(attempt, transaction) {
+
+		if (attempt > 5)
+			return void_transaction(transaction);
+
+		try {
+			const response = await fetch("/example/payment/query", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					txn_identifier:   transaction.txn_identifier,
+					transaction_date: transaction.transaction_date,
+					transaction_time: transaction.transaction_time,
+					stan:             transaction.stan,
+					amount:           transaction.amount
+				})
+			});
+
+			if (!response.ok) { throw new Error ("Failed to query transaction"); }
+			const content = await response.json();
+			const status  = content.status;
+			
+			switch (status) {
+				case 0:
+					console.log(`Awaiting for payment: ${attempt}`);
+					return setTimeout(ping_transaction_status, 1000, attempt + 1, transaction);
+				break;
+
+				case 1: 
+					console.log(`Payment succeeded`);
+				break;
+
+				case -1:
+					console.log(`Payment cancelled`);
+					//	TODO: Hide the qr code, set image to X
+				break;
+			}
+		}
+		catch (error) {
+			console.error(error);
+			console.error(`Failed to ping transaction :${transaction.txn_identifier}`);
+		}
+	}
+
+
+	async function void_transaction(transaction) {
+		try {
+			const response = await fetch("/example/payment/void", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					txn_identifier:   transaction.txn_identifier,
+					transaction_date: transaction.transaction_date,
+					transaction_time: transaction.transaction_time,
+					stan:             transaction.stan,
+					amount:           transaction.amount
+				})
+			});
+
+			if (!response.ok) { throw new Error ("Failed to void transaction"); }
+			const content = await response.json();
+			const status  = content.status;
+			
+			switch (status) {
+				case 1:
+					console.log(`Transaction cancelled successfully`);
+					//	TODO: Do any UX changes here
+				break;
+
+				default:
+					console.log(`No action required`);
+				break;
+			}
+		}
+		catch (error) {
+			console.error(error);
+			console.error(`Failed to void transaction :${transaction.txn_identifier}`);
+		}
+	}
+</script>

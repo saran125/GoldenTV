@@ -1,0 +1,65 @@
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/addrbar/bootstrap-table-addrbar.min.js"></script>
+<script
+    src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+
+<style>
+    body {
+        background-color: black;
+    }
+</style>
+<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<h1>Manage All Option</h1>
+<button><a class="nav-link" href="/admin/option">Add more Option</a></button>
+<table data-toggle="table" data-search="true" data-pagination="true" data-side-pagination="server"
+    data-server-sort="false" data-addrbar="true" data-show-export="false" data-filter-control="true"
+    data-show-columns="true" data-show-columns-toggle-all="true" data-detail-view="true" data-click-to-select="true"
+    data-detail-formatter="detailFormatter" data-minimum-count-columns="2" data-show-pagination-switch="true"
+    data-page-list="[10, 25, 50, 100, all]" data-show-footer="true"
+    data-show-fullscreen="true" data-show-refresh="true" data-url="/admin/option-data">
+    <thead>
+        <tr>
+            <th data-field="location" data-sortable="true">Location</th>
+            <th data-field="date" data-sortable="true">date</th>
+            <th data-field="time" data-sortable="true">time</th>
+            <th data-field="action" data-formatter="actionFormatter">Action</th>
+        </tr>
+    </thead>
+    {{!-- {{#each option}}
+    <tr>
+        <td>{{location}}</td>
+        <td>{{date}}</td>
+        <td>{{time}}</td>
+        <td><button><a class="nav-link" href="/admin/update_option/{{uuid}}">Update</a></button>
+            <button><a class="nav-link" href="/admin/delete_option/{{uuid}}">Delete</a></button>
+        <td>
+    </tr>
+    {{/each}} --}}
+</table>
+<script>
+    function detailFormatter(index, row) {
+        var html = []
+        $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+        })
+        return html.join('')
+    };
+    var selections = [];
+    function responseHandler(res) {
+        $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1
+        })
+        return res
+    };
+    function actionFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+            if (key == 'uuid') {
+                html.push('<a class="edit" href="/admin/update_option/' + value + '" ><i class="fa fa-edit"></i>Reply</a>')
+                html.push('<form method="POST" action="/admin/delete_option/' + value + '?_method=DELETE"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i>Delete</a>   </form>')
+            }
+        })
+        return html.join('')
+    }

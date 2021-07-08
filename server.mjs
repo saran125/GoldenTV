@@ -32,7 +32,9 @@ Server.engine('handlebars', ExpHandlebars({
 //	Let express know where to access static files
 //	Host them at locahost/public
 Server.use("/public", Express.static('public'));
-
+Handlebars.registerHelper("noop", function (options) {
+	return options.fn(this);
+});
 /**
  * Form body parsers etc
  */

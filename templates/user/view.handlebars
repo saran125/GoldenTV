@@ -1,0 +1,150 @@
+<link href='https://fonts.googleapis.com/css?family=Libre Barcode 39' rel='stylesheet'>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+.float-left {
+float:left;
+width:300px; // or 33% for equal width independent of parent width
+}
+body{
+  background-size:cover;
+  background-color: #0C090A;
+}
+.contenido {
+  margin: 30px auto;
+  max-height: 1000px;
+  max-width: 500px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgb(202, 202, 204);
+  background-color:;
+  border-radius: 2px;
+}
+.details {
+  padding: 26px;
+  background:white;
+  border-top: 1px dashed #c3c3c3;
+}
+.tinfo {
+  font-size: 1em;
+  font-weight: 300;
+  color: #c3c3c3;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin:7px 0;
+}
+
+.tdata {
+  font-size: 1.5em;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.5px;
+  margin:7px 0;
+}
+
+.name {
+  font-size: 1.5em;
+  font-weight: 300;
+}
+
+.link {
+  text-align: center;
+  margin-top:10px;
+}
+
+a {
+  text-decoration: none;
+  color:#55C9E6;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.7px;
+  font-size: 1.5em;
+}
+.hqr{
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  margin: 0px auto;
+}
+  .left-one{
+  background-repeat: no-repeat;
+  background-image: radial-gradient(circle at 0 96% , rgba(0,0,0,0) .2em, gray .3em, white .1em);
+}
+  .right-one{
+  background-repeat: no-repeat;
+  background-image: radial-gradient(circle at 100% 96% , rgba(0,0,0,0) .2em, gray .3em, white .1em);
+}
+.column
+{
+    display: table-cell;
+    padding: 37px 0px;
+}
+.center{
+  background:white;
+}
+
+#qrcode{
+ font-family: 'Libre Barcode 39';font-size: 80px;
+}
+.masinfo{
+  display:block;
+}
+.left,.right{
+  width:49%;
+  display:inline-table;
+}
+
+.nesp{
+  letter-spacing: 0px;
+}
+</style>
+<div class="contenido">
+  <div class="ticket">
+    <div class="hqr">
+      <div class="column left-one"></div>
+      <div class="column center">
+        <div id="qrcode">{{ target.ref }}</div>
+      </div>
+      <div class="column right-one"></div>
+    </div>
+    </div>
+    <div class="details">
+      <div class="tdata name">
+        {{ target.choice }}
+      </div>
+      <div class="tinfo">
+        Location
+      </div>
+      <div class="tdata">
+        {{ target.location }}
+      </div>
+      <div class="tinfo">
+        time
+      </div>
+      <div class="tdata">
+        {{ target.time }}
+      </div>
+      <div class="masinfo">
+        <div class="left">
+         <div class="tinfo">
+        Date
+      </div>
+      <div class="tdata nesp">
+        {{ target.date }}
+      </div>
+        </div>
+        <div class="right">
+        <div class="tinfo">
+        Reference Number
+      </div>
+      <div class="tdata nesp">
+        {{ target.ref }}
+      </div>
+        </div>
+      </div>
+
+      <div class="link">
+        <a href="/">Back To Home</a>
+      </div>
+    </div>
+  </div>
+</div>
