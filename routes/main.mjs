@@ -10,6 +10,8 @@ import { ModelBestReleases } from '../data/homebestreleases.mjs';
 import { ModelRooms } from '../data/rooms.mjs';
 import { ModelMovies } from '../data/movies.mjs';
 import { ModelSongs } from '../data/karaoke.mjs';
+import Routerfaq from '../routes/admin/faq.mjs';
+import Review from '../routes/user/review.mjs';
 // import Passport from 'passport';
 import path from 'path';
 import multer from 'multer';
@@ -18,10 +20,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import methodOverride from 'method-override';
-
 const router = Router();
 export default router;
-
+router.use("/faq", Routerfaq);
+router.use("/review", Review);
 /**
  * @param database {ORM.Sequelize}
  */
@@ -1130,3 +1132,9 @@ async function businessstatistics_page (req, res) {
 		
 	});
 };
+router.get("/contactus", function (req, res) {
+	console.log("Contact Us page accessed");
+	return res.render("user/contactus", {
+
+	});
+});

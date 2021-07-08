@@ -1,0 +1,66 @@
+<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<style>
+  body{
+    background-color: black;
+  }
+</style>
+<table
+  id="table"
+  data-toggle="table"
+  data-search="true"
+  data-pagination="true"
+  data-search-text="8"
+  data-height="460"
+>
+<h1>Faq List</h1>
+  <thead>
+      <tr>
+        <th data-field="questions">Question</th>
+        <th data-field="answers">Answer</th>
+      </tr>
+  </thead>
+  {{#each faq}}
+    <tr>
+      <td>{{questions}}</td>
+      <td>{{answers}}</td>
+      <td><button><a class="nav-link" href="/faq/updatefaq/{{questions}}">Update</a></button></td>
+      <td><button><a class="nav-link" href="/faq/deletefaq/{{questions}}">Delete</a></button></td>
+    </tr>
+  {{/each}}
+  
+</table>
+
+<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script> function actionFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+            if (key == 'uuid') {
+                html.push('<a class="edit" href="/updatefaq/' + value + '" ><i class="fa fa-edit"></i>Edit</a>')
+                html.push('<form method="POST" action="/deletefaq'+value+'?_method=DELETE"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i>Delete</a>   </form>')
+            }
+        })
+        return html.join('')
+    }</script>
+
+
+<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+
+<table
+  id="table"
+  data-toggle="table"
+  data-search="true"
+  data-url="/admin/retrievefaq-data">
+  <thead>
+    <tr>
+      <th data-field="id">ID</th>
+      <th data-field="name">Item Name</th>
+      <th data-field="price">Item Price</th>
+    </tr>
+  </thead>
+</table>

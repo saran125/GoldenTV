@@ -1,0 +1,81 @@
+<h1 class="display-4"style="text-align:center">FAQ</h1>
+
+<t class="display-4"></t>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body{
+    background-color: black;
+  }
+.collapsible {
+  background-color: black;
+  color:gold;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  text-align:center;
+}
+
+.active, .collapsible:hover {
+  background-color:rgb(197, 153, 8);
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background-color:black;
+  color:gold;
+}
+</style>
+</head>
+<body>
+<form action="/faq/faq" method="post">
+<button class="collapsible"style="color:gold">First FAQ </button>
+<div class="content">
+
+            <div class="form-group">
+                <label for="questions">Enter your question</label>
+                <input type="string" name="questions" class="form-control" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="answers">Enter your answer</label>
+                <input type="string" name="answers" class="form-control" value="" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+</div>
+
+
+				
+</form>
+</div>
+<br>
+<br>
+<p>Head over here for more information !</p>
+<li class="nav-item">
+					<a class="nav-link" href="/contactus">Contact Us</a>
+				</li>
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
+
