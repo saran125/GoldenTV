@@ -154,7 +154,7 @@ async function option_data(req, res) {
         return res.status(500).end();
     }
 }
-router.get("/delete_option/:uuid", async function (req, res) {
+router.post("/delete_option/:uuid", async function (req, res) {
     console.log("contents deleted")
     console.log(req.body);
     Modeloption.findOne({
@@ -174,28 +174,28 @@ router.get("/delete_option/:uuid", async function (req, res) {
 
     });
 });
-router.get("/update_option/:uuid", async function(req, res){
-        console.log("update Option page accessed");
-        const option = await Modeloption.findOne({
-            where: {
-                uuid: req.query.uuid
-            }
-        });
-        return res.render('admin/update_option', {
-            option
-        });
-});
-router.post("update_option/:uuid", async function (req, res) {
+router.get("/update_option/:uuid", async function (req, res) {
     console.log("update Option page accessed");
+    const option = await Modeloption.findOne({
+        where: {
+            uuid: req.params.uuid
+        }
+    });
+    return res.render('admin/update_option', {
+        option
+    });
+});
+router.post("/update_option/:uuid", async function (req, res) {
+    console.log("updated Option page accessed");
     const option = await Modeloption.update({
         location: req.body.location,
         time: req.body.time,
         date: req.body.date
     }, {
         where: {
-            uuid: req.query.uuid
+            uuid: req.params.uuid
         }
     });
     console.log("Updated Option")
-    return res.redirect('admin/viewoption',);
+    return res.redirect('/admin/viewoption',);
 });

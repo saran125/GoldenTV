@@ -3,7 +3,6 @@
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/addrbar/bootstrap-table-addrbar.min.js"></script>
 <script
     src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
-
 <style>
     body {
         background-color: black;
@@ -27,16 +26,6 @@
             <th data-field="action" data-formatter="actionFormatter">Action</th>
         </tr>
     </thead>
-    {{!-- {{#each option}}
-    <tr>
-        <td>{{location}}</td>
-        <td>{{date}}</td>
-        <td>{{time}}</td>
-        <td><button><a class="nav-link" href="/admin/update_option/{{uuid}}">Update</a></button>
-            <button><a class="nav-link" href="/admin/delete_option/{{uuid}}">Delete</a></button>
-        <td>
-    </tr>
-    {{/each}} --}}
 </table>
 <script>
     function detailFormatter(index, row) {
@@ -57,9 +46,10 @@
         var html = [];
         $.each(row, function (key, value) {
             if (key == 'uuid') {
-                html.push('<a class="edit" href="/admin/update_option/' + value + '" ><i class="fa fa-edit"></i>Reply</a>')
-                html.push('<form method="POST" action="/admin/delete_option/' + value + '?_method=DELETE"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i>Delete</a>   </form>')
+                html.push('<a class="edit" href="/admin/update_option/' + value + '"><i class="fa fa-edit"></i>Reply</a>')
+                html.push('<form method="POST" action="/admin/delete_option/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i>Delete</a></form>')
             }
         })
         return html.join('')
     }
+</script>
