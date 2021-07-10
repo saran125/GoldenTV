@@ -9,6 +9,8 @@ export class UserRole {
 	static get User()  { return "user";  }
 }
 
+//hellohello
+
 /**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
