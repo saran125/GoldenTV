@@ -34,6 +34,7 @@
 		"pg": "^8.6.0",
 		"pg-hstore": "^2.3.3",
 		"sequelize": "^6.6.2",
+		"serve-favicon": "^2.5.0",
 		"uuid": "^8.3.2",
 		"uuidv4": "^6.2.10"
 	},
