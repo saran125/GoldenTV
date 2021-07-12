@@ -1,4 +1,4 @@
-// helllo
+
 import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model } = ORM;
 
