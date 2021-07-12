@@ -1,3 +1,5 @@
+import ORM from 'sequelize'
+const { Sequelize, DataTypes, Model } = ORM;
 
 /**
  * A database entity model that represents contents in the database.
