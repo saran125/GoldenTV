@@ -4,6 +4,7 @@ import { ModelRoomtype } from '../../data/roomtype.mjs';
 import { Modelticket } from '../../data/ticket.mjs';
 import { ModelCheckout } from '../../data/checkout.mjs';
 import { Modelchoice } from '../../data/update_choice.mjs';
+import { Modeloption } from '../../data/option.mjs';
 const router = Router();
 export default router;
 router.post("/booking", booking_process);
@@ -52,13 +53,11 @@ async function booking_process(req, res) {
 
 async function booking_page(req, res) {
     console.log("booking page accessed");
-    const choice = await Modelchoice.findOne({
-        where: {
-            "uuid": "00000000-0000-0000-0000-000000000011"
-        }
+    const option = await Modeloption.findAll({
+        raw: true
     });
     return res.render('user/booking', {
-        choice
+        option
     });
 
 }

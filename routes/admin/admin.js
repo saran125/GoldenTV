@@ -4,89 +4,23 @@ import { Modeloption } from '../../data/option.mjs';
 import { HttpError } from '../../utils/errors.mjs';
 const router = Router();
 export default router;
-router.post("/update_choice", update_choice_process);
-router.get("/update_choice", update_choice_page);
+
 router.post("/option", option_process);
 router.get("/option", option_page);
 router.get("/viewoption", viewoption);
 //  update choice page 
-async function update_choice_process(req, res) {
-    try {
-        const [user, created] = await Modelchoice.findOrCreate({
-            where: { uuid: "00000000-0000-0000-0000-000000000011" },
-            defaults: {
-                time1: req.body.time1,
-                time2: req.body.time2,
-                time3: req.body.time3,
-                time4: req.body.time4,
-                time5: req.body.time5,
-                location1: req.body.location1,
-                location2: req.body.location2,
-                location3: req.body.location3,
-                location4: req.body.location4,
-                location5: req.body.location5,
-                date1: req.body.date1,
-                date2: req.body.date2,
-                date3: req.body.date3,
-                date4: req.body.date4,
-                date5: req.body.date5
-            }
-        });
-        console.log(user.uuid); // 'sdepold'
-        console.log(user.time1); // This may or may not be 'Technical Lead JavaScript'
-        console.log(created); // The boolean indicating whether this instance was just created
-        if (created == false) {
-            console.log(req.body); // This will certainly be 'Technical Lead JavaScript'
-            const choice = await Modelchoice.findOne({
-                where: {
-                    "uuid": "00000000-0000-0000-0000-000000000011"
-                }
-            });
-            choice.update({
-                time1: req.body.time1,
-                time2: req.body.time2,
-                time3: req.body.time3,
-                time4: req.body.time4,
-                time5: req.body.time5,
-                location1: req.body.location1,
-                location2: req.body.location2,
-                location3: req.body.location3,
-                location4: req.body.location4,
-                location5: req.body.location5,
-                date1: req.body.date1,
-                date2: req.body.date2,
-                date3: req.body.date3,
-                date4: req.body.date4,
-                date5: req.body.date5
-            });
-            choice.save();
-        }
-        return res.redirect("/home");
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-async function update_choice_page(req, res) {
-    console.log("update choice page accessed");
-    const choice = await Modelchoice.findOne({
-        where: {
-            uuid: "00000000-0000-0000-0000-000000000011"
-        }
-    });
-    return res.render('admin/choice', {
-        choice
-    });
-}
 async function option_process(req, res) {
     // console.log('Description created: $(booking.choice)');
     try {
         console.log(req.body);
-        const option = await Modeloption.create({
-            time: req.body.time,
-            location: req.body.location,
-            date: req.body.date});
-        console.log(option);
+        for (let i = 0; i < req.body.location.length; i++) {
+            const option = await Modeloption.create({
+                time: req.body.time[i],
+                location: req.body.location[i],
+                date: req.body.date[i]
+            });
+            console.log(option);
+        }
         return res.redirect("/admin/viewoption");
 
     }
