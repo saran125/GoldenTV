@@ -6,7 +6,7 @@ import CookieParser    from 'cookie-parser';
 
 import MethodOverrides from 'method-override';
 import path            from 'path';
-import favicon from 'serve-favicon';
+import favicon 		   from 'serve-favicon';
 import Flash           from 'connect-flash';
 import FlashMessenger  from 'flash-messenger';
 
