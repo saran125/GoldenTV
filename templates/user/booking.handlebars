@@ -40,7 +40,7 @@ body{
   font-family:arial,sans-serif;
   font-size:100%;
   margin:1em;
-  background:#333333;
+  background:#000000;
   color:#fff;
 }
 .rooms h2,p{
@@ -56,8 +56,8 @@ body{
 }
 .rooms ul li {
   text-decoration:none;
-  color:#000;
-  background:#ffc;
+  color:rgb(0, 0, 0);
+  background:gold;
   display:block;
   height:10em;
   width:10em;
@@ -69,6 +69,7 @@ body{
   -o-transition:-o-transform .15s linear;
   -webkit-transition:-webkit-transform .15s linear;
 }
+
 .rooms ul li{
   margin:1em;
   float:left;
@@ -93,7 +94,7 @@ body{
   -moz-transform:rotate(4deg);
   position:relative;
   top:5px;
-  background:#cfc;
+  background:rgb(59, 59, 59);
 }
 .rooms ul li:nth-child(3n) a{
   -o-transform:rotate(-3deg);
@@ -122,7 +123,10 @@ body{
 }
 .rooms ol{text-align:center;}
 .rooms ol li{display:inline;padding-right:1em;}
-.rooms ol li a{color:#fff;}
+.rooms ol li a{color:rgb(0, 0, 0);}
+.rooms p{
+  color: #000000;
+}
 </style>
 {{#noop}}{{> navbar}}{{/noop}}
 
@@ -169,30 +173,25 @@ body{
   </thead>
   <tbody>
     <tr>
-      <td><select name="choice">
+      <td><select name="choice" style="background-color: black;">
   <option >Movie</option>
   <option >Karaoke</option>
 </select></td>
-        <td><select name = "date">
-  <option >{{choice.date1}}</option>
-  <option >{{choice.date2}}</option>
-<option>{{choice.date3}}</option>
-<option>{{choice.date4}}</option>
-<option>{{choice.date5}}</option>
+        <td><select name = "date" style="background-color: black;">
+          {{#each option}}
+  <option >{{date}}</option>
+  {{/each}}
 </select></td>
-      <td><select name="time" >
-  <option>{{choice.time1}}</option>
-  <option>{{choice.time2}}</option>
-  <option>{{choice.time3}}</option>
-  <option>{{choice.time4}}</option>
-  <option>{{choice.time5}}</option>
+
+      <td><select name="time" style="background-color: black;" >
+        {{#each option}}
+  <option >{{time}}</option>
+    {{/each}}
 </select></td><td>
-<select name = "location">
-  <option>{{choice.location1}}</option>
-  <option>{{choice.location2}}</option>
-  <option>{{choice.location3}}</option>
-  <option>{{choice.location4}}</option>
-  <option>{{choice.location5}}</option>
+<select name = "location" style="background-color: black;">
+  {{#each option}}
+  <option >{{location}}</option>
+    {{/each}}
 </select></td>
       <td> <input type="submit" value="Book Room" class="btn btn-primary"/></td>
     </tr>

@@ -1,6 +1,5 @@
 import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model, Op } = ORM;
-
 /**
  * For enumeration use
 **/
