@@ -31,7 +31,7 @@ async function page_generate(req, res) {
 	};
 	let dollars = price/ 100;
 	console.log(room_details.location);
-	return res.render('payment', {room_details,price, dollars});
+	return res.render('user/payment', {room_details,price, dollars});
 } 
 /**
  * Signs the payload with the secret key
