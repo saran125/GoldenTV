@@ -5,8 +5,8 @@ import BodyParser      from 'body-parser';
 import CookieParser    from 'cookie-parser';
 
 import MethodOverrides from 'method-override';
-import Path            from 'path';
-
+import path            from 'path';
+import favicon from 'serve-favicon';
 import Flash           from 'connect-flash';
 import FlashMessenger  from 'flash-messenger';
 
@@ -35,6 +35,9 @@ Server.use("/public", Express.static('public'));
 Handlebars.registerHelper("noop", function (options) {
 	return options.fn(this);
 });
+const __dirname = path.resolve();
+Server.use(Express.static(path.join(__dirname, "public")));
+Server.use(favicon(path.join(__dirname, "public", "img", "goldentvlogo.png")));
 /**
  * Form body parsers etc
  */

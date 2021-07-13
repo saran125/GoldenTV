@@ -41,7 +41,7 @@ body{
   font-family:arial,sans-serif;
   font-size:100%;
   margin:1em;
-  background:#333333;
+  background:#000000;
   color:#fff;
 }
 .rooms h2,p{
@@ -57,8 +57,8 @@ body{
 }
 .rooms ul li {
   text-decoration:none;
-  color:#000;
-  background:#ffc;
+  color:black;
+  background:gold;
   display:block;
   height:10em;
   width:10em;
@@ -123,18 +123,20 @@ body{
 }
 .rooms ol{text-align:center;}
 .rooms ol li{display:inline;padding-right:1em;}
-.rooms ol li a{color:#fff;}</style>
+.rooms ol li a{color:#fff;}
+.rooms p{
+  color: #000000;
+}
+</style>
 <h1 >Movie Details</h1>
 <div id="display">
 {{!-- <img src= "{{ url_for('static', filename= 'demonslayer.webp' ) }}" alt="Norway" id="image" > --}}
 </div>
 
-
-<div class="rooms">
-
     <p>Time: {{room_details.time}}</p>
     <p>Date: {{room_details.date}}</p>
     <p>Location: {{room_details.location}}</p>
+<div class="rooms">
   <ul>
     <li>
         <h2>Small Room($28)</h2>
@@ -166,9 +168,9 @@ body{
   </thead>
   <tbody>
     <tr>
-      <td><select name="roomtype">
+      <td><select name="roomtype" style="color:#000000">
         {{#room_left}}
-  <option>{{this}}</option>
+  <option style="color: #000000;">{{this}}</option>
   {{/room_left}}
 </select></td>
         <td style="color: yellow;">promo</td>
