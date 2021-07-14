@@ -90,7 +90,7 @@ div.blackblock1 {
     data-show-columns="true"
     data-show-columns-search="true"
     data-addrbar="true"
-	data-url="/prodlist/chooseeditsongstable-data"
+	data-url="/prod/chooseeditsongstable-data"
     >
 	<thead>
 		<tr>
@@ -213,11 +213,11 @@ div.blackblock1 {
 	 **/
 	function table_row_edit(value, row, index) {
 		return `
-		<a href="../prodlist/updatesong/${row.uuid}">
+		<a href="../prod/updatesong/${row.uuid}">
 			<i class="fa fa-edit"></i>
 		</a>
 
-		<a href="../prodlist/deletesong/${row.uuid}">
+		<a href="../prod/deletesong/${row.uuid}">
 			<i class="fa fa-trash"></i>
 		</a>
 		`;
