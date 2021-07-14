@@ -1,10 +1,18 @@
 <style>
-
-#dtBasicExample th {
+* {
     color: gold;
 }
 
-body#bodybg, #dtBasicExample td {
+#toolbar {
+  width: 175px;
+  margin: 0;
+}
+
+table#dtBasicExample th {
+    color: gold;
+}
+
+body#bodybg, table#dtBasicExample td {
   background: black;
   color: gold;
 }
@@ -48,10 +56,12 @@ div.blackblock1 {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
-    {{!-- <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
 {{!-- 
 <script src="/public/js/businessstatistics.js"></script> --}}
 {{!-- <link rel="stylesheet" href="/public/css/businessstatistics.css"> --}}
@@ -73,8 +83,18 @@ div.blackblock1 {
     <div class="blackblock1"></div>
 
 <h1>Movie Data Table</h1>
+
+{{!-- <div id="toolbar" class="select">
+  <select class="form-control">
+    <option value="">Export Basic</option>
+    <option value="all">Export All</option>
+    <option value="selected">Export Selected</option>
+  </select>
+</div> --}}
+
 <table
     id = "id"
+    data-show-export="true"
  	data-toggle="table"
     data-search="true"
     data-pagination="true"
@@ -262,6 +282,33 @@ div.blackblock1 {
     });
     $('.dataTables_length').addClass('bs-select');
     }); --}}
+
+      {{!-- $(function() {
+    $('#toolbar').find('select').change(function () {
+      $table.bootstrapTable('destroy').bootstrapTable({
+        exportDataType: $(this).val(),
+        exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
+        columns: [
+          {
+            field: 'state',
+            checkbox: true,
+            visible: $(this).val() === 'selected'
+          },
+          {
+            field: 'moviename',
+            title: 'Movie Name'
+          }, {
+            field: 'name',
+            title: 'Item Name'
+          }, {
+            field: 'price',
+            title: 'Item Price'
+          }
+        ]
+      })
+    }).trigger('change')
+  }) --}}
+
 </script>
 
 </body>
