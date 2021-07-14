@@ -183,10 +183,10 @@ upload.fields([
 edithomeimagepolicy_process);
 router.get("/edithomebestreleases", edithomebestreleases_page);
 router.post("/edithomebestreleases", edithomebestreleases_process);
-router.get("/prodlist", prodlist_page);
+router.get("/prod/list", prodlist_page);
 
-router.get("/prodlist/editroominfo", editrooms_page);
-router.post("/prodlist/editroominfo", 
+router.get("/prod/editroominfo", editrooms_page);
+router.post("/prod/editroominfo", 
 upload.fields([
     { name: 'small_roomimage1', maxCount: 1 },
     { name: 'small_roomimage2', maxCount: 1 },
@@ -205,16 +205,16 @@ editrooms_process);
 // router.get("/prodlist/editmovie", editmovie_page);
 // router.post("/prodlist/editmovie", editmovie_process);
 
-router.get("/prodlist/editsong", editsong_page);
-router.post("/prodlist/editsong", editsong_process);
+router.get("/prod/editsong", editsong_page);
+router.post("/prod/editsong", editsong_process);
 
-router.get("/prodlist/createmovie", createmovie_page);
-router.post("/prodlist/createmovie",  
+router.get("/prod/createmovie", createmovie_page);
+router.post("/prod/createmovie",  
 upload.single('movieimage'),
 createmovie_process);
 
-router.get("/prodlist/createsong", createsong_page);
-router.post("/prodlist/createsong", 
+router.get("/prod/createsong", createsong_page);
+router.post("/prod/createsong", 
 upload.single('songimage'),
 createsong_process);
 
@@ -578,13 +578,13 @@ async function editrooms_process(req, res, next) {
 }
 // router.get("/api/list", api_list);
 // router.get ("/axios-test",  example_axios);
-router.get ("/prodlist/chooseeditmoviestable", chooseeditmoviestable);
-router.get ("/prodlist/chooseeditmoviestable-data", chooseeditmoviestable_data);
-router.get ("/prodlist/updatemovie/:uuid", updatemovie_page);
-router.put ("/prodlist/updatemovie/:uuid", 
+router.get ("/prod/chooseeditmoviestable", chooseeditmoviestable);
+router.get ("/prod/chooseeditmoviestable-data", chooseeditmoviestable_data);
+router.get ("/prod/updatemovie/:uuid", updatemovie_page);
+router.put ("/prod/updatemovie/:uuid", 
 upload.single('movieimage'),
 updatemovie_process);
-router.get ("/prodlist/deletemovie/:uuid", deletemovie);
+router.get ("/prod/deletemovie/:uuid", deletemovie);
 // /**
 //  * Example of making a http request
 //  * Request (External) -> Data (IN Server) -> Post Processing -> Data (OUT Server, aka response) -> Used somewhere else (Your button, 3rd party RSS???)
@@ -766,13 +766,13 @@ async function chooseeditmoviestable_data(req, res) {
 	}
 }
 
-router.get ("/prodlist/chooseeditsongstable", chooseeditsongstable);
-router.get ("/prodlist/chooseeditsongstable-data", chooseeditsongstable_data);
-router.get ("/prodlist/updatesong/:uuid", updatesong_page);
-router.put ("/prodlist/updatesong/:uuid", 
+router.get ("/prod/chooseeditsongstable", chooseeditsongstable);
+router.get ("/prod/chooseeditsongstable-data", chooseeditsongstable_data);
+router.get ("/prod/updatesong/:uuid", updatesong_page);
+router.put ("/prod/updatesong/:uuid", 
 upload.single('songimage'),
 updatesong_process);
-router.get ("/prodlist/deletesong/:uuid", deletesong);
+router.get ("/prod/deletesong/:uuid", deletesong);
 
 /**
  * Renders the edithomebestreleases page
