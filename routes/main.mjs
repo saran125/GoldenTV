@@ -197,13 +197,6 @@ upload.fields([
 editrooms_process);
 
 // router.get ("/axios-test",  example_axios);
-// router.get ("/prodlist/chooseeditmoviestable", chooseeditmoviestable);
-// router.get ("/prodlist/chooseeditmoviestable-data", chooseeditmoviestable_data);
-
-// router.get("/prodlist/chooseeditsongs", chooseeditsongs_page);
-
-// router.get("/prodlist/editmovie", editmovie_page);
-// router.post("/prodlist/editmovie", editmovie_process);
 
 router.get("/prod/editsong", editsong_page);
 router.post("/prod/editsong", editsong_process);
@@ -568,7 +561,7 @@ async function editrooms_process(req, res, next) {
 		})
 		roomlist.save();
 		console.log('Description created: $(roomlist.email)');
-		return res.redirect("/prodlist");
+		return res.redirect("/prod/list");
 	}
 	catch (error) {
 		console.error(`Credentials problem: ${req.body.email}`);
@@ -576,7 +569,7 @@ async function editrooms_process(req, res, next) {
 		return res.render('editrooms');
 	}
 }
-// router.get("/api/list", api_list);
+
 // router.get ("/axios-test",  example_axios);
 router.get ("/prod/chooseeditmoviestable", chooseeditmoviestable);
 router.get ("/prod/chooseeditmoviestable-data", chooseeditmoviestable_data);
@@ -625,7 +618,7 @@ router.get ("/prod/deletemovie/:uuid", deletemovie);
 
 		target.destroy();
 		console.log(`Deleted movie: ${tid}`);
-		return res.redirect("/prodlist/chooseeditmoviestable");
+		return res.redirect("/prod/chooseeditmoviestable");
 	}
 	catch (error) {
 		console.error(`Failed to delete`)
@@ -679,7 +672,7 @@ async function updatemovie_page(req, res) {
 		});
 		movie.save();
 		console.log('Description created: $(movie.email)');
-		return res.redirect("/prodlist/chooseeditmoviestable");
+		return res.redirect("/prod/chooseeditmoviestable");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.uuid}`);
@@ -817,7 +810,7 @@ async function updatesong_page(req, res) {
 		});
 		song.save();
 		console.log('Description created: $(movie.email)');
-		return res.redirect("/prodlist/chooseeditsongstable");
+		return res.redirect("/prod/chooseeditsongstable");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.uuid}`);
@@ -949,7 +942,7 @@ async function createmovie_process(req, res, next) {
 		});
 		console.log('Description created: $(createmovies.email)');
 		createmovies.save();
-		return res.redirect("/prodlist/chooseeditmoviestable"
+		return res.redirect("/prod/chooseeditmoviestable"
 		// , { email: email }
 		);
 	}
@@ -1057,7 +1050,7 @@ async function createsong_process(req, res) {
 		});
 		createsongs.save()
 		console.log('Description created: $(createsongs.email)');
-		return res.redirect("/prodlist/chooseeditsongstable"
+		return res.redirect("/prod/chooseeditsongstable"
 		// , { email: email }
 		);
 	}
@@ -1089,7 +1082,7 @@ async function createsong_process(req, res) {
 
 		target.destroy();
 		console.log(`Deleted song: ${tid}`);
-		return res.redirect("/prodlist/chooseeditsongstable");
+		return res.redirect("/prod/chooseeditsongstable");
 	}
 	catch (error) {
 		console.error(`Failed to delete`)
