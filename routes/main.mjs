@@ -678,7 +678,7 @@ async function updatemovie_page(req, res) {
 		console.error(`Failed to update user ${req.body.uuid}`);
 		console.error(error);
 		const movie  = await ModelMovies.findByPk(tid);
-		return res.render("updatemovie",{movie:movie});
+		return res.render("updatemovie",{ movie:movie });
 	}
 }
 
