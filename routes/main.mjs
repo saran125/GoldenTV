@@ -4,9 +4,9 @@ import { flashMessage } from '../utils/flashmsg.mjs'
 // import { upload } from '../utils/multer.mjs'
 // import { UploadFile, UploadTo, DeleteFile, DeleteFilePath } from '../utils/multer.mjs';
 // import axios from 'axios';
-import { ModelHomeDescription } from '../data/homedescription.mjs';
-import { ModelHomeImagePolicy } from '../data/homeimagepolicy.mjs';
-import { ModelBestReleases } from '../data/homebestreleases.mjs';
+import { ModelHomeInfo } from '../data/homeinfo.mjs';
+// import { ModelHomeImagePolicy } from '../data/homeimagepolicy.mjs';
+// import { ModelBestReleases } from '../data/homebestreleases.mjs';
 import { ModelRooms } from '../data/rooms.mjs';
 import { ModelMovies } from '../data/movies.mjs';
 import { ModelSongs } from '../data/karaoke.mjs';
@@ -181,8 +181,8 @@ upload.fields([
     { name: 'homepolicyimage', maxCount: 1 },
   ]), 
 edithomeimagepolicy_process);
-router.get("/edithomebestreleases", edithomebestreleases_page);
-router.post("/edithomebestreleases", edithomebestreleases_process);
+// router.get("/edithomebestreleases", edithomebestreleases_page);
+// router.post("/edithomebestreleases", edithomebestreleases_process);
 router.get("/prod/list", prodlist_page);
 
 router.get("/prod/editroominfo", editrooms_page);
@@ -218,22 +218,7 @@ class UserRole {
 	static get User()  { return "user";  }
 }
 // router.use(ensure_auth);
-router.use(ensure_admin);
-
-// /**
-//  * Ensure that all routes in this router can be used only by admin role
-//  * @param {import('express').Request} req 
-//  * @param {import('express').Response} res 
-//  * @param {import('express').NextFunction} next 
-//  */
-//  async function ensure_auth(req, res, next) {
-//     if (!req.isAuthenticated()) {
-//         return res.sendStatus(401);
-//     }
-//     else {
-//         return next();
-//     }
-// }
+// router.use(ensure_admin);
 
 /**
  * Ensure that all routes in this router can be used only by admin role
@@ -241,16 +226,12 @@ router.use(ensure_admin);
  * @param {import('express').Response} res 
  * @param {import('express').NextFunction} next 
  */
- async function ensure_admin(req, res, next) {
-    /** @type {ModelHomeDescription} */
-    const userAdmin = req.body;
-	const userUser = "user"
-    if (userAdmin.role != UserRole.Admin) {
-        return next();
-		//Forbidden
+ async function ensure_auth(req, res, next) {
+    if (!req.isAuthenticated()) {
+        return res.sendStatus(401);
     }
     else {
-        return res.sendStatus(403);
+        return next();
     }
 }
 
@@ -262,31 +243,17 @@ router.use(ensure_admin);
 // ---------------- 
 //	TODO:	Common URL paths here
 async function home_page(req, res) {
-	// const userrole = new UserRole();
-	// userrole1 = "Admin"
-	// userrole2 = "User"
-	const homedes = await ModelHomeDescription.findOne({
-		where: {
-			"email": "root@mail.com"
-		}
-	});
-	const homeimagepolicy = await ModelHomeImagePolicy.findOne({
-		where: {
-			"email": "root@mail.com"
-		}
-	});
-	const homebestreleases = await ModelBestReleases.findOne({
+	const homeinfo = await ModelHomeInfo.findOne({
 		where: {
 			"email": "root@mail.com"
 		}
 	});
 	console.log("Home page accessed");
 	return res.render('home', {
-		// Admin: userrole1,
-		homedescription: homedes.homedescription,
-		homepolicy: homeimagepolicy.homepolicy,
-		homeimage: homeimagepolicy.homeimage,
-		homepolicyimage: homeimagepolicy.homepolicyimage,
+		homedescription: homeinfo.homedescription,
+		homepolicy: homeinfo.homepolicy,
+		homeimage: homeinfo.homeimage,
+		homepolicyimage: homeinfo.homepolicyimage,
 		release_name1: "Ending in 2 days!",
 		release_name2: "Coming Soon!",
 		release_name3: "Out Now!",
@@ -303,12 +270,12 @@ async function home_page(req, res) {
 //	TODO:	Common URL paths here
 async function edithomedescription_page(req, res) {
 	console.log("Home Description page accessed");
-	const homedes = await ModelHomeDescription.findOne({
+	const homeinfo = await ModelHomeInfo.findOne({
 		where: {
 			"email": "root@mail.com"
 		}
 	});
-	return res.render('edithomedescription',{ homedes: homedes});
+	return res.render('edithomedescription',{ homeinfo: homeinfo });
 };
 
 /**
@@ -318,7 +285,7 @@ async function edithomedescription_page(req, res) {
 */
 async function edithomedescription_process(req, res) {
 	try {
-		const homedes = await ModelHomeDescription.findOne({
+		const homedes = await ModelHomeInfo.findOne({
 			where: {
 				"email": "root@mail.com"
 			}
@@ -333,12 +300,12 @@ async function edithomedescription_process(req, res) {
 	catch (error) {
 		console.error(`Credentials problem: ${req.body.email}`);
 		console.error(error);
-		const homedes = await ModelHomeDescription.findOne({
+		const homedes = await ModelHomeInfo.findOne({
 			where: {
 				"email": "root@mail.com"
 			}
 		});
-		return res.render("/edithomedes",{ homedes: homedes});
+		return res.render("/edithomedes",{homedes: homedes});
 		//return res.redirect(home_page, { errors: errors });
 	}
 }
@@ -352,7 +319,7 @@ async function edithomedescription_process(req, res) {
 //	TODO:	Common URL paths here
 async function edithomeimagepolicy_page(req, res, next) {
 	console.log("Home Policy page accessed");
-	const homeimagepolicy = await ModelHomeImagePolicy.findOne({
+	const homeimagepolicy = await ModelHomeInfo.findOne({
 		where: {
 			"email": "root@mail.com"
 		}
@@ -378,7 +345,7 @@ async function edithomeimagepolicy_process(req, res, next) {
 		const homeimageFile = req.files.homeimage[0];
   		const homepolicyimageFile = req.files.homepolicyimage[0];
 		
-		const homeimagepolicy = await ModelHomeImagePolicy.findOne({
+		const homeimagepolicy = await ModelHomeInfo.findOne({
 			where: {
 				"email": "root@mail.com"
 			}
@@ -404,47 +371,47 @@ async function edithomeimagepolicy_process(req, res, next) {
 	}
 }
 
-/**
- * Renders the edithomebestreleases page
- * @param {Request}  req Express Request handle
- * @param {Response} res Express Response handle
- */
-// ---------------- 
-//	TODO:	Common URL paths here
-async function edithomebestreleases_page(req, res) {
-	console.log("Home Best Releases page accessed");
-	return res.render('editbestreleases', {
+// /**
+//  * Renders the edithomebestreleases page
+//  * @param {Request}  req Express Request handle
+//  * @param {Response} res Express Response handle
+//  */
+// // ---------------- 
+// //	TODO:	Common URL paths here
+// async function edithomebestreleases_page(req, res) {
+// 	console.log("Home Best Releases page accessed");
+// 	return res.render('editbestreleases', {
 
-	});
-};
+// 	});
+// };
 
-/**
- * Renders the login page
- * @param {Request}  req Express Request handle
- * @param {Response} res Express Response handle
- */
-async function edithomebestreleases_process(req, res) {
-	try {
-		const homebestreleases = await ModelBestReleases.create({
-			"email": req.body.email,
-			"homeid": req.body.homeid,
-			"release_image1": req.body.release_image1,
-			"release_name1": req.body.release_name1,
-			"release_image2": req.body.release_image2,
-			"release_name2": req.body.release_name2,
-			"release_image3": req.body.release_image3,
-			"release_name3": req.body.release_name3,
-			"release_image4": req.body.release_image4,
-			"release_name4": req.body.release_name4
-		});
-		console.log('Description created: $(homebestreleases.email)');
-	}
-	catch (error) {
-		console.error(`Credentials problem: ${req.body.email}`);
-		console.error(error);
-		return res.render('/edithomeimagepolicy', { errors: errors });
-	}
-}
+// /**
+//  * Renders the login page
+//  * @param {Request}  req Express Request handle
+//  * @param {Response} res Express Response handle
+//  */
+// async function edithomebestreleases_process(req, res) {
+// 	try {
+// 		const homebestreleases = await ModelBestReleases.create({
+// 			"email": req.body.email,
+// 			"homeid": req.body.homeid,
+// 			"release_image1": req.body.release_image1,
+// 			"release_name1": req.body.release_name1,
+// 			"release_image2": req.body.release_image2,
+// 			"release_name2": req.body.release_name2,
+// 			"release_image3": req.body.release_image3,
+// 			"release_name3": req.body.release_name3,
+// 			"release_image4": req.body.release_image4,
+// 			"release_name4": req.body.release_name4
+// 		});
+// 		console.log('Description created: $(homebestreleases.email)');
+// 	}
+// 	catch (error) {
+// 		console.error(`Credentials problem: ${req.body.email}`);
+// 		console.error(error);
+// 		return res.render('/edithomeimagepolicy', { errors: errors });
+// 	}
+// }
 
 /**
  * Renders the login page

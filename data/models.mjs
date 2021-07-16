@@ -3,9 +3,9 @@ import ORM    from 'sequelize';
 const { Sequelize, DataTypes, Model, Op } = ORM;
 
 import { ModelUser } from './user.mjs';
-import { ModelHomeDescription} from './homedescription.mjs';
-import { ModelHomeImagePolicy } from '../data/homeimagepolicy.mjs';
-import { ModelBestReleases } from '../data/homebestreleases.mjs';
+import { ModelHomeInfo} from './homeinfo.mjs';
+// import { ModelHomeImagePolicy } from '../data/homeimagepolicy.mjs';
+// import { ModelBestReleases } from '../data/homebestreleases.mjs';
 import { ModelRooms } from '../data/rooms.mjs';
 import { ModelMovies } from '../data/movies.mjs';
 import { ModelSongs } from '../data/karaoke.mjs';
@@ -23,9 +23,9 @@ export function initialize_models(database) {
 		console.log("Intitializing ORM models");
 		//	Initialzie models
 		ModelUser.initialize(database);
-		ModelHomeDescription.initialize(database);
-		ModelHomeImagePolicy.initialize(database);
-		ModelBestReleases.initialize(database);
+		ModelHomeInfo.initialize(database);
+		// ModelHomeImagePolicy.initialize(database);
+		// ModelBestReleases.initialize(database);
 		ModelRooms.initialize(database);
 		ModelMovies.initialize(database);
 		ModelSongs.initialize(database);
@@ -44,9 +44,9 @@ export function initialize_models(database) {
 		console.log("Adding intitialization hooks");
 		//	Run once hooks during initialization 
 		database.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, database));
-		database.addHook("afterBulkSync", generate_homedescription.email, generate_homedescription.bind(this, database));
-		database.addHook("afterBulkSync", generate_homeimagepolicy.email, generate_homeimagepolicy.bind(this, database));
-		database.addHook("afterBulkSync", generate_bestreleases.email,  generate_bestreleases.bind(this, database));
+		database.addHook("afterBulkSync", generate_homeinfo.email, generate_homeinfo.bind(this, database));
+		// database.addHook("afterBulkSync", generate_homeimagepolicy.email, generate_homeimagepolicy.bind(this, database));
+		// database.addHook("afterBulkSync", generate_bestreleases.email,  generate_bestreleases.bind(this, database));
 		database.addHook("afterBulkSync", generate_rooms.email, generate_rooms.bind(this, database));
 		database.addHook("afterBulkSync", generate_movies.email, generate_movies.bind(this, database));
 		database.addHook("afterBulkSync", generate_songs.email, generate_songs.bind(this, database));
@@ -104,24 +104,26 @@ export function initialize_models(database) {
  * @param {Sequelize} database Database ORM handle
  * @param {SyncOptions} options Synchronization options, not used
  */
- async function generate_homedescription(database, options) {
+ async function generate_homeinfo(database, options) {
 	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_homedescription.email);
+	database.removeHook("afterBulkSync", generate_homeinfo.email);
 	//	Create a root user if not exists otherwise update it
 	try {
-		console.log("Generate_homedescription");
+		console.log("Generate_homeinfo");
 		const root_parameters = {	
 			uuid    : "00000000-0000-0000-0000-000000000000",
 			email   : "root@mail.com",
 			role    : "admin",
 			verified: true,
-			homeid  : "homeid",
-			homedescription : generate_homedescription.homedescription
+			homedescription : generate_homeinfo.homedescription,
+			homepolicy : generate_homeinfo.homepolicy,
+			homeimage: generate_homeinfo.homeimage,
+			homepolicyimage : generate_homeinfo.homepolicyimage,
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelHomeDescription.findOne({where: { "uuid": root_parameters.uuid }});
+		var account = await ModelHomeInfo.findOne({where: { "uuid": root_parameters.uuid }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelHomeDescription.create(root_parameters));
+		account = await ((account) ? account.update(root_parameters): ModelHomeInfo.create(root_parameters));
 		
 		console.log("== Gxenerated root account ==");
 		console.log(account.toJSON());
@@ -135,86 +137,86 @@ export function initialize_models(database) {
 	}
 }
 
-/**
- * This function creates a root account 
- * @param {Sequelize} database Database ORM handle
- * @param {SyncOptions} options Synchronization options, not used
- */
- async function generate_homeimagepolicy(database, options) {
-	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_homeimagepolicy.email);
-	//	Create a root user if not exists otherwise update it
-	try {
-		console.log("Generate_homeimagepolicy");
-		const root_parameters = {	
-			uuid    : "00000000-0000-0000-0000-000000000000",
-			email   : "root@mail.com",
-			role    : "admin",
-			verified: true,
-			homeid  : "id",
-			homepolicy : generate_homeimagepolicy.homepolicy,
-			homeimage: generate_homeimagepolicy.homeimage,
-			homepolicyimage : generate_homeimagepolicy.homepolicyimage
-		};
-		//	Find for existing account with the same id, create or update
-		var account = await ModelHomeImagePolicy.findOne({where: { "email": root_parameters.email }});
+// /**
+//  * This function creates a root account 
+//  * @param {Sequelize} database Database ORM handle
+//  * @param {SyncOptions} options Synchronization options, not used
+//  */
+//  async function generate_homeimagepolicy(database, options) {
+// 	//	Remove this callback to ensure it runs only once
+// 	database.removeHook("afterBulkSync", generate_homeimagepolicy.email);
+// 	//	Create a root user if not exists otherwise update it
+// 	try {
+// 		console.log("Generate_homeimagepolicy");
+// 		const root_parameters = {	
+// 			uuid    : "00000000-0000-0000-0000-000000000000",
+// 			email   : "root@mail.com",
+// 			role    : "admin",
+// 			verified: true,
+// 			homeid  : "id",
+// 			homepolicy : generate_homeimagepolicy.homepolicy,
+// 			homeimage: generate_homeimagepolicy.homeimage,
+// 			homepolicyimage : generate_homeimagepolicy.homepolicyimage
+// 		};
+// 		//	Find for existing account with the same id, create or update
+// 		var account = await ModelHomeImagePolicy.findOne({where: { "email": root_parameters.email }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelHomeImagePolicy.create(root_parameters));
+// 		account = await ((account) ? account.update(root_parameters): ModelHomeImagePolicy.create(root_parameters));
 		
-		console.log("== Gxenerated root account ==");
-		console.log(account.toJSON());
-		console.log("============================");
-		return Promise.resolve();
-	}
-	catch (error) {
-		console.error ("Failed to generate root administrator user account");
-		console.error (error);
-		return Promise.reject(error);
-	}
-}
+// 		console.log("== Gxenerated root account ==");
+// 		console.log(account.toJSON());
+// 		console.log("============================");
+// 		return Promise.resolve();
+// 	}
+// 	catch (error) {
+// 		console.error ("Failed to generate root administrator user account");
+// 		console.error (error);
+// 		return Promise.reject(error);
+// 	}
+// }
 
-/**
- * This function creates a root account 
- * @param {Sequelize} database Database ORM handle
- * @param {SyncOptions} options Synchronization options, not used
- */
- async function generate_bestreleases(database, options) {
-	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_bestreleases.email);
-	//	Create a root user if not exists otherwise update it
-	try {
-		console.log("Generate_bestreleases");
-		const root_parameters = {	
-			uuid    : "00000000-0000-0000-0000-000000000000",
-			email   : "root@mail.com",
-			role    : "admin",
-			verified: true,
-			homeid  : "id",
-            release_image1 : "release_image1",
-            release_name1 : "release_name1",
-            release_image2 : "release_image2",
-            release_name2 : "release_name2",
-            release_image3 : "release_image3",
-            release_name3 : "release_name3",
-            release_image4 : "release_image4",
-            release_name4 : "release_name4"
-		};
-		//	Find for existing account with the same id, create or update
-		var account = await ModelBestReleases.findOne({where: { "email": root_parameters.email }});
+// /**
+//  * This function creates a root account 
+//  * @param {Sequelize} database Database ORM handle
+//  * @param {SyncOptions} options Synchronization options, not used
+//  */
+//  async function generate_bestreleases(database, options) {
+// 	//	Remove this callback to ensure it runs only once
+// 	database.removeHook("afterBulkSync", generate_bestreleases.email);
+// 	//	Create a root user if not exists otherwise update it
+// 	try {
+// 		console.log("Generate_bestreleases");
+// 		const root_parameters = {	
+// 			uuid    : "00000000-0000-0000-0000-000000000000",
+// 			email   : "root@mail.com",
+// 			role    : "admin",
+// 			verified: true,
+// 			homeid  : "id",
+//             release_image1 : "release_image1",
+//             release_name1 : "release_name1",
+//             release_image2 : "release_image2",
+//             release_name2 : "release_name2",
+//             release_image3 : "release_image3",
+//             release_name3 : "release_name3",
+//             release_image4 : "release_image4",
+//             release_name4 : "release_name4"
+// 		};
+// 		//	Find for existing account with the same id, create or update
+// 		var account = await ModelBestReleases.findOne({where: { "email": root_parameters.email }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelBestReleases.create(root_parameters));
+// 		account = await ((account) ? account.update(root_parameters): ModelBestReleases.create(root_parameters));
 		
-		console.log("== Gxenerated root account ==");
-		console.log(account.toJSON());
-		console.log("============================");
-		return Promise.resolve();
-	}
-	catch (error) {
-		console.error ("Failed to generate root administrator user account");
-		console.error (error);
-		return Promise.reject(error);
-	}
-}
+// 		console.log("== Gxenerated root account ==");
+// 		console.log(account.toJSON());
+// 		console.log("============================");
+// 		return Promise.resolve();
+// 	}
+// 	catch (error) {
+// 		console.error ("Failed to generate root administrator user account");
+// 		console.error (error);
+// 		return Promise.reject(error);
+// 	}
+// }
 
 /**
  * This function creates a root account 
