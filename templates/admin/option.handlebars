@@ -18,7 +18,7 @@
     $(document).ready(function () {
         var i = 1;
         $("#add_row").click(function () {
-            $('#addr' + i).html("<td> " + (i + 1) + "</td><td><input type='text' name='location' placeholder='E.g. Bishan' class= 'form-control' style = 'color: black;'' /></td><td><input type='datetime-local' id='datefield' name='time' style='color: black;'></td><td><input type='number' name='small' class='form-control' style='color: black;' /></td><td><input type='number' name='small' class='form-control' style='color: black;' /></td><td><input type='number' name='small' class='form-control' style='color: black;'' /></td>");
+            $('#addr' + i).html("<td> " + (i + 1) + "</td><td><input type='text' name='location' placeholder='E.g. Bishan' class= 'form-control' style = 'color: black;'' /></td><td><input type='datetime-local' id='datefield' name='time' style='color: black;'></td><td><input type='number' name='small' class='form-control' style='color: black;' /></td><td><input type='number' name='medium' class='form-control' style='color: black;' /></td><td><input type='number' name='large' class='form-control' style='color: black;'' /></td>");
 
             $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
             i++;
