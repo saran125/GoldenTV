@@ -20,13 +20,17 @@
                                             Location
                                         </th>
                                         <th class="text-center">
-                                            Date
+                                            Date&amp;Time
                                         </th>
                                         <th class="text-center">
-                                            Time
+                                            Number of small rooms
                                         </th>
-
-
+                                        <th class="text-center">
+                                            Number of medium rooms
+                                        </th>
+                                        <th class="text-center">
+                                            Number of large rooms
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -37,12 +41,18 @@
                                                 class="form-control" style="color: black;" />
                                         </td>
                                         <td>
-                                            <input type="text" name='date' value="{{option.date}}"
+                                            <input type="datetime-local" name='time' value="{{option.time}}"
                                                 class="form-control" style="color: black;"  />
                                         </td>
                                         <td>
-                                            <input type="time" name='time' class="form-control"
-                                                value="{{option.time}}"  style="color: black;" />
+                                            <input type="number" name='small' class="form-control"
+                                                value="{{option.small}}"  style="color: black;" />
+                                        </td>
+                                        <td>
+                                            <input type="number" name='medium' class="form-control" value="{{option.medium}}" style="color: black;" />
+                                        </td>
+                                        <td>
+                                            <input type="number" name='large' class="form-control" value="{{option.large}}" style="color: black;" />
                                         </td>
                                     </tr>
                                     <tr id='addr1'></tr>

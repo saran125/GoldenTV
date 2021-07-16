@@ -1,9 +1,6 @@
 import { Router } from 'express';
 import { nanoid } from 'nanoid'
-import { ModelRoomtype } from '../../data/roomtype.mjs';
 import { Modelticket } from '../../data/ticket.mjs';
-import { ModelCheckout } from '../../data/checkout.mjs';
-import { Modelchoice } from '../../data/update_choice.mjs';
 import { Modeloption } from '../../data/option.mjs';
 const router = Router();
 export default router;

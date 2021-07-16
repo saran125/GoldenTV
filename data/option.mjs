@@ -18,9 +18,10 @@ export class Modeloption extends Model {
 			"dateCreated": { type: DataTypes.DATE(),      allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(),      allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"location"   : { type: DataTypes.STRING(600), allowNull: true, defaultValue:null},
-			"time": { type: DataTypes.STRING(600), allowNull: true, defaultValue: null},
-			"date": { type: DataTypes.STRING(600), allowNull: true, defaultValue: null },
-			
+			"time": { type: DataTypes.DATE(), allowNull: true, defaultValue: null},
+			"small": { type: DataTypes.INTEGER(), allowNull: true, defaultValue: 5 },
+			"medium": { type: DataTypes.INTEGER(), allowNull: true, defaultValue: 5 },
+			"large": { type: DataTypes.INTEGER(), allowNull: true, defaultValue: 5 }
         }, {
 			"sequelize": database,
 			"modelName": "option",

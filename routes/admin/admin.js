@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { Modelchoice } from '../../data/update_choice.mjs';
+
 import { Modeloption } from '../../data/option.mjs';
 import { HttpError } from '../../utils/errors.mjs';
+import ORM from "sequelize";
+const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
-
 router.post("/option", option_process);
 router.get("/option", option_page);
 router.get("/viewoption", viewoption);
@@ -13,11 +14,14 @@ async function option_process(req, res) {
     // console.log('Description created: $(booking.choice)');
     try {
         console.log(req.body);
+
         for (let i = 0; i < req.body.location.length; i++) {
             const option = await Modeloption.create({
                 time: req.body.time[i],
                 location: req.body.location[i],
-                date: req.body.date[i]
+                small: req.body.small[i],
+                medium: req.body.medium[i],
+                large: req.body.large[i]
             });
             console.log(option);
         }
@@ -64,7 +68,7 @@ async function option_data(req, res) {
             ? {
                 [Op.or]: {
                     location: { [Op.substring]: search },
-                    date: { [Op.substring]: search },
+                    time: { [Op.substring]: search },
                 },
             }
             : undefined;
@@ -105,7 +109,7 @@ router.post("/delete_option/:uuid", async function (req, res) {
             })
             return res.redirect("/admin/viewoption");
         }
-
+        
     });
 });
 router.get("/update_option/:uuid", async function (req, res) {
@@ -124,7 +128,9 @@ router.post("/update_option/:uuid", async function (req, res) {
     const option = await Modeloption.update({
         location: req.body.location,
         time: req.body.time,
-        date: req.body.date
+        small: req.body.small,
+        medium: req.body.medium,
+        large: req.body.large
     }, {
         where: {
             uuid: req.params.uuid
