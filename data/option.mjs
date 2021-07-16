@@ -15,13 +15,22 @@ export class Modeloption extends Model {
 	static initialize(database) {
 		Modeloption.init({
 			"uuid"       : { type: DataTypes.CHAR(36),    foreignKey: true, defaultValue: DataTypes.UUIDV4 },
-			"dateCreated": { type: DataTypes.DATE(),      allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"dateUpdated": { type: DataTypes.DATE(),      allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
+			"dateCreated": {
+				type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), get() {
+					return moment(this.getDataValue('dateCreated')).format('DD/MM/YYYY h:mm');
+				} },
+			"dateUpdated": {
+				type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), get() {
+					return moment(this.getDataValue('dateUpdated')).format('DD/MM/YYYY h:mm');
+				} },
 			"location"   : { type: DataTypes.STRING(600), allowNull: true, defaultValue:null},
-			"time": { type: DataTypes.DATE(), allowNull: true, defaultValue: null},
-			"small": { type: DataTypes.INTEGER(), allowNull: true, defaultValue: 5 },
-			"medium": { type: DataTypes.INTEGER(), allowNull: true, defaultValue: 5 },
-			"large": { type: DataTypes.INTEGER(), allowNull: true, defaultValue: 5 }
+			"time": {
+				type: DataTypes.DATE(), allowNull: false, get() {
+					return moment(this.getDataValue('time')).format('DD/MM/YYYY h:mm');
+				} },
+			"small": { type: DataTypes.INTEGER(), allowNull: false  },
+			"medium": { type: DataTypes.INTEGER(), allowNull: false },
+			"large": { type: DataTypes.INTEGER(), allowNull: false}
         }, {
 			"sequelize": database,
 			"modelName": "option",

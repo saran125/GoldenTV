@@ -20,7 +20,7 @@ async function booking_process(req, res) {
         console.log(roomtype);
         if (roomtype === null) {
             console.log('Not found!');
-            const room = await ModelRoomtype.create({
+            const room = await Modeloption.create({
                 time: req.body.time,
                 location: req.body.location,
                 date: req.body.date,
@@ -46,16 +46,22 @@ async function booking_process(req, res) {
         console.error(error);
     }
 }
-
 async function booking_page(req, res) {
     console.log("booking page accessed");
-    const option = await Modeloption.findAll({
-        raw: true
-    });
+    const option = await Modeloption.location();
+    console.log(option);
+    const All_location = [];
+    All_location.push(option)
+    var location = [];
+    for (let i = 0; i < All_location.length; i++) {
+        if (location.indexOf(All_location[i]) === -1) {
+            location.push(All_location[i]);
+        }
+    }
+    console.log(location);
     return res.render('user/booking', {
-        option
+        location
     });
-
 }
 async function roomtype_process(req, res) {
     console.log(req.body.roomtype);
@@ -89,7 +95,6 @@ async function roomtype_page(req, res) {
     });
 }
 // ---------------------------------------
-
 router.get("/booked_successfully", async function (req, res) {
     console.log("after booking page accessed");
     const roomtype = await ModelRoomtype.findOne({

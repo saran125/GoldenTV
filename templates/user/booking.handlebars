@@ -180,21 +180,20 @@ body{
 </td>
 <td>
   <select name="location" style="background-color: black;" id="venue" oninput="loc()">
-    {{#each option}}
-    <option>{{location}}</option>
+    {{#each location}}
+    <option>{{this}}</option>
     {{/each}}
   </select>
 </td>
   <td><select name = "date" style="background-color: black;">
-          {{#each option}}
-  <option >{{date}}</option>
-  {{/each}}
+
+  <option>date</option>
 </select></td>
 
       <td><select name="time" style="background-color: black;" >
-        {{#each option}}
-  <option >{{time}}</option>
-    {{/each}}
+
+  <option >time</option>
+
 </select></td>
       <td> <input type="submit" value="Book Room" class="btn btn-primary"/></td>
     </tr>
