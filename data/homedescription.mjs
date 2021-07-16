@@ -4,10 +4,6 @@ const { Sequelize, DataTypes, Model } = ORM;
 /**
  * For enumeration use
 **/
-export class UserRole {
-	static get Admin() { return "admin"; }
-	static get User()  { return "user";  }
-}
 
 /**
  * A database entity model that represents contents in the database.

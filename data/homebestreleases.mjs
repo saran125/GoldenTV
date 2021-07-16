@@ -2,13 +2,6 @@ import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model } = ORM;
 
 /**
- * For enumeration use
-**/
-export class UserRole {
-	static get Admin() { return "admin"; }
-	static get User()  { return "user";  }
-}
-/**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
  * @see "https://sequelize.org/master/manual/model-basics.html#taking-advantage-of-models-being-classes"

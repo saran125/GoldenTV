@@ -4,14 +4,6 @@ const { Sequelize, DataTypes, Model } = ORM;
 import { DeleteFilePath } from '../routes/main.mjs';
 
 /**
- * For enumeration use
-**/
-export class UserRole {
-	static get Admin() { return "admin"; }
-	static get User()  { return "user";  }
-}
-
-/**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
  * @see "https://sequelize.org/master/manual/model-basics.html#taking-advantage-of-models-being-classes"
