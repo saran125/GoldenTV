@@ -24,11 +24,13 @@ div.blackblock {
 
 <h1 class="display-4">Update Movie</h1>
 
-<form method="POST" action="/prodlist/updatemovie/{{movie.uuid}}?_method=PUT" name="" enctype="multipart/form-data">
+<form method="POST" action="/prod/updatemovie/{{movie.uuid}}?_method=PUT" name="" enctype="multipart/form-data">
   
   <div class="form-group">
   <h5>Movie Image</h5>
   <input type="file" name="movieimage" value="{{movie.movieimage}}" required>
+  <img id="poster" src="/public/uploads/{{movie.movieimage}}" alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">

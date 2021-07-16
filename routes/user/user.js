@@ -8,8 +8,7 @@ router.post("/booking", booking_process);
 router.get("/booking", booking_page);
 router.post("/roomtype", roomtype_process);
 router.get("/roomtype", roomtype_page);
-router.post("/checkout", checkout_process);
-router.get("/checkout", checkout_page);
+
 // booking page
 var random_ref = nanoid(8);
 export var room_details = { location: '', date: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref };
@@ -90,45 +89,6 @@ async function roomtype_page(req, res) {
     });
 }
 // ---------------------------------------
-// checkout page
-async function checkout_process(req, res) {
-    try {
-        const [user, created] = await ModelCheckout.findOrCreate({
-            where: { username: "nigel_123" },
-            defaults: {
-                username: "nigel_123",
-                card_number: req.body.card_number,
-                card_holder: req.body.card_holder,
-                expiry_month: req.body.expiry_month,
-                expiry_year: req.body.expiry_year,
-                ccv: req.body.cvv,
-            }
-        });
-        console.log(user.uuid); // 'sdepold'
-        console.log(user.card_number); // This may or may not be 'Technical Lead JavaScript'
-        console.log(created); // The boolean indicating whether this instance was just created
-        if (created == false) {
-            console.log(req.body); // This will certainly be 'Technical Lead JavaScript'
-        }
-        return res.redirect('/user/booked_successfully');
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-
-async function checkout_page(req, res) {
-    console.log("checkout page accessed");
-    const card_details = await ModelCheckout.findOne({
-        where: {
-            username: "nigel_123"
-        }
-    });
-    return res.render('user/checkout', {
-        card_details
-    });
-}
-
 
 router.get("/booked_successfully", async function (req, res) {
     console.log("after booking page accessed");

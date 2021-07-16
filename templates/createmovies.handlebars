@@ -28,7 +28,14 @@ div.blackblock {
   
   <div class="form-group">
   <h5>Movie Image</h5>
-  <input type="file" name="movieimage" value="{{movieimage}}" required>
+  <input type="file" id="movieimage" oninput="myFunction()" name="movieimage" value="{{movieimage}}" required>
+  <img id="imagedisplay" 
+  {{!-- {{#if movieimage}} src="/public/uploads/{{movie.movieimage}}" 
+  {{else}} src="/public/img/kv.jpg" 
+  {{/if}} --}}
+  {{!-- src="/public/uploads/{{movie.movieimage}}"  --}}
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
@@ -81,3 +88,16 @@ div.blackblock {
   </div>
 
 </form>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("movieimage").value;
+  document.getElementById("imageimage").innerHTML = 
+  <img id="imagedisplay" 
+  src="/public/uploads/" + x ;
+  {{!-- src="/public/uploads/{{movie.movieimage}}"  --}}
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
+  </div>
+}
+</script>

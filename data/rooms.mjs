@@ -40,7 +40,7 @@ export class ModelRooms extends Model {
 					this.setDataValue('small_roominfo', value);
 				}
 			},
-            "small_roomprice" : { type: DataTypes.STRING(650), allowNull: false,
+            "small_roomprice" : { type: DataTypes.FLOAT(4),
 				set(value){ 
 					this.setDataValue('small_roomprice', value);
 				}
@@ -60,7 +60,7 @@ export class ModelRooms extends Model {
 					this.setDataValue('med_roominfo', value);
 				}
 			},
-            "med_roomprice" : { type: DataTypes.STRING(650), allowNull: false,
+            "med_roomprice" : { type: DataTypes.FLOAT(4),
 				set(value){ 
 					this.setDataValue('med_roomprice', value);
 				}
@@ -75,7 +75,7 @@ export class ModelRooms extends Model {
 					this.setDataValue('large_roominfo', value);
 				}
 			},
-            "large_roomprice" : { type: DataTypes.STRING(650), allowNull: false,
+            "large_roomprice" : { type: DataTypes.FLOAT(4),
 				set(value){ 
 					this.setDataValue('large_roomprice', value);
 				}
