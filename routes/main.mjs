@@ -5,8 +5,6 @@ import { flashMessage } from '../utils/flashmsg.mjs'
 // import { UploadFile, UploadTo, DeleteFile, DeleteFilePath } from '../utils/multer.mjs';
 // import axios from 'axios';
 import { ModelHomeInfo } from '../data/homeinfo.mjs';
-// import { ModelHomeImagePolicy } from '../data/homeimagepolicy.mjs';
-// import { ModelBestReleases } from '../data/homebestreleases.mjs';
 import { ModelRooms } from '../data/rooms.mjs';
 import { ModelMovies } from '../data/movies.mjs';
 import { ModelSongs } from '../data/karaoke.mjs';
@@ -82,9 +80,7 @@ export function initialize_models(database) {
 		console.log("Intitializing ORM models");
 		//	Initialzie models
 		ModelUser.initialize(database);
-		ModelHomeDescription.initialize(database);
-		ModelHomeImagePolicy.initialize(database);
-		ModelBestReleases.initialize(database);
+		ModelHomeInfo.initialize(database);
 		ModelRooms.initialize(database);
 		ModelMovies.initialize(database);
 		ModelSongs.initialize(database);
@@ -96,9 +92,7 @@ export function initialize_models(database) {
 		console.log("Adding intitialization hooks");
 		//	Run once hooks during initialization 
 		database.addHook("afterBulkSync", generate_root_account.name, generate_root_account.bind(this, database));
-		database.addHook("afterBulkSync", generate_homedescription.email, generate_homedescription.bind(this, database));
-		database.addHook("afterBulkSync", generate_homeimagepolicy.email, generate_homeimagepolicy.bind(this, database));
-		database.addHook("afterBulkSync", generate_bestreleases.email, generate_bestreleases.bind(this, database));
+		database.addHook("afterBulkSync", generate_homeinfo.email, generate_homeinfo.bind(this, database));
 		database.addHook("afterBulkSync", generate_rooms.email, generate_rooms.bind(this, database));
 		database.addHook("afterBulkSync", generate_movies.email, generate_movies.bind(this, database));
 		database.addHook("afterBulkSync", generate_songs.email, generate_songs.bind(this, database));
