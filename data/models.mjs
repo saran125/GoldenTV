@@ -112,9 +112,9 @@ export function initialize_models(database) {
 		console.log("Generate_homeinfo");
 		const root_parameters = {	
 			uuid    : "00000000-0000-0000-0000-000000000000",
-			email   : "root@mail.com",
-			role    : "admin",
-			verified: true,
+			// email   : "root@mail.com",
+			// role    : "admin",
+			// verified: true,
 			homedescription : generate_homeinfo.homedescription,
 			homepolicy : generate_homeinfo.homepolicy,
 			homeimage: generate_homeinfo.homeimage,

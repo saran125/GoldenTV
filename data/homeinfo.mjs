@@ -26,9 +26,9 @@ export class ModelHomeInfo extends Model {
 			"uuid"       : { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"email"      : { type: DataTypes.STRING(128), allowNull: false },
-			"role"       : { type: DataTypes.ENUM(UserRole.User, UserRole.Admin), defaultValue: UserRole.User, allowNull: false },
-			"verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false},
+			// "email"      : { type: DataTypes.STRING(128), allowNull: false },
+			// "role"       : { type: DataTypes.ENUM(UserRole.User, UserRole.Admin), defaultValue: UserRole.User, allowNull: false },
+			// "verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false},
             "homedescription" : { type: DataTypes.STRING(650), allowNull: false,
 				set(value){ 
 					this.setDataValue('homedescription', value);

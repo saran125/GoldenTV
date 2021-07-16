@@ -239,7 +239,7 @@ class UserRole {
 async function home_page(req, res) {
 	const homeinfo = await ModelHomeInfo.findOne({
 		where: {
-			"email": "root@mail.com"
+			"uuid" : "00000000-0000-0000-0000-000000000000"
 		}
 	});
 	console.log("Home page accessed");
@@ -266,7 +266,7 @@ async function edithomedescription_page(req, res) {
 	console.log("Home Description page accessed");
 	const homeinfo = await ModelHomeInfo.findOne({
 		where: {
-			"email": "root@mail.com"
+			"uuid": "00000000-0000-0000-0000-000000000000"
 		}
 	});
 	return res.render('edithomedescription',{ homeinfo: homeinfo });
@@ -281,7 +281,7 @@ async function edithomedescription_process(req, res) {
 	try {
 		const homedes = await ModelHomeInfo.findOne({
 			where: {
-				"email": "root@mail.com"
+				"uuid": "00000000-0000-0000-0000-000000000000"
 			}
 		});
 		homedes.update({
@@ -296,7 +296,7 @@ async function edithomedescription_process(req, res) {
 		console.error(error);
 		const homedes = await ModelHomeInfo.findOne({
 			where: {
-				"email": "root@mail.com"
+				"uuid": "00000000-0000-0000-0000-000000000000"
 			}
 		});
 		return res.render("/edithomedes",{homedes: homedes});
@@ -315,7 +315,7 @@ async function edithomeimagepolicy_page(req, res, next) {
 	console.log("Home Policy page accessed");
 	const homeimagepolicy = await ModelHomeInfo.findOne({
 		where: {
-			"email": "root@mail.com"
+			"uuid": "00000000-0000-0000-0000-000000000000"
 		}
 	});
 	return res.render('edithomeimagepolicy', { homeimagepolicy: homeimagepolicy });
@@ -341,7 +341,7 @@ async function edithomeimagepolicy_process(req, res, next) {
 		
 		const homeimagepolicy = await ModelHomeInfo.findOne({
 			where: {
-				"email": "root@mail.com"
+				"uuid": "00000000-0000-0000-0000-000000000000"
 			}
 		});
 		homeimagepolicy.update({
@@ -417,17 +417,17 @@ async function edithomeimagepolicy_process(req, res, next) {
 async function prodlist_page(req, res) {
 	const roomlist = await ModelRooms.findOne({
 		where: {
-			"email": "root@mail.com"
+			"uuid": "00000000-0000-0000-0000-000000000000"
 		}
 	});
 	const createmovies = await ModelMovies.findOne({
 		where: {
-			"email": "root@mail.com"
+			"uuid": "00000000-0000-0000-0000-000000000000"
 		}
 	});
 	const createsongs = await ModelSongs.findOne({
 		where: {
-			"email": "root@mail.com"
+			"uuid": "00000000-0000-0000-0000-000000000000"
 		}
 	});
 	console.log('Prodlist Page accessed');
@@ -481,7 +481,7 @@ async function prodlist_page(req, res) {
 async function editrooms_page(req, res) {
 	const roomlist = await ModelRooms.findOne({
 		where: {
-			"email": "root@mail.com"
+			"uuid": "00000000-0000-0000-0000-000000000000"
 		}
 	});
 	console.log("Prod List RoomsInfo page accessed");
@@ -503,7 +503,7 @@ async function editrooms_process(req, res, next) {
 
 		const roomlist = await ModelRooms.findOne({
 			where: {
-				"email": "root@mail.com"
+				"uuid": "00000000-0000-0000-0000-000000000000"
 			}
 		});
 		roomlist.update({
