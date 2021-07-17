@@ -26,5 +26,4 @@ router.post("/create", async function (req, res) {
         flashMessage(res, 'success', 'Successfully created a review!', 'fas fa-sign-in-alt', true);
         return res.redirect("/home");
     }
-
 });

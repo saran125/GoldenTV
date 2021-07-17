@@ -16,7 +16,7 @@
     // Add , Dlelete row dynamically
 
     $(document).ready(function () {
-        var i = 2;
+        var i = 1;
         $("#add_row").click(function () {
             $('#addr' + i).html("<td> " + (i + 1) + "</td><td><input type='text' name='location' placeholder='E.g. Bishan' class= 'form-control' style = 'color: black;'' /></td><td><input type='datetime-local' id='datefield' name='time' style='color: black;'></td><td><input type='number' name='small' class='form-control' style='color: black;' /></td><td><input type='number' name='medium' class='form-control' style='color: black;' /></td><td><input type='number' name='large' class='form-control' style='color: black;'' /></td>");
             $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
@@ -86,9 +86,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                        <tr >
+                                            <td>
+                                                1
+                                            </td>
+                                            <td>
+                                                <input type="text" name='location' placeholder='E.g. Bishan' class="form-control" style="color: black;" />
+                                            </td>
+                                            <td>
+                                                <input type="datetime-local" id="datefield" class="form-control" name="time" min="" style="color: black;">
+                                            </td>
+                                            <td>
+                                                <input type="number" name='small' class="form-control" style="color: black;" />
+                                            </td>
+                                            <td>
+                                                <input type="number" name='medium' class="form-control" style="color: black;" />
+                                            </td>
+                                            <td>
+                                                <input type="number" name='large' class="form-control" style="color: black;" />
+                                            </td>
                                     <tr id='addr0' >
                                         <td>
-                                            1
+                                            2
                                         </td>
                                         <td>
                                             <input type="text" name='location' placeholder='E.g. Bishan'
@@ -106,27 +125,6 @@
                                         <td>
                                             <input type="number" name='large' class="form-control" style="color: black;" />
                                         </td>
-                                        <td>
-                                            2
-                                        </td>
-                                        <td>
-                                            <input type="text" name='location' placeholder='E.g. Bishan' class="form-control" style="color: black;" />
-                                        </td>
-                                        <td>
-                                            <input type="datetime-local" id="datefield" class="form-control" name="time" min="" style="color: black;">
-                                        </td>
-                                        <td>
-                                            <input type="number" name='small' class="form-control" style="color: black;" />
-                                        </td>
-                                        <td>
-                                            <input type="number" name='medium' class="form-control" style="color: black;" />
-                                        </td>
-                                        <td>
-                                            <input type="number" name='large' class="form-control" style="color: black;" />
-                                        </td>
-                                    </tr>
-                                    <tr id='addr1'></tr>
-                                </tbody>
                             </table>
                         </div>
                     </div>

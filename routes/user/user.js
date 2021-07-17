@@ -30,21 +30,41 @@ async function booking_process(req, res) {
 }
 async function booking_page(req, res) {
     console.log("booking page accessed");
-    const option = await Modeloption.findAll({ raw: true });;
+    // const option = await Modeloption.findAll({
+    //         attributes: ['location']
+    //      });
+   
+    
+    Modeloption.sync({ alert: true }).then(() => {
+        return Modeloption.findAll({ attributes: ['location'] });
+    }).then((data) => {
+        let All_location = [];
+        data.forEach(element => {
+            
+            All_location.push(element.toJSON().location);
+            console.log(element.toJSON().location);
+        })
+        console.log(All_location);
+        var location = [];
+        for (let i = 0; i < All_location.length; i++) {
+            if (location.indexOf(All_location[i]) === -1) {
+                location.push(All_location[i]);
+            }
+        }
+        console.log(location);
+        return res.render('user/booking', {
+            location
+        });
+    })
+        .catch((err) => {
+            console.log(err)
+        });
+    
     // console.log(option);
-    // const All_location = [];
-    // All_location.push(option)
-    // var location = [];
-    // for (let i = 0; i < All_location.length; i++) {
-    //     if (location.indexOf(All_location[i]) === -1) {
-    //         location.push(All_location[i]);
-    //     }
-    // }
-    console.log(option.location);
-    return res.render('user/booking', {
-        option
-    });
+   
+    
 }
+
 async function roomtype_process(req, res) {
     console.log(req.body.roomtype);
     room_details.roomtype = req.body.roomtype;

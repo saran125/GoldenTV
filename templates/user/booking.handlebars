@@ -179,8 +179,8 @@ body{
 </td>
 <td>
   <select name="location" style="background-color: black;" id="venue" oninput="loc()">
-    {{#each option}}
-    <option>{{location}}</option>
+    {{#each location}}
+    <option>{{this}}</option>
     {{/each}}
   </select>
 </td>
@@ -196,7 +196,5 @@ body{
 </table>
 </form>
 <script>
-  function loc() {
-    var x = document.getElementById("venue").value;
-  }
+
 </script>

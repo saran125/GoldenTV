@@ -1,5 +1,7 @@
 import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model } = ORM;
+import  moment  from 'moment';
+
 /**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
@@ -16,18 +18,12 @@ export class Modeloption extends Model {
 		Modeloption.init({
 			"uuid"       : { type: DataTypes.CHAR(36),    foreignKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": {
-				type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), get() {
-					return moment(this.getDataValue('dateCreated')).format('DD/MM/YYYY h:mm');
-				} },
+				type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')},
 			"dateUpdated": {
-				type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), get() {
-					return moment(this.getDataValue('dateUpdated')).format('DD/MM/YYYY h:mm');
-				} },
+				type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')},
 			"location"   : { type: DataTypes.STRING(600), allowNull: true, defaultValue:null},
 			"time": {
-				type: DataTypes.DATE(), allowNull: false, get() {
-					return moment(this.getDataValue('time')).format('DD/MM/YYYY h:mm');
-				} },
+				type: DataTypes.TIME(), allowNull: false},
 			"small": { type: DataTypes.INTEGER(), allowNull: false  },
 			"medium": { type: DataTypes.INTEGER(), allowNull: false },
 			"large": { type: DataTypes.INTEGER(), allowNull: false}
