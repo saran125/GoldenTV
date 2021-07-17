@@ -166,7 +166,6 @@ body{
     <tr>
       <th scope="col">Choice </th>
       <th scope="col">Location</th>
-      <th scope="col">Date</th>
       <th scope="col">Time</th>
       <th scope="col"></th>
     </tr>
@@ -180,20 +179,16 @@ body{
 </td>
 <td>
   <select name="location" style="background-color: black;" id="venue" oninput="loc()">
-    {{#each location}}
-    <option>{{this}}</option>
+    {{#each option}}
+    <option>{{location}}</option>
     {{/each}}
   </select>
 </td>
-  <td><select name = "date" style="background-color: black;">
-
-  <option>date</option>
-</select></td>
 
       <td><select name="time" style="background-color: black;" >
-
-  <option >time</option>
-
+{{#each option}}
+<option>{{time}}</option>
+{{/each}}
 </select></td>
       <td> <input type="submit" value="Book Room" class="btn btn-primary"/></td>
     </tr>
@@ -203,7 +198,5 @@ body{
 <script>
   function loc() {
     var x = document.getElementById("venue").value;
-    const date = res.redirect("/user");
-    alert('The date for '+ x + ' is '+ date)
   }
 </script>
