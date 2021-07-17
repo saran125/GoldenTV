@@ -607,6 +607,10 @@ async function updatemovie_page(req, res) {
 	);
 };
 
+// const expressJson = express.json(); 
+// const bodyParser  = express.urlencoded({extended: true}); 
+// router.use([expressJson, bodyParser]);
+
 /**
  * Deletes a specific user
  * @param {import('express').Request} req 
