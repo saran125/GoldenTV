@@ -201,7 +201,7 @@ export function initialize_models(database) {
             movieAction		: generate_movies.movieAction
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelMovies.findOne({where: { "movie_uuid": root_parameters.movie_uuid }});
+		var account = await ModelMovies.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
 		
 		account = await ((account) ? account.update(root_parameters): ModelMovies.create(root_parameters));
 		
@@ -229,25 +229,25 @@ export function initialize_models(database) {
 	try {
 		console.log("Generate_songs");
 		const root_parameters = {	
-			song_uuid    	: "test",
+			song_uuid    	: generate_songs.song_uuid,
 			admin_uuid		: "00000000-0000-0000-0000-000000000000",
 			user_uuid		: "00000000-0000-0000-0000-000000000000",
-            songimage		: "songimage",
-            songname		: "songname",
-            songagerating	: "songagerating",
+            songimage		: generate_songs.songimage,
+            songname		: generate_songs.songname,
+            songagerating	: generate_songs.songagerating,
             songduration	: 1,
 
-            songPop			: "songPop",
-            songRock		: "songRock",
-            songMetal		: "songMetal",
-        	songCountry		: "songCountry",
-            songRap			: "songRap",
-            songElectronic	: "songElectronic",
-            songJazz		: "songJazz",
-            songFolk		: "songFolk"
+            songPop			: generate_songs.songPop,
+            songRock		: generate_songs.songRock,
+            songMetal		: generate_songs.songMetal,
+        	songCountry		: generate_songs.songCountry,
+            songRap			: generate_songs.songRap,
+            songElectronic	: generate_songs.songElectronic,
+            songJazz		: generate_songs.songJazz,
+            songFolk		: generate_songs.songFolk
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelSongs.findOne({where: { "song_uuid": root_parameters.song_uuid }});
+		var account = await ModelSongs.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
 		
 		account = await ((account) ? account.update(root_parameters): ModelSongs.create(root_parameters));
 		
