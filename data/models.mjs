@@ -3,10 +3,10 @@ import ORM    from 'sequelize';
 const { Sequelize, DataTypes, Model, Op } = ORM;
 
 import { ModelUser } from './user.mjs';
-import { ModelHomeInfo} from './homeinfo.mjs';
+import { ModelHomeInfo } from '../data/homeinfo.mjs';
 // import { ModelHomeImagePolicy } from '../data/homeimagepolicy.mjs';
 // import { ModelBestReleases } from '../data/homebestreleases.mjs';
-import { ModelRooms } from '../data/rooms.mjs';
+import { ModelRoomInfo } from '../data/roominfo.mjs';
 import { ModelMovies } from '../data/movies.mjs';
 import { ModelSongs } from '../data/karaoke.mjs';
 import { ModelReview } from './review.mjs';
@@ -22,9 +22,7 @@ export function initialize_models(database) {
 		//	Initialzie models
 		ModelUser.initialize(database);
 		ModelHomeInfo.initialize(database);
-		// ModelHomeImagePolicy.initialize(database);
-		// ModelBestReleases.initialize(database);
-		ModelRooms.initialize(database);
+		ModelRoomInfo.initialize(database);
 		ModelMovies.initialize(database);
 		ModelSongs.initialize(database);
 		ModelReview.initialize(database);
@@ -40,12 +38,10 @@ export function initialize_models(database) {
 		console.log("Adding intitialization hooks");
 		//	Run once hooks during initialization 
 		database.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, database));
-		database.addHook("afterBulkSync", generate_homeinfo.email, generate_homeinfo.bind(this, database));
-		// database.addHook("afterBulkSync", generate_homeimagepolicy.email, generate_homeimagepolicy.bind(this, database));
-		// database.addHook("afterBulkSync", generate_bestreleases.email,  generate_bestreleases.bind(this, database));
-		database.addHook("afterBulkSync", generate_rooms.email, generate_rooms.bind(this, database));
-		database.addHook("afterBulkSync", generate_movies.email, generate_movies.bind(this, database));
-		database.addHook("afterBulkSync", generate_songs.email, generate_songs.bind(this, database));
+		database.addHook("afterBulkSync", generate_homeinfo.homeinfo_uuid, generate_homeinfo.bind(this, database));
+		database.addHook("afterBulkSync", generate_roominfo.roominfo_uuid, generate_roominfo.bind(this, database));
+		database.addHook("afterBulkSync", generate_movies.movie_uuid, generate_movies.bind(this, database));
+		database.addHook("afterBulkSync", generate_songs.song_uuid, generate_songs.bind(this, database));
 		database.addHook("afterBulkSync", generate_review.name, generate_review.bind(this, database));
 		database.addHook("afterBulkSync", generate_Faq.name, generate_Faq.bind(this, database));
 		database.addHook("afterBulkSync", generate_ticket.email, generate_ticket.bind(this, database));
@@ -104,17 +100,15 @@ export function initialize_models(database) {
 	try {
 		console.log("Generate_homeinfo");
 		const root_parameters = {	
-			uuid    : "00000000-0000-0000-0000-000000000000",
-			// email   : "root@mail.com",
-			// role    : "admin",
-			// verified: true,
+			homeinfo_uuid   : "test",
+			admin_uuid      : "00000000-0000-0000-0000-000000000000",
 			homedescription : generate_homeinfo.homedescription,
-			homepolicy : generate_homeinfo.homepolicy,
-			homeimage: generate_homeinfo.homeimage,
+			homepolicy 		: generate_homeinfo.homepolicy,
+			homeimage		: generate_homeinfo.homeimage,
 			homepolicyimage : generate_homeinfo.homepolicyimage,
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelHomeInfo.findOne({where: { "uuid": root_parameters.uuid }});
+		var account = await ModelHomeInfo.findOne({where: { "homeinfo_uuid": root_parameters.homeinfo_uuid }});
 		
 		account = await ((account) ? account.update(root_parameters): ModelHomeInfo.create(root_parameters));
 		
@@ -135,37 +129,34 @@ export function initialize_models(database) {
  * @param {Sequelize} database Database ORM handle
  * @param {SyncOptions} options Synchronization options, not used
  */
- async function generate_rooms(database, options) {
+ async function generate_roominfo(database, options) {
 	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_rooms.email);
+	database.removeHook("afterBulkSync", generate_roominfo.email);
 	//	Create a root user if not exists otherwise update it
 	try {
 		console.log("Generate_rooms");
 		const root_parameters = {	
-			uuid    		: "00000000-0000-0000-0000-000000000000",
-			email   		: "root@mail.com",
-			role    		: "admin",
-			verified		: true,
-            prodlistid		: "prodlistid",
-            room_title 		: generate_rooms.room_title,
-            small_roominfo 	: generate_rooms.small_roominfo,
-            small_roomprice : generate_rooms.small_roomprice,
-            small_roomimage1: generate_rooms.small_roomimage1,
-            small_roomimage2: generate_rooms.small_roomimage2,
+			roominfo_uuid   : "test",
+			admin_uuid      : "00000000-0000-0000-0000-000000000000",
+            room_title 		: generate_roominfo.room_title,
+            small_roominfo 	: generate_roominfo.small_roominfo,
+            small_roomprice : generate_roominfo.small_roomprice,
+            small_roomimage1: generate_roominfo.small_roomimage1,
+            small_roomimage2: generate_roominfo.small_roomimage2,
 
-            med_roominfo 	: generate_rooms.med_roominfo,
-            med_roomprice 	: generate_rooms.med_roomprice,
-            med_roomimage 	: generate_rooms.med_roomimage,
+            med_roominfo 	: generate_roominfo.med_roominfo,
+            med_roomprice 	: generate_roominfo.med_roomprice,
+            med_roomimage 	: generate_roominfo.med_roomimage,
 
-            large_roominfo 	: generate_rooms.large_roominfo,
-            large_roomprice : generate_rooms.large_roomprice,
-            large_roomimage1: generate_rooms.large_roomimage1,
-            large_roomimage2: generate_rooms.large_roomimage2
+            large_roominfo 	: generate_roominfo.large_roominfo,
+            large_roomprice : generate_roominfo.large_roomprice,
+            large_roomimage1: generate_roominfo.large_roomimage1,
+            large_roomimage2: generate_roominfo.large_roomimage2
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelRooms.findOne({where: { "email": root_parameters.email }});
+		var account = await ModelRoomInfo.findOne({where: { "roominfo_uuid": root_parameters.roominfo_uuid }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelRooms.create(root_parameters));
+		account = await ((account) ? account.update(root_parameters): ModelRoomInfo.create(root_parameters));
 		
 		console.log("== Gxenerated root account ==");
 		console.log(account.toJSON());
@@ -186,18 +177,14 @@ export function initialize_models(database) {
  */
  async function generate_movies(database, options) {
 	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_movies.email);
+	database.removeHook("afterBulkSync", generate_movies.movie_uuid);
 	//	Create a root user if not exists otherwise update it
 	try {
 		console.log("Generate_movies");
 		const root_parameters = {	
-			uuid    		: generate_movies.uuid,
-			email   		: "root@mail.com",
-			role    		: "admin",
-			verified		: true,
-            prodlistid		: "prodlistid",
-			choosemovieid	: "choosemovieid",
-
+			movie_uuid    	: generate_movies.movie_uuid,
+			admin_uuid		: "00000000-0000-0000-0000-000000000000",
+			user_uuid		: "00000000-0000-0000-0000-000000000000",
             movieimage		: generate_movies.movieimage,
             moviename		: generate_movies.moviename,
             movieagerating	: generate_movies.movieagerating,
@@ -214,7 +201,7 @@ export function initialize_models(database) {
             movieAction		: generate_movies.movieAction
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelMovies.findOne({where: { "email": root_parameters.email }});
+		var account = await ModelMovies.findOne({where: { "movie_uuid": root_parameters.movie_uuid }});
 		
 		account = await ((account) ? account.update(root_parameters): ModelMovies.create(root_parameters));
 		
@@ -242,17 +229,13 @@ export function initialize_models(database) {
 	try {
 		console.log("Generate_songs");
 		const root_parameters = {	
-			uuid    		: "00000000-0000-0000-0000-000000000000",
-			email   		: "root@mail.com",
-			role    		: "admin",
-			verified		: true,
-            prodlistid		: "prodlistid",
-			choosekaraokeid	: "choosekaraokeid",
-
+			song_uuid    	: "test",
+			admin_uuid		: "00000000-0000-0000-0000-000000000000",
+			user_uuid		: "00000000-0000-0000-0000-000000000000",
             songimage		: "songimage",
             songname		: "songname",
             songagerating	: "songagerating",
-            songduration	: "songduration",
+            songduration	: 1,
 
             songPop			: "songPop",
             songRock		: "songRock",
@@ -264,7 +247,7 @@ export function initialize_models(database) {
             songFolk		: "songFolk"
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelSongs.findOne({where: { "email": root_parameters.email }});
+		var account = await ModelSongs.findOne({where: { "song_uuid": root_parameters.song_uuid }});
 		
 		account = await ((account) ? account.update(root_parameters): ModelSongs.create(root_parameters));
 		

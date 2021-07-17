@@ -5,7 +5,7 @@ import { flashMessage } from '../utils/flashmsg.mjs'
 // import { UploadFile, UploadTo, DeleteFile, DeleteFilePath } from '../utils/multer.mjs';
 // import axios from 'axios';
 import { ModelHomeInfo } from '../data/homeinfo.mjs';
-import { ModelRooms } from '../data/rooms.mjs';
+import { ModelRoomInfo } from '../data/roominfo.mjs';
 import { ModelMovies } from '../data/movies.mjs';
 import { ModelSongs } from '../data/karaoke.mjs';
 import Routerfaq from '../routes/admin/faq.mjs';
@@ -239,7 +239,7 @@ class UserRole {
 async function home_page(req, res) {
 	const homeinfo = await ModelHomeInfo.findOne({
 		where: {
-			"uuid" : "00000000-0000-0000-0000-000000000000"
+			"homeinfo_uuid" : "test"
 		}
 	});
 	console.log("Home page accessed");
@@ -266,7 +266,7 @@ async function edithomedescription_page(req, res) {
 	console.log("Home Description page accessed");
 	const homeinfo = await ModelHomeInfo.findOne({
 		where: {
-			"uuid": "00000000-0000-0000-0000-000000000000"
+			"homeinfo_uuid": "test"
 		}
 	});
 	return res.render('edithomedescription',{ homeinfo: homeinfo });
@@ -281,11 +281,12 @@ async function edithomedescription_process(req, res) {
 	try {
 		const homedes = await ModelHomeInfo.findOne({
 			where: {
-				"uuid": "00000000-0000-0000-0000-000000000000"
+				"homeinfo_uuid": "test"
 			}
 		});
 		homedes.update({
 			homedescription: req.body.homedescription
+			// req.body.homedescription
 		});
 		homedes.save();
 		console.log('Description created: $(homedes.email)');
@@ -296,7 +297,7 @@ async function edithomedescription_process(req, res) {
 		console.error(error);
 		const homedes = await ModelHomeInfo.findOne({
 			where: {
-				"uuid": "00000000-0000-0000-0000-000000000000"
+				"homeinfo_uuid": "test"
 			}
 		});
 		return res.render("/edithomedes",{homedes: homedes});
@@ -315,7 +316,7 @@ async function edithomeimagepolicy_page(req, res, next) {
 	console.log("Home Policy page accessed");
 	const homeimagepolicy = await ModelHomeInfo.findOne({
 		where: {
-			"uuid": "00000000-0000-0000-0000-000000000000"
+			"homeinfo_uuid": "test"
 		}
 	});
 	return res.render('edithomeimagepolicy', { homeimagepolicy: homeimagepolicy });
@@ -341,7 +342,7 @@ async function edithomeimagepolicy_process(req, res, next) {
 		
 		const homeimagepolicy = await ModelHomeInfo.findOne({
 			where: {
-				"uuid": "00000000-0000-0000-0000-000000000000"
+				"homeinfo_uuid": "test"
 			}
 		});
 		homeimagepolicy.update({
@@ -415,19 +416,19 @@ async function edithomeimagepolicy_process(req, res, next) {
 // ---------------- 
 //	TODO:	Common URL paths here
 async function prodlist_page(req, res) {
-	const roomlist = await ModelRooms.findOne({
+	const roomlist = await ModelRoomInfo.findOne({
 		where: {
-			"uuid": "00000000-0000-0000-0000-000000000000"
+			"roominfo_uuid": "test"
 		}
 	});
-	const createmovies = await ModelMovies.findOne({
+	const movies = await ModelMovies.findOne({
 		where: {
-			"uuid": "00000000-0000-0000-0000-000000000000"
+			"movie_uuid": "test"
 		}
 	});
-	const createsongs = await ModelSongs.findOne({
+	const songs = await ModelSongs.findOne({
 		where: {
-			"uuid": "00000000-0000-0000-0000-000000000000"
+			"song_uuid": "test"
 		}
 	});
 	console.log('Prodlist Page accessed');
@@ -479,9 +480,9 @@ async function prodlist_page(req, res) {
 // ---------------- 
 //	TODO:	Common URL paths here
 async function editrooms_page(req, res) {
-	const roomlist = await ModelRooms.findOne({
+	const roomlist = await ModelRoomInfo.findOne({
 		where: {
-			"uuid": "00000000-0000-0000-0000-000000000000"
+			"roominfo_uuid": "test"
 		}
 	});
 	console.log("Prod List RoomsInfo page accessed");
@@ -501,9 +502,9 @@ async function editrooms_process(req, res, next) {
 		const large_roomimage1File = req.files.large_roomimage1[0];
 		const large_roomimage2File = req.files.large_roomimage2[0];
 
-		const roomlist = await ModelRooms.findOne({
+		const roomlist = await ModelRoomInfo.findOne({
 			where: {
-				"uuid": "00000000-0000-0000-0000-000000000000"
+				"roominfo_uuid": "test"
 			}
 		});
 		roomlist.update({
@@ -534,11 +535,11 @@ async function editrooms_process(req, res, next) {
 // router.get ("/axios-test",  example_axios);
 router.get ("/prod/chooseeditmoviestable", chooseeditmoviestable);
 router.get ("/prod/chooseeditmoviestable-data", chooseeditmoviestable_data);
-router.get ("/prod/updatemovie/:uuid", updatemovie_page);
-router.put ("/prod/updatemovie/:uuid", 
+router.get ("/prod/updatemovie/:movie_uuid", updatemovie_page);
+router.put ("/prod/updatemovie/:movie_uuid", 
 upload.single('movieimage'),
 updatemovie_process);
-router.get ("/prod/deletemovie/:uuid", deletemovie);
+router.get ("/prod/deletemovie/:movie_uuid", deletemovie);
 // /**
 //  * Example of making a http request
 //  * Request (External) -> Data (IN Server) -> Post Processing -> Data (OUT Server, aka response) -> Used somewhere else (Your button, 3rd party RSS???)
@@ -568,7 +569,7 @@ router.get ("/prod/deletemovie/:uuid", deletemovie);
  */
  async function deletemovie(req, res, next) {
 	try {
-		const tid = String(req.params.uuid);
+		const tid = String(req.params.movie_uuid);
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
 
@@ -596,12 +597,13 @@ router.get ("/prod/deletemovie/:uuid", deletemovie);
 // ---------------- 
 //	TODO:	Common URL paths here
 async function updatemovie_page(req, res) {
-	const tid = String(req.params.uuid);
+	const tid = String(req.params.movie_uuid);
 	const movie = await ModelMovies.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
 	return res.render('updatemovie', 
 	{ movie : movie,
-	  movieRomance: movie.movieRomance }
+	//   movieRomance: movie.movieRomance
+	 }
 	);
 };
 
@@ -612,7 +614,7 @@ async function updatemovie_page(req, res) {
  */
  async function updatemovie_process(req, res) {
 	try {
-		const tid = String(req.params.uuid);
+		const tid = String(req.params.movie_uuid);
 		const movie = await ModelMovies.findByPk(tid);
 		
 		movie.update({
@@ -722,11 +724,11 @@ async function chooseeditmoviestable_data(req, res) {
 
 router.get ("/prod/chooseeditsongstable", chooseeditsongstable);
 router.get ("/prod/chooseeditsongstable-data", chooseeditsongstable_data);
-router.get ("/prod/updatesong/:uuid", updatesong_page);
-router.put ("/prod/updatesong/:uuid", 
+router.get ("/prod/updatesong/:song_uuid", updatesong_page);
+router.put ("/prod/updatesong/:song_uuid", 
 upload.single('songimage'),
 updatesong_process);
-router.get ("/prod/deletesong/:uuid", deletesong);
+router.get ("/prod/deletesong/:song_uuid", deletesong);
 
 /**
  * Renders the edithomebestreleases page
@@ -736,7 +738,7 @@ router.get ("/prod/deletesong/:uuid", deletesong);
 // ---------------- 
 //	TODO:	Common URL paths here
 async function updatesong_page(req, res) {
-	const tid = String(req.params.uuid);
+	const tid = String(req.params.song_uuid);
 	const song = await ModelSongs.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
 	return res.render('updatesong', 
@@ -751,7 +753,7 @@ async function updatesong_page(req, res) {
  */
  async function updatesong_process(req, res) {
 	try {
-		const tid = String(req.params.uuid);
+		const tid = String(req.params.song_uuid);
 		const song = await ModelSongs.findByPk(tid);
 		
 		song.update({
@@ -880,12 +882,7 @@ async function createmovie_process(req, res, next) {
 	try {
 		// const movieimageFile = req.file[0];
 		const createmovies = await ModelMovies.create({
-			"uuid": req.body.uuid,
-			"email": "root@mail.com",
-			"role": "admin",
-			"verified": true,
-			"prodlistid": "prodlistid",
-			"choosemovieid": "choosemovieid",
+			"movie_uuid": req.body.uuid,
 			"movieimage": req.file.filename,
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
@@ -899,7 +896,7 @@ async function createmovie_process(req, res, next) {
 			"movieAdventure": Boolean(req.body.movieAdventure),
 			"movieEmotional": Boolean(req.body.movieEmotional),
 			"movieMystery": Boolean(req.body.movieMystery),
-			"movieAction": Boolean(req.body.movieAction)
+			"movieAction": Boolean(req.body.movieAction)			
 		});
 		console.log('Description created: $(createmovies.email)');
 		createmovies.save();
@@ -988,13 +985,7 @@ async function createsong_page(req, res) {
 async function createsong_process(req, res) {
 	try {
 		const createsongs = await ModelSongs.create({
-			"uuid": req.body.uuid,
-			"email": "root@mail.com",
-			"role": "admin",
-			"verified": true,
-			"prodlistid": "prodlistid",
-			"choosekaraokeid": "choosekaraokeid",
-
+			"song_uuid": req.body.uuid,
 			"songimage": req.file.filename,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
@@ -1032,7 +1023,7 @@ async function createsong_process(req, res) {
  */
  async function deletesong(req, res, next) {
 	try {
-		const tid = String(req.params.uuid);
+		const tid = String(req.params.song_uuid);
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
 

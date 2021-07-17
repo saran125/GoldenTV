@@ -243,11 +243,11 @@ div.blackblock1 {
 	 **/
 	function table_row_edit(value, row, index) {
 		return `
-		<a href="../prod/updatemovie/${row.uuid}">
+		<a href="../prod/updatemovie/${row.movie_uuid}">
 			<i class="fa fa-edit"></i>
 		</a>
 
-		<a href="../prod/deletemovie/${row.uuid}">
+		<a href="../prod/deletemovie/${row.movie_uuid}">
 			<i class="fa fa-trash"></i>
 		</a>
 		`;
