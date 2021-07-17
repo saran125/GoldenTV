@@ -882,7 +882,9 @@ async function createmovie_process(req, res, next) {
 	try {
 		// const movieimageFile = req.file[0];
 		const createmovies = await ModelMovies.create({
-			"movie_uuid": req.body.uuid,
+			"movie_uuid": req.body.movie_uuid,
+			"admin_uuid": "00000000-0000-0000-0000-000000000000",
+			"user_uuid" : "00000000-0000-0000-0000-000000000000",
 			"movieimage": req.file.filename,
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
@@ -985,7 +987,9 @@ async function createsong_page(req, res) {
 async function createsong_process(req, res) {
 	try {
 		const createsongs = await ModelSongs.create({
-			"song_uuid": req.body.uuid,
+			"song_uuid": req.body.song_uuid,
+			"admin_uuid": "00000000-0000-0000-0000-000000000000",
+			"user_uuid" : "00000000-0000-0000-0000-000000000000",
 			"songimage": req.file.filename,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
@@ -1066,10 +1070,6 @@ async function editsong_page(req, res) {
 async function editsong_process(req, res) {
 	try {
 		const editsong = await ModelSongs.create({
-			"email": req.body.email,
-			"prodlistid": req.body.prodlistid,
-			"choosekaraokeid": req.body.choosekaraokeid,
-
 			"songimage": req.body.songimage,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,

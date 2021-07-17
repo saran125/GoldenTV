@@ -177,7 +177,7 @@ export function initialize_models(database) {
  */
  async function generate_movies(database, options) {
 	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_movies.movie_uuid);
+	database.removeHook("afterBulkSync", generate_movies.admin_uuid);
 	//	Create a root user if not exists otherwise update it
 	try {
 		console.log("Generate_movies");
@@ -211,7 +211,7 @@ export function initialize_models(database) {
 		return Promise.resolve();
 	}
 	catch (error) {
-		console.error ("Failed to generate root administrator user account");
+		console.error ("Failed to generate movies");
 		console.error (error);
 		return Promise.reject(error);
 	}
