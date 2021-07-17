@@ -128,7 +128,6 @@ body{
   color: #000000;
 }
 </style>
-{{#noop}}{{> navbar}}{{/noop}}
 
 <h1 >Movie Details</h1>
 <div id="display">
@@ -178,17 +177,16 @@ body{
 </select>
 </td>
 <td>
-  <select name="location" style="background-color: black;" id="venue" oninput="loc()">
+  <select name="location" style="background-color: black;" id="venue" oninput="myFunction()">
     {{#each location}}
     <option>{{this}}</option>
     {{/each}}
   </select>
 </td>
 
-      <td><select name="time" style="background-color: black;" >
-{{#each option}}
-<option>{{time}}</option>
-{{/each}}
+  <td>
+    <select name="time" style="background-color: black;" id="time">
+<option></option>
 </select></td>
       <td> <input type="submit" value="Book Room" class="btn btn-primary"/></td>
     </tr>
@@ -196,5 +194,19 @@ body{
 </table>
 </form>
 <script>
-
+  function myFunction() {
+    var x = document.getElementById("venue").value;
+    alert(x);
+    Modeloption.sync({ alert: true }).then(() => {
+      return Modeloption.findAll({ attributes: ['time'], where:{ location: x} });
+    }).then((data) => {
+      data.forEach(element => {
+        var x = document.getElementById("time");
+        var option = document.createElement("option");
+        option.text = element.toJSON().time;
+        console.log(element.toJSON().time);
+        x.add(option);
+      })
+    })
+  }
 </script>

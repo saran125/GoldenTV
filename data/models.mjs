@@ -343,7 +343,8 @@ async function generate_ticket(database, options) {
 			date: "17th may 2020",
 			time: "9am",
 			roomtype: "Small",
-			ref: "1234abcd"
+			ref: "1234abcd",
+			user_id: "00000000-0000-0000-0000-000000000000"
 		};
 		//	Find for existing account with the same id, create or update
 		var account = await Modelticket.findOne({ where: { "uuid": root_parameters.uuid } });

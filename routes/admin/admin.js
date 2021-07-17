@@ -16,8 +16,8 @@ async function option_process(req, res) {
         console.log(req.body);
         for (let i = 0; i < req.body.location.length; i++) {
             const option = await Modeloption.create({
-                time: req.body.time[i],
-                location: req.body.location[i],
+                time: req.body.time[i] + ':00.000Z',
+                location: req.body.location[i].toUpperCase(),
                 small: req.body.small[i],
                 medium: req.body.medium[i],
                 large: req.body.large[i]
@@ -25,7 +25,6 @@ async function option_process(req, res) {
             console.log(option);
         }
         return res.redirect("/admin/viewoption");
-
     }
     catch (error) {
         console.error(error);
@@ -53,8 +52,8 @@ async function option_data(req, res) {
         console.log('finding data');
         let pageSize = parseInt(req.query.limit);
         let offset = parseInt(req.query.offset);
-        let sortBy = req.query.sort ? req.query.sort : "dateCreated";
-        let sortOrder = req.query.order ? req.query.order : "desc";
+        let sortBy = req.query.sort ? req.query.sort : "time";
+        let sortOrder = req.query.order ? req.query.order : "asc";
         let search = req.query.search;
         if (pageSize < 0) {
             throw new HttpError(400, "Invalid page size");

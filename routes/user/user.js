@@ -53,7 +53,7 @@ async function booking_page(req, res) {
         }
         console.log(location);
         return res.render('user/booking', {
-            location
+            location, Modeloption
         });
     })
         .catch((err) => {

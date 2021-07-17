@@ -26,7 +26,8 @@ export class Modelticket extends Model {
             "location": { type: DataTypes.STRING(650), allowNull: false },
             "time": { type: DataTypes.DATE(), allowNull: false },
             "roomtype": { type: DataTypes.STRING(100), allowNull: false },
-            "ref": { type: DataTypes.CHAR(8), allowNull:false}
+            "ref": { type: DataTypes.CHAR(8), allowNull:false},
+            "user_id": { type: DataTypes.CHAR(36), allowNull: false }
         }, {
             "sequelize": database,
             "modelName": "ticket",
