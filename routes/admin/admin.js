@@ -14,8 +14,7 @@ async function option_process(req, res) {
     // console.log('Description created: $(booking.choice)');
     try {
         console.log(req.body);
-
-        for (let i = 0; i < req.body.location.length; i++) {
+        for (let i = 0; i < req.body.time.length; i++) {
             const option = await Modeloption.create({
                 time: req.body.time[i],
                 location: req.body.location[i],

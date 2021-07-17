@@ -40,7 +40,7 @@ async function booking_page(req, res) {
     //         location.push(All_location[i]);
     //     }
     // }
-    // console.log(location);
+    console.log(option.location);
     return res.render('user/booking', {
         option
     });
