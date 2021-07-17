@@ -2,14 +2,6 @@ import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model } = ORM;
 
 /**
- * For enumeration use
-**/
-export class UserRole {
-	static get Admin() { return "admin"; }
-	static get User()  { return "user";  }
-}
-
-/**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
  * @see "https://sequelize.org/master/manual/model-basics.html#taking-advantage-of-models-being-classes"
@@ -23,13 +15,10 @@ export class ModelHomeInfo extends Model {
 	**/
 	static initialize(database) {
 		ModelHomeInfo.init({
-			"uuid"       : { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
-			"dateCreated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			// "email"      : { type: DataTypes.STRING(128), allowNull: false },
-			// "role"       : { type: DataTypes.ENUM(UserRole.User, UserRole.Admin), defaultValue: UserRole.User, allowNull: false },
-			// "verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false},
-            "homedescription" : { type: DataTypes.STRING(650), allowNull: false,
+			"homeinfo_uuid" 	: { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
+			"dateCreated"		: { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
+			"admin_uuid" 		: { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },	
+			"homedescription" 	: { type: DataTypes.STRING(650), allowNull: false,
 				set(value){ 
 					this.setDataValue('homedescription', value);
 				} 
@@ -70,7 +59,6 @@ export class ModelHomeInfo extends Model {
 		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
 	}
 
-    get email() { return this.getDataValue("email"); }
 	get homedescription() { return this.getDataValue("homedescription"); }   
 	get homepolicy() { return this.getDataValue("homepolicy"); }
     get homeimage() { return String (this.getDataValue("homeimage")); }  

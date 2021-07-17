@@ -207,7 +207,7 @@ div.blackblock1 {
            background-color: purple;
            border: 1px solid gold;
            " 
-           class="MovieTag">` + "Adventure" + `</div>`;
+           class="MovieTag">` + "Emotional" + `</div>`;
         }
         else {checkEmotional = ""}
         if (checkMystery == 1) {
@@ -225,7 +225,7 @@ div.blackblock1 {
            background-color: purple;
            border: 1px solid gold;
            " 
-           class="MovieTag">` + "Mystery" + `</div>`;
+           class="MovieTag">` + "Action" + `</div>`;
         }
         else {checkAction = ""}
         return checkHorror + 
@@ -243,11 +243,11 @@ div.blackblock1 {
 	 **/
 	function table_row_edit(value, row, index) {
 		return `
-		<a href="../prod/updatemovie/${row.uuid}">
+		<a href="../prod/updatemovie/${row.movie_uuid}">
 			<i class="fa fa-edit"></i>
 		</a>
 
-		<a href="../prod/deletemovie/${row.uuid}">
+		<a href="../prod/deletemovie/${row.movie_uuid}">
 			<i class="fa fa-trash"></i>
 		</a>
 		`;
