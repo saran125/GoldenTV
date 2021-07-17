@@ -30,7 +30,7 @@ router.use('/user', User)
 router.use("/payment", payment);
 router.get("/paymentOption", async function (req, res) {
 	console.log("Choosing payment method");
-	return res.render('PaymentOption');
+	return res.render('user/PaymentOption');
 });
 router.get("/ticketlist/tickettable", tickettable);
 router.get("/ticketlist/tickettable-data", tickettable_data);

@@ -11,36 +11,18 @@ router.get("/roomtype", roomtype_page);
 
 // booking page
 var random_ref = nanoid(8);
-export var room_details = { location: '', date: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref };
+export var room_details = { location: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref };
 async function booking_process(req, res) {
     console.log('Description created: $(booking.choice)');
     try {
         console.log(req.body.time);
-        const roomtype = await ModelRoomtype.findOne({ where: { time: req.body.time, location: req.body.location, date: req.body.date } });
+        const roomtype = await Modeloption.findOne({ where: { time: req.body.time } });
         console.log(roomtype);
-        if (roomtype === null) {
-            console.log('Not found!');
-            const room = await Modeloption.create({
-                time: req.body.time,
-                location: req.body.location,
-                date: req.body.date,
-                small: 5,
-                medium: 5,
-                big: 5
-            });
-            console.log(room);
-        }
-
-        else {
-            console.log(roomtype.uuid);
-        }
+        console.log(roomtype.uuid);
         room_details.location = req.body.location;
-        room_details.date = req.body.date;
         room_details.time = req.body.time;
-        room_details.choice = req.body.choice;
         room_details.uuid = roomtype.uuid
         return res.redirect("/user/roomtype");
-
     }
     catch (error) {
         console.error(error);
@@ -48,19 +30,19 @@ async function booking_process(req, res) {
 }
 async function booking_page(req, res) {
     console.log("booking page accessed");
-    const option = await Modeloption.location();
-    console.log(option);
-    const All_location = [];
-    All_location.push(option)
-    var location = [];
-    for (let i = 0; i < All_location.length; i++) {
-        if (location.indexOf(All_location[i]) === -1) {
-            location.push(All_location[i]);
-        }
-    }
-    console.log(location);
+    const option = await Modeloption.findAll({ raw: true });;
+    // console.log(option);
+    // const All_location = [];
+    // All_location.push(option)
+    // var location = [];
+    // for (let i = 0; i < All_location.length; i++) {
+    //     if (location.indexOf(All_location[i]) === -1) {
+    //         location.push(All_location[i]);
+    //     }
+    // }
+    // console.log(location);
     return res.render('user/booking', {
-        location
+        option
     });
 }
 async function roomtype_process(req, res) {
@@ -72,9 +54,9 @@ async function roomtype_page(req, res) {
     console.log("Choosing roomtype page accessed");
     console.log(room_details);
     var room_left = [];
-    const roomtype = await ModelRoomtype.findOne({
+    const roomtype = await Modeloption.findOne({
         where: {
-            time: room_details.time, location: room_details.location, date: room_details.date
+            time: room_details.time
         }
     });
     if (roomtype.small != 0) {
@@ -83,8 +65,8 @@ async function roomtype_page(req, res) {
     if (roomtype.medium != 0) {
         room_left.push('Medium')
     };
-    if (roomtype.big != 0) {
-        room_left.push('Big')
+    if (roomtype.large != 0) {
+        room_left.push('Large')
     };
     if (room_left.length == 0) {
         console.log("There is no room left")

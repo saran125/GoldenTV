@@ -192,6 +192,7 @@ async function nets_query(req, res) {
  * @param {import('express').Request} req 
  * @param {import('express').Response} res 
  */
+
 async function nets_void(req, res) {
 	try {
 
@@ -238,10 +239,9 @@ async function nets_void(req, res) {
 				});
 			//	Skip?
 			default:
-				return res.json({
-					status: -1
-				});
+				return res.redirect("/booked_successfully");
 		}
+		
 	}
 	catch (error) {
 		console.error(`Failed to void transaction`);
