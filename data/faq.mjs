@@ -9,7 +9,6 @@ export class UserRole {
 	static get User()  { return "user";  }
 }
 
-
 /**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
@@ -27,14 +26,14 @@ export class ModelFaq extends Model {
 			"uuid"       : { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false },
+			
 			"questions"   : {type: DataTypes.STRING(128), allowNull: false},
 			"answers"   : {type: DataTypes.STRING(128), allowNull: false},
 
 
 		}, {
 			"sequelize": database,
-			"modelName": "ModelFaq",
+			"modelName": "Faq",
 			"hooks"    : {
 				"afterUpdate": ModelFaq._auto_update_timestamp
 			}
