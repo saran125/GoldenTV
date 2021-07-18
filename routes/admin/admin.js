@@ -2,9 +2,8 @@ import { Router } from 'express';
 
 import { Modeloption } from '../../data/option.mjs';
 import { HttpError } from '../../utils/errors.mjs';
-import {ModelFaq} from '../data/faq.mjs';
-import {ModelReview} from '../data/review.mjs';
-import {ModelRoomReview} from '../data/roomreview.mjs';
+
+
 import ORM from "sequelize";
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
@@ -14,7 +13,7 @@ router.get("/option", option_page);
 router.get("/viewoption", viewoption);
 router.get("/retrievereview-data", review_data)
 router.get("/retrievefaq-data", retrieve_data);
-router.get("/retrieveroomreview-data", roomreview_data)
+
 //  update choice page 
 async function option_process(req, res) {
     // console.log('Description created: $(booking.choice)');
