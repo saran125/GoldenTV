@@ -186,7 +186,7 @@ body{
 
   <td>
     <select name="time" style="background-color: black;" id="time">
-<option></option>
+      <option></option>
 </select></td>
       <td> <input type="submit" value="Book Room" class="btn btn-primary"/></td>
     </tr>
@@ -194,19 +194,27 @@ body{
 </table>
 </form>
 <script>
-  function myFunction() {
-    var x = document.getElementById("venue").value;
-    alert(x);
-    Modeloption.sync({ alert: true }).then(() => {
-      return Modeloption.findAll({ attributes: ['time'], where:{ location: x} });
-    }).then((data) => {
-      data.forEach(element => {
-        var x = document.getElementById("time");
-        var option = document.createElement("option");
-        option.text = element.toJSON().time;
-        console.log(element.toJSON().time);
-        x.add(option);
-      })
-    })
+    async function myFunction() {
+      const response = await fetch("/user/time", {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+          location: document.getElementById("venue").value
+        })
+      });
+      	if (response.ok) {
+        const content = await response.json();
+        showtime(content.time);
+      }
   }
+  function showtime(time) {
+    var x = document.getElementById("time");
+    var option = document.createElement("option");
+    for (let i = 0; i < time.length; i++) {
+      option.text = time[i];
+      x.add(option)
+    }
+    }
 </script>

@@ -96,12 +96,29 @@ async function roomtype_page(req, res) {
         room_details, roomtype, room_left
     });
 }
+
+router.post("/time", async function (req, res){
+    console.log("Loooking for all the time");
+    Modeloption.sync({ alert: true }).then(() => {
+        return Modeloption.findAll({ attributes: ['time'], where: { location: req.body.location } });
+    }).then((data) => {
+        let time = [];
+        data.forEach(element => {
+            time.push(element.toJSON().time);
+            console.log(element.toJSON().time);
+        })
+        console.log(time);
+        return res.json({
+            time: time
+        })
+    })
+});
 // ---------------------------------------
 router.get("/booked_successfully", async function (req, res) {
     console.log("after booking page accessed");
     const roomtype = await ModelRoomtype.findOne({
         where: {
-            time: room_details.time, location: room_details.location, date: room_details.date
+            time: room_details.time, location: room_details.location
         }
     });
     console.log(room_details.roomtype);
