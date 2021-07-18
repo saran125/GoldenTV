@@ -4,7 +4,7 @@
 
 <h2>{{ room_title }}</h2>
 
-<form action="../prodlist/editroominfo">
+<form action="../prod/editroominfo">
 <input type="submit" value="Edit" class="btn btn-outline-warning">
 </form>
 
@@ -15,10 +15,10 @@
     </div>
     <div class="w3-container w3-white">
 		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="public/uploads/{{ small_roomimage1 }}"
+        src="/public/uploads/{{ small_roomimage1 }}"
          alt="Norway" class="w3-hover-opacity">
         <img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="public/uploads/{{ small_roomimage2 }}"
+        src="/public/uploads/{{ small_roomimage2 }}"
          alt="Norway" class="w3-hover-opacity">
     </div>
 </div>
@@ -29,7 +29,7 @@
     </div>
     <div class="w3-container w3-white">
 		<img style="width: 220px; height: 205px; padding-bottom: 25px;" 
-        src="public/uploads/{{ med_roomimage }}"
+        src="/public/uploads/{{ med_roomimage }}"
          alt="Norway" class="w3-hover-opacity">
     </div>
 </div>
@@ -40,10 +40,10 @@
     </div>
     <div class="w3-container w3-white">
 		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="public/uploads/{{ large_roomimage1 }}"
+        src="/public/uploads/{{ large_roomimage1 }}"
          alt="Norway" class="w3-hover-opacity">
         <img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="public/uploads/{{ large_roomimage2 }}"
+        src="/public/uploads/{{ large_roomimage2 }}"
          alt="Norway" class="w3-hover-opacity">
     </div>
 </div>
@@ -58,7 +58,7 @@
 <div class="List">
 </div>
 
-<form action="../prodlist/chooseeditmoviestable">
+<form action="../prod/chooseeditmoviestable">
 <input type="submit" value="Movies Information" class="btn btn-outline-warning">
 </form>
 
@@ -66,7 +66,7 @@
 
 </div>
 
-<form action="../prodlist/chooseeditsongstable">
+<form action="../prod/chooseeditsongstable">
 <input type="submit" value="Songs Information" class="btn btn-outline-warning">
 </form>
 
@@ -150,3 +150,178 @@
         <p><a href="/user/booking"><button class="purchase"> Book Now! </button></a></p>
     </div>
 </div>
+
+<style>
+    body, button {
+    background-color: black;
+    color:gold;
+  }
+  
+  .RoomsPricing{
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 25px;
+    padding-left: 5px;
+    width: 300px;
+    float: left;
+  }
+  
+  .GVE{
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    width: 60%;
+    float: left;
+    background-color: gold;
+    border: 1px solid grey;
+  }
+  
+  .GVE h4, .GVE h5{
+    padding-left: 5px;
+    float: left;
+    color: black;
+    background-color: gold;
+  }
+  
+  .List{
+    position: relative;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    width: 600px;
+    float: left;
+  }
+  
+  .filter{
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    width: 33%;
+    float: right;
+    border: 1px solid grey;
+  }
+  
+  .FilterOptions{
+    list-style-type: none;
+  }
+  
+  .List img {
+    width: 150px;
+    height: 235px;
+    float: left;
+  }
+  
+  .w3-container w3-white1 {
+    width: 50%;
+    float: left;
+  }
+  
+  .w3-container w3-white2 {
+    width: 35%;
+    float: left;
+  }
+  
+  .w3-container w3-white3 {
+    width: 15%;
+    float: right;
+  }
+  
+  .Title {
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 50%;
+    float: left;
+  }
+  
+  .MoviesAdded, .SongsAdded {
+    text-align: center;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    width: 50%;
+    height: 150px;
+    position: absolute;
+    top: 48px;
+    left: 155px;
+  }
+
+  .MovieName, .SongName {
+    font-size: 10px;
+    width: 160px;
+    float: left;
+    border: 1px solid grey;
+  }
+
+  .MovieRating, .SongRating {
+    font-size: 10px;
+    width: 160px;
+    float: left;
+    border: 1px solid grey;
+  }
+
+  .MovieDuration, .SongDuration {
+    font-size: 10px;
+    width: 160px;
+    float: left;
+    border: 1px solid grey;
+  }
+
+  .GenreTags1, .GenreTags2 {
+    font-size: 12px;
+    float: right;
+    width: 80px;
+    height: 90px;
+  }
+
+  .MovieTag, .SongTag {
+    font-size: 12px;
+    width: 75px;
+    float: right;
+    background-color: purple;
+    border: 1px solid gold;
+  }
+
+  .MovieAdd1, .SongAdd1 {
+    width: 175px;
+    height: 125px;
+  }
+
+  .MovieAdd2, .SongAdd2 {
+    width: 165px;
+    height: 125px;
+    position: absolute;
+    top: 0px;
+    left: 200px;
+  }
+    
+  .purchase{
+    float: right;
+    width: 95px;
+    height:40px;
+    border: 1px solid;
+    border-color: gold;
+    color: gold;
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+  }
+  
+  .Review1{
+    float: right;
+    width: 95px;
+    height:40px;
+    border: 1px solid;
+    border-color: gold;
+    color: gold;
+    position: absolute;
+    bottom: 8px;
+    right: 125px;
+  }
+  
+  .purchase:hover, .Review1:hover, .filter:hover{
+    background-color: gold;
+    color: black;
+  }
+</style>

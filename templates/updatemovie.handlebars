@@ -24,13 +24,19 @@ div.blackblock {
 
 <h1 class="display-4">Update Movie</h1>
 
-<form method="POST" action="/prodlist/updatemovie/{{movie.uuid}}?_method=PUT" name="" enctype="multipart/form-data">
+<form method="POST" action="/prod/updatemovie/{{movie.movie_uuid}}?_method=PUT" name="" enctype="multipart/form-data">
   
   <div class="form-group">
   <h5>Movie Image</h5>
-  <input type="file" name="movieimage" value="{{movie.movieimage}}" required>
-  </div>
+  <input type="file" id="movieimage" 
+  onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])" 
+  name="movieimage" value="{{movieimage}}" required>  
 
+  <img id="imagedisplay" src="/public/uploads/{{movie.movieimage}}"
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
+  </div>
+  
   <div class="form-group">
   <h5>Movie Name</h5>
   <input type="moviename" name="moviename" class="form-control" value="{{movie.moviename}}" required>
@@ -57,7 +63,7 @@ div.blackblock {
 	<input type="checkbox" name="movieScience"  value="{{movie.movieScience}}">
 	<label class="form-check-label" for="Science">Science</label>
 	<div class="blackbox"></div>
-	<input type="checkbox" name="movieRomance"  value="{{movieRomance}}">
+	<input type="checkbox" name="movieRomance"  value="{{movie.movieRomance}}">
 	<label class="form-check-label" for="Romance">Romance</label>
 	<div class="blackbox"></div>
 	<input type="checkbox" name="movieAnimation"  value="{{movie.movieAnimation}}">

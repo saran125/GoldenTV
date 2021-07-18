@@ -128,7 +128,6 @@ body{
   color: #000000;
 }
 </style>
-{{#noop}}{{> navbar}}{{/noop}}
 
 <h1 >Movie Details</h1>
 <div id="display">
@@ -165,9 +164,8 @@ body{
   <thead class="thead-light">
     <tr>
       <th scope="col">Choice </th>
-      <th scope="col">Date</th>
-      <th scope="col">Time</th>
       <th scope="col">Location</th>
+      <th scope="col">Time</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -176,25 +174,47 @@ body{
       <td><select name="choice" style="background-color: black;">
   <option >Movie</option>
   <option >Karaoke</option>
-</select></td>
-        <td><select name = "date" style="background-color: black;">
-          {{#each option}}
-  <option >{{date}}</option>
-  {{/each}}
-</select></td>
+</select>
+</td>
+<td>
+  <select name="location" style="background-color: black;" id="venue" oninput="myFunction()">
+    {{#each location}}
+    <option>{{this}}</option>
+    {{/each}}
+  </select>
+</td>
 
-      <td><select name="time" style="background-color: black;" >
-        {{#each option}}
-  <option >{{time}}</option>
-    {{/each}}
-</select></td><td>
-<select name = "location" style="background-color: black;">
-  {{#each option}}
-  <option >{{location}}</option>
-    {{/each}}
+  <td>
+    <select name="time" style="background-color: black;" id="time">
+      <option></option>
 </select></td>
       <td> <input type="submit" value="Book Room" class="btn btn-primary"/></td>
     </tr>
   </tbody>
 </table>
 </form>
+<script>
+    async function myFunction() {
+      const response = await fetch("/user/time", {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+          location: document.getElementById("venue").value
+        })
+      });
+      	if (response.ok) {
+        const content = await response.json();
+        showtime(content.time);
+      }
+  }
+  function showtime(time) {
+    var x = document.getElementById("time");
+    var option = document.createElement("option");
+    for (let i = 0; i < time.length; i++) {
+      option.text = time[i];
+      x.add(option)
+    }
+    }
+</script>

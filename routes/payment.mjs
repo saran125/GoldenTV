@@ -31,7 +31,7 @@ async function page_generate(req, res) {
 	};
 	let dollars = price/ 100;
 	console.log(room_details.location);
-	return res.render('payment', {room_details,price, dollars});
+	return res.render('user/payment', {room_details,price, dollars});
 } 
 /**
  * Signs the payload with the secret key
@@ -192,6 +192,7 @@ async function nets_query(req, res) {
  * @param {import('express').Request} req 
  * @param {import('express').Response} res 
  */
+
 async function nets_void(req, res) {
 	try {
 
@@ -238,10 +239,9 @@ async function nets_void(req, res) {
 				});
 			//	Skip?
 			default:
-				return res.json({
-					status: -1
-				});
+				return res.redirect("/booked_successfully");
 		}
+		
 	}
 	catch (error) {
 		console.error(`Failed to void transaction`);

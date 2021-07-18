@@ -18,8 +18,7 @@
     $(document).ready(function () {
         var i = 1;
         $("#add_row").click(function () {
-            $('#addr' + i).html("<td> " + (i + 1) + "</td><td><input  name='location' type='text' placeholder='E.g. Bishan' class='form-control input-md'  /> </td><td><input  name='date' type='text' placeholder='e.g. 30 July 2021'  class='form-control input-md'></td><td><input  name='time' type='time' class='form-control input-md'></td>");
-
+            $('#addr' + i).html("<td> " + (i + 1) + "</td><td><input type='text' name='location' placeholder='E.g. Bishan' class= 'form-control' style = 'color: black;'' /></td><td><input type='datetime-local' id='datefield' name='time' style='color: black;'></td><td><input type='number' name='small' class='form-control' style='color: black;' /></td><td><input type='number' name='medium' class='form-control' style='color: black;' /></td><td><input type='number' name='large' class='form-control' style='color: black;'' /></td>");
             $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
             i++;
         });
@@ -31,7 +30,26 @@
         });
 
     });
-
+    var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0 so need to add 1 to make it 1!
+        var hh = today.getHours();
+        var m = today.getMinutes();
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        if (hh < 10) {
+            hh = '0' + hh
+        }
+        if (m < 10) {
+            m = '0' + m
+        }
+        today = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + m;
+        document.getElementById('datefield').setAttribute('min', today);
 </script>
 
 <form class="container" method="POST" action="/admin/option">
@@ -53,34 +71,60 @@
                                             Location
                                         </th>
                                         <th class="text-center">
-                                            Date
+                                            Date&amp;Time
                                         </th>
                                         <th class="text-center" >
-                                            Time
+                                            Number of Small Rooms
                                         </th>
-
+                                        <th class="text-center">
+                                            Number of Medium Rooms
+                                        </th>
+                                        <th class="text-center">
+                                            Number of Large Rooms
+                                        </th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
+                                        <tr >
+                                            <td>
+                                                1
+                                            </td>
+                                            <td>
+                                                <input type="text" name='location' placeholder='E.g. Bishan' class="form-control" style="color: black;" />
+                                            </td>
+                                            <td>
+                                                <input type="datetime-local" id="datefield" class="form-control" name="time" min="" style="color: black;">
+                                            </td>
+                                            <td>
+                                                <input type="number" name='small' class="form-control" style="color: black;" />
+                                            </td>
+                                            <td>
+                                                <input type="number" name='medium' class="form-control" style="color: black;" />
+                                            </td>
+                                            <td>
+                                                <input type="number" name='large' class="form-control" style="color: black;" />
+                                            </td>
                                     <tr id='addr0' >
                                         <td>
-                                            1
+                                            2
                                         </td>
                                         <td>
                                             <input type="text" name='location' placeholder='E.g. Bishan'
                                                 class="form-control" style="color: black;" />
                                         </td>
                                         <td>
-                                            <input type="text" name='date' placeholder='E.g. 30 July 2021'
-                                                class="form-control" style="color: black;" />
+                                            <input type="datetime-local" id="datefield" class="form-control" name="time" min="" style="color: black;" >
                                         </td>
                                         <td>
-                                            <input type="time" name='time' class="form-control" style="color: black;" />
+                                            <input type="number" name='small' class="form-control" style="color: black;" />
                                         </td>
-                                    </tr>
-                                    <tr id='addr1'></tr>
-                                </tbody>
+                                        <td>
+                                            <input type="number" name='medium' class="form-control" style="color: black;" />
+                                        </td>
+                                        <td>
+                                            <input type="number" name='large' class="form-control" style="color: black;" />
+                                        </td>
                             </table>
                         </div>
                     </div>

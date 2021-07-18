@@ -2,18 +2,11 @@ import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model } = ORM;
 
 /**
- * For enumeration use
-**/
-export class UserRole {
-	static get Admin() { return "admin"; }
-	static get User()  { return "user";  }
-}
-/**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
  * @see "https://sequelize.org/master/manual/model-basics.html#taking-advantage-of-models-being-classes"
 **/
-export class ModelRooms extends Model {
+export class ModelRoomInfo extends Model {
 	/**
 	 * Initializer of the model
 	 * @see Model.init
@@ -21,16 +14,12 @@ export class ModelRooms extends Model {
 	 * @param {Sequelize} database The configured Sequelize handle
 	**/
 	static initialize(database) {
-		ModelRooms.init({
-			"uuid"       : { type: DataTypes.CHAR(36),    foreignKey: true, defaultValue: DataTypes.UUIDV4 },
-			"dateCreated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"email"      : { type: DataTypes.STRING(128), allowNull: false },
-			"role"       : { type: DataTypes.ENUM(UserRole.User, UserRole.Admin), defaultValue: UserRole.User, allowNull: false },
-			"verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false},
-            "prodlistid"     : { type: DataTypes.STRING(128) },
-
-            "room_title" : { type: DataTypes.STRING(650), allowNull: false,
+		ModelRoomInfo.init({
+			"roominfo_uuid" : { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
+			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
+			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
+			"admin_uuid" : { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
+			"room_title" : { type: DataTypes.STRING(650), allowNull: false,
 				set(value){ 
 					this.setDataValue('room_title', value);
 				}
@@ -40,7 +29,7 @@ export class ModelRooms extends Model {
 					this.setDataValue('small_roominfo', value);
 				}
 			},
-            "small_roomprice" : { type: DataTypes.STRING(650), allowNull: false,
+            "small_roomprice" : { type: DataTypes.FLOAT(4),
 				set(value){ 
 					this.setDataValue('small_roomprice', value);
 				}
@@ -60,7 +49,7 @@ export class ModelRooms extends Model {
 					this.setDataValue('med_roominfo', value);
 				}
 			},
-            "med_roomprice" : { type: DataTypes.STRING(650), allowNull: false,
+            "med_roomprice" : { type: DataTypes.FLOAT(4),
 				set(value){ 
 					this.setDataValue('med_roomprice', value);
 				}
@@ -75,7 +64,7 @@ export class ModelRooms extends Model {
 					this.setDataValue('large_roominfo', value);
 				}
 			},
-            "large_roomprice" : { type: DataTypes.STRING(650), allowNull: false,
+            "large_roomprice" : { type: DataTypes.FLOAT(4),
 				set(value){ 
 					this.setDataValue('large_roomprice', value);
 				}
@@ -92,9 +81,9 @@ export class ModelRooms extends Model {
 			},
 		}, {
 			"sequelize": database,
-			"modelName": "Rooms",
+			"modelName": "RoomInfo",
 			"hooks"    : {
-				"afterUpdate": ModelRooms._auto_update_timestamp
+				"afterUpdate": ModelRoomInfo._auto_update_timestamp
 			}
 		});
 	}
@@ -103,7 +92,7 @@ export class ModelRooms extends Model {
 	 * Emulates "TRIGGER" of "AFTER UPDATE" in most SQL databases.
 	 * This function simply assist to update the 'dateUpdated' timestamp.
 	 * @private
-	 * @param {ModelRooms}     instance The entity model to be updated
+	 * @param {ModelRoomInfo}     instance The entity model to be updated
 	 * @param {UpdateOptions} options  Additional options of update propagated from the initial call
 	**/
 	static _auto_update_timestamp(instance, options) {
@@ -111,8 +100,6 @@ export class ModelRooms extends Model {
 		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
 	}
 
-    get email() { return this.getDataValue("email"); }
-    get prodlistid() { return this.getDataValue("prodlistid"); }
 	get room_title() { return String (this.getDataValue("room_title")); }
 	get small_roominfo() { return String (this.getDataValue("small_roominfo")); }  
 	get small_roomprice() { return String (this.getDataValue("small_roomprice")); }  
