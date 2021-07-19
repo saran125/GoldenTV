@@ -16,7 +16,8 @@ async function option_process(req, res) {
         console.log(req.body);
         for (let i = 0; i < req.body.location.length; i++) {
             const option = await Modeloption.create({
-                time: req.body.time[i] + ':00.000Z',
+                date: req.body.date[i],
+                time: req.body.time[i] ,
                 location: req.body.location[i].toUpperCase(),
                 small: req.body.small[i],
                 medium: req.body.medium[i],
@@ -30,7 +31,6 @@ async function option_process(req, res) {
         console.error(error);
     }
 }
-
 function option_page(req, res) {
     console.log("Option page accessed");
     return res.render('admin/option');
@@ -67,6 +67,7 @@ async function option_data(req, res) {
                 [Op.or]: {
                     location: { [Op.substring]: search },
                     time: { [Op.substring]: search },
+                    date: { [Op.substring]: search },
                 },
             }
             : undefined;
@@ -125,6 +126,7 @@ router.post("/update_option/:uuid", async function (req, res) {
     console.log("updated Option page accessed");
     const option = await Modeloption.update({
         location: req.body.location,
+        date:req.body.date,
         time: req.body.time,
         small: req.body.small,
         medium: req.body.medium,

@@ -18,7 +18,7 @@
     $(document).ready(function () {
         var i = 1;
         $("#add_row").click(function () {
-            $('#addr' + i).html("<td> " + (i + 1) + "</td><td><input type='text' name='location' placeholder='E.g. Bishan' class= 'form-control' style = 'color: black;'' /></td><td><input type='datetime-local' id='datefield' name='time' style='color: black;'></td><td><input type='number' name='small' class='form-control' style='color: black;' /></td><td><input type='number' name='medium' class='form-control' style='color: black;' /></td><td><input type='number' name='large' class='form-control' style='color: black;'' /></td>");
+            $('#addr' + i).html("<td> " + (i + 1) + "</td><td><input type='text' required name='location' placeholder='Location' class= 'form-control' style = 'color: black;'' /></td><td><input type='date' required id='datefield' name='date' style='color: black;'></td> <td><select name = 'time' required class= 'form-control' ><option style='color: black;'>9am to 11.45am</option><option style='color: black;'>12pm to 2.45pm</option><option style='color: black;'>3pm to 5.45pm</option><option style='color: black;'>6pm to 8.45pm</option><option style='color: black;'>9pm to 11.45pm</option></select ></td ><td><input type='number' required name='small' class='form-control' style='color: black;' /></td><td><input required type='number' name='medium' class='form-control' style='color: black;' /></td><td><input type='number' required name='large' class='form-control' style='color: black;'' /></td>");
             $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
             i++;
         });
@@ -30,28 +30,8 @@
         });
 
     });
-    var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0 so need to add 1 to make it 1!
-        var hh = today.getHours();
-        var m = today.getMinutes();
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        if (hh < 10) {
-            hh = '0' + hh
-        }
-        if (m < 10) {
-            m = '0' + m
-        }
-        today = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + m;
-        document.getElementById('datefield').setAttribute('min', today);
 </script>
-
+{{> navbar}}
 <form class="container" method="POST" action="/admin/option">
     <div class="row setup-content" id="step-1" >
         <div class="col-xs-12">
@@ -71,7 +51,10 @@
                                             Location
                                         </th>
                                         <th class="text-center">
-                                            Date&amp;Time
+                                            Date
+                                        </th>
+                                        <th class="text-center">
+                                            Time
                                         </th>
                                         <th class="text-center" >
                                             Number of Small Rooms
@@ -91,10 +74,19 @@
                                                 1
                                             </td>
                                             <td>
-                                                <input type="text" name='location' placeholder='E.g. Bishan' class="form-control" style="color: black;" />
+                                                <input type="text" name='location' placeholder='Location' class="form-control" style="color: black;" required />
                                             </td>
                                             <td>
-                                                <input type="datetime-local" id="datefield" class="form-control" name="time" min="" style="color: black;">
+                                                <input type="date" id="datefield" class="form-control" name="date" min="" style="color: black;">
+                                            </td>
+                                            <td>
+                                                <select name="time" required class="form-control">
+                                                    <option style="color: black;" >9am to 11.45am</option>
+                                                    <option style="color: black;">12pm to 2.45pm</option>
+                                                    <option style="color: black;">3pm to 5.45pm</option>
+                                                    <option style="color: black;">6pm to 8.45pm</option>
+                                                    <option style="color: black;">9pm to 11.45pm</option>
+                                                </select>
                                             </td>
                                             <td>
                                                 <input type="number" name='small' class="form-control" style="color: black;" />
@@ -110,11 +102,20 @@
                                             2
                                         </td>
                                         <td>
-                                            <input type="text" name='location' placeholder='E.g. Bishan'
+                                            <input type="text" name='location' placeholder='Location'
                                                 class="form-control" style="color: black;" />
                                         </td>
                                         <td>
-                                            <input type="datetime-local" id="datefield" class="form-control" name="time" min="" style="color: black;" >
+                                            <input type="date" id="datefield" class="form-control" name="date" min="" style="color: black;">
+                                        </td>
+                                        <td>
+                                            <select name="time" required class="form-control"  >
+                                                <option style="color: black;">9am to 11.45am</option>
+                                                <option style="color: black;">12pm to 2.45pm</option>
+                                                <option style="color: black;">3pm to 5.45pm</option>
+                                                <option style="color: black;">6pm to 8.45pm</option>
+                                                <option style="color: black;">9pm to 11.45pm</option>
+                                            </select>
                                         </td>
                                         <td>
                                             <input type="number" name='small' class="form-control" style="color: black;" />
@@ -140,3 +141,17 @@
         </div>
     </div>
 </form>
+<script>
+      var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("datefield").setAttribute("min", today);
+</script>

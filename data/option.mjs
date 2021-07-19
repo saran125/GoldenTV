@@ -22,11 +22,15 @@ export class Modeloption extends Model {
 			"dateUpdated": {
 				type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')},
 			"location"   : { type: DataTypes.STRING(600), allowNull: true, defaultValue:null},
-			"time": {
-				type: DataTypes.TIME(), allowNull: false},
+			"date": {
+				type: DataTypes.DATEONLY(), allowNull: false},
+				"time":{
+					type: DataTypes.STRING(100), allowNull: false
+				},
 			"small": { type: DataTypes.INTEGER(), allowNull: false  },
 			"medium": { type: DataTypes.INTEGER(), allowNull: false },
-			"large": { type: DataTypes.INTEGER(), allowNull: false}
+			"large": { type: DataTypes.INTEGER(), allowNull: false},
+			"uuid": { type: DataTypes.CHAR(36), foreignKey: true, defaultValue: "00000000-0000-0000-0000-000000000000"}
         }, {
 			"sequelize": database,
 			"modelName": "option",

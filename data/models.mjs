@@ -340,8 +340,8 @@ async function generate_ticket(database, options) {
 			uuid: "00000000-0000-0000-0000-000000000000",
 			choice: "movie",
 			location: "Bishan",
-			date: "17th may 2020",
-			time: "9am",
+			date: "2021-07-22",
+			time: "9am to 11.45am",
 			roomtype: "Small",
 			ref: "1234abcd",
 			user_id: "00000000-0000-0000-0000-000000000000"

@@ -118,6 +118,7 @@ router.use(express.static(path.join(process.cwd(), 'public')));
 router.use(methodOverride('_method'));
 
 router.get("/", home_page);
+router.get("/home", home_page);
 // '/edit/:id'
 router.get("/edithomedes", edithomedescription_page);
 router.post("/edithomedes", edithomedescription_process);

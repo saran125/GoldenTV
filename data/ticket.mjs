@@ -24,7 +24,8 @@ export class Modelticket extends Model {
             "verified": { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
             "choice": { type: DataTypes.STRING(128) },
             "location": { type: DataTypes.STRING(650), allowNull: false },
-            "time": { type: DataTypes.DATE(), allowNull: false },
+            "date": { type: DataTypes.DATEONLY(), allowNull: false },
+            "time": { type: DataTypes.STRING(100), allowNull: false },
             "roomtype": { type: DataTypes.STRING(100), allowNull: false },
             "ref": { type: DataTypes.CHAR(8), allowNull:false},
             "user_id": { type: DataTypes.CHAR(36), allowNull: false }

@@ -6,9 +6,6 @@ const router = Router();
 export default router;
 router.post("/booking", booking_process);
 router.get("/booking", booking_page);
-router.post("/roomtype", roomtype_process);
-router.get("/roomtype", roomtype_page);
-
 // booking page
 var random_ref = nanoid(8);
 export var room_details = { location: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref };
@@ -16,13 +13,14 @@ async function booking_process(req, res) {
     console.log('Description created: $(booking.choice)');
     try {
         console.log(req.body.time);
-        const roomtype = await Modeloption.findOne({ where: { time: req.body.time } });
+        const roomtype = await Modeloption.findOne({ where: { time: req.body.time, location:req.body.location, date:req.body.date } });
         console.log(roomtype);
         console.log(roomtype.uuid);
         room_details.location = req.body.location;
         room_details.time = req.body.time;
-        room_details.uuid = roomtype.uuid
-        return res.redirect("/user/roomtype");
+        room_details.roomtype = req.body.room;
+        room_details.uuid = roomtype.uuid;
+        return res.redirect("/payment/generate");
     }
     catch (error) {
         console.error(error);
@@ -96,11 +94,28 @@ async function roomtype_page(req, res) {
         room_details, roomtype, room_left
     });
 }
-
+router.post("/date", async function (req, res) {
+    console.log("Loooking for all the date");
+    console.log(req.body);
+    Modeloption.sync({ alert: true }).then(() => {
+        return Modeloption.findAll({ attributes: ['date'], where: { location: req.body.location } });
+    }).then((data) => {
+        let date = [];
+        data.forEach(element => {
+            date.push(element.toJSON().date);
+            console.log(element.toJSON().date);
+        })
+        console.log(date);
+        return res.json({
+            date: date
+        })
+    })
+});
 router.post("/time", async function (req, res){
     console.log("Loooking for all the time");
+    console.log(req.body);
     Modeloption.sync({ alert: true }).then(() => {
-        return Modeloption.findAll({ attributes: ['time'], where: { location: req.body.location } });
+        return Modeloption.findAll({ attributes: ['time'], where: { location: req.body.location, date: req.body.date } });
     }).then((data) => {
         let time = [];
         data.forEach(element => {
@@ -111,6 +126,42 @@ router.post("/time", async function (req, res){
         return res.json({
             time: time
         })
+    })
+});
+router.post("/roomtype", async function (req, res) {
+    console.log("Loooking for all the roomtype");
+    console.log(req.body);
+    // Modeloption.sync({ alert: true }).then(() => {
+    //     return Modeloption.findAll({ attributes: ['small'], where: { location: req.body.location, date: req.body.date } });
+    // }).then((data) => {
+    //     let time = [];
+    //     data.forEach(element => {
+    //         time.push(element.toJSON().time);
+    //         console.log(element.toJSON().time);
+    //     })
+        
+    // })
+    var room_left = [];
+    const roomtype = await Modeloption.findOne({
+        where: {
+            time: req.body.time, date: req.body.date, location: req.body.location
+        }
+    });
+    if (roomtype.small != 0) {
+        room_left.push('Small')
+    };
+    if (roomtype.medium != 0) {
+        room_left.push('Medium')
+    };
+    if (roomtype.large != 0) {
+        room_left.push('Large')
+    };
+    if (room_left.length == 0) {
+        console.log("There is no room left")
+        return res.render('user/noroom')
+    };
+    return res.json({
+        room: room_left
     })
 });
 // ---------------------------------------
