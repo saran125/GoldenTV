@@ -2,6 +2,9 @@ import { Router } from 'express';
 
 import { Modeloption } from '../../data/option.mjs';
 import { HttpError } from '../../utils/errors.mjs';
+import {ModelFaq} from '../data/faq.mjs';
+import {ModelReview} from '../data/review.mjs';
+import {ModelRoomReview} from '../data/roomreview.mjs';
 import ORM from "sequelize";
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
@@ -9,6 +12,9 @@ export default router;
 router.post("/option", option_process);
 router.get("/option", option_page);
 router.get("/viewoption", viewoption);
+router.get("/retrievereview-data", review_data)
+router.get("/retrievefaq-data", retrieve_data);
+router.get("/retrieveroomreview-data", roomreview_data)
 //  update choice page 
 async function option_process(req, res) {
     // console.log('Description created: $(booking.choice)');
@@ -139,3 +145,97 @@ router.post("/update_option/:uuid", async function (req, res) {
     console.log("Updated Option")
     return res.redirect('/admin/viewoption',);
 });
+
+async function retrieve_data(req, res) {
+    try {
+        console.log('retriving data');
+        let pageSize = parseInt(req.query.limit);
+        let offset = parseInt(req.query.offset);
+        let sortBy = req.query.sort ? req.query.sort : "dateCreated";
+        let sortOrder = req.query.order ? req.query.order : "desc";
+        let search = req.query.search;
+        if (pageSize < 0) {
+            throw new HttpError(400, "Invalid page size");
+        }
+        if (offset < 0) {
+            throw new HttpError(400, "Invalid offset index");
+        }
+        /** @type {import('sequelize/types').WhereOptions} */
+        const conditions = search
+            ? {
+                [Op.or]: {
+                    questions: { [Op.substring]: search },
+                    answers: { [Op.substring]: search },
+                    
+                },
+            }
+            : undefined;
+        const total = await ModelFaq.count({ where: conditions });
+        const pageTotal = Math.ceil(total / pageSize);
+
+        const pageContents = await ModelFaq.findAll({
+            offset: offset,
+            limit: pageSize,
+            order: [[sortBy, sortOrder.toUpperCase()]],
+            where: conditions,
+            raw: true, // Data only, model excluded
+            
+        });
+        return res.json({
+            total: total,
+            rows: pageContents,
+        });
+    } catch (error) {
+        console.error("Failed to retrieve all Options");
+        console.error(error);
+        // internal server error
+        return res.status(500).end();
+    }
+}
+
+async function review_data(req, res) {
+    try {
+        console.log('retriving data');
+        let pageSize = parseInt(req.query.limit);
+        let offset = parseInt(req.query.offset);
+        let sortBy = req.query.sort ? req.query.sort : "dateCreated";
+        let sortOrder = req.query.order ? req.query.order : "desc";
+        let search = req.query.search;
+        if (pageSize < 0) {
+            throw new HttpError(400, "Invalid page size");
+        }
+        if (offset < 0) {
+            throw new HttpError(400, "Invalid offset index");
+        }
+        /** @type {import('sequelize/types').WhereOptions} */
+        const conditions = search
+            ? {
+                [Op.or]: {
+                    rating: { [Op.substring]: search },
+                    feedback: { [Op.substring]: search },
+                    
+                },
+            }
+            : undefined;
+        const total = await ModelReview.count({ where: conditions });
+        const pageTotal = Math.ceil(total / pageSize);
+
+        const pageContents = await ModelReview.findAll({
+            offset: offset,
+            limit: pageSize,
+            order: [[sortBy, sortOrder.toUpperCase()]],
+            where: conditions,
+            raw: true, // Data only, model excluded
+            
+        });
+        return res.json({
+            total: total,
+            rows: pageContents,
+        });
+    } catch (error) {
+        console.error("Failed to retrieve all Options");
+        console.error(error);
+        // internal server error
+        return res.status(500).end();
+    }
+}
