@@ -123,7 +123,7 @@ button:focus {
                 <div class="tab">
                     <h5>Choose the <bold>location:</bold></h5>
                     <p> 
-                        <select  class="details" id="venue" name="location"  oninput="myFunction()">
+                        <select  class="details" id="venue" name="location"  onmouseover="myFunction()">
                             {{#each location}}
                         <option >{{this}}</option>
                         {{/each}}
@@ -131,19 +131,19 @@ button:focus {
                 </div>
                 <div class="tab">
                     <h5>Choose the <bold>Date:</bold></h5>
-                    <select name="date" class="details" oninput="mydate()" id="date">
+                    <select name="date" class="details" onmouseover="mydate()" id="date">
                     </select>
                     <p></p>
                 </div>
                 <div class="tab">
                     <h5>Choose the <bold>Timeslot:</bold></h5>
-                    <select name="time" class="details" oninput="mytime()" id="time">
+                    <select name="time" class="details" onmouseover="mytime()" id="time">
             
                     </select>
                 </div>
                 <div class="tab">
                     <h5>Choose the <bold>Room Size:</bold></h5>
-                    <select name="room" class="details" id="room" oninput="myroom()">
+                    <select name="room" class="details" id="room" onmouseover="myroom()">
                     
                     </select>
                 </div>
@@ -189,6 +189,7 @@ button:focus {
             }
         }
         function showdate(date) {
+           console.log(date);
             var x = document.getElementById("date");
             var option = document.createElement("option");
             for (let i = 0; i < date.length; i++) {

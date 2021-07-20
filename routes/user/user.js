@@ -32,7 +32,8 @@ async function booking_page(req, res) {
     //         attributes: ['location']
     //      });
    
-    
+    var choice = req.params.choice;
+    console.log(choice);
     Modeloption.sync({ alert: true }).then(() => {
         return Modeloption.findAll({ attributes: ['location'] });
     }).then((data) => {
@@ -106,8 +107,15 @@ router.post("/date", async function (req, res) {
             console.log(element.toJSON().date);
         })
         console.log(date);
+        var mydate = [];
+        for (let i = 0; i < date.length; i++) {
+            if (mydate.indexOf(date[i]) === -1) {
+                mydate.push(date[i]);
+            }
+        }
+        console.log(mydate);
         return res.json({
-            date: date
+            date: mydate
         })
     })
 });
@@ -160,6 +168,7 @@ router.post("/roomtype", async function (req, res) {
         console.log("There is no room left")
         return res.render('user/noroom')
     };
+    console.log(room_left);
     return res.json({
         room: room_left
     })

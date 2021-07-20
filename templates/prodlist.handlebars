@@ -107,7 +107,7 @@
         </div>
 
         <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
-        <p><a href="/user/booking"+'movie'><button class="purchase"> Book Now! </button></a></p>
+        <p><a id="movie"><button class="purchase" > Book Now! </button> </a></p>
     </div>
     
 </div>
@@ -147,10 +147,15 @@
             </div>
         </div>
         <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
-        <p><a href="/user/booking/{{Karaoke}}"><button class="purchase"> Book Now! </button></a></p>
+        <p><a id="karaoke"><button class="purchase" > Book Now! </button></a></p>
     </div>
 </div>
-
+<script>
+    var value = "Movie";
+    document.getElementById("movie").href = "/user/booking/" + value;
+    var value = "Karaoke"
+    document.getElementById("karaoke").href = "/user/booking/" + value;
+</script>
 <style>
     body, button {
     background-color: black;
