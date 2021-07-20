@@ -10,6 +10,7 @@
 </style>
 <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+{{>navbar}}
 <h1>Manage All Option</h1>
 <button><a class="nav-link" href="/admin/option">Add more Option</a></button>
 <table data-toggle="table" data-url="/admin/option-data" data-search="true" data-pagination="true" data-side-pagination="server"
@@ -21,6 +22,7 @@
     <thead>
         <tr>
             <th data-field="location" data-sortable="true">Location</th>
+            <th data-field="date" data-sortable="true">date</th>
             <th data-field="time" data-sortable="true">time</th>
             <th data-field="small" data-sortable="true">Number of small rooms</th>
             <th data-field="medium" data-sortable="true">Number of medium rooms</th>

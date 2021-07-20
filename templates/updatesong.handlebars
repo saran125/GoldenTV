@@ -21,7 +21,7 @@ div.blackblock {
   color: white;
 }
 </style>
-
+{{>navbar}}
 <h1 class="display-4">Update Song</h1>
 
 <form method="POST" action="/prod/updatesong/{{song.song_uuid}}?_method=PUT" name="" enctype="multipart/form-data">

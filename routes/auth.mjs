@@ -103,7 +103,7 @@ async function login_process(req, res) {
 				},
 				secret: 'random-secret'
 			});
-			return res.redirect("/home");
+			return res.redirect("/");
 		}
 	}
 	catch (error) {
