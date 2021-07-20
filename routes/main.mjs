@@ -23,8 +23,7 @@ import payment from '../routes/payment.mjs';
 
 const router = Router();
 export default router;
-router.use("/faq", Routerfaq);
-router.use("/review", Review);
+
 import Admin from '../routes/admin/admin.js';
 import User from '../routes/user/user.js';
 // router.use("/sendemail", Email);
