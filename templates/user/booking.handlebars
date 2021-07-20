@@ -115,13 +115,13 @@ button:focus {
 <div class="container mt-5">
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-md-8">
-            <form id="regForm" action="/user/payment" method="post" >
-                <h1 id="register">Booking Room</h1>
+            <form id="regForm" action="/user/payment/{{choice}}" method="post" >
+                <h1 id="register">Booking Room for {{choice}}</h1>
                 <div class="all-steps" id="all-steps"> <span class="step"><i class="far fa-map"></i></span> <span
                         class="step"><i class="far fa-calendar"></i></span><span class="step"><i class="fa fa-clock-o"></i></span> <span class="step"><i
                             class="fas fa-couch"></i></span><span class="step"><i class="fas fa-check"></i></span> </div>
                 <div class="tab">
-                    <h6>Choose the <bold>location:</bold></h6>
+                    <h5>Choose the <bold>location:</bold></h5>
                     <p> 
                         <select  class="details" id="venue" name="location"  oninput="myFunction()">
                             {{#each location}}
@@ -130,25 +130,25 @@ button:focus {
                     </select></p>
                 </div>
                 <div class="tab">
-                    <h6>Choose the <bold>Date:</bold></h6>
+                    <h5>Choose the <bold>Date:</bold></h5>
                     <select name="date" class="details" oninput="mydate()" id="date">
                     </select>
                     <p></p>
                 </div>
                 <div class="tab">
-                    <h6>Choose the <bold>Timeslot:</bold></h6>
+                    <h5>Choose the <bold>Timeslot:</bold></h5>
                     <select name="time" class="details" oninput="mytime()" id="time">
             
                     </select>
                 </div>
                 <div class="tab">
-                    <h6>Choose the <bold>Room Size:</bold></h6>
-                    <select name="room" class="details" id="room">
+                    <h5>Choose the <bold>Room Size:</bold></h5>
+                    <select name="room" class="details" id="room" oninput="myroom()">
                     
                     </select>
                 </div>
                 <div class="tab">
-                    <h6>Confirm your booking details</h6>
+                    <h5>Confirm your booking details</h5>
                     <table>
                         <tr>
                             <th>location</th>
@@ -157,10 +157,10 @@ button:focus {
                             <th>Room Size</th>
                         </tr>
                         <tr>
-                            <td>February</td>
-                            <td>$80</td>
-                            <td>12</td>
-                            <td>hkeio</td>
+                            <td id="location"></td>
+                            <td id="showdate"></td>
+                            <td id="timeslot"></td>
+                            <td id="roomtype"></td>
                         </tr>
                     </table>
                 </div>
@@ -248,6 +248,14 @@ button:focus {
                     option.text = room[i];
                     x.add(option)
                 }
+            }
+        </script>
+        <script>
+            async function myroom() {
+                        var l = document.getElementById("venue").value,
+                        var d = document.getElementById("date").value,
+                        var t =  document.getElementById("time").value,
+                        var r = document.getElementById("room").value
             }
         </script>
 <script>

@@ -4,8 +4,8 @@ import { Modelticket } from '../../data/ticket.mjs';
 import { Modeloption } from '../../data/option.mjs';
 const router = Router();
 export default router;
-router.post("/booking", booking_process);
-router.get("/booking", booking_page);
+router.post("/booking/:choice", booking_process);
+router.get("/booking/:choice", booking_page);
 // booking page
 var random_ref = nanoid(8);
 export var room_details = { location: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref };
@@ -51,7 +51,7 @@ async function booking_page(req, res) {
         }
         console.log(location);
         return res.render('user/booking', {
-            location, Modeloption
+            location, Modeloption, choice
         });
     })
         .catch((err) => {
@@ -63,37 +63,37 @@ async function booking_page(req, res) {
     
 }
 
-async function roomtype_process(req, res) {
-    console.log(req.body.roomtype);
-    room_details.roomtype = req.body.roomtype;
-    return res.redirect("/paymentOption");
-}
-async function roomtype_page(req, res) {
-    console.log("Choosing roomtype page accessed");
-    console.log(room_details);
-    var room_left = [];
-    const roomtype = await Modeloption.findOne({
-        where: {
-            time: room_details.time
-        }
-    });
-    if (roomtype.small != 0) {
-        room_left.push('Small')
-    };
-    if (roomtype.medium != 0) {
-        room_left.push('Medium')
-    };
-    if (roomtype.large != 0) {
-        room_left.push('Large')
-    };
-    if (room_left.length == 0) {
-        console.log("There is no room left")
-        return res.render('user/noroom')
-    };
-    return res.render('user/roomtype', {
-        room_details, roomtype, room_left
-    });
-}
+// async function roomtype_process(req, res) {
+//     console.log(req.body.roomtype);
+//     room_details.roomtype = req.body.roomtype;
+//     return res.redirect("/paymentOption");
+// }
+// async function roomtype_page(req, res) {
+//     console.log("Choosing roomtype page accessed");
+//     console.log(room_details);
+//     var room_left = [];
+//     const roomtype = await Modeloption.findOne({
+//         where: {
+//             time: room_details.time
+//         }
+//     });
+//     if (roomtype.small != 0) {
+//         room_left.push('Small')
+//     };
+//     if (roomtype.medium != 0) {
+//         room_left.push('Medium')
+//     };
+//     if (roomtype.large != 0) {
+//         room_left.push('Large')
+//     };
+//     if (room_left.length == 0) {
+//         console.log("There is no room left")
+//         return res.render('user/noroom')
+//     };
+//     return res.render('user/roomtype', {
+//         room_details, roomtype, room_left
+//     });
+// }
 router.post("/date", async function (req, res) {
     console.log("Loooking for all the date");
     console.log(req.body);
