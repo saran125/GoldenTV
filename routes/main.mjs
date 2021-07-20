@@ -141,16 +141,18 @@ var storage = multer.diskStorage({
 // this code goes inside the object passed to multer()
 function fileFilter (req, file, cb) {    
 	// Allowed ext
-	 const filetypes = /jpeg|jpg|png|gif/;
+	const filetypes = /jpeg|jpg|png/;
     // Check ext
 	const extname =  filetypes.test(path.extname(file.originalname).toLowerCase());
     // Check mime
     const mimetype = filetypes.test(file.mimetype);
+
   
    if(mimetype && extname){
 	   return cb(null,true);
    } else {
-	   cb('Error: Images Only!');
+		cb('404');
+		// return res.render('404');
    }
   }
 
@@ -199,6 +201,19 @@ editrooms_process);
 
 router.get("/prod/editsong", editsong_page);
 router.post("/prod/editsong", editsong_process);
+
+router.get("/test", test_page);
+/**
+ * Renders the home page
+ * @param {Request}  req Express Request handle
+ * @param {Response} res Express Response handle
+ */
+// ---------------- 
+//	TODO:	Common URL paths here
+async function test_page(req, res) {
+	console.log("Home page accessed");
+	return res.render('404');
+}
 
 router.get("/prod/createmovie", createmovie_page);
 router.post("/prod/createmovie",  
@@ -365,6 +380,8 @@ async function edithomeimagepolicy_process(req, res, next) {
 	catch (error) {
 		console.error(`File is uploaded but something crashed`);
 		console.error(error);
+		DeleteFilePath(homeimageFile);
+		DeleteFilePath(homepolicyimageFile);
 		return res.render('edithomeimagepolicy', { 
 			hey: "Wrong Type of File."
 		});
