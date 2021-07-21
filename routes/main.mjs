@@ -366,6 +366,8 @@ async function edithomeimagepolicy_process(req, res, next) {
 				"homeinfo_uuid": "test"
 			}
 		});
+		const homeimage = './public/uploads/' + homeimagepolicy['homeimage'];
+		const homepolicyimage = './public/uploads/' + homeimagepolicy['homepolicyimage'];
 		homeimagepolicy.update({
 			// req.body.homepolicy
 			homepolicy: req.body.homepolicy,
@@ -373,6 +375,20 @@ async function edithomeimagepolicy_process(req, res, next) {
 			homepolicyimage: homepolicyimageFile.filename
 		});
 		homeimagepolicy.save();
+		fs.unlink(homeimage, function(err) {
+			if (err) {
+			  throw err
+			} else {
+			  console.log("Successfully deleted the file.")
+			}
+		  })
+		fs.unlink(homepolicyimage, function(err) {
+		if (err) {
+			throw err
+		} else {
+			console.log("Successfully deleted the file.")
+		}
+		})
 		// res.send(homeimagepath);
 		// res.send(homepolicyimagepath);
 		console.log('Description created: $(homeimagepolicy.email)');
@@ -788,7 +804,7 @@ async function updatesong_page(req, res) {
 	try {
 		const tid = String(req.params.song_uuid);
 		const song = await ModelSongs.findByPk(tid);
-		
+		const songimage = './public/uploads/' + song['songimage'];
 		song.update({
 			"songimage": req.file.filename,
 			"songname": req.body.songname,
@@ -805,6 +821,13 @@ async function updatesong_page(req, res) {
 			"songFolk": Boolean(req.body.songFolk)
 		});
 		song.save();
+		fs.unlink(songimage, function(err) {
+			if (err) {
+			  throw err
+			} else {
+			  console.log("Successfully deleted the file.")
+			}
+		  })
 		console.log('Description created: $(movie.email)');
 		return res.redirect("/prod/chooseeditsongstable");
 	}
@@ -1102,7 +1125,7 @@ async function editsong_process(req, res) {
 	try {
 		const tid = String(req.params.song_uuid);
 		const song = await ModelSongs.findByPk(tid);
-
+		const songimage = './public/uploads/' + song['songimage'];
 		song.update({
 			"songimage": req.file.filename,
 			"songname": req.body.songname,
@@ -1119,6 +1142,13 @@ async function editsong_process(req, res) {
 			"songFolk": req.body.songFolk
 		});
 		song.save();
+		fs.unlink(songimage, function(err) {
+			if (err) {
+			  throw err
+			} else {
+			  console.log("Successfully deleted the file.")
+			}
+		  })
 		console.log('Description created: $(editsong.email)');
 		return res.redirect("/prod/chooseeditsongstable");
 	}
