@@ -350,14 +350,6 @@ async function edithomeimagepolicy_page(req, res, next) {
  */
 async function edithomeimagepolicy_process(req, res, next) {
 	try {
-		const file = req.file;
-		//console.log(homeimage);
-		// if (!file) {
-		// 	const error = new Error("Please upload a file");
-		// 	error.httpStatusCode = 400;
-		// 	return next(error);
-		//   }
-
 		const homeimageFile = req.files.homeimage[0];
   		const homepolicyimageFile = req.files.homepolicyimage[0];
 		
@@ -389,8 +381,6 @@ async function edithomeimagepolicy_process(req, res, next) {
 			console.log("Successfully deleted the file.")
 		}
 		})
-		// res.send(homeimagepath);
-		// res.send(homepolicyimagepath);
 		console.log('Description created: $(homeimagepolicy.email)');
 		return res.redirect("/");
 	}
@@ -546,6 +536,12 @@ async function editrooms_process(req, res, next) {
 				"roominfo_uuid": "test"
 			}
 		});
+		const small_roomimage1 = './public/uploads/' + roomlist['small_roomimage1'];
+		const small_roomimage2 = './public/uploads/' + roomlist['small_roomimage2'];
+		const med_roomimage = './public/uploads/' + roomlist['med_roomimage'];
+		const large_roomimage1 = './public/uploads/' + roomlist['large_roomimage1'];
+		const large_roomimage2 = './public/uploads/' + roomlist['large_roomimage2'];
+
 		roomlist.update({
 			"room_title": req.body.room_title,
 			"small_roominfo": req.body.small_roominfo,
@@ -561,6 +557,42 @@ async function editrooms_process(req, res, next) {
 			"large_roomimage2": large_roomimage2File.filename
 		})
 		roomlist.save();
+		fs.unlink(small_roomimage1, function(err) {
+			if (err) {
+			  throw err
+			} else {
+				console.log("Successfully deleted the file.")
+				fs.unlink(small_roomimage2, function(err) {
+					if (err) {
+					  throw err
+					} else {
+						console.log("Successfully deleted the file.")
+						fs.unlink(med_roomimage, function(err) {
+							if (err) {
+							  throw err
+							} else {
+								console.log("Successfully deleted the file.")
+								fs.unlink(large_roomimage1, function(err) {
+									if (err) {
+									  throw err
+									} else {
+										console.log("Successfully deleted the file.")
+										fs.unlink(large_roomimage2, function(err) {
+											if (err) {
+											  throw err
+											} else {
+											  console.log("Successfully deleted the file.")
+											}
+										  })
+									}
+								  })
+							}
+						  })
+					}
+				  })
+			}
+		  })
+
 		console.log('Description created: $(roomlist.email)');
 		return res.redirect("/prod/list");
 	}
@@ -616,7 +648,6 @@ router.get ("/prod/deletemovie/:movie_uuid", deletemovie);
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
 		target.destroy();
-		fs.unlinkSync(movieimage);
 		console.log(`Deleted movie: ${tid}`);
 		return res.redirect("/prod/chooseeditmoviestable");
 	}
