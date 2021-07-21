@@ -4,11 +4,9 @@ const { Sequelize, DataTypes, Model, Op } = ORM;
 
 import { ModelUser } from './user.mjs';
 import { ModelHomeInfo } from '../data/homeinfo.mjs';
-// import { ModelHomeImagePolicy } from '../data/homeimagepolicy.mjs';
-// import { ModelBestReleases } from '../data/homebestreleases.mjs';
 import { ModelRoomInfo } from '../data/roominfo.mjs';
-import { ModelMovies } from '../data/movies.mjs';
-import { ModelSongs } from '../data/karaoke.mjs';
+import { ModelMovieInfo } from '../data/movieinfo.mjs';
+import { ModelSongInfo } from '../data/songinfo.mjs';
 import { ModelReview } from './review.mjs';
 import { ModelFaq } from './faq.mjs';
 import { Modelticket } from './ticket.mjs';
@@ -23,8 +21,8 @@ export function initialize_models(database) {
 		ModelUser.initialize(database);
 		ModelHomeInfo.initialize(database);
 		ModelRoomInfo.initialize(database);
-		ModelMovies.initialize(database);
-		ModelSongs.initialize(database);
+		ModelMovieInfo.initialize(database);
+		ModelSongInfo.initialize(database);
 		ModelReview.initialize(database);
 		ModelFaq.initialize(database);
 		Modelticket.initialize(database);
@@ -40,8 +38,8 @@ export function initialize_models(database) {
 		database.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, database));
 		database.addHook("afterBulkSync", generate_homeinfo.homeinfo_uuid, generate_homeinfo.bind(this, database));
 		database.addHook("afterBulkSync", generate_roominfo.roominfo_uuid, generate_roominfo.bind(this, database));
-		database.addHook("afterBulkSync", generate_movies.movie_uuid, generate_movies.bind(this, database));
-		database.addHook("afterBulkSync", generate_songs.song_uuid, generate_songs.bind(this, database));
+		database.addHook("afterBulkSync", generate_movieinfo.movieinfo_uuid, generate_movies.bind(this, database));
+		database.addHook("afterBulkSync", generate_songinfo.songinfo_uuid, generate_songs.bind(this, database));
 		database.addHook("afterBulkSync", generate_review.name, generate_review.bind(this, database));
 		database.addHook("afterBulkSync", generate_Faq.name, generate_Faq.bind(this, database));
 		database.addHook("afterBulkSync", generate_ticket.email, generate_ticket.bind(this, database));
@@ -175,35 +173,35 @@ export function initialize_models(database) {
  * @param {Sequelize} database Database ORM handle
  * @param {SyncOptions} options Synchronization options, not used
  */
- async function generate_movies(database, options) {
+ async function generate_movieinfo(database, options) {
 	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_movies.admin_uuid);
+	database.removeHook("afterBulkSync", generate_movieinfo.admin_uuid);
 	//	Create a root user if not exists otherwise update it
 	try {
 		console.log("Generate_movies");
 		const root_parameters = {	
-			movie_uuid    	: generate_movies.movie_uuid,
+			movie_uuid    	: generate_movieinfo.movie_uuid,
 			admin_uuid		: "00000000-0000-0000-0000-000000000000",
 			user_uuid		: "00000000-0000-0000-0000-000000000000",
-            movieimage		: generate_movies.movieimage,
-            moviename		: generate_movies.moviename,
-            movieagerating	: generate_movies.movieagerating,
-            movieduration	: generate_movies.movieduration,
+            movieimage		: generate_movieinfo.movieimage,
+            moviename		: generate_movieinfo.moviename,
+            movieagerating	: generate_movieinfo.movieagerating,
+            movieduration	: generate_movieinfo.movieduration,
 
-            movieHorror		: generate_movies.movieHorror,
-            movieComedy		: generate_movies.movieComedy,
-            movieScience	: generate_movies.movieScience,
-        	movieRomance	: generate_movies.movieRomance,
-            movieAnimation	: generate_movies.movieAnimation,
-            movieAdventure	: generate_movies.movieAdventure,
-            movieEmotional	: generate_movies.movieEmotional,
-            movieMystery	: generate_movies.movieMystery,
-            movieAction		: generate_movies.movieAction
+            movieHorror		: generate_movieinfo.movieHorror,
+            movieComedy		: generate_movieinfo.movieComedy,
+            movieScience	: generate_movieinfo.movieScience,
+        	movieRomance	: generate_movieinfo.movieRomance,
+            movieAnimation	: generate_movieinfo.movieAnimation,
+            movieAdventure	: generate_movieinfo.movieAdventure,
+            movieEmotional	: generate_movieinfo.movieEmotional,
+            movieMystery	: generate_movieinfo.movieMystery,
+            movieAction		: generate_movieinfo.movieAction
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelMovies.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
+		var account = await ModelMovieInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelMovies.create(root_parameters));
+		account = await ((account) ? account.update(root_parameters): ModelMovieInfo.create(root_parameters));
 		
 		console.log("== Gxenerated root account ==");
 		console.log(account.toJSON());
@@ -222,34 +220,34 @@ export function initialize_models(database) {
  * @param {Sequelize} database Database ORM handle
  * @param {SyncOptions} options Synchronization options, not used
  */
- async function generate_songs(database, options) {
+ async function generate_songinfo(database, options) {
 	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_songs.email);
+	database.removeHook("afterBulkSync", generate_songinfo.email);
 	//	Create a root user if not exists otherwise update it
 	try {
 		console.log("Generate_songs");
 		const root_parameters = {	
-			song_uuid    	: generate_songs.song_uuid,
+			song_uuid    	: generate_songinfo.song_uuid,
 			admin_uuid		: "00000000-0000-0000-0000-000000000000",
 			user_uuid		: "00000000-0000-0000-0000-000000000000",
-            songimage		: generate_songs.songimage,
-            songname		: generate_songs.songname,
-            songagerating	: generate_songs.songagerating,
-            songduration	: 1,
+            songimage		: generate_songinfo.songimage,
+            songname		: generate_songinfo.songname,
+            songagerating	: generate_songinfo.songagerating,
+            songduration	: generate_songinfo.songduration,
 
-            songPop			: generate_songs.songPop,
-            songRock		: generate_songs.songRock,
-            songMetal		: generate_songs.songMetal,
-        	songCountry		: generate_songs.songCountry,
-            songRap			: generate_songs.songRap,
-            songElectronic	: generate_songs.songElectronic,
-            songJazz		: generate_songs.songJazz,
-            songFolk		: generate_songs.songFolk
+            songPop			: generate_songinfo.songPop,
+            songRock		: generate_songinfo.songRock,
+            songMetal		: generate_songinfo.songMetal,
+        	songCountry		: generate_songinfo.songCountry,
+            songRap			: generate_songinfo.songRap,
+            songElectronic	: generate_songinfo.songElectronic,
+            songJazz		: generate_songinfo.songJazz,
+            songFolk		: generate_songinfo.songFolk
 		};
 		//	Find for existing account with the same id, create or update
-		var account = await ModelSongs.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
+		var account = await ModelSongInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelSongs.create(root_parameters));
+		account = await ((account) ? account.update(root_parameters): ModelSongInfo.create(root_parameters));
 		
 		console.log("== Gxenerated root account ==");
 		console.log(account.toJSON());

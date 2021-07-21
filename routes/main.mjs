@@ -5,8 +5,8 @@ import { flashMessage } from '../utils/flashmsg.mjs'
 // import axios from 'axios';
 import { ModelHomeInfo } from '../data/homeinfo.mjs';
 import { ModelRoomInfo } from '../data/roominfo.mjs';
-import { ModelMovies } from '../data/movies.mjs';
-import { ModelSongs } from '../data/karaoke.mjs';
+import { ModelMovieInfo } from '../data/movieinfo.mjs';
+import { ModelSongInfo } from '../data/songinfo.mjs';
 import Review from '../routes/user/review.mjs';
 import { Modelticket } from '../data/ticket.mjs';
 // import Passport from 'passport';
@@ -450,12 +450,12 @@ async function prodlist_page(req, res) {
 			"roominfo_uuid": "test"
 		}
 	});
-	const movies = await ModelMovies.findOne({
+	const movies = await ModelMovieInfo.findOne({
 		where: {
 			"movie_uuid": "test"
 		}
 	});
-	const songs = await ModelSongs.findOne({
+	const songs = await ModelSongInfo.findOne({
 		where: {
 			"song_uuid": "test"
 		}
@@ -638,7 +638,7 @@ router.get ("/prod/deletemovie/:movie_uuid", deletemovie);
 		const tid = String(req.params.movie_uuid);
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
-		const target = await ModelMovies.findByPk(tid);
+		const target = await ModelMovieInfo.findByPk(tid);
 		movieimage = target.movieimage
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
@@ -662,7 +662,7 @@ router.get ("/prod/deletemovie/:movie_uuid", deletemovie);
 //	TODO:	Common URL paths here
 async function updatemovie_page(req, res) {
 	const tid = String(req.params.movie_uuid);
-	const movie = await ModelMovies.findByPk(tid);
+	const movie = await ModelMovieInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
 	return res.render('updatemovie', 
 	{ movie : movie,
@@ -683,7 +683,7 @@ async function updatemovie_page(req, res) {
  async function updatemovie_process(req, res) {
 	try {
 		const tid = String(req.params.movie_uuid);
-		const movie = await ModelMovies.findByPk(tid);
+		const movie = await ModelMovieInfo.findByPk(tid);
 		const movieimage = './public/uploads/' + movie['movieimage'];
 		movie.update({
 			"movieimage": req.file.filename,
@@ -715,7 +715,7 @@ async function updatemovie_page(req, res) {
 	catch (error) {
 		console.error(`Failed to update user ${req.body.uuid}`);
 		console.error(error);
-		const movie  = await ModelMovies.findByPk(tid);
+		const movie  = await ModelMovieInfo.findByPk(tid);
 		return res.render("updatemovie",{ movie:movie });
 	}
 }
@@ -770,13 +770,13 @@ async function chooseeditmoviestable_data(req, res) {
 			}
 		} : undefined;
 
-		const total        = await ModelMovies.count({where: conditions});
+		const total        = await ModelMovieInfo.count({where: conditions});
 		const pageTotal    = Math.ceil(total / pageSize);
 		//	Clamp values to prevent overflow
 		//page   = (page   < pageTotal)? page : pageTotal;
 		//offset = (page - 1) * pageSize;
 
-		const pageContents = await ModelMovies.findAll({
+		const pageContents = await ModelMovieInfo.findAll({
 			offset: offset,
 			limit:  pageSize,
 			order: [[sortBy, sortOrder.toUpperCase()]],
@@ -814,7 +814,7 @@ router.get ("/prod/deletesong/:song_uuid", deletesong);
 //	TODO:	Common URL paths here
 async function updatesong_page(req, res) {
 	const tid = String(req.params.song_uuid);
-	const song = await ModelSongs.findByPk(tid);
+	const song = await ModelSongInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
 	return res.render('updatesong', 
 	{ song :song}
@@ -829,7 +829,7 @@ async function updatesong_page(req, res) {
  async function updatesong_process(req, res) {
 	try {
 		const tid = String(req.params.song_uuid);
-		const song = await ModelSongs.findByPk(tid);
+		const song = await ModelSongInfo.findByPk(tid);
 		const songimage = './public/uploads/' + song['songimage'];
 		song.update({
 			"songimage": req.file.filename,
@@ -860,7 +860,7 @@ async function updatesong_page(req, res) {
 	catch (error) {
 		console.error(`Failed to update user ${req.body.uuid}`);
 		console.error(error);
-		const song  = await ModelSongs.findByPk(tid);
+		const song  = await ModelSongInfo.findByPk(tid);
 		return res.render("updatesong",{song:song});
 	}
 }
@@ -915,13 +915,13 @@ async function chooseeditsongstable_data(req, res) {
 			}
 		} : undefined;
 
-		const total        = await ModelSongs.count({where: conditions});
+		const total        = await ModelSongInfo.count({where: conditions});
 		const pageTotal    = Math.ceil(total / pageSize);
 		//	Clamp values to prevent overflow
 		//page   = (page   < pageTotal)? page : pageTotal;
 		//offset = (page - 1) * pageSize;
 
-		const pageContents = await ModelSongs.findAll({
+		const pageContents = await ModelSongInfo.findAll({
 			offset: offset,
 			limit:  pageSize,
 			order: [[sortBy, sortOrder.toUpperCase()]],
@@ -963,7 +963,7 @@ async function createmovie_page(req, res) {
 async function createmovie_process(req, res, next) {
 	try {
 		// const movieimageFile = req.file[0];
-		const createmovies = await ModelMovies.create({
+		const createmovies = await ModelMovieInfo.create({
 			"movie_uuid": req.body.movie_uuid,
 			"admin_uuid": "00000000-0000-0000-0000-000000000000",
 			"user_uuid" : "00000000-0000-0000-0000-000000000000",
@@ -1068,7 +1068,7 @@ async function createsong_page(req, res) {
 
 async function createsong_process(req, res) {
 	try {
-		const createsongs = await ModelSongs.create({
+		const createsongs = await ModelSongInfo.create({
 			"song_uuid": req.body.song_uuid,
 			"admin_uuid": "00000000-0000-0000-0000-000000000000",
 			"user_uuid" : "00000000-0000-0000-0000-000000000000",
@@ -1113,7 +1113,7 @@ async function createsong_process(req, res) {
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
 
-		const target = await ModelSongs.findByPk(tid);
+		const target = await ModelSongInfo.findByPk(tid);
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
 		target.destroy();
@@ -1150,7 +1150,7 @@ async function editsong_page(req, res) {
 async function editsong_process(req, res) {
 	try {
 		const tid = String(req.params.song_uuid);
-		const song = await ModelSongs.findByPk(tid);
+		const song = await ModelSongInfo.findByPk(tid);
 		const songimage = './public/uploads/' + song['songimage'];
 		song.update({
 			"songimage": req.file.filename,
@@ -1181,7 +1181,7 @@ async function editsong_process(req, res) {
 	catch (error) {
 		console.error(`Failed to update user ${req.body.song_uuid}`);
 		console.error(error);
-		const song = await ModelSongs.findByPk(tid);
+		const song = await ModelSongInfo.findByPk(tid);
 		return res.render("updatesong",{ song:song });
 	}
 }

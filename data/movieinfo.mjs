@@ -6,7 +6,7 @@ const { Sequelize, DataTypes, Model, Op } = ORM;
  * This model is specifically designed for users
  * @see "https://sequelize.org/master/manual/model-basics.html#taking-advantage-of-models-being-classes"
 **/
-export class ModelMovies extends Model {
+export class ModelMovieInfo extends Model {
 	/**
 	 * Initializer of the model
 	 * @see Model.init
@@ -14,7 +14,7 @@ export class ModelMovies extends Model {
 	 * @param {Sequelize} database The configured Sequelize handle
 	**/
 	static initialize(database) {
-		ModelMovies.init({
+		ModelMovieInfo.init({
 			"movie_uuid" : { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
@@ -87,9 +87,9 @@ export class ModelMovies extends Model {
 			}
 		}, {
 			"sequelize": database,
-			"modelName": "Movie",
+			"modelName": "MovieInfo",
 			"hooks"    : {
-				"afterUpdate": ModelMovies._auto_update_timestamp
+				"afterUpdate": ModelMovieInfo._auto_update_timestamp
 			}
 		});
 	}
@@ -98,7 +98,7 @@ export class ModelMovies extends Model {
 	 * Emulates "TRIGGER" of "AFTER UPDATE" in most SQL databases.
 	 * This function simply assist to update the 'dateUpdated' timestamp.
 	 * @private
-	 * @param {ModelMovies}     instance The entity model to be updated
+	 * @param {ModelMovieInfo}     instance The entity model to be updated
 	 * @param {UpdateOptions} options  Additional options of update propagated from the initial call
 	**/
 	static _auto_update_timestamp(instance, options) {

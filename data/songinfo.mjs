@@ -6,7 +6,7 @@ const { Sequelize, DataTypes, Model } = ORM;
  * This model is specifically designed for users
  * @see "https://sequelize.org/master/manual/model-basics.html#taking-advantage-of-models-being-classes"
 **/
-export class ModelSongs extends Model {
+export class ModelSongInfo extends Model {
 	/**
 	 * Initializer of the model
 	 * @see Model.init
@@ -14,7 +14,7 @@ export class ModelSongs extends Model {
 	 * @param {Sequelize} database The configured Sequelize handle
 	**/
 	static initialize(database) {
-		ModelSongs.init({
+		ModelSongInfo.init({
 			"song_uuid"   : { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
@@ -36,9 +36,9 @@ export class ModelSongs extends Model {
             "songFolk" : { type: DataTypes.STRING(65), allowNull: false }
 		}, {
 			"sequelize": database,
-			"modelName": "Song",
+			"modelName": "SongInfo",
 			"hooks"    : {
-				"afterUpdate": ModelSongs._auto_update_timestamp
+				"afterUpdate": ModelSongInfo._auto_update_timestamp
 			}
 		});
 	}
@@ -47,7 +47,7 @@ export class ModelSongs extends Model {
 	 * Emulates "TRIGGER" of "AFTER UPDATE" in most SQL databases.
 	 * This function simply assist to update the 'dateUpdated' timestamp.
 	 * @private
-	 * @param {ModelSongs}     instance The entity model to be updated
+	 * @param {ModelSongInfo}     instance The entity model to be updated
 	 * @param {UpdateOptions} options  Additional options of update propagated from the initial call
 	**/
 	static _auto_update_timestamp(instance, options) {
