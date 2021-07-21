@@ -112,6 +112,17 @@ button:focus {
     display: none
 }
 </style>
+<style>
+    table,
+    td,
+    th {
+        border: 1px solid black;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+</style>
 <div class="container mt-5">
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-md-8">
@@ -253,17 +264,20 @@ button:focus {
         </script>
         <script>
             async function myroom() {
-                        var l = document.getElementById("venue").value,
-                        var d = document.getElementById("date").value,
-                        var t =  document.getElementById("time").value,
-                        var r = document.getElementById("room").value
+                        var l = document.getElementById("venue").value;
+                        var d = document.getElementById("date").value;
+                        var t =  document.getElementById("time").value;
+                        var r = document.getElementById("room").value;
+                        document.getElementById("location").innerHTML = l;
+                        document.getElementById("showdate").innerHTML = d;
+                        document.getElementById("timeslot").innerHTML = t;
+                        document.getElementById("roomtype").innerHTML = r;
+
             }
         </script>
 <script>
     var currentTab = 0;
         document.addEventListener("DOMContentLoaded", function (event) {
-
-
             showTab(currentTab);
 
         });

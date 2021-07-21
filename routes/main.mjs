@@ -28,54 +28,29 @@ export default router;
 
 import Admin from '../routes/admin/admin.js';
 import User from '../routes/user/user.js';
+import ticket from '../routes/user/ticket.mjs';
 // router.use("/sendemail", Email);
-router.use("/admin", Admin)
-router.use('/user', User)
+router.use("/admin", Admin);
+router.use('/user', User);
+router.use('/ticket', ticket);
 router.use("/payment", payment);
 router.get("/paymentOption", async function (req, res) {
 	console.log("Choosing payment method");
 	return res.render('user/PaymentOption');
 });
-router.get("/ticketlist/tickettable", tickettable);
-router.get("/ticketlist/tickettable-data", tickettable_data);
-async function tickettable(req, res) {
-	return res.render('user/tickets');
-}
-async function tickettable_data(req, res) {
-	const ticket = await Modelticket.findAll({ raw: true });
-	return res.json({
-		"total": ticket.length,
-		"rows": ticket
-	});
-}
+function role(role) {
+	if (role == 'admin') { // if it is admin, return true
+		var user = false;
+		var admin = true;
+	}
+	else if (role == 'customer') {
+		// if it is user, return true
+		var user = true;
+		var admin = false;
+	}
 
-router.get("/view/:uuid", async function (req, res, next) {
-	const tid = req.params.uuid;
-	console.log("ticket page accessed");
-	try {
-		if (tid == undefined) {
-			throw new HttpError(400, "Target user id is invalid");
-		}
-		const target_user = await Modelticket.findOne({
-			where: {
-				uuid: tid
-			}
-		});
-		if (target_user == null) {
-			throw new HttpError(410, "User doesn't exists");
-		}
-		console.log(target_user);
-		return res.render("user/view", {
-			target: target_user
-		});
-	}
-	catch (error) {
-		console.error(`Invalid request: ${tid}`);
-		error.code = (error.code == undefined) ? 500 : error.code;
-		console.log(error);
-		return next(error);
-	}
-});
+	return [user, admin];
+}
 /**
  * @param database {ORM.Sequelize}
  */

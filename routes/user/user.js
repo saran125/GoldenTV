@@ -12,7 +12,7 @@ export var room_details = { location: '', time: '', choice: '', uuid: '', roomty
 async function booking_process(req, res) {
     console.log('Description created: $(booking.choice)');
     try {
-        console.log(req.body.time);
+        console.log(req.body);
         const roomtype = await Modeloption.findOne({ where: { time: req.body.time, location:req.body.location, date:req.body.date } });
         console.log(roomtype);
         console.log(roomtype.uuid);
@@ -164,10 +164,10 @@ router.post("/roomtype", async function (req, res) {
     if (roomtype.large != 0) {
         room_left.push('Large')
     };
-    if (room_left.length == 0) {
-        console.log("There is no room left")
-        return res.render('user/noroom')
-    };
+    // if (room_left.length == 0) {
+    //     console.log("There is no room left")
+    //     return res.render('user/noroom')
+    // };
     console.log(room_left);
     return res.json({
         room: room_left
