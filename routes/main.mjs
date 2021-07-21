@@ -558,29 +558,24 @@ async function editrooms_process(req, res, next) {
 		})
 		roomlist.save();
 		fs.unlink(small_roomimage1, function(err) {
-			if (err) {
-			  throw err
-			} else {
+			if (err) { throw err } 
+			else {
 				console.log("Successfully deleted the file.")
 				fs.unlink(small_roomimage2, function(err) {
-					if (err) {
-					  throw err
-					} else {
+					if (err) { throw err } 
+					else {
 						console.log("Successfully deleted the file.")
 						fs.unlink(med_roomimage, function(err) {
-							if (err) {
-							  throw err
-							} else {
+							if (err) { throw err } 
+							else {
 								console.log("Successfully deleted the file.")
 								fs.unlink(large_roomimage1, function(err) {
-									if (err) {
-									  throw err
-									} else {
+									if (err) { throw err } 
+									else {
 										console.log("Successfully deleted the file.")
 										fs.unlink(large_roomimage2, function(err) {
-											if (err) {
-											  throw err
-											} else {
+											if (err) { throw err } 
+											else {
 											  console.log("Successfully deleted the file.")
 											}
 										  })
