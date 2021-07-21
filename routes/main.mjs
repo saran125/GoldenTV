@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { Op } from '../data/database.mjs';
 import { flashMessage } from '../utils/flashmsg.mjs'
-// import { upload } from '../utils/multer.mjs'
 // import { UploadFile, UploadTo, DeleteFile, DeleteFilePath } from '../utils/multer.mjs';
 // import axios from 'axios';
 import { ModelHomeInfo } from '../data/homeinfo.mjs';
@@ -13,12 +12,12 @@ import { Modelticket } from '../data/ticket.mjs';
 // import Passport from 'passport';
 import path from 'path';
 import multer from 'multer';
+// import { DeleteFile } from '../utils/multer.mjs'
 import fs from 'fs';
 import express from 'express';
 import methodOverride from 'method-override';
 import payment from '../routes/payment.mjs';
 import { ModelReview } from '../data/review.mjs';
-
 // import {ModelRoomReview} from '../data/roomreview.mjs';
 import RouterReview from './user/review.mjs';
 import Routerfaq from './admin/faq.mjs';
@@ -116,6 +115,8 @@ router.use("/auth", RouterAuth);
 // router.use(bodyParser.urlencoded({extended: false}));
 // router.use(bodyParser.json());
 
+// const ensureAuthenticated = require('../helpers/auth');
+
 // Creates static folder for publicly accessible HTML, CSS and Javascript files
 router.use(express.static(path.join(process.cwd(), 'public')));
 
@@ -134,14 +135,14 @@ var storage = multer.diskStorage({
 		callback(null, './public/uploads/');
 	},
 	filename: (req, file, callback) => {
-		callback(null, file.originalname);
+		callback(null, Date.now() + file.originalname);
 	}
 });
 
 // this code goes inside the object passed to multer()
 function fileFilter (req, file, cb) {    
 	// Allowed ext
-	const filetypes = /jpeg|jpg|png/;
+	const filetypes = /jpeg|jpg|png|webp/;
     // Check ext
 	const extname =  filetypes.test(path.extname(file.originalname).toLowerCase());
     // Check mime
@@ -594,13 +595,12 @@ router.get ("/prod/deletemovie/:movie_uuid", deletemovie);
 		const tid = String(req.params.movie_uuid);
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
-
 		const target = await ModelMovies.findByPk(tid);
-
+		movieimage = target.movieimage
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
-
 		target.destroy();
+		fs.unlinkSync(movieimage);
 		console.log(`Deleted movie: ${tid}`);
 		return res.redirect("/prod/chooseeditmoviestable");
 	}
@@ -642,7 +642,7 @@ async function updatemovie_page(req, res) {
 	try {
 		const tid = String(req.params.movie_uuid);
 		const movie = await ModelMovies.findByPk(tid);
-		
+		const movieimage = './public/uploads/' + movie['movieimage'];
 		movie.update({
 			"movieimage": req.file.filename,
 			"moviename": req.body.moviename,
@@ -660,6 +660,13 @@ async function updatemovie_page(req, res) {
 			"movieAction": Boolean(req.body.movieAction)
 		});
 		movie.save();
+		fs.unlink(movieimage, function(err) {
+			if (err) {
+			  throw err
+			} else {
+			  console.log("Successfully deleted the file.")
+			}
+		  })
 		console.log('Description created: $(movie.email)');
 		return res.redirect("/prod/chooseeditmoviestable");
 	}
@@ -1058,10 +1065,8 @@ async function createsong_process(req, res) {
 		// 	throw new HttpError(400, "Target not specified");
 
 		const target = await ModelSongs.findByPk(tid);
-
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
-
 		target.destroy();
 		console.log(`Deleted song: ${tid}`);
 		return res.redirect("/prod/chooseeditsongstable");
@@ -1095,8 +1100,11 @@ async function editsong_page(req, res) {
 
 async function editsong_process(req, res) {
 	try {
-		const editsong = await ModelSongs.create({
-			"songimage": req.body.songimage,
+		const tid = String(req.params.song_uuid);
+		const song = await ModelSongs.findByPk(tid);
+
+		song.update({
+			"songimage": req.file.filename,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
 			"songduration": req.body.songduration,
@@ -1110,12 +1118,15 @@ async function editsong_process(req, res) {
 			"songJazz": req.body.songJazz,
 			"songFolk": req.body.songFolk
 		});
+		song.save();
 		console.log('Description created: $(editsong.email)');
+		return res.redirect("/prod/chooseeditsongstable");
 	}
 	catch (error) {
-		console.error(`Credentials problem: ${req.body.email}`);
+		console.error(`Failed to update user ${req.body.song_uuid}`);
 		console.error(error);
-		return res.render('home', { errors: errors });
+		const song = await ModelSongs.findByPk(tid);
+		return res.render("updatesong",{ song:song });
 	}
 }
 
