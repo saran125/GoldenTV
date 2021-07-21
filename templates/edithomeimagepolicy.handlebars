@@ -9,14 +9,17 @@
 <form method="post" action="/edithomeimagepolicy" name="" enctype="multipart/form-data">
 
   <div class="form-group">
-    
     {{ hey }} 
     {{!-- Gonna replace with flashmsg --}}
-
   <h5>Home Image</h5>
-  <input type="file" name="homeimage" value="{{ homeimagepolicy.homeimage}}" accept="image/png,image/jpeg,image/jpg,image/gif" required>
+  <input type="file" id="homeimage" 
+  onchange="document.getElementById('imagedisplay1').src = window.URL.createObjectURL(this.files[0])" 
+  name="homeimage" value="{{homeimage}}" required>  
+
+  <img id="imagedisplay1" src="/public/uploads/{{ homeimagepolicy.homeimage }}"
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
-  {{!-- <img src="<%= typeof homeimage != 'undefined' ? homeimage : '' %>" class="responsive-img"> --}}
 
   <h5>Home Policy</h5>
   <div class="form-group">
@@ -25,7 +28,13 @@
 
   <h5>Policy Image</h5>
   <div>
-  <input type="file" value="{{ homeimagepolicy.homepolicyimage}}" name="homepolicyimage" accept="image/png,image/jpeg,image/jpg,image/gif" required>
+  <input type="file" id="homepolicyimage" 
+  onchange="document.getElementById('imagedisplay2').src = window.URL.createObjectURL(this.files[0])" 
+  name="homepolicyimage" value="{{homepolicyimage}}" required>  
+
+  <img id="imagedisplay2" src="/public/uploads/{{ homeimagepolicy.homepolicyimage }}"
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 600px; height: 100px; padding-bottom: 5px;">
   </div>
   
   <div class="blackblock1">

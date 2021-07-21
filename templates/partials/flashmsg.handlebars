@@ -1,3 +1,8 @@
+<style>
+	*{
+		color: black;
+	}
+</style>
 {{#if flashMessenger }}
 	{{#each flashMessenger.alertsBeforeFlush}}
 		<div class="alert alert-{{this.type}} {{#if this.canBeDismissed}}alertdismissible{{/if}} z-index:9999">

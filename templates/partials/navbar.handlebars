@@ -99,12 +99,19 @@ div.clock {
 				<li class="nav-item">
 					<a class="nav-link" href="/contactus">About Us</a>
 				</li>
+				{{#if admin}}
 				<li class="nav-item">
 					<a class="nav-link" href="/businessstatistics">Statistics</a>
-				</li>		
+				</li>
+				{{/if}}		
+				{{#if user}}
 				<li class="nav-item">
 					<a class="nav-link" href="/ticketlist/tickettable">My Tickets</a>
-				</li>										
+				</li>
+				{{/if}}
+				{{!-- <li class="nav-item">
+					<a class="nav-link" href="/test">test404</a>
+				</li>											 --}}
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				{{#if user}}
@@ -112,6 +119,7 @@ div.clock {
 						<a href="/auth/logout" class="nav-link">Logout</a>
 					</li>
 				{{else}}
+				{{#if admin}}
 				<li class="nav-item dropdown">
 					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Admin</a>
 					<div class="dropdown-menu">
@@ -120,6 +128,7 @@ div.clock {
 						<a href="/admin/viewoption" class="dropdown-item">Manage all the Options</a>
 					</div>
 				</li>
+				{{/if}}
 					<li class="nav-item">
 						{{!-- main.js router(/login)--}}
 						<a href="/auth/login" class="nav-link">Login</a>
@@ -127,9 +136,11 @@ div.clock {
 					<li class="nav-item">
 						<a href="/auth/register" class="nav-link">Register</a>
 					</li>
+					{{#if user }}
 					<li class="nav-item">
 						<a href="/auth/profile" class="nav-link">Profile</a>
 					</li>
+				{{/if}}
 				{{/if}}
 			</ul>
 		</div>

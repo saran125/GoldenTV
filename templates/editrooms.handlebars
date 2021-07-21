@@ -6,8 +6,7 @@ body {
 
 div.blackblock {
   background-color: black;
-  width: 800px;
-  height: 358px;
+  height: 25px;
 }
 
 .btn#query {
@@ -36,19 +35,32 @@ div.blackblock {
   <input type="small_roominfo" name="small_roominfo" class="form-control" value="{{roomlist.small_roominfo}}" required>
   </div>
 
-  <div class="form-group">
   <h5>Small Room Price</h5>
+  <div class="form-group">
+  <h5 style="float: left;">$   </h5>
   <input type="number" step="any" style="width: 100px;" name="small_roomprice" min="0" class="form-control" value="{{roomlist.small_roomprice}}" required>
   </div>
 
   <div class="form-group">
   <h5>Small Room Image 1</h5>
-  <input type="file" name="small_roomimage1" value="{{roomlist.small_roomimage1}}" required>
+  <input type="file" id="small_roomimage1" 
+  onchange="document.getElementById('imagedisplay1').src = window.URL.createObjectURL(this.files[0])" 
+  name="small_roomimage1" value="{{small_roomimage1}}" required>  
+
+  <img id="imagedisplay1" src="/public/uploads/{{ roomlist.small_roomimage1 }}"
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
   <h5>Small Room Image 2</h5>
-  <input type="file" name="small_roomimage2" value="{{roomlist.small_roomimage2}}" required>
+  <input type="file" id="small_roomimage2" 
+  onchange="document.getElementById('imagedisplay2').src = window.URL.createObjectURL(this.files[0])" 
+  name="small_roomimage2" value="{{small_roomimage2}}" required>  
+
+  <img id="imagedisplay2" src="/public/uploads/{{ roomlist.small_roomimage2 }}"
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
@@ -58,12 +70,19 @@ div.blackblock {
 
   <div class="form-group">
   <h5>Medium Room Price</h5>
+  <h5 style="float: left;">$   </h5>
   <input type="number" step="any" style="width: 100px;" name="med_roomprice" min="0" class="form-control" value="{{roomlist.med_roomprice}}" required>
   </div> 
 
   <div class="form-group">
   <h5>Medium Room Image</h5>
-  <input type="file" name="med_roomimage" value="{{roomlist.med_roomimage}}" required>
+  <input type="file" id="med_roomimage" 
+  onchange="document.getElementById('imagedisplay3').src = window.URL.createObjectURL(this.files[0])" 
+  name="med_roomimage" value="{{med_roomimage}}" required>  
+
+  <img id="imagedisplay3" src="/public/uploads/{{ roomlist.med_roomimage }}"
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
@@ -73,12 +92,19 @@ div.blackblock {
 
   <div class="form-group">
   <h5>Large Room Price</h5>
+  <h5 style="float: left;">$   </h5>
   <input type="number" step="any" style="width: 100px;" name="large_roomprice" min="0" class="form-control" value="{{roomlist.large_roomprice}}" required>
   </div> 
 
   <div class="form-group">
   <h5>Large Room Image 1</h5>
-  <input type="file" name="large_roomimage1" value="{{roomlist.large_roomimage1}}" required>
+  <input type="file" id="large_roomimage1" 
+  onchange="document.getElementById('imagedisplay4').src = window.URL.createObjectURL(this.files[0])" 
+  name="large_roomimage1" value="{{large_roomimage1}}" required>  
+
+  <img id="imagedisplay4" src="/public/uploads/{{ roomlist.large_roomimage1 }}"
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
@@ -86,11 +112,22 @@ div.blackblock {
   <input type="file" name="large_roomimage2" value="{{roomlist.large_roomimage2}}" required>
   </div>
 
+  <div class="form-group">
+  <h5>Large Room Image 2</h5>
+  <input type="file" id="large_roomimage2" 
+  onchange="document.getElementById('imagedisplay5').src = window.URL.createObjectURL(this.files[0])" 
+  name="large_roomimage2" value="{{large_roomimage2}}" required>  
+
+  <img id="imagedisplay5" src="/public/uploads/{{ roomlist.large_roomimage2 }}"
+  alt="" class="border img-thumbnail img-fluid"
+  style="width: 110px; height: 160px; padding-bottom: 5px;">
+  </div>
+
   <div class="submit">
     <input class="btn" id="query" type="submit">
   </div>
 
-  <div class="blackblock1">
+  <div class="blackblock">
   </div>
 </form>
 </body>

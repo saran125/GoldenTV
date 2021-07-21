@@ -1,13 +1,12 @@
 import { Router } from 'express';
 import { Op } from '../data/database.mjs';
 import { flashMessage } from '../utils/flashmsg.mjs'
-// import { upload } from '../utils/multer.mjs'
 // import { UploadFile, UploadTo, DeleteFile, DeleteFilePath } from '../utils/multer.mjs';
 // import axios from 'axios';
 import { ModelHomeInfo } from '../data/homeinfo.mjs';
 import { ModelRoomInfo } from '../data/roominfo.mjs';
-import { ModelMovies } from '../data/movies.mjs';
-import { ModelSongs } from '../data/karaoke.mjs';
+import { ModelMovieInfo } from '../data/movieinfo.mjs';
+import { ModelSongInfo } from '../data/songinfo.mjs';
 import Review from '../routes/user/review.mjs';
 import { Modelticket } from '../data/ticket.mjs';
 // import Passport from 'passport';
@@ -18,11 +17,11 @@ import express from 'express';
 import methodOverride from 'method-override';
 import payment from '../routes/payment.mjs';
 import { ModelReview } from '../data/review.mjs';
-
 // import {ModelRoomReview} from '../data/roomreview.mjs';
 import RouterReview from './user/review.mjs';
 import Routerfaq from './admin/faq.mjs';
 // import RouterRoomReview from './roomreview.mjs';
+// const exphbs = require('express-handlebars');
 const router = Router();
 export default router;
 
@@ -43,7 +42,7 @@ function role(role) {
 		var user = false;
 		var admin = true;
 	}
-	else if (role == 'customer') {
+	else if (role == 'user') {
 		// if it is user, return true
 		var user = true;
 		var admin = false;
@@ -60,9 +59,9 @@ export function initialize_models(database) {
 		//	Initialzie models
 		ModelUser.initialize(database);
 		ModelHomeInfo.initialize(database);
-		ModelRooms.initialize(database);
+		ModelRoomInfo.initialize(database);
 		ModelMovies.initialize(database);
-		ModelSongs.initialize(database);
+		ModelSongInfo.initialize(database);
 
 		console.log("Building ORM model relations and indices");
 		//	Create relations between models or tables
@@ -91,13 +90,17 @@ router.use("/auth", RouterAuth);
 // router.use(bodyParser.urlencoded({extended: false}));
 // router.use(bodyParser.json());
 
+// const ensureAuthenticated = require('../helpers/auth');
+
 // Creates static folder for publicly accessible HTML, CSS and Javascript files
 router.use(express.static(path.join(process.cwd(), 'public')));
 
 router.use(methodOverride('_method'));
 
 router.get("/", home_page);
-router.get("/home", home_page);
+router.get("/home", async function (req, res) {
+	return res.redirect("/");
+});
 // '/edit/:id'
 router.get("/edithomedes", edithomedescription_page);
 router.post("/edithomedes", edithomedescription_process);
@@ -109,23 +112,25 @@ var storage = multer.diskStorage({
 		callback(null, './public/uploads/');
 	},
 	filename: (req, file, callback) => {
-		callback(null, file.originalname);
+		callback(null, Date.now() + file.originalname);
 	}
 });
 
 // this code goes inside the object passed to multer()
 function fileFilter (req, file, cb) {    
 	// Allowed ext
-	 const filetypes = /jpeg|jpg|png|gif/;
+	const filetypes = /jpeg|jpg|png|webp/;
     // Check ext
 	const extname =  filetypes.test(path.extname(file.originalname).toLowerCase());
     // Check mime
     const mimetype = filetypes.test(file.mimetype);
+
   
    if(mimetype && extname){
 	   return cb(null,true);
    } else {
-	   cb('Error: Images Only!');
+		cb('404');
+		// return res.render('404');
    }
   }
 
@@ -175,6 +180,19 @@ editrooms_process);
 router.get("/prod/editsong", editsong_page);
 router.post("/prod/editsong", editsong_process);
 
+router.get("/test", test_page);
+/**
+ * Renders the home page
+ * @param {Request}  req Express Request handle
+ * @param {Response} res Express Response handle
+ */
+// ---------------- 
+//	TODO:	Common URL paths here
+async function test_page(req, res) {
+	console.log("Home page accessed");
+	return res.render('404');
+}
+
 router.get("/prod/createmovie", createmovie_page);
 router.post("/prod/createmovie",  
 upload.single('movieimage'),
@@ -222,17 +240,43 @@ async function home_page(req, res) {
 			"homeinfo_uuid" : "test"
 		}
 	});
-	console.log("Home page accessed");
-	return res.render('home', {
-		homedescription: homeinfo.homedescription,
-		homepolicy: homeinfo.homepolicy,
-		homeimage: homeinfo.homeimage,
-		homepolicyimage: homeinfo.homepolicyimage,
-		release_name1: "Ending in 2 days!",
-		release_name2: "Coming Soon!",
-		release_name3: "Out Now!",
-		release_name4: "Out Now!"
-	});
+	
+	console.log(role);
+	if (role != undefined) {
+		var role = roleResult(req.user.role);
+		var user  = role[0];
+		var admin = role[1];
+		console.log("user: " + user);
+		console.log("admin: " + admin);
+
+		return res.render('home', {
+			admin: admin,
+			user: user,
+			homedescription: homeinfo.homedescription,
+			homepolicy: homeinfo.homepolicy,
+			homeimage: homeinfo.homeimage,
+			homepolicyimage: homeinfo.homepolicyimage,
+			release_name1: "Ending in 2 days!",
+			release_name2: "Coming Soon!",
+			release_name3: "Out Now!",
+			release_name4: "Out Now!"
+		});
+	}
+	else {
+		// logout, just render index.handlebars
+		console.log("Home page accessed");
+		return res.render('home', {
+			homedescription: homeinfo.homedescription,
+			homepolicy: homeinfo.homepolicy,
+			homeimage: homeinfo.homeimage,
+			homepolicyimage: homeinfo.homepolicyimage,
+			release_name1: "Ending in 2 days!",
+			release_name2: "Coming Soon!",
+			release_name3: "Out Now!",
+			release_name4: "Out Now!"
+		});
+	}
+	
 }
 
 /**
@@ -309,14 +353,6 @@ async function edithomeimagepolicy_page(req, res, next) {
  */
 async function edithomeimagepolicy_process(req, res, next) {
 	try {
-		const file = req.file;
-		//console.log(homeimage);
-		// if (!file) {
-		// 	const error = new Error("Please upload a file");
-		// 	error.httpStatusCode = 400;
-		// 	return next(error);
-		//   }
-
 		const homeimageFile = req.files.homeimage[0];
   		const homepolicyimageFile = req.files.homepolicyimage[0];
 		
@@ -325,6 +361,8 @@ async function edithomeimagepolicy_process(req, res, next) {
 				"homeinfo_uuid": "test"
 			}
 		});
+		const homeimage = './public/uploads/' + homeimagepolicy['homeimage'];
+		const homepolicyimage = './public/uploads/' + homeimagepolicy['homepolicyimage'];
 		homeimagepolicy.update({
 			// req.body.homepolicy
 			homepolicy: req.body.homepolicy,
@@ -332,14 +370,28 @@ async function edithomeimagepolicy_process(req, res, next) {
 			homepolicyimage: homepolicyimageFile.filename
 		});
 		homeimagepolicy.save();
-		// res.send(homeimagepath);
-		// res.send(homepolicyimagepath);
+		fs.unlink(homeimage, function(err) {
+			if (err) {
+			  throw err
+			} else {
+			  console.log("Successfully deleted the file.")
+			}
+		  })
+		fs.unlink(homepolicyimage, function(err) {
+		if (err) {
+			throw err
+		} else {
+			console.log("Successfully deleted the file.")
+		}
+		})
 		console.log('Description created: $(homeimagepolicy.email)');
 		return res.redirect("/");
 	}
 	catch (error) {
 		console.error(`File is uploaded but something crashed`);
 		console.error(error);
+		DeleteFilePath(homeimageFile);
+		DeleteFilePath(homepolicyimageFile);
 		return res.render('edithomeimagepolicy', { 
 			hey: "Wrong Type of File."
 		});
@@ -401,12 +453,12 @@ async function prodlist_page(req, res) {
 			"roominfo_uuid": "test"
 		}
 	});
-	const movies = await ModelMovies.findOne({
+	const movies = await ModelMovieInfo.findOne({
 		where: {
 			"movie_uuid": "test"
 		}
 	});
-	const songs = await ModelSongs.findOne({
+	const songs = await ModelSongInfo.findOne({
 		where: {
 			"song_uuid": "test"
 		}
@@ -487,6 +539,12 @@ async function editrooms_process(req, res, next) {
 				"roominfo_uuid": "test"
 			}
 		});
+		const small_roomimage1 = './public/uploads/' + roomlist['small_roomimage1'];
+		const small_roomimage2 = './public/uploads/' + roomlist['small_roomimage2'];
+		const med_roomimage = './public/uploads/' + roomlist['med_roomimage'];
+		const large_roomimage1 = './public/uploads/' + roomlist['large_roomimage1'];
+		const large_roomimage2 = './public/uploads/' + roomlist['large_roomimage2'];
+
 		roomlist.update({
 			"room_title": req.body.room_title,
 			"small_roominfo": req.body.small_roominfo,
@@ -502,6 +560,37 @@ async function editrooms_process(req, res, next) {
 			"large_roomimage2": large_roomimage2File.filename
 		})
 		roomlist.save();
+		fs.unlink(small_roomimage1, function(err) {
+			if (err) { throw err } 
+			else {
+				console.log("Successfully deleted the file.")
+				fs.unlink(small_roomimage2, function(err) {
+					if (err) { throw err } 
+					else {
+						console.log("Successfully deleted the file.")
+						fs.unlink(med_roomimage, function(err) {
+							if (err) { throw err } 
+							else {
+								console.log("Successfully deleted the file.")
+								fs.unlink(large_roomimage1, function(err) {
+									if (err) { throw err } 
+									else {
+										console.log("Successfully deleted the file.")
+										fs.unlink(large_roomimage2, function(err) {
+											if (err) { throw err } 
+											else {
+											  console.log("Successfully deleted the file.")
+											}
+										  })
+									}
+								  })
+							}
+						  })
+					}
+				  })
+			}
+		  })
+
 		console.log('Description created: $(roomlist.email)');
 		return res.redirect("/prod/list");
 	}
@@ -552,12 +641,12 @@ router.get ("/prod/deletemovie/:movie_uuid", deletemovie);
 		const tid = String(req.params.movie_uuid);
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
+		const target = await ModelMovieInfo.findByPk(tid);
 
-		const target = await ModelMovies.findByPk(tid);
-
+		// movieimage = target.movieimage
+		
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
-
 		target.destroy();
 		console.log(`Deleted movie: ${tid}`);
 		return res.redirect("/prod/chooseeditmoviestable");
@@ -578,7 +667,7 @@ router.get ("/prod/deletemovie/:movie_uuid", deletemovie);
 //	TODO:	Common URL paths here
 async function updatemovie_page(req, res) {
 	const tid = String(req.params.movie_uuid);
-	const movie = await ModelMovies.findByPk(tid);
+	const movie = await ModelMovieInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
 	return res.render('updatemovie', 
 	{ movie : movie,
@@ -599,8 +688,8 @@ async function updatemovie_page(req, res) {
  async function updatemovie_process(req, res) {
 	try {
 		const tid = String(req.params.movie_uuid);
-		const movie = await ModelMovies.findByPk(tid);
-		
+		const movie = await ModelMovieInfo.findByPk(tid);
+		const movieimage = './public/uploads/' + movie['movieimage'];
 		movie.update({
 			"movieimage": req.file.filename,
 			"moviename": req.body.moviename,
@@ -618,13 +707,20 @@ async function updatemovie_page(req, res) {
 			"movieAction": Boolean(req.body.movieAction)
 		});
 		movie.save();
-		console.log('Description created: $(movie.email)');
+		fs.unlink(movieimage, function(err) {
+			if (err) {
+			  throw err
+			} else {
+			  console.log("Successfully deleted the file.")
+			}
+		  })
+		console.log(movieagerating);
 		return res.redirect("/prod/chooseeditmoviestable");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.uuid}`);
 		console.error(error);
-		const movie  = await ModelMovies.findByPk(tid);
+		const movie  = await ModelMovieInfo.findByPk(tid);
 		return res.render("updatemovie",{ movie:movie });
 	}
 }
@@ -679,13 +775,13 @@ async function chooseeditmoviestable_data(req, res) {
 			}
 		} : undefined;
 
-		const total        = await ModelMovies.count({where: conditions});
+		const total        = await ModelMovieInfo.count({where: conditions});
 		const pageTotal    = Math.ceil(total / pageSize);
 		//	Clamp values to prevent overflow
 		//page   = (page   < pageTotal)? page : pageTotal;
 		//offset = (page - 1) * pageSize;
 
-		const pageContents = await ModelMovies.findAll({
+		const pageContents = await ModelMovieInfo.findAll({
 			offset: offset,
 			limit:  pageSize,
 			order: [[sortBy, sortOrder.toUpperCase()]],
@@ -723,7 +819,7 @@ router.get ("/prod/deletesong/:song_uuid", deletesong);
 //	TODO:	Common URL paths here
 async function updatesong_page(req, res) {
 	const tid = String(req.params.song_uuid);
-	const song = await ModelSongs.findByPk(tid);
+	const song = await ModelSongInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
 	return res.render('updatesong', 
 	{ song :song}
@@ -738,8 +834,8 @@ async function updatesong_page(req, res) {
  async function updatesong_process(req, res) {
 	try {
 		const tid = String(req.params.song_uuid);
-		const song = await ModelSongs.findByPk(tid);
-		
+		const song = await ModelSongInfo.findByPk(tid);
+		const songimage = './public/uploads/' + song['songimage'];
 		song.update({
 			"songimage": req.file.filename,
 			"songname": req.body.songname,
@@ -756,13 +852,20 @@ async function updatesong_page(req, res) {
 			"songFolk": Boolean(req.body.songFolk)
 		});
 		song.save();
+		fs.unlink(songimage, function(err) {
+			if (err) {
+			  throw err
+			} else {
+			  console.log("Successfully deleted the file.")
+			}
+		  })
 		console.log('Description created: $(movie.email)');
 		return res.redirect("/prod/chooseeditsongstable");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.uuid}`);
 		console.error(error);
-		const song  = await ModelSongs.findByPk(tid);
+		const song  = await ModelSongInfo.findByPk(tid);
 		return res.render("updatesong",{song:song});
 	}
 }
@@ -817,13 +920,13 @@ async function chooseeditsongstable_data(req, res) {
 			}
 		} : undefined;
 
-		const total        = await ModelSongs.count({where: conditions});
+		const total        = await ModelSongInfo.count({where: conditions});
 		const pageTotal    = Math.ceil(total / pageSize);
 		//	Clamp values to prevent overflow
 		//page   = (page   < pageTotal)? page : pageTotal;
 		//offset = (page - 1) * pageSize;
 
-		const pageContents = await ModelSongs.findAll({
+		const pageContents = await ModelSongInfo.findAll({
 			offset: offset,
 			limit:  pageSize,
 			order: [[sortBy, sortOrder.toUpperCase()]],
@@ -865,7 +968,7 @@ async function createmovie_page(req, res) {
 async function createmovie_process(req, res, next) {
 	try {
 		// const movieimageFile = req.file[0];
-		const createmovies = await ModelMovies.create({
+		const createmovies = await ModelMovieInfo.create({
 			"movie_uuid": req.body.movie_uuid,
 			"admin_uuid": "00000000-0000-0000-0000-000000000000",
 			"user_uuid" : "00000000-0000-0000-0000-000000000000",
@@ -970,7 +1073,7 @@ async function createsong_page(req, res) {
 
 async function createsong_process(req, res) {
 	try {
-		const createsongs = await ModelSongs.create({
+		const createsongs = await ModelSongInfo.create({
 			"song_uuid": req.body.song_uuid,
 			"admin_uuid": "00000000-0000-0000-0000-000000000000",
 			"user_uuid" : "00000000-0000-0000-0000-000000000000",
@@ -1015,11 +1118,9 @@ async function createsong_process(req, res) {
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
 
-		const target = await ModelSongs.findByPk(tid);
-
+		const target = await ModelSongInfo.findByPk(tid);
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
-
 		target.destroy();
 		console.log(`Deleted song: ${tid}`);
 		return res.redirect("/prod/chooseeditsongstable");
@@ -1053,8 +1154,11 @@ async function editsong_page(req, res) {
 
 async function editsong_process(req, res) {
 	try {
-		const editsong = await ModelSongs.create({
-			"songimage": req.body.songimage,
+		const tid = String(req.params.song_uuid);
+		const song = await ModelSongInfo.findByPk(tid);
+		const songimage = './public/uploads/' + song['songimage'];
+		song.update({
+			"songimage": req.file.filename,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
 			"songduration": req.body.songduration,
@@ -1068,12 +1172,22 @@ async function editsong_process(req, res) {
 			"songJazz": req.body.songJazz,
 			"songFolk": req.body.songFolk
 		});
+		song.save();
+		fs.unlink(songimage, function(err) {
+			if (err) {
+			  throw err
+			} else {
+			  console.log("Successfully deleted the file.")
+			}
+		  })
 		console.log('Description created: $(editsong.email)');
+		return res.redirect("/prod/chooseeditsongstable");
 	}
 	catch (error) {
-		console.error(`Credentials problem: ${req.body.email}`);
+		console.error(`Failed to update user ${req.body.song_uuid}`);
 		console.error(error);
-		return res.render('home', { errors: errors });
+		const song = await ModelSongInfo.findByPk(tid);
+		return res.render("updatesong",{ song:song });
 	}
 }
 
@@ -1115,7 +1229,6 @@ router.get("/contactus", function (req, res) {
 
 	});
 });
-
 router.get("/logout", async function (req, res) {
 	req.session.destroy((err) => {
 		if (err) {

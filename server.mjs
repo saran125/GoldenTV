@@ -45,7 +45,12 @@ Server.use(BodyParser.urlencoded( { extended: false }));
 Server.use(BodyParser.json());
 Server.use(CookieParser());
 Server.use(MethodOverrides('_method'));
+import { initialize_passport } from "./utils/passport.mjs";
 
+/**
+ * Initialize passport
+ **/
+initialize_passport(Server);
 
 import { SessionStore, initialize_database } from './data/database.mjs'
 /**

@@ -6,8 +6,7 @@ body {
 
 div.blackblock {
   background-color: black;
-  width: 800px;
-  height: 358px;
+  height: 25px;
 }
 
 .btn#query {
@@ -42,18 +41,42 @@ div.blackblock {
   <input type="moviename" name="moviename" class="form-control" value="{{movie_name}}" required>
   </div>
 
-  <div class="form-group">
   <h5>Movie Age Rating</h5>
-  <input type="movieagerating" name="movieagerating" class="form-control" value="{{movieagerating}}" required>
+  <br>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="G" value="G" name="movieagerating" checked>
+    <label class="form-check-label" for="G">G</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="PG" value="PG" name="movieagerating">
+    <label class="form-check-label" for="PG">PG</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="PG13" value="PG13" name="movieagerating">
+    <label class="form-check-label" for="PG13">PG13</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="NC13" value="NC13" name="movieagerating">
+    <label class="form-check-label" for="NC13">NC13</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="M18" value="M18" name="movieagerating">
+    <label class="form-check-label" for="M18">M18</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="R21" value="R21" name="movieagerating">
+    <label class="form-check-label" for="R21">R21</label>
+  </div>
+
+  <div class="blackblock"></div>
+
+  <h5>Movie Duration (Mins)</h5>
+  <div class="form-group">
+  <input type="number" placeholder="120" step="any" style="width: 100px;" name="movieduration" min="0" class="form-control" value="{{movieduration}}" required>
   </div>
 
   <div class="form-group">
-  <h5>Movie Duration</h5>
-  <input type="movieduration" name="movieduration" class="form-control" value="{{movieduration}}" required>
-  </div>
-
-  <div class="form-group">
-    <h5>Movie Genres</h5>
+  <h5>Movie Genres</h5>
 	<input type="checkbox" name="movieHorror" value="false">
 	<label class="form-check-label" for="Horror">Horror</label>
 	<div class="blackbox"></div>

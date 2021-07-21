@@ -4,6 +4,7 @@ import { ModelUser } from '../data/user.mjs';
 import Hash from 'hash.js';
 import session from 'express-session';
 import mysql from 'mysql';
+import Passport from 'passport';
 
 const router = Router();
 export default router;
@@ -49,8 +50,73 @@ async function register_page(req, res) {
  * Process the login form body
  * @param {Request}  req Express Request handle
  * @param {Response} res Express Response handle
+ *  @param {import('express').NextFunction}
  */
-async function login_process(req, res) {
+// async function login_process(req, res, next) {
+// 	console.log("login contents received");
+// 	console.log(req.body);
+
+// 	let errors = [];
+// 	//	Check your Form contents
+// 	//	Basic IF ELSE STUFF no excuse not to be able to do this alone
+// 	//	Common Sense
+// 	try {
+// 		if (!regexEmail.test(req.body.email)) {
+// 			errors = errors.concat({ text: "Invalid email address!" });
+// 		}
+
+// 		if (!regexPwd.test(req.body.password)) {
+// 			errors = errors.concat({ text: "Password requires minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!" });
+// 		}
+
+// 		if (errors.length > 0) {
+// 			throw new Error("There are validation errors");
+// 		}
+// 	}
+// 	catch (error) {
+// 		console.error("There is errors with the login form body.");
+// 		console.error(error);
+// 		return res.render('auth/login', { errors: errors });
+// 	}
+
+// 	try {
+// 		const user = await ModelUser.findOne({
+// 			where: {
+// 				email: req.body.email,
+// 				password: Hash.sha256().update(req.body.password).digest("hex")
+// 			}
+// 		});
+// 		if (user == null) {
+// 			errors = errors.concat({ text: "Invalid user credentials!" });
+// 		}
+
+// 		if (errors.length > 0) {
+// 			throw new Error("There are validation errors");
+// 		}
+// 		else {
+// 			flashMessage(res, 'success', 'Successfully login!', 'fas fa-sign-in-alt', true);
+
+// 			// session({
+// 			// 	genid: function (req) {
+// 			// 		console.log(req.sessionID)
+// 			// 		return uuid()
+// 			// 	},
+// 			// 	secret: 'random-secret'
+// 			// });
+// 			return Passport.authenticate('local', {
+// 				successRedirect: "/home",
+// 				failureRedirect: "/auth/login",
+// 				failureFlash: true
+// 			})(req, res, next);
+// 		}
+// 	}
+// 	catch (error) {
+// 		console.error(`Credentials problem: ${req.body.email} ${req.body.password}`);
+// 		console.error(error);
+// 		return res.render('auth/login', { errors: errors });
+// 	}
+// }
+async function login_process(req, res, next) {
 	console.log("login contents received");
 	console.log(req.body);
 
@@ -64,7 +130,7 @@ async function login_process(req, res) {
 		}
 
 		if (!regexPwd.test(req.body.password)) {
-			errors = errors.concat({ text: "Password requires minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!" });
+			errors = errors.concat({ text: "Password Requires minimum 8 characters, at least 1 Uppercase letter, 1 Lowercase Letter, 1 number and 1 Special Character!" });
 		}
 
 		if (errors.length > 0) {
@@ -77,40 +143,11 @@ async function login_process(req, res) {
 		return res.render('auth/login', { errors: errors });
 	}
 
-	try {
-		const user = await ModelUser.findOne({
-			where: {
-				email: req.body.email,
-				password: Hash.sha256().update(req.body.password).digest("hex")
-			}
-		});
-
-
-		if (user == null) {
-			errors = errors.concat({ text: "Invalid user credentials!" });
-		}
-
-		if (errors.length > 0) {
-			throw new Error("There are validation errors");
-		}
-		else {
-			flashMessage(res, 'success', 'Successfully login!', 'fas fa-sign-in-alt', true);
-
-			session({
-				genid: function (req) {
-					console.log(req.sessionID)
-					return uuid()
-				},
-				secret: 'random-secret'
-			});
-			return res.redirect("/");
-		}
-	}
-	catch (error) {
-		console.error(`Credentials problem: ${req.body.email} ${req.body.password}`);
-		console.error(error);
-		return res.render('auth/login', { errors: errors });
-	}
+	return Passport.authenticate('local', {
+		successRedirect: "/home",
+		failureRedirect: "/auth/login",
+		failureFlash: true
+	})(req, res, next);
 }
 /**
  * Process the registration form body
