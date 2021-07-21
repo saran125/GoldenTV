@@ -35,7 +35,7 @@ export class ModelMovieInfo extends Model {
 					this.setDataValue('movieagerating', value);
 				} 
 			},
-            "movieduration" : { type: DataTypes.STRING(650), allowNull: false,
+            "movieduration" : { type: DataTypes.FLOAT(4), allowNull: false,
 				set(value){ 
 					this.setDataValue('movieduration', value);
 				} 

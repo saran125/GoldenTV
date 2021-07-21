@@ -12,7 +12,6 @@ import { Modelticket } from '../data/ticket.mjs';
 // import Passport from 'passport';
 import path from 'path';
 import multer from 'multer';
-// import { DeleteFile } from '../utils/multer.mjs'
 import fs from 'fs';
 import express from 'express';
 import methodOverride from 'method-override';
@@ -22,11 +21,13 @@ import { ModelReview } from '../data/review.mjs';
 import RouterReview from './user/review.mjs';
 import Routerfaq from './admin/faq.mjs';
 // import RouterRoomReview from './roomreview.mjs';
+// const exphbs = require('express-handlebars');
 const router = Router();
 export default router;
 
 import Admin from '../routes/admin/admin.js';
 import User from '../routes/user/user.js';
+
 // router.use("/sendemail", Email);
 router.use("/admin", Admin)
 router.use('/user', User)
@@ -84,9 +85,9 @@ export function initialize_models(database) {
 		//	Initialzie models
 		ModelUser.initialize(database);
 		ModelHomeInfo.initialize(database);
-		ModelRooms.initialize(database);
+		ModelRoomInfo.initialize(database);
 		ModelMovies.initialize(database);
-		ModelSongs.initialize(database);
+		ModelSongInfo.initialize(database);
 
 		console.log("Building ORM model relations and indices");
 		//	Create relations between models or tables
@@ -639,7 +640,9 @@ router.get ("/prod/deletemovie/:movie_uuid", deletemovie);
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
 		const target = await ModelMovieInfo.findByPk(tid);
-		movieimage = target.movieimage
+
+		// movieimage = target.movieimage
+		
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
 		target.destroy();
@@ -709,7 +712,7 @@ async function updatemovie_page(req, res) {
 			  console.log("Successfully deleted the file.")
 			}
 		  })
-		console.log('Description created: $(movie.email)');
+		console.log(movieagerating);
 		return res.redirect("/prod/chooseeditmoviestable");
 	}
 	catch (error) {
