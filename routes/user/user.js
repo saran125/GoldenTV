@@ -57,44 +57,9 @@ async function booking_page(req, res) {
     })
         .catch((err) => {
             console.log(err)
-        });
-    
-    // console.log(option);
-   
-    
+        });    
 }
 
-// async function roomtype_process(req, res) {
-//     console.log(req.body.roomtype);
-//     room_details.roomtype = req.body.roomtype;
-//     return res.redirect("/paymentOption");
-// }
-// async function roomtype_page(req, res) {
-//     console.log("Choosing roomtype page accessed");
-//     console.log(room_details);
-//     var room_left = [];
-//     const roomtype = await Modeloption.findOne({
-//         where: {
-//             time: room_details.time
-//         }
-//     });
-//     if (roomtype.small != 0) {
-//         room_left.push('Small')
-//     };
-//     if (roomtype.medium != 0) {
-//         room_left.push('Medium')
-//     };
-//     if (roomtype.large != 0) {
-//         room_left.push('Large')
-//     };
-//     if (room_left.length == 0) {
-//         console.log("There is no room left")
-//         return res.render('user/noroom')
-//     };
-//     return res.render('user/roomtype', {
-//         room_details, roomtype, room_left
-//     });
-// }
 router.post("/date", async function (req, res) {
     console.log("Loooking for all the date");
     console.log(req.body);
@@ -139,38 +104,22 @@ router.post("/time", async function (req, res){
 router.post("/roomtype", async function (req, res) {
     console.log("Loooking for all the roomtype");
     console.log(req.body);
-    // Modeloption.sync({ alert: true }).then(() => {
-    //     return Modeloption.findAll({ attributes: ['small'], where: { location: req.body.location, date: req.body.date } });
-    // }).then((data) => {
-    //     let time = [];
-    //     data.forEach(element => {
-    //         time.push(element.toJSON().time);
-    //         console.log(element.toJSON().time);
-    //     })
-        
-    // })
-    var room_left = [];
     const roomtype = await Modeloption.findOne({
         where: {
             time: req.body.time, date: req.body.date, location: req.body.location
         }
     });
     if (roomtype.small != 0) {
-        room_left.push('Small')
+        var small = false;
     };
     if (roomtype.medium != 0) {
-        room_left.push('Medium')
+       var medium = false;
     };
     if (roomtype.large != 0) {
-        room_left.push('Large')
+       var large = false;
     };
-    // if (room_left.length == 0) {
-    //     console.log("There is no room left")
-    //     return res.render('user/noroom')
-    // };
-    console.log(room_left);
     return res.json({
-        room: room_left
+        room: [small, medium, large]
     })
 });
 // ---------------------------------------

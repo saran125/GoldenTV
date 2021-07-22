@@ -37,7 +37,7 @@ router.get("/paymentOption", async function (req, res) {
 	console.log("Choosing payment method");
 	return res.render('user/PaymentOption');
 });
-function role(role) {
+function roleResult(role) {
 	if (role == 'admin') { // if it is admin, return true
 		var user = false;
 		var admin = true;
@@ -235,36 +235,19 @@ class UserRole {
 // ---------------- 
 //	TODO:	Common URL paths here
 async function home_page(req, res) {
+	console.log("Home page accessed");
 	const homeinfo = await ModelHomeInfo.findOne({
 		where: {
 			"homeinfo_uuid" : "test"
 		}
 	});
-	
-	console.log(role);
-	if (role != undefined) {
-		var role = roleResult(req.user.role);
-		var user  = role[0];
-		var admin = role[1];
-		console.log("user: " + user);
-		console.log("admin: " + admin);
+	// console.log(role);
+	// var role = roleResult(req.user.role);
+	// console.log(role);
 
-		return res.render('home', {
-			admin: admin,
-			user: user,
-			homedescription: homeinfo.homedescription,
-			homepolicy: homeinfo.homepolicy,
-			homeimage: homeinfo.homeimage,
-			homepolicyimage: homeinfo.homepolicyimage,
-			release_name1: "Ending in 2 days!",
-			release_name2: "Coming Soon!",
-			release_name3: "Out Now!",
-			release_name4: "Out Now!"
-		});
-	}
-	else {
+			
 		// logout, just render index.handlebars
-		console.log("Home page accessed");
+		
 		return res.render('home', {
 			homedescription: homeinfo.homedescription,
 			homepolicy: homeinfo.homepolicy,
@@ -276,8 +259,6 @@ async function home_page(req, res) {
 			release_name4: "Out Now!"
 		});
 	}
-	
-}
 
 /**
  * Renders the edithomedes page

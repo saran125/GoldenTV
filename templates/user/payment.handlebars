@@ -18,7 +18,7 @@
 	 * @param {InputEvent} event
 	 **/
 	async function generate_qr_code(event) {
-		const response = await fetch("/example/payment/generate", {
+		const response = await fetch("/payment/generate", {
 			headers: {
 				"Content-Type": "application/json"
 			},
@@ -54,7 +54,7 @@
 			return void_transaction(transaction);
 
 		try {
-			const response = await fetch("/example/payment/query", {
+			const response = await fetch("/payment/query", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -77,9 +77,9 @@
 					console.log(`Awaiting for payment: ${attempt}`);
 					return setTimeout(ping_transaction_status, 1000, attempt + 1, transaction);
 				break;
-
 				case 1: 
 					console.log(`Payment succeeded`);
+					
 				break;
 
 				case -1:
@@ -97,7 +97,7 @@
 
 	async function void_transaction(transaction) {
 		try {
-			const response = await fetch("/example/payment/void", {
+			const response = await fetch("/payment/void", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

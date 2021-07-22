@@ -39,7 +39,6 @@ export class ModelUser extends Model {
 			}
 		});
 	}
-
 	/**
 	 * Emulates "TRIGGER" of "AFTER UPDATE" in most SQL databases.
 	 * This function simply assist to update the 'dateUpdated' timestamp.

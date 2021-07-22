@@ -140,7 +140,7 @@ async function nets_query(req, res) {
 	}
 
 	try {
-		const payload = JSON.parse(FileSys.readFileSync(`${process.cwd()}/res/nets/nets-qr-query.json`));
+		const payload = JSON.parse(FileSys.readFileSync(`${process.cwd()}/nets/nets-qr-query.json`));
 
 		payload.txn_identifier = req.body.txn_identifier;
 		payload.stan = req.body.stan;
@@ -163,12 +163,13 @@ async function nets_query(req, res) {
 		switch (response.data.response_code) {
 			//	Pending
 			case "09":
+				console.log("time Out");
 				return res.json({
 					status: 0
 				});
-
 			//	Okay
 			case "00":
+				console.log('successfull');
 				return res.json({
 					status: 1
 				});
@@ -204,7 +205,7 @@ async function nets_void(req, res) {
 	}
 
 	try {
-		const payload = JSON.parse(FileSys.readFileSync(`${process.cwd()}/res/nets/nets-qr-void.json`));
+		const payload = JSON.parse(FileSys.readFileSync(`${process.cwd()}/nets/nets-qr-void.json`));
 
 		payload.txn_identifier = req.body.txn_identifier;
 		payload.stan = req.body.stan;

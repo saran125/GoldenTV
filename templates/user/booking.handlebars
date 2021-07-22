@@ -123,68 +123,60 @@ button:focus {
         border-collapse: collapse;
     }
 </style>
+{{> navbar}}
 <div class="container mt-5">
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-md-8">
-            <form id="regForm" action="/user/payment/{{choice}}" method="post" >
+            <form id="regForm" action="/user/booking/{{choice}}" method="post" >
                 <h1 id="register">Booking Room for {{choice}}</h1>
-                <div class="all-steps" id="all-steps"> <span class="step"><i class="far fa-map"></i></span> <span
-                        class="step"><i class="far fa-calendar"></i></span><span class="step"><i class="fa fa-clock-o"></i></span> <span class="step"><i
-                            class="fas fa-couch"></i></span><span class="step"><i class="fas fa-check"></i></span> </div>
-                <div class="tab">
+                <div class="all-steps" id="all-steps"> <span class="step"><i class="fa fa-book"></i></span></div>
+                <div >
                     <h5>Choose the <bold>location:</bold></h5>
                     <p> 
-                        <select  class="details" id="venue" name="location"  onmouseover="myFunction()">
+                        <select  class="details" id="venue" name="location"  onmousedown="myFunction()">
                             {{#each location}}
                         <option >{{this}}</option>
                         {{/each}}
                     </select></p>
                 </div>
-                <div class="tab">
+                <div >
                     <h5>Choose the <bold>Date:</bold></h5>
-                    <select name="date" class="details" onmouseover="mydate()" id="date">
+                    <select name="date" class="details" onmousedown="mydate()" id="date">
                     </select>
                     <p></p>
                 </div>
-                <div class="tab">
+                <div >
                     <h5>Choose the <bold>Timeslot:</bold></h5>
-                    <select name="time" class="details" onmouseover="mytime()" id="time">
-            
+                    <select name="time" class="details" onmousedown="mytime()" id="time">
                     </select>
                 </div>
-                <div class="tab">
+                <div id="room">
                     <h5>Choose the <bold>Room Size:</bold></h5>
-                    <select name="room" class="details" id="room" onmouseover="myroom()">
-                    
-                    </select>
+                    <input type="radio" id="small" name="room" value="small">
+                    <label for="small">Small Room</label><br>
+                    <input type="radio" id="medium" name="room" value="medium">
+                    <label for="medium">Medium Room</label><br>
+                    <input type="radio" id="large" name="room" value="large">
+                    <label for="large" >Large Room</label>
                 </div>
-                <div class="tab">
-                    <h5>Confirm your booking details</h5>
-                    <table>
-                        <tr>
-                            <th>location</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Room Size</th>
-                        </tr>
-                        <tr>
-                            <td id="location"></td>
-                            <td id="showdate"></td>
-                            <td id="timeslot"></td>
-                            <td id="roomtype"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div style="overflow:auto;" id="nextprevious">
-                    <div style="float:right;"> <button type="button" id="prevBtn" onclick="nextPrev(-1)"><i
-                                class="fa fa-angle-double-left"></i></button> <button type="button" id="nextBtn"
-                            onclick="nextPrev(1)"><i class="fa fa-angle-double-right"></i></button> </div>
-                </div>
+                <div>
+                <input type='Submit' class='btn btn-primary pull-right' id='pay' value='Pay Now'>
+            </div>
             </form>
         </div>
     </div>
-    <script>
+<script>
+        document.getElementById("date").style.display = "none";
+        document.getElementById("time").style.display = "none";
+        document.getElementById("room").style.display = "none";
         async function myFunction() {
+            document.getElementById("date").style.display = "none";
+            document.getElementById("time").style.display = "none";
+            document.getElementById("room").style.display = "none";
+            var d = document.getElementById("date");
+            for(let n = 0; n < document.getElementById("date").options.length; n++){
+            d.remove(d[n]);
+            }
             const response = await fetch("/user/date", {
                 headers: {
                     "Content-Type": "application/json"
@@ -202,8 +194,9 @@ button:focus {
         function showdate(date) {
            console.log(date);
             var x = document.getElementById("date");
-            var option = document.createElement("option");
+            document.getElementById("date").style.display = "inline";
             for (let i = 0; i < date.length; i++) {
+                 var option = document.createElement("option");
                 option.text = date[i];
                 x.add(option)
             }
@@ -211,6 +204,12 @@ button:focus {
     </script>
         <script>
             async function mydate() {
+                document.getElementById("time").style.display = "none";
+                document.getElementById("room").style.display = "none";
+                 var t = document.getElementById("time");
+                for (let x = 0; x < document.getElementById("time").options.length; x++) {
+                    t.remove(t[x]);
+                }
                 const response = await fetch("/user/time", {
                     headers: {
                         "Content-Type": "application/json"
@@ -228,8 +227,9 @@ button:focus {
             }
             function showtime(time) {
                 var x = document.getElementById("time");
-                var option = document.createElement("option");
+                document.getElementById("time").style.display = "inline";
                 for (let i = 0; i < time.length; i++) {
+                    var option = document.createElement("option");
                     option.text = time[i];
                     x.add(option)
                 }
@@ -237,6 +237,7 @@ button:focus {
         </script>
         <script>
             async function mytime() {
+               document.getElementById("room").style.display = "none";
                 const response = await fetch("/user/roomtype", {
                     headers: {
                         "Content-Type": "application/json"
@@ -254,61 +255,16 @@ button:focus {
                 }
             }
             function someroom(room) {
-                var x = document.getElementById("room");
-                var option = document.createElement("option");
-                for (let i = 0; i < room.length; i++) {
-                    option.text = room[i];
-                    x.add(option)
-                }
+                document.getElementById("room").style.display = "inline";
+                if(room.small = false){
+                document.getElementById("small").style.display = "none";}
+                if (room.medium = false) {
+                document.getElementById("medium").style.display = "none";}
+                if (room.large = false) {
+                document.getElementById("large").style.display = "none";}
             }
         </script>
-        <script>
-            async function myroom() {
-                        var l = document.getElementById("venue").value;
-                        var d = document.getElementById("date").value;
-                        var t =  document.getElementById("time").value;
-                        var r = document.getElementById("room").value;
-                        document.getElementById("location").innerHTML = l;
-                        document.getElementById("showdate").innerHTML = d;
-                        document.getElementById("timeslot").innerHTML = t;
-                        document.getElementById("roomtype").innerHTML = r;
-
-            }
-        </script>
-<script>
-    var currentTab = 0;
-        document.addEventListener("DOMContentLoaded", function (event) {
-            showTab(currentTab);
-
-        });
-
-        function showTab(n) {
-            var x = document.getElementsByClassName("tab");
-            x[n].style.display = "block";
-            if (n == 0) {
-                document.getElementById("prevBtn").style.display = "none";
-            } else {
-                document.getElementById("prevBtn").style.display = "inline";
-            }
-            
-            if (n == 1) {
-                document.getElementById("nextBtn").innerHTML = '<i class="fa fa-angle-double-right"></i>';
-            } 
-            
-            fixStepIndicator(n)
-        }
-
-        function nextPrev(n) {
-            var x = document.getElementsByClassName("tab");
-            if (n == 1 && !validateForm()) return false;
-            x[currentTab].style.display = "none";
-            currentTab = currentTab + n;
-            if (currentTab >= 4) {
-                document.getElementById("nextprevious").innerHTML = "<input type='Submit' class='btn btn-primary pull-right' id='pay' value='Pay'>";
-            
-            }
-            showTab(currentTab);
-        }
+ <script>
 
         function validateForm() {
             var x, y, i, valid = true;

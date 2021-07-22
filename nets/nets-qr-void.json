@@ -1,0 +1,18 @@
+{
+	"mti"             : "0400",
+	"process_code"    : "990000",
+	"stan"            : "100001",
+	"amount"          : "1000",
+	"transaction_time": "051505",
+	"transaction_date": "0513",
+	"entry_mode"      : "000",
+	"condition_code"  : "85",
+	"institution_code": "20000000001",
+	"host_tid"        : "37066801",
+	"host_mid"        : "11137066800",
+	"npx_data"        : {
+		"E103": "37066801"
+	},
+	"user_data"     : "",
+	"txn_identifier": "NETSQPAY037066801####111370668001000012fb6ab1a0100001000000109268e74bTEST EZI TECHNOLO952e"
+}

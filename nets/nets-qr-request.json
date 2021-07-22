@@ -1,0 +1,30 @@
+{
+	"mti"             : "0200",
+	"process_code"    : "990000",
+	"amount"          : "500",
+	"stan"            : "100001",
+	"transaction_time": "045609",
+	"transaction_date": "0415",
+	"entry_mode"      : "000",
+	"condition_code"  : "85",
+	"institution_code": "20000000001",
+	"host_tid"        : "37066801",
+	"host_mid"        : "11137066800",
+	"npx_data"        : {
+		"E103": "37066801",
+		"E201": "500",
+		"E202": "SGD"
+	},
+	"communication_data": [
+		{
+			"type"       : "http",
+			"category"   : "URL",
+			"destination": "https://localhost:3000/demo/order/notification",
+			"addon"      : {
+				"external_API_keyID": "8bc63cde-2647-4a78-ac75-d5f534b56047"
+			}
+		}
+	],
+	"user_data": "",
+	"getQRCode": "Y"
+}

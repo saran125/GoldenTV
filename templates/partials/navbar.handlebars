@@ -1,8 +1,9 @@
 <style>
 
-* {
+body {
   list-style: none;
   color: gold;
+
 }
 img#imgborder {
 	border-style: solid;
@@ -99,11 +100,13 @@ div.clock {
 				<li class="nav-item">
 					<a class="nav-link" href="/contactus">About Us</a>
 				</li>
-				{{#if admin}}
+				{{#if user}}
+				{{#if (cmp_eq user.role "admin") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/businessstatistics">Statistics</a>
 				</li>
-				{{/if}}		
+				{{/if}}	
+				{{/if}}	
 				{{#if user}}
 				<li class="nav-item">
 					<a class="nav-link" href="/ticketlist/tickettable">My Tickets</a>
@@ -119,7 +122,7 @@ div.clock {
 						<a href="/auth/logout" class="nav-link">Logout</a>
 					</li>
 				{{else}}
-				{{#if admin}}
+				
 				<li class="nav-item dropdown">
 					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Admin</a>
 					<div class="dropdown-menu">
@@ -128,7 +131,7 @@ div.clock {
 						<a href="/admin/viewoption" class="dropdown-item">Manage all the Options</a>
 					</div>
 				</li>
-				{{/if}}
+			
 					<li class="nav-item">
 						{{!-- main.js router(/login)--}}
 						<a href="/auth/login" class="nav-link">Login</a>
