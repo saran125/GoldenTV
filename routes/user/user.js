@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { nanoid } from 'nanoid'
+import { nanoid } from 'nanoid';
+import { ModelRoomInfo } from '../../data/roominfo.mjs';
 import { Modelticket } from '../../data/ticket.mjs';
 import { Modeloption } from '../../data/option.mjs';
 const router = Router();
@@ -8,10 +9,11 @@ router.post("/booking/:choice", booking_process);
 router.get("/booking/:choice", booking_page);
 // booking page
 var random_ref = nanoid(8);
-export var room_details = { location: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref };
+export var room_details = { location: '', date: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref, price: 0  };
 async function booking_process(req, res) {
     console.log('Description created: $(booking.choice)');
     try {
+        room_details = { location: '', date: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref, price: 0 };
         console.log(req.body);
         const roomtype = await Modeloption.findOne({ where: { time: req.body.time, location:req.body.location, date:req.body.date } });
         console.log(roomtype);
@@ -19,7 +21,24 @@ async function booking_process(req, res) {
         room_details.location = req.body.location;
         room_details.time = req.body.time;
         room_details.roomtype = req.body.room;
+        room_details.date = req.body.date;
         room_details.uuid = roomtype.uuid;
+        room_details.choice = req.params.choice;
+
+        const room = await ModelRoomInfo.findOne({
+            where: {
+                "roominfo_uuid": "test"
+            }
+        });
+        if(req.body.room == 'small'){
+            room_details.price += room.small_roomprice
+        }
+        if (req.body.room == 'medium') {
+            room_details.price += room.med_roomprice
+        }
+        if (req.body.room == 'large') {
+            room_details.price += room.large_roomprice
+        }
         return res.redirect("/payment/generate");
     }
     catch (error) {
@@ -28,10 +47,7 @@ async function booking_process(req, res) {
 }
 async function booking_page(req, res) {
     console.log("booking page accessed");
-    // const option = await Modeloption.findAll({
-    //         attributes: ['location']
-    //      });
-   
+    room_details = { };
     var choice = req.params.choice;
     console.log(choice);
     Modeloption.sync({ alert: true }).then(() => {
@@ -109,13 +125,13 @@ router.post("/roomtype", async function (req, res) {
             time: req.body.time, date: req.body.date, location: req.body.location
         }
     });
-    if (roomtype.small != 0) {
+    if (roomtype.small < 0) {
         var small = false;
     };
-    if (roomtype.medium != 0) {
+    if (roomtype.medium < 0) {
        var medium = false;
     };
-    if (roomtype.large != 0) {
+    if (roomtype.large < 0) {
        var large = false;
     };
     return res.json({

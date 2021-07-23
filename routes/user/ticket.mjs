@@ -1,22 +1,54 @@
 import { Router } from 'express';
 import { nanoid } from 'nanoid'
 import { Modelticket } from '../../data/ticket.mjs';
-import { Modeloption } from '../../data/option.mjs';
+import ORM from "sequelize";
+const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
-router.get("/ticketlist/tickettable", tickettable);
-router.get("/ticketlist/tickettable-data", tickettable_data);
+router.get("/ticketlist", tickettable);
+router.get("/tickettable-data", tickettable_data);
 async function tickettable(req, res) {
     return res.render('user/tickets');
 }
 async function tickettable_data(req, res) {
-    const ticket = await Modelticket.findAll({ raw: true });
+    let pageSize = parseInt(req.query.limit);
+    let offset = parseInt(req.query.offset);
+    let sortBy = req.query.sort ? req.query.sort : "dateCreated";
+    let sortOrder = req.query.order ? req.query.order : "asc";
+    let search = req.query.search;
+    if (pageSize < 0) {
+        throw new HttpError(400, "Invalid page size");
+    }
+    if (offset < 0) {
+        throw new HttpError(400, "Invalid offset index");
+    }
+    /** @type {import('sequelize/types').WhereOptions} */
+    const conditions = search
+        ? {
+            [Op.or]: {
+                location: { [Op.substring]: search },
+                time: { [Op.substring]: search },
+                date: { [Op.substring]: search },
+                ref : {[Op.substring]: search},
+                choice: { [Op.substring]: search }
+            },
+        }
+        : undefined;
+    const total = await Modelticket.count({ where: conditions });
+    const pageTotal = Math.ceil(total / pageSize);
+
+    const pageContents = await Modelticket.findAll({
+        offset: offset,
+        limit: pageSize,
+        order: [[sortBy, sortOrder.toUpperCase()]],
+        where: conditions,
+        raw: true, // Data only, model excluded
+    });
     return res.json({
-        "total": ticket.length,
-        "rows": ticket
+        total: total,
+        rows: pageContents,
     });
 }
-
 router.get("/view/:uuid", async function (req, res, next) {
     const tid = req.params.uuid;
     console.log("ticket page accessed");
@@ -43,46 +75,4 @@ router.get("/view/:uuid", async function (req, res, next) {
         console.log(error);
         return next(error);
     }
-});
-router.get("/booked_successfully", async function (req, res) {
-    console.log("after booking page accessed");
-    const roomtype = await ModelRoomtype.findOne({
-        where: {
-            time: room_details.time, location: room_details.location, date: room_details.date
-        }
-    });
-    console.log(room_details.roomtype);
-    if (room_details.roomtype == 'Small') {
-        console.log('Small - 1');
-        roomtype.update({
-            small: roomtype.small - 1
-        });
-        roomtype.save();
-    }
-    else if (room_details.roomtype == 'Medium') {
-        console.log('Medium - 1');
-        roomtype.update({
-            medium: roomtype.medium - 1
-        });
-        roomtype.save();
-    }
-    else if (room_details.roomtype == 'Big') {
-        console.log('Big - 1');
-        roomtype.update({
-            big: roomtype.big - 1
-        });
-        roomtype.save();
-    }
-    const ticket = await Modelticket.create({
-        choice: room_details.choice,
-        location: room_details.location,
-        date: room_details.date,
-        time: room_details.time,
-        roomtype: room_details.roomtype,
-        ref: random_ref,
-    });
-    console.log(room_details);
-    return res.render('user/after_booking', {
-        room_details, ticket
-    });
 });

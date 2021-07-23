@@ -1,4 +1,7 @@
 <style>
+    *{
+        color: gold;
+    }
     #dtBasicExample th {
         color: gold;
     }
@@ -70,7 +73,7 @@
         data-data-field="rows" data-side-pagination="server" data-height="460" data-silent-sort="false"
         data-server-sort="true" data-search="true" data-pagination="true" data-show-refresh="true"
         data-show-columns="true" data-show-columns-search="true" data-addrbar="true" data-page-list="[10, 25, 50, 100, all]"
-        data-url="/ticketlist/tickettable-data">
+        data-url="/ticket/tickettable-data">
         <thead>
             <tr>
                 <th data-field="id" >Id</th>
@@ -92,7 +95,7 @@
          **/
         function table_row_edit(value, row, index) {
             return `
-		<a href="/view/${row.uuid}">
+		<a href="/ticket/view/${row.uuid}">
 			<i class="fa fa-eye"></i>
 		</a>
 		`;

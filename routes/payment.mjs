@@ -3,8 +3,12 @@ import Axios from 'axios';
 import FileSys from 'fs';
 import Hash from 'hash.js';
 import Moment from 'moment';
+import { nanoid } from 'nanoid'
+var random_ref = nanoid(8);
 import { nets_api_key, nets_api_skey, nets_api_gateway } from './payment-config.mjs';
 import axios from 'axios';
+import { Modelticket } from '../data/ticket.mjs';
+import { Modeloption } from '../data/option.mjs';
 import { room_details } from './user/user.js';
 const router = Router();
 export default router;
@@ -20,18 +24,11 @@ let price = 0;
  * @param {import('express').Response} res 
  */
 async function page_generate(req, res) {
-	if(room_details.roomtype == 'Small'){
-		price += 2400;
-	};
-	if (room_details.roomtype == 'Medium') {
-		price += 3200;
-	};
-	if (room_details.roomtype == 'Big') {
-		price += 4200;
-	};
-	let dollars = price/ 100;
+	let cents = 0;
+	cents += Math.round(room_details.price * 100);
+	
 	console.log(room_details.location);
-	return res.render('user/payment', {room_details,price, dollars});
+	return res.render('user/payment', {room_details,price, cents});
 } 
 /**
  * Signs the payload with the secret key
@@ -170,12 +167,49 @@ async function nets_query(req, res) {
 			//	Okay
 			case "00":
 				console.log('successfull');
+				const roomtype = await Modeloption.findOne({
+					where: {
+						time: room_details.time, location: room_details.location, date: room_details.date
+					}
+				});
+				console.log(room_details.roomtype);
+				if (room_details.roomtype == 'small') {
+					console.log('Small - 1');
+					roomtype.update({
+						small: roomtype.small - 1
+					});
+					roomtype.save();
+				}
+				else if (room_details.roomtype == 'medium') {
+					console.log('Medium - 1');
+					roomtype.update({
+						medium: roomtype.medium - 1
+					});
+					roomtype.save();
+				}
+				else if (room_details.roomtype == 'large') {
+					console.log('Big - 1');
+					roomtype.update({
+						big: roomtype.big - 1
+					});
+					roomtype.save();
+				}
+				const ticket = await Modelticket.create({
+					choice: room_details.choice,
+					location: room_details.location,
+					date: room_details.date,
+					time: room_details.time,
+					roomtype: room_details.roomtype,
+					ref: random_ref,
+				});
+				console.log(room_details);
 				return res.json({
 					status: 1
 				});
 
 			//	Failed
 			default:
+				room_details = { location: '', date: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref, price: 0 };
 				return res.json({
 					status: -1
 				});
@@ -240,7 +274,6 @@ async function nets_void(req, res) {
 				});
 			//	Skip?
 			default:
-				return res.redirect("/booked_successfully");
 		}
 		
 	}

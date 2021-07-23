@@ -1,22 +1,177 @@
-<h1>Payment</h1>
-<div>
-	<label>Cents:</label>
-	<input  type="number" name="amount" id="price" value="{{price}}" >
-	<button onclick="generate_qr_code(null)">Proceed to Pay</button>
-	<img src="null" id="qr_code">
-	<h1> Room details</h1>
-	<h2> Choice:   {{room_details.choice}}</h2>
-	<h2> Location: {{room_details.location}}</h2>
-	<h2> Time:     {{room_details.time}}</h2>
-	<h2> Date:   {{room_details.date}}</h2>
-	<h2> Room type:   {{room_details.roomtype}}</h2>
-	<h2> Price:{{dollars}}</h2>
-</div>
+<style>
+	body {
+		background: rgb(0, 0, 0)
+	}
+
+	#regForm {
+		background-color: gold;
+		margin: 0px auto;
+		font-family: Raleway;
+		padding: 40px;
+		border-radius: 10px
+	}
+
+	#register {
+		color: #000000
+	}
+
+	h1 {
+		text-align: left;
+	}
+
+	.details {
+		padding: 10px;
+		width: 100%;
+		font-size: 17px;
+		font-family: Raleway;
+		border: 1px solid #aaaaaa;
+		border-radius: 10px;
+		-webkit-appearance: none
+	}
+
+	#pay {
+		width: 20%
+	}
+
+	.tab input:focus {
+		border: 1px solid #6a1b9a !important;
+		outline: none;
+	}
+
+
+	.tab {
+		display: none;
+	}
+
+
+
+
+	.all-steps {
+		text-align: left;
+		margin-top: 70px;
+		margin-bottom: 30px;
+		width: 60%;
+		display: inline-flex;
+		justify-content: left;
+	}
+
+	.step {
+		height: 40px;
+		width: 40px;
+		margin: 0 2px;
+		background-color: #000000;
+		border: none;
+		border-radius: 20%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 25px;
+		color: #fcfcfc;
+	}
+
+	.all-steps {
+		text-align: left;
+		margin-top: 0px;
+		margin-bottom: 0px
+	}
+
+	.qr {
+		position: fixed;
+		right: 400px;
+		bottom: 340px;
+		width: 150px;
+		height: 150px;
+		text-align: center;
+	}
+	.img {
+
+		border: 3px solid rgb(0, 0, 0);
+	}
+	.thanks-message {
+		display: none
+	}
+</style>
+<style>
+	#hello:hover {
+  letter-spacing: 0.8em;
+  background-color: gold;
+  color: #000000;
+  border: 3px solid rgb(0, 0, 0);
+}
+
+#hello {
+  color: white;
+}
+button {
+    height: 4em;
+    width: auto;
+    padding: 1.5em auto;
+    margin: 1em auto;
+    margin-left: 6em;
+    left: 10px;
+    background-color: #000000;
+    border: none;
+    border-radius: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    transition: all 0.2s cubic-bezier(.4,0,.2,1);
+}
+</style>
+<body onload="generate_qr_code(null)">
+<div class="container mt-5">
+	<div class="row d-flex justify-content-center align-items-center">
+		<div class="col-md-8">
+			<div id="regForm">
+			<div id="qrcode">
+				<div class="all-steps" id="all-steps">
+					<span class="step"><i class="fa fa-mobile-phone"></i></span>
+					<h1>NetsQR</h1>
+				</div>
+				<div>
+					<input type="number" name="amount" id="price" value="{{cents}}" style="display: none;">
+					<h3> Room Details</h3>
+						<h5> Location: {{room_details.location}}</h5>
+						<h5> Time Slot: {{room_details.time}}</h5>
+						<h5> Date:   {{room_details.date}}</h5>
+						<h5> Room type: {{room_details.roomtype}}</h5>
+						<h5> Price: ${{room_details.price}}</h5>
+						<p>  ***Pay in 10mins***</p>
+						<div class="qr">
+							<img src="null" id="qr_code" class="img">
+							<h4>Scan To Pay</h4>
+						</div>
+				</div>
+			</div>
+			<div id="success">
+				<h1 style="font-weight: bold;"> You have successfully Paid</h1>
+				<h2 style=" text-decoration: underline;"> Room Details</h2>
+				<h5> Location: {{room_details.location}}</h5>
+				<h5> Time Slot: {{room_details.time}}</h5>
+				<h5> Date: {{room_details.date}}</h5>
+				<h5> Room type: {{room_details.roomtype}}</h5>
+				<h5> Price: ${{room_details.price}}</h5>
+				<a href="/"><button id="hello" >Home</button></a>
+				<a href="/ticket/ticketlist"><button id="hello" >My tickets</button></a>
+			</div>
+			<div id="timeout">
+				<h1> Sorry! Time Out. You need to book again!</h1>
+				<a href="/"><button id="hello">Home</button></a>
+			</div>
+			<div id="cancel">
+				<h1> Due to some reasons, payment is declined!</h1>
+				<h1> Please Book Room Again!</h1>
+				<a href="/"><button id="hello">Home</button></a>
+			</div>
+		</div>
+	</div>
 <script>
 	/**
 	 * Make a request to generate the QR code
 	 * @param {InputEvent} event
 	 **/
+	document.getElementById("success").style.display = "none";
+	document.getElementById("timeout").style.display = "none";
+	document.getElementById("cancel").style.display = "none";
 	async function generate_qr_code(event) {
 		const response = await fetch("/payment/generate", {
 			headers: {
@@ -42,17 +197,14 @@
 	function preview_qr_code(qr_code) {
 		document.getElementById("qr_code").src = `data:image;base64,${qr_code}`;
 	}
-
 	/**
 	 * Make a HTTP request to query the generated transaction
 	 * @param {JSON}   transaction
 	 * @param {number} attempt 0 ... N
 	 **/
 	async function ping_transaction_status(attempt, transaction) {
-
-		if (attempt > 5)
+		if (attempt > 600)
 			return void_transaction(transaction);
-
 		try {
 			const response = await fetch("/payment/query", {
 				method: "POST",
@@ -79,11 +231,13 @@
 				break;
 				case 1: 
 					console.log(`Payment succeeded`);
-					
+					document.getElementById("qrcode").style.display = "none";
+					document.getElementById("success").style.display = "inline";
 				break;
-
 				case -1:
 					console.log(`Payment cancelled`);
+					document.getElementById("qrcode").style.display = "none";
+					document.getElementById("cancel").style.display = "inline";
 					//	TODO: Hide the qr code, set image to X
 				break;
 			}
@@ -118,7 +272,8 @@
 			switch (status) {
 				case 1:
 					console.log(`Transaction cancelled successfully`);
-					//	TODO: Do any UX changes here
+					document.getElementById("qrcode").style.display = "none";
+					document.getElementById("timeout").style.display = "inline";
 				break;
 
 				default:
@@ -132,3 +287,4 @@
 		}
 	}
 </script>
+</body>

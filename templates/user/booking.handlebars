@@ -152,15 +152,13 @@ button:focus {
                 </div>
                 <div id="room">
                     <h5>Choose the <bold>Room Size:</bold></h5>
-                    <input type="radio" id="small" name="room" value="small">
-                    <label for="small">Small Room</label><br>
-                    <input type="radio" id="medium" name="room" value="medium">
-                    <label for="medium">Medium Room</label><br>
-                    <input type="radio" id="large" name="room" value="large">
+                   <span id="small"> <input type="radio" name="room" value="small">
+                    <label for="small">Small Room</label><br></span>
+                    <span id="medium"></span> <input type="radio" id="medium" name="room" value="medium">
+                    <label for="medium">Medium Room</label><br></span>
+                    <span id="large"></span> <input type="radio" id="large" name="room" value="large">
                     <label for="large" >Large Room</label>
-                </div>
-                <div>
-                <input type='Submit' class='btn btn-primary pull-right' id='pay' value='Pay Now'>
+                <input type='Submit' class='btn btn-primary pull-right' id='pay' value='Proceed to Pay'>
             </div>
             </form>
         </div>
@@ -256,11 +254,12 @@ button:focus {
             }
             function someroom(room) {
                 document.getElementById("room").style.display = "inline";
-                if(room.small = false){
+                console.log(room);
+                if(room[0] == false){
                 document.getElementById("small").style.display = "none";}
-                if (room.medium = false) {
+                if (room[1] == false) {
                 document.getElementById("medium").style.display = "none";}
-                if (room.large = false) {
+                if (room[2] == false) {
                 document.getElementById("large").style.display = "none";}
             }
         </script>
