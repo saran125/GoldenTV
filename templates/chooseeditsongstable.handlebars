@@ -1,10 +1,18 @@
 <style>
-
-#dtBasicExample th {
+* {
     color: gold;
 }
 
-body#bodybg, #dtBasicExample td {
+#toolbar {
+  width: 175px;
+  margin: 0;
+}
+
+table#dtBasicExample th {
+    color: gold;
+}
+
+body#bodybg, table#dtBasicExample td {
   background: black;
   color: gold;
 }
@@ -28,20 +36,7 @@ div.blackblock1 {
     width: 800px;
     height: 10px;
   }
-
-  table#dtBasicExample.dataTable thead .sorting:after,
-  table#dtBasicExample.dataTable thead .sorting_asc:after,
-  table#dtBasicExample.dataTable thead .sorting_asc:before,
-  table#dtBasicExample.dataTable thead .sorting_asc_disabled:after,
-  table#dtBasicExample.dataTable thead .sorting_asc_disabled:before,
-  table#dtBasicExample.dataTable thead .sorting_desc:after,
-  table#dtBasicExample.dataTable thead .sorting_desc:before,
-  table#dtBasicExample.dataTable thead .sorting_desc_disabled:after,
-  table#dtBasicExample.dataTable thead .sorting_desc_disabled:before {
-    bottom: .5em;
-  }
 </style>
-
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -63,7 +58,7 @@ div.blackblock1 {
     {{>navbar}}
 <div class="CreateMoviesAndSongs">
     <div class="submit">
-        <form action="../prod/createsong">
+        <form action="../song/createsong">
             <input type="submit" value="Create Song" class="btn btn-outline-warning">
         </form>
     </div>
@@ -94,7 +89,7 @@ div.blackblock1 {
     data-show-columns="true"
     data-show-columns-search="true"
     data-addrbar="true"
-	data-url="/prod/chooseeditsongstable-data"
+	data-url="/song/chooseeditsongstable-data"
     >
 	<thead>
 		<tr>
@@ -102,8 +97,7 @@ div.blackblock1 {
             <th data-field="dateUpdated" data-sortable="true">Update Date</th>
             <th 
             {{!-- data-field="movieimage" --}}
-            data-formatter="table_row_image"
-            >Movie Poster</th>
+            data-formatter="table_row_image">Poster</th>
             <th data-field="songname" data-sortable="true">Name</th>
             <th data-field="songagerating" data-sortable="true">Age Rating</th>
             <th data-field="songduration" data-sortable="true">Duration</th>
@@ -217,11 +211,11 @@ div.blackblock1 {
 	 **/
 	function table_row_edit(value, row, index) {
 		return `
-		<a href="../prod/updatesong/${row.song_uuid}">
+		<a href="../song/updatesong/${row.song_uuid}">
 			<i class="fa fa-edit"></i>
 		</a>
 
-		<a href="../prod/deletesong/${row.song_uuid}">
+		<a href="../song/deletesong/${row.song_uuid}">
 			<i class="fa fa-trash"></i>
 		</a>
 		`;
