@@ -37,19 +37,7 @@ router.get("/paymentOption", async function (req, res) {
 	console.log("Choosing payment method");
 	return res.render('user/PaymentOption');
 });
-function roleResult(role) {
-	if (role == 'admin') { // if it is admin, return true
-		var user = false;
-		var admin = true;
-	}
-	else if (role == 'user') {
-		// if it is user, return true
-		var user = true;
-		var admin = false;
-	}
 
-	return [user, admin];
-}
 /**
  * @param database {ORM.Sequelize}
  */
@@ -226,7 +214,32 @@ class UserRole {
         return next();
     }
 }
-
+function roleResult(role) {
+	if (role == 'admin') { // if it is admin, return true
+		var user = false;
+		var admin = true;
+	}
+	else if (role == 'customer') {
+		// if it is user, return true
+		var user = true;
+		var admin = false;
+	}
+	return [user, admin];
+}
+router.get("/testing", async function (req, res) {
+	console.log("Home page accessed after logging in");
+	// After login
+	// if role column of ModelUser is customer
+	console.log(req.user.role);
+	// cannot have document bla
+	// accessing the role column of the users table
+	if (req.user.role == 'customer') {
+		return res.redirect('/customer');
+	}
+	else if (req.user.role == 'admin') {
+		return res.redirect('/home');
+	}
+});
 /**
  * Renders the home page
  * @param {Request}  req Express Request handle
@@ -241,12 +254,6 @@ async function home_page(req, res) {
 			"homeinfo_uuid" : "test"
 		}
 	});
-	// console.log(role);
-	// var role = roleResult(req.user.role);
-	// console.log(role);
-
-			
-		// logout, just render index.handlebars
 		
 		return res.render('home', {
 			homedescription: homeinfo.homedescription,

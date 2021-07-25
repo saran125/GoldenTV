@@ -154,9 +154,9 @@ button:focus {
                     <h5>Choose the <bold>Room Size:</bold></h5>
                    <span id="small"> <input type="radio" name="room" value="small">
                     <label for="small">Small Room</label><br></span>
-                    <span id="medium"></span> <input type="radio" id="medium" name="room" value="medium">
+                    <span id="medium"> <input type="radio" id="medium" name="room" value="medium">
                     <label for="medium">Medium Room</label><br></span>
-                    <span id="large"></span> <input type="radio" id="large" name="room" value="large">
+                    <span id="large"> <input type="radio" id="large" name="room" value="large">
                     <label for="large" >Large Room</label>
                 <input type='Submit' class='btn btn-primary pull-right' id='pay' value='Proceed to Pay'>
             </div>
@@ -173,6 +173,7 @@ button:focus {
             document.getElementById("room").style.display = "none";
             var d = document.getElementById("date");
             for(let n = 0; n < document.getElementById("date").options.length; n++){
+                console.log(d[n]);
             d.remove(d[n]);
             }
             const response = await fetch("/user/date", {
@@ -206,6 +207,7 @@ button:focus {
                 document.getElementById("room").style.display = "none";
                  var t = document.getElementById("time");
                 for (let x = 0; x < document.getElementById("time").options.length; x++) {
+                    console.log(t[x]);
                     t.remove(t[x]);
                 }
                 const response = await fetch("/user/time", {

@@ -7,6 +7,7 @@ import { ModelUser } from '../data/user.mjs';
  * @param {import('express').Express} server 
  */
 export function initialize_passport(server) {
+	console.log('passport');
 	Passport.use(LocalStrategy);
 	Passport.serializeUser(async function (user, done) {
 		return done(null, user.uuid);
@@ -33,7 +34,6 @@ export function initialize_passport(server) {
 	server.use(Passport.initialize());
 	server.use(Passport.session());
 }
-
 const LocalStrategy = new Strategy ({
 	usernameField: "email",
 	passwordField: "password"

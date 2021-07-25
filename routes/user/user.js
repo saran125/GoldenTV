@@ -15,6 +15,11 @@ async function booking_process(req, res) {
     try {
         room_details = { location: '', date: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref, price: 0 };
         console.log(req.body);
+        Modeloption.destroy({
+            where: {
+                small: 0, medium: 0, large: 0
+            }
+        });
         const roomtype = await Modeloption.findOne({ where: { time: req.body.time, location:req.body.location, date:req.body.date } });
         console.log(roomtype);
         console.log(roomtype.uuid);
@@ -24,7 +29,6 @@ async function booking_process(req, res) {
         room_details.date = req.body.date;
         room_details.uuid = roomtype.uuid;
         room_details.choice = req.params.choice;
-
         const room = await ModelRoomInfo.findOne({
             where: {
                 "roominfo_uuid": "test"
@@ -125,13 +129,13 @@ router.post("/roomtype", async function (req, res) {
             time: req.body.time, date: req.body.date, location: req.body.location
         }
     });
-    if (roomtype.small < 0) {
+    if (roomtype.small <= 0) {
         var small = false;
     };
-    if (roomtype.medium < 0) {
+    if (roomtype.medium <= 0) {
        var medium = false;
     };
-    if (roomtype.large < 0) {
+    if (roomtype.large <= 0) {
        var large = false;
     };
     return res.json({
@@ -139,45 +143,3 @@ router.post("/roomtype", async function (req, res) {
     })
 });
 // ---------------------------------------
-router.get("/booked_successfully", async function (req, res) {
-    console.log("after booking page accessed");
-    const roomtype = await ModelRoomtype.findOne({
-        where: {
-            time: room_details.time, location: room_details.location
-        }
-    });
-    console.log(room_details.roomtype);
-    if (room_details.roomtype == 'Small') {
-        console.log('Small - 1');
-        roomtype.update({
-            small: roomtype.small - 1
-        });
-        roomtype.save();
-    }
-    else if (room_details.roomtype == 'Medium') {
-        console.log('Medium - 1');
-        roomtype.update({
-            medium: roomtype.medium - 1
-        });
-        roomtype.save();
-    }
-    else if (room_details.roomtype == 'Big') {
-        console.log('Big - 1');
-        roomtype.update({
-            big: roomtype.big - 1
-        });
-        roomtype.save();
-    }
-    const ticket = await Modelticket.create({
-        choice: room_details.choice,
-        location: room_details.location,
-        date: room_details.date,
-        time: room_details.time,
-        roomtype: room_details.roomtype,
-        ref: random_ref,
-    });
-    console.log(room_details);
-    return res.render('user/after_booking', {
-        room_details, ticket
-    });
-});

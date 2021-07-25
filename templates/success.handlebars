@@ -1,0 +1,150 @@
+<style>
+    body {
+        background: rgb(0, 0, 0)
+    }
+
+    #regForm {
+        background-color: gold;
+        margin: 0px auto;
+        font-family: Raleway;
+        padding: 40px;
+        border-radius: 10px
+    }
+
+    #register {
+        color: #000000
+    }
+
+    h1 {
+        text-align: center
+    }
+
+    .details {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+        border-radius: 10px;
+        -webkit-appearance: none
+    }
+
+    #pay {
+        width: 20%
+    }
+
+
+
+    button {
+        background-color: #000000;
+        color: #ffffff;
+        border: none;
+        border-radius: 50%;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway;
+        cursor: pointer
+    }
+
+    button:hover {
+        opacity: 0.8
+    }
+
+    button:focus {
+        outline: none !important
+    }
+
+    #prevBtn {
+        background-color: #bbbbbb
+    }
+
+    .all-steps {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        width: 100%;
+        display: inline-flex;
+        justify-content: center
+    }
+
+    .step {
+        height: 40px;
+        width: 40px;
+        margin: 0 2px;
+        background-color: #bbbbbb;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        color: #000000;
+        opacity: 0.5
+    }
+
+    .step.active {
+        opacity: 1
+    }
+
+    .step.finish {
+        color: #fff;
+        background: #000000;
+        opacity: 1
+    }
+
+    .all-steps {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 30px
+    }
+
+    .thanks-message {
+        display: none
+    }
+    	#hello:hover {
+  letter-spacing: 0.8em;
+  background-color: gold;
+  color: #000000;
+  border: 3px solid rgb(0, 0, 0);
+}
+
+#hello {
+  color: white;
+}
+.button {
+    height: 4em;
+    width: auto;
+    padding: 1.5em auto;
+    margin: 1em auto;
+    margin-left: 6em;
+    left: 10px;
+    background-color: #000000;
+    border: none;
+    border-radius: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    transition: all 0.2s cubic-bezier(.4,0,.2,1);
+}
+
+</style>
+{{> navbar}}
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div id="regForm">
+                        <div id="success">
+                            <h1 style="font-weight: bold;"> You have successfully Paid</h1>
+                            <h2 style=" text-decoration: underline;"> Room Details</h2>
+                            <h5> Location: Bisshn</h5>
+                            <h5> Time Slot: 18:00</h5>
+                            <h5> Date: 2021-07-30</h5>
+                            <h5> Room type: Small</h5>
+                            <h5> Price: $200</h5>
+                            <a href="/"><button id="hello" class="button">Home</button></a>
+                            <a href="/ticket/ticketlist"><button id="hello" class="button">My tickets</button></a>
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
