@@ -27,7 +27,7 @@ router.get ("/deletemovie/:movie_uuid", deletemovie);
 // ---------------- 
 //	TODO:	Common URL paths here
 async function chooseeditmoviestable(req, res) {
-	return res.render('chooseeditmoviestable'); 
+	return res.render('admin/movies/chooseeditmoviestable'); 
 }
 
 /**
@@ -105,7 +105,7 @@ async function chooseeditmoviestable_data(req, res) {
 //	TODO:	Common URL paths here
 async function createmovie_page(req, res) {
 	console.log("Prod List Choose Edit Movie page accessed");
-	return res.render('createmovies', {
+	return res.render('admin/movies/createmovies', {
 
 	});
 };
@@ -146,7 +146,7 @@ async function createmovie_process(req, res, next) {
 	catch (error) {
 		console.error(`Credentials problem: ${req.body.email}`);
 		console.error(error);
-		return res.render('createmovies', 
+		return res.render('admin/movies/createmovies', 
 		// { errors: errors }
 		);
 	}
@@ -163,7 +163,7 @@ async function updatemovie_page(req, res) {
 	const tid = String(req.params.movie_uuid);
 	const movie = await ModelMovieInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
-	return res.render('updatemovie', 
+	return res.render('admin/movies/updatemovie', 
 	{ movie : movie,
 	//   movieRomance: movie.movieRomance
 	 }
