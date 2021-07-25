@@ -78,7 +78,7 @@
 	.qr {
 		position: fixed;
 		right: 400px;
-		bottom: 340px;
+		bottom: 260px;
 		width: 150px;
 		height: 150px;
 		text-align: center;
@@ -102,7 +102,7 @@
 #hello {
   color: white;
 }
-button {
+.button {
     height: 4em;
     width: auto;
     padding: 1.5em auto;
@@ -116,10 +116,41 @@ button {
     letter-spacing: 0.5em;
     transition: all 0.2s cubic-bezier(.4,0,.2,1);
 }
+
+@import "compass/css3";
+
+
+.paypal-button{
+	margin-left: 400px;
+    background-color: rgb(25 25 25);
+    border: 3px solid rgb(0, 0, 0);
+    color: #00a1ff;
+	border-radius: 20px;
+	height: 50px;
+	width: 200px;
+
+}
+#change{
+		    border: 2px solid gold;
+			color: rgb(255, 255, 255);
+			margin-left: 10px;
+			margin-right: 10px;
+			border-radius: 0mm;
+			width: 300px;
+			border-top-left-radius: 30px;
+			border-top-right-radius: 30px;
+}
+#change:hover{
+	background-color: gold;
+	color: #000000;
+	border: 3px solid rgb(0, 0, 0);
+}
 </style>
 <body onload="generate_qr_code(null)">
 <div class="container mt-5">
 	<div class="row d-flex justify-content-center align-items-center">
+	<button class="button"  id="change" onclick="nets()">NetsQR</button>
+	<button class="button"  id="change" onclick="paypal()">PayPal</button>
 		<div class="col-md-8">
 			<div id="regForm">
 			<div id="qrcode">
@@ -142,6 +173,26 @@ button {
 						</div>
 				</div>
 			</div>
+			<div id="paypal">
+				<div class="all-steps" id="all-steps">
+					<span class="step"><i class="fa fa-mobile-phone"></i></span>
+					<h1>PayPal</h1>
+				</div>
+				<div>
+					<h3> Room Details</h3>
+					<h5> Location: {{room_details.location}}</h5>
+					<h5> Time Slot: {{room_details.time}}</h5>
+					<h5> Date: {{room_details.date}}</h5>
+					<h5> Room type: {{room_details.roomtype}}</h5>
+					<h5> Price: ${{room_details.price}}</h5>
+					<p> ***Pay in 10mins***</p>
+					<a href="/payment/paypal"><button class="paypal-button">
+							Pay by
+							<i>Pay</i><i>Pal</i>
+					</button>
+					</a>
+				</div>
+			</div>
 			<div id="success">
 				<h1 style="font-weight: bold;"> You have successfully Paid</h1>
 				<h2 style=" text-decoration: underline;"> Room Details</h2>
@@ -150,17 +201,17 @@ button {
 				<h5> Date: {{room_details.date}}</h5>
 				<h5> Room type: {{room_details.roomtype}}</h5>
 				<h5> Price: ${{room_details.price}}</h5>
-				<a href="/"><button id="hello" >Home</button></a>
-				<a href="/ticket/ticketlist"><button id="hello" >My tickets</button></a>
+				<a href="/" ><button id="hello" class="button" >Home</button></a>
+				<a href="/ticket/ticketlist"><button id="hello" class="button" >My tickets</button></a>
 			</div>
 			<div id="timeout">
 				<h1> Sorry! Time Out. You need to book again!</h1>
-				<a href="/"><button id="hello">Home</button></a>
+				<a href="/" ><button id="hello" class="button" >Home</button></a>
 			</div>
 			<div id="cancel">
 				<h1> Due to some reasons, payment is declined!</h1>
 				<h1> Please Book Room Again!</h1>
-				<a href="/"><button id="hello">Home</button></a>
+				<a href="/"><button id="hello" class="button" >Home</button></a>
 			</div>
 		</div>
 	</div>
@@ -172,6 +223,8 @@ button {
 	document.getElementById("success").style.display = "none";
 	document.getElementById("timeout").style.display = "none";
 	document.getElementById("cancel").style.display = "none";
+	document.getElementById("paypal").style.display = "none";
+	
 	async function generate_qr_code(event) {
 		const response = await fetch("/payment/generate", {
 			headers: {
@@ -285,6 +338,16 @@ button {
 			console.error(error);
 			console.error(`Failed to void transaction :${transaction.txn_identifier}`);
 		}
+	}
+</script>
+<script>
+function nets(){
+	document.getElementById("paypal").style.display = "none";
+	document.getElementById("qrcode").style.display = "inline";
+}
+	function paypal() {
+		document.getElementById("paypal").style.display = "inline";
+		document.getElementById("qrcode").style.display = "none";
 	}
 </script>
 </body>

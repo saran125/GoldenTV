@@ -38,11 +38,11 @@ export function initialize_models(database) {
 		database.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, database));
 		database.addHook("afterBulkSync", generate_homeinfo.homeinfo_uuid, generate_homeinfo.bind(this, database));
 		database.addHook("afterBulkSync", generate_roominfo.roominfo_uuid, generate_roominfo.bind(this, database));
-		database.addHook("afterBulkSync", generate_movieinfo.movieinfo_uuid, generate_movies.bind(this, database));
-		database.addHook("afterBulkSync", generate_songinfo.songinfo_uuid, generate_songs.bind(this, database));
+		database.addHook("afterBulkSync", generate_movieinfo.movieinfo_uuid, generate_movieinfo.bind(this, database));
+		database.addHook("afterBulkSync", generate_songinfo.songinfo_uuid, generate_songinfo.bind(this, database));
 		database.addHook("afterBulkSync", generate_review.name, generate_review.bind(this, database));
 		database.addHook("afterBulkSync", generate_Faq.name, generate_Faq.bind(this, database));
-		database.addHook("afterBulkSync", generate_ticket.email, generate_ticket.bind(this, database));
+		// database.addHook("afterBulkSync", generate_ticket.email, generate_ticket.bind(this, database));
 	}
 	catch (error) {
 		console.error ("Failed to configure ORM models");

@@ -16,6 +16,12 @@ router.get("/generate", page_generate);
 router.post("/generate", nets_generate);
 router.post("/query", nets_query);
 router.post("/void", nets_void);
+import paypal from 'paypal-rest-sdk'
+paypal.configure({
+	'mode': 'sandbox', //sandbox or live
+	'client_id': 'AfDQ8trJbIo8MYYarbo1e8gic_6JXxq1dDJgh9aQjqnFnwuWjhOQfxW1Klxj8xrj-1hZscpzPLYNa5na',
+	'client_secret': 'EApuzibO6KOy6SkEi2HLb0WeNitai8Y5-U3DRyCSFb-ES7zrkoca-kjFfUoCGw6c-ov0F1vYsXk0JjLw'
+});
 let nets_stan = 0;	//	Counter id for nets, keep this in database
 let price = 0;
 /**
@@ -283,3 +289,74 @@ async function nets_void(req, res) {
 		return res.sendStatus(500);
 	}
 }
+
+router.get('/paypal', (req, res) => {
+	const create_payment_json = {
+		"intent": "sale",
+		"payer": {
+			"payment_method": "paypal"
+		},
+		"redirect_urls": {
+			"return_url": "http://localhost:3000/payment/success",
+			"cancel_url": "http://localhost:3000/payment/cancel"
+		},
+		"transactions": [{
+			"item_list": {
+				"items": [{
+					"name": "Golden Tv",
+					"price": 5.00,
+					"currency": "SGD",
+					"quantity": 1
+				}]
+			},
+			"amount": {
+				"currency": "SGD",
+				"total": 5.00
+			},
+			"description": "Golden TV"
+		}]
+	};
+
+	paypal.payment.create(create_payment_json, function (error, payment) {
+		if (error) {
+			throw error;
+		} else {
+			for (let i = 0; i < payment.links.length; i++) {
+				if (payment.links[i].rel === 'approval_url') {
+					res.redirect(payment.links[i].href);
+				}
+			}
+		}
+	});
+
+});
+
+router.get('/success', (req, res) => {
+	const payerId = req.query.PayerID;
+	const paymentId = req.query.paymentId;
+
+	const execute_payment_json = {
+		"payer_id": payerId,
+		"transactions": [{
+			"amount": {
+				"currency": "SGD",
+				"total": 5.00
+			}
+		}]
+	};
+	paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+		if (error) {
+			console.log(error.response);
+			throw error;
+		} else {
+			console.log(JSON.stringify(payment));
+			res.render('success');
+		}
+	});
+});
+
+router.get("/cancel", (req, res) => {
+	console.log("Payment is Cancalled");
+	return res.render('cancel', {
+	});
+});

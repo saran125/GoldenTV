@@ -144,7 +144,7 @@ async function login_process(req, res, next) {
 	}
 
 	return Passport.authenticate('local', {
-		successRedirect: "/home",
+		successRedirect: "/testing",
 		failureRedirect: "/auth/login",
 		failureFlash: true
 	})(req, res, next);
