@@ -24,7 +24,7 @@ export class ModelSongInfo extends Model {
             "songimage" : { type: DataTypes.STRING(650), allowNull: false },
             "songname" : { type: DataTypes.STRING(650), allowNull: false },
             "songagerating" : { type: DataTypes.STRING(650), allowNull: false },
-            "songduration" : { type: DataTypes.STRING(650), allowNull: false },
+            "songduration" : { type: DataTypes.FLOAT(4), allowNull: false },
 
             "songPop" : { type: DataTypes.STRING(65), allowNull: false },
             "songRock" : { type: DataTypes.STRING(65), allowNull: false },

@@ -114,7 +114,7 @@ async function editrooms_page(req, res) {
 		}
 	});
 	console.log("Prod List RoomsInfo page accessed");
-	return res.render('editrooms', { roomlist: roomlist	});
+	return res.render('admin/room/editrooms', { roomlist: roomlist	});
 };
 
 /**
@@ -193,7 +193,7 @@ async function editrooms_process(req, res, next) {
 	catch (error) {
 		console.error(`Credentials problem: ${req.body.email}`);
 		console.error(error);
-		return res.render('editrooms');
+		return res.render('admin/room/editrooms');
 	}
 }
 

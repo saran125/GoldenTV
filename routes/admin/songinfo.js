@@ -27,7 +27,7 @@ router.get ("/deletesong/:song_uuid", deletesong);
 // ---------------- 
 //	TODO:	Common URL paths here
 async function chooseeditsongstable(req, res) {
-	return res.render('chooseeditsongstable'); 
+	return res.render('admin/songs/chooseeditsongstable'); 
 }
 
 /**
@@ -105,7 +105,7 @@ async function chooseeditsongstable_data(req, res) {
 //	TODO:	Common URL paths here
 async function createsong_page(req, res) {
 	console.log("Prod List Create Songs page accessed");
-	return res.render('createsongs', {
+	return res.render('admin/songs/createsongs', {
 
 	});
 };
@@ -161,7 +161,7 @@ async function updatesong_page(req, res) {
 	const tid = String(req.params.song_uuid);
 	const song = await ModelSongInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
-	return res.render('updatesong', 
+	return res.render('admin/songs/updatesong', 
 	{ song :song}
 	);
 };
@@ -205,7 +205,7 @@ async function updatesong_page(req, res) {
 		console.error(`Failed to update user ${req.body.song_uuid}`);
 		console.error(error);
 		const song  = await ModelSongInfo.findByPk(tid);
-		return res.render("updatesong",{song:song});
+		return res.render("admin/songs/updatesong",{song:song});
 	}
 }
 

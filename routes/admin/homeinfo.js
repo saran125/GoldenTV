@@ -66,12 +66,12 @@ async function home_page(req, res) {
 //	TODO:	Common URL paths here
 async function edithomedescription_page(req, res) {
 	console.log("Home Description page accessed");
-	const homeinfo = await ModelHomeInfo.findOne({
+	const homedes = await ModelHomeInfo.findOne({
 		where: {
 			"homeinfo_uuid": "test"
 		}
 	});
-	return res.render('edithomedescription',{ homeinfo: homeinfo });
+	return res.render('admin/home/edithomedescription',{ homedes: homedes });
 };
 
 /**
@@ -121,7 +121,7 @@ async function edithomeimagepolicy_page(req, res, next) {
 			"homeinfo_uuid": "test"
 		}
 	});
-	return res.render('edithomeimagepolicy', { homeimagepolicy: homeimagepolicy });
+	return res.render('admin/home/edithomeimagepolicy', { homeimagepolicy: homeimagepolicy });
 };
 
 /**
@@ -170,20 +170,20 @@ async function edithomeimagepolicy_process(req, res, next) {
 		console.error(error);
         const homeimage = './public/uploads/' + homeimagepolicy['homeimage'];
 		const homepolicyimage = './public/uploads/' + homeimagepolicy['homepolicyimage'];
-		fs.unlink(homeimage, function(err) {
-			if (err) {
-			  throw err
-			} else {
-			  console.log("Successfully deleted the file.")
-			}
-		  })
-		fs.unlink(homepolicyimage, function(err) {
-		if (err) {
-			throw err
-		} else {
-			console.log("Successfully deleted the file.")
-		}
-		})
+		// fs.unlink(homeimage, function(err) {
+		// 	if (err) {
+		// 	  throw err
+		// 	} else {
+		// 	  console.log("Successfully deleted the file.")
+		// 	}
+		//   })
+		// fs.unlink(homepolicyimage, function(err) {
+		// if (err) {
+		// 	throw err
+		// } else {
+		// 	console.log("Successfully deleted the file.")
+		// }
+		// })
 		return res.render('edithomeimagepolicy', { 
 			hey: "Wrong Type of File."
 		});
