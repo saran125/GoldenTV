@@ -73,30 +73,30 @@ async function prodlist_page(req, res) {
 		large_roomprice: roomlist.large_roomprice,
 		large_roomimage1: roomlist.large_roomimage1,
 		large_roomimage2: roomlist.large_roomimage2,
-		// movieimage: req.body.movieimage,
-		// moviename: req.body.moviename,
-		// movieagerating: req.body.movieagerating,
-		// movieduration: req.body.movieduration,
-		// movieHorror: req.body.movieHorror,
-		// movieComedy: req.body.movieComedy,
-		// movieScience: req.body.movieScience,
-		// movieRomance: req.body.movieRomance,
-		// movieAnimation: req.body.movieAnimation,
-		// movieAdventure: req.body.movieAdventure,
-		// movieEmotional: req.body.movieEmotional,
-		// movieMystery: req.body.movieMystery,
-		// movieAction: req.body.movieAction,
-		// songimage: req.body.songimage,
-		// songname: "songname",
-		// songagerating: "songagerating",
-		// songduration: "songduration",
-		// songPop: req.body.songPop,
-		// songRock: req.body.songRock,
-		// songMetal: req.body.songMetal,
-		// songCountry: req.body.songCountry,
-		// songRap: req.body.songRap,
-		// songJazz: req.body.songJazz,
-		// songFolk: req.body.songFolk
+		movieimage: req.body.movieimage,
+		moviename: req.body.moviename,
+		movieagerating: req.body.movieagerating,
+		movieduration: req.body.movieduration,
+		movieHorror: req.body.movieHorror,
+		movieComedy: req.body.movieComedy,
+		movieScience: req.body.movieScience,
+		movieRomance: req.body.movieRomance,
+		movieAnimation: req.body.movieAnimation,
+		movieAdventure: req.body.movieAdventure,
+		movieEmotional: req.body.movieEmotional,
+		movieMystery: req.body.movieMystery,
+		movieAction: req.body.movieAction,
+		songimage: req.body.songimage,
+		songname: "songname",
+		songagerating: "songagerating",
+		songduration: "songduration",
+		songPop: req.body.songPop,
+		songRock: req.body.songRock,
+		songMetal: req.body.songMetal,
+		songCountry: req.body.songCountry,
+		songRap: req.body.songRap,
+		songJazz: req.body.songJazz,
+		songFolk: req.body.songFolk
 	});
 }
 
@@ -196,10 +196,3 @@ async function editrooms_process(req, res, next) {
 		return res.render('admin/room/editrooms');
 	}
 }
-
-// router.get("/prod/createsong", createsong_page);
-// router.post("/prod/createsong", 
-// upload.single('songimage'),
-// createsong_process);
-// router.get("/prod/editsong", editsong_page);
-// router.post("/prod/editsong", editsong_process);
