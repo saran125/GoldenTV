@@ -7,6 +7,10 @@ import { nanoid } from 'nanoid'
 var random_ref = nanoid(8);
 import { nets_api_key, nets_api_skey, nets_api_gateway } from './payment-config.mjs';
 import axios from 'axios';
+var Publishable_Key = 'pk_test_51JH64qCNftL7aDDGxbmRaLzvCWayIEyV27af9E3JXthLTjN9kQdPbtZNhPQM7Sp2eKsaQly6wunPsZL0wkwI8Qsu00RrfNYjBl'
+var Secret_Key = 'sk_test_51JH64qCNftL7aDDGaAmYV24FR9HK1Mmf7bPTCWP6bFBGPjU8v5pUsEq5CXcp1xpDM3A93kZitOMVtS923oMGZ7qG00FqSWb3S0'
+import st from 'stripe';
+const stripe = (st)(Secret_Key);
 import { Modelticket } from '../data/ticket.mjs';
 import { Modeloption } from '../data/option.mjs';
 import { room_details } from './user/user.js';
@@ -297,7 +301,7 @@ router.get('/paypal', (req, res) => {
 			"payment_method": "paypal"
 		},
 		"redirect_urls": {
-			"return_url": "http://localhost:3000/payment/success",
+			"return_url": "http://localhost:3000/payment/paypal/success",
 			"cancel_url": "http://localhost:3000/payment/cancel"
 		},
 		"transactions": [{
@@ -331,7 +335,7 @@ router.get('/paypal', (req, res) => {
 
 });
 
-router.get('/success', (req, res) => {
+router.get('/paypal/success', (req, res) => {
 	const payerId = req.query.PayerID;
 	const paymentId = req.query.paymentId;
 
@@ -350,8 +354,13 @@ router.get('/success', (req, res) => {
 			throw error;
 		} else {
 			console.log(JSON.stringify(payment));
-			res.render('success');
+			res.redirect('/payment/success');
 		}
+	});
+});
+router.get("/success", (req, res) => {
+	console.log("payment is success");
+	return res.render('success', {
 	});
 });
 
@@ -359,4 +368,19 @@ router.get("/cancel", (req, res) => {
 	console.log("Payment is Cancalled");
 	return res.render('cancel', {
 	});
+});
+
+router.post('/card', (req, res) => {
+	const amount = 600;
+	stripe.customers.create({
+		email: req.body.stripeEmail,
+		source: req.body.stripeToken
+	})
+		.then(customer => stripe.charges.create({
+			amount,
+			description: 'Saran bought a room',
+			currency: 'SGD',
+			customer: customer.id
+		}))
+		.then(charge => res.redirect('/payment/success'));
 });

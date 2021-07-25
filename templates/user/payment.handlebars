@@ -120,7 +120,7 @@
 @import "compass/css3";
 
 
-.paypal-button{
+#paypal-button{
 	margin-left: 400px;
     background-color: rgb(25 25 25);
     border: 3px solid rgb(0, 0, 0);
@@ -136,7 +136,7 @@
 			margin-left: 10px;
 			margin-right: 10px;
 			border-radius: 0mm;
-			width: 300px;
+			width: 200px;
 			border-top-left-radius: 30px;
 			border-top-right-radius: 30px;
 }
@@ -151,12 +151,13 @@
 	<div class="row d-flex justify-content-center align-items-center">
 	<button class="button"  id="change" onclick="nets()">NetsQR</button>
 	<button class="button"  id="change" onclick="paypal()">PayPal</button>
+	<button class="button" id="change" onclick="card()">Card</button>
 		<div class="col-md-8">
 			<div id="regForm">
 			<div id="qrcode">
 				<div class="all-steps" id="all-steps">
 					<span class="step"><i class="fa fa-mobile-phone"></i></span>
-					<h1>NetsQR</h1>
+					<h1>Nets QR</h1>
 				</div>
 				<div>
 					<input type="number" name="amount" id="price" value="{{cents}}" style="display: none;">
@@ -175,7 +176,6 @@
 			</div>
 			<div id="paypal">
 				<div class="all-steps" id="all-steps">
-					<span class="step"><i class="fa fa-mobile-phone"></i></span>
 					<h1>PayPal</h1>
 				</div>
 				<div>
@@ -186,11 +186,37 @@
 					<h5> Room type: {{room_details.roomtype}}</h5>
 					<h5> Price: ${{room_details.price}}</h5>
 					<p> ***Pay in 10mins***</p>
-					<a href="/payment/paypal"><button class="paypal-button">
+					<a href="/payment/paypal"><button id="paypal-button">
 							Pay by
 							<i>Pay</i><i>Pal</i>
 					</button>
 					</a>
+				</div>
+			</div>
+			<div id="card">
+				<div class="all-steps" id="all-steps">
+					<h1>Card Payment</h1>
+				</div>
+				<div>
+					<h3> Room Details</h3>
+					<h5> Location: {{room_details.location}}</h5>
+					<h5> Time Slot: {{room_details.time}}</h5>
+					<h5> Date: {{room_details.date}}</h5>
+					<h5> Room type: {{room_details.roomtype}}</h5>
+					<h5> Price: ${{room_details.price}}</h5>
+					<p> ***Pay in 10mins***</p>
+					<form action="/payment/card" method="POST">
+						<script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_51JH64qCNftL7aDDGxbmRaLzvCWayIEyV27af9E3JXthLTjN9kQdPbtZNhPQM7Sp2eKsaQly6wunPsZL0wkwI8Qsu00RrfNYjBl"
+							data-amount="600" data-name="Saran" data-description="Booking room at golden Tv"
+							data-image="../../public/img/goldentvlogo.png" data-locale="auto">
+							</script>
+						<script>
+							// Hide default stripe button
+							document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
+						</script>
+						<button type="submit" id="paypal-button">Pay with
+						<i>Card</i></button>
+					</form>
 				</div>
 			</div>
 			<div id="success">
@@ -224,7 +250,7 @@
 	document.getElementById("timeout").style.display = "none";
 	document.getElementById("cancel").style.display = "none";
 	document.getElementById("paypal").style.display = "none";
-	
+	document.getElementById("card").style.display = "none";
 	async function generate_qr_code(event) {
 		const response = await fetch("/payment/generate", {
 			headers: {
@@ -344,10 +370,16 @@
 function nets(){
 	document.getElementById("paypal").style.display = "none";
 	document.getElementById("qrcode").style.display = "inline";
+	document.getElementById("card").style.display = "none";
 }
 	function paypal() {
 		document.getElementById("paypal").style.display = "inline";
 		document.getElementById("qrcode").style.display = "none";
+		document.getElementById("card").style.display = "none";
 	}
+	function card() {
+			document.getElementById("card").style.display = "inline";
+			document.getElementById("qrcode").style.display = "none";
+		}
 </script>
 </body>
