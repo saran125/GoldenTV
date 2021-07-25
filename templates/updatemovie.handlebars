@@ -1,7 +1,10 @@
 <style>
-
 body {
   background-color: black;
+}
+
+h1, h5, label {
+  color: gold;
 }
 
 div.blackblock {
@@ -23,7 +26,7 @@ div.blackblock {
 {{>navbar}}
 <h1 class="display-4">Update Movie</h1>
 
-<form method="POST" action="/prod/updatemovie/{{movie.movie_uuid}}?_method=PUT" name="" enctype="multipart/form-data">
+<form method="POST" action="/movie/updatemovie/{{movie.movie_uuid}}?_method=PUT" name="" enctype="multipart/form-data">
   
   <div class="form-group">
   <h5>Movie Image</h5>
@@ -39,11 +42,6 @@ div.blackblock {
   <div class="form-group">
   <h5>Movie Name</h5>
   <input type="moviename" name="moviename" class="form-control" value="{{movie.moviename}}" required>
-  </div>
-
-    <div class="form-group">
-  <h5>Movie Name</h5>
-  <input type="moviename" name="moviename" class="form-control" value="{{movie.movie_name}}" required>
   </div>
 
   <h5>Movie Age Rating</h5>
