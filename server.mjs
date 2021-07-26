@@ -9,7 +9,7 @@ import path            from 'path';
 import favicon from 'serve-favicon';
 import Flash           from 'connect-flash';
 import FlashMessenger  from 'flash-messenger';
-
+import template_helpers from './utils/template-helpers/helpers.mjs'
 import Handlebars      from 'handlebars';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
 
@@ -26,7 +26,8 @@ const Port   = process.env.PORT || 3000;
 Server.set('views',       'templates');		//	Let express know where to find HTML templates
 Server.set('view engine', 'handlebars');	//	Let express know what template engine to use
 Server.engine('handlebars', ExpHandlebars({
-	handlebars:     allowInsecurePrototypeAccess(Handlebars),
+	handlebars: allowInsecurePrototypeAccess(Handlebars),
+	helpers: template_helpers,
 	defaultLayout: 'main'
 }));
 //	Let express know where to access static files
@@ -45,13 +46,6 @@ Server.use(BodyParser.urlencoded( { extended: false }));
 Server.use(BodyParser.json());
 Server.use(CookieParser());
 Server.use(MethodOverrides('_method'));
-import { initialize_passport } from "./utils/passport.mjs";
-
-/**
- * Initialize passport
- **/
-initialize_passport(Server);
-
 import { SessionStore, initialize_database } from './data/database.mjs'
 /**
  * Express Session
@@ -68,7 +62,12 @@ import { SessionStore, initialize_database } from './data/database.mjs'
  * Initialize database
  */
 initialize_database(false);
+import { initialize_passport } from "./utils/passport.mjs";
 
+/**
+ * Initialize passport
+ **/
+initialize_passport(Server);
 /**
  * Flash Messenger 
  */
@@ -82,11 +81,12 @@ Server.use(FlashMessenger.middleware);
 /**
  * TODO: Setup global contexts here. Basically stuff your variables in locals
  */
+import { UserRole } from './data/user.mjs';
 Server.use(function (req, res, next) {
+	res.locals.USER_ROLES = UserRole;
 	res.locals.user = req.user || null;
 	next();
 });
-
 
 import Routes from './routes/main.mjs'
 Server.use("/", Routes);

@@ -166,3 +166,11 @@ async function profile_page(req, res) {
 		return res.render('auth/login');
 	}
 };
+router.get("/logout", async function (req, res) {
+	req.session.destroy((err) => {
+		if (err) {
+			return console.log(err);
+		}
+		res.redirect("/home");
+	});
+});

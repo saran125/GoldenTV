@@ -263,12 +263,5 @@ router.get("/contactus", function (req, res) {
 
 	});
 });
-router.get("/logout", async function (req, res) {
-	req.session.destroy((err) => {
-		if (err) {
-			return console.log(err);
-		}
-		res.redirect("/home");
-	});
-});
+
 
