@@ -231,3 +231,45 @@ async function edithomeimagepolicy_process(req, res, next) {
 // 		return res.render('/edithomeimagepolicy', { errors: errors });
 // 	}
 // }
+
+// /**
+//  * Renders the edithomebestreleases page
+//  * @param {Request}  req Express Request handle
+//  * @param {Response} res Express Response handle
+//  */
+// // ---------------- 
+// //	TODO:	Common URL paths here
+// async function edithomebestreleases_page(req, res) {
+// 	console.log("Home Best Releases page accessed");
+// 	return res.render('editbestreleases', {
+
+// 	});
+// };
+
+// /**
+//  * Renders the login page
+//  * @param {Request}  req Express Request handle
+//  * @param {Response} res Express Response handle
+//  */
+// async function edithomebestreleases_process(req, res) {
+// 	try {
+// 		const homebestreleases = await ModelBestReleases.create({
+// 			"email": req.body.email,
+// 			"homeid": req.body.homeid,
+// 			"release_image1": req.body.release_image1,
+// 			"release_name1": req.body.release_name1,
+// 			"release_image2": req.body.release_image2,
+// 			"release_name2": req.body.release_name2,
+// 			"release_image3": req.body.release_image3,
+// 			"release_name3": req.body.release_name3,
+// 			"release_image4": req.body.release_image4,
+// 			"release_name4": req.body.release_name4
+// 		});
+// 		console.log('Description created: $(homebestreleases.email)');
+// 	}
+// 	catch (error) {
+// 		console.error(`Credentials problem: ${req.body.email}`);
+// 		console.error(error);
+// 		return res.render('/edithomeimagepolicy', { errors: errors });
+// 	}
+// }
