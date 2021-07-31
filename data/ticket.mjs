@@ -18,16 +18,13 @@ export class Modelticket extends Model {
     **/
     static initialize(database) {
         Modelticket.init({
-            "uuid": { type: DataTypes.CHAR(36), foreignKey: true, defaultValue: DataTypes.UUIDV4 },
+            "uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
             "dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
             "dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
             "choice": { type: DataTypes.STRING(128) },
-            "location": { type: DataTypes.STRING(650), allowNull: false },
-            "date": { type: DataTypes.DATEONLY(), allowNull: false },
-            "time": { type: DataTypes.STRING(100), allowNull: false },
-            "roomtype": { type: DataTypes.STRING(100), allowNull: false },
+            "roomtype_id": { type: DataTypes.CHAR(36), foreignKey: true, allowNull: true, defaultValue: '0000-0000-0000-0000'},
             "ref": { type: DataTypes.CHAR(8), allowNull:false},
-            "user_id": { type: DataTypes.CHAR(36), allowNull: false, defaultValue: '0000-0000-0000-0000'}
+            "user_id": { type: DataTypes.CHAR(36), foreignKey:true, allowNull: false, defaultValue: '0000-0000-0000-0000'}
         }, {
             "sequelize": database,
             "modelName": "ticket",

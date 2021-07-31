@@ -33,7 +33,18 @@
         width: 20%
     }
 
+    .tab input:focus {
+        border: 1px solid #6a1b9a !important;
+        outline: none
+    }
 
+    input.invalid {
+        border: 1px solid #e03a0666
+    }
+
+    .tab {
+        display: none
+    }
 
     button {
         background-color: #000000;
@@ -101,49 +112,17 @@
     .thanks-message {
         display: none
     }
-    	#hello:hover {
-  letter-spacing: 0.8em;
-  background-color: gold;
-  color: #000000;
-  border: 3px solid rgb(0, 0, 0);
-}
-
-#hello {
-  color: white;
-}
-.button {
-    height: 4em;
-    width: auto;
-    padding: 1.5em auto;
-    margin: 1em auto;
-    margin-left: 6em;
-    left: 10px;
-    background-color: #000000;
-    border: none;
-    border-radius: 15px;
-    text-transform: uppercase;
-    letter-spacing: 0.5em;
-    transition: all 0.2s cubic-bezier(.4,0,.2,1);
-}
-
 </style>
 {{> navbar}}
 <div class="container mt-5">
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-md-8">
             <div id="regForm">
-                        <div id="success">
-                            <h1 style="font-weight: bold;"> You have Successfully Booked The Room</h1>
-                            <h2 style=" text-decoration: underline;"> Room Details</h2>
-                            <h5> Location: {{room.location}}</h5>
-                            <h5> Time Slot: {{room.time}}</h5>
-                            <h5> Date: {{room.date}}</h5>
-                            <h5> Room type: {{room.roomtype}}</h5>
-                            <h5> Price: ${{room.price}}</h5>
-                            <h6> Please Check Your email for more details.</h6>
-                            <a href="/"><button id="hello" class="button">Home</button></a>
-                            <a href="/ticket/ticketlist"><button id="hello" class="button">My tickets</button></a>
-                        </div>
+                <div class="all-steps" id="all-steps"> <span class="step"><i class="fa fa-book"></i></span></div>
+                <div id="timeout">
+                    <h1> Sorry! 10 mins is over. You need to book again!</h1>
+                    <a href="/"><button id="hello" class="button">Home</button></a>
+                </div>
             </div>
         </div>
     </div>

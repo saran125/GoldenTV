@@ -41,7 +41,11 @@ router.get("/paymentOption", async function (req, res) {
 	console.log("Choosing payment method");
 	return res.render('user/PaymentOption');
 });
-
+// router.get("*", notfound_page);
+// function notfound_page(req, res) {
+// 	console.log("Home page accessed");
+// 	return res.render('404');
+// }
 /**
  * @param database {ORM.Sequelize}
  */
@@ -124,7 +128,7 @@ function roleResult(role) {
 	}
 	return [user, admin];
 }
-router.get("/testing", async function (req, res) {
+router.get("/login", async function (req, res) {
 	console.log("Home page accessed after logging in");
 	// After login
 	// if role column of ModelUser is customer
@@ -132,7 +136,7 @@ router.get("/testing", async function (req, res) {
 	// cannot have document bla
 	// accessing the role column of the users table
 	if (req.user.role == 'customer') {
-		return res.redirect('/customer');
+		return res.redirect('/home');
 	}
 	else if (req.user.role == 'admin') {
 		return res.redirect('/home');

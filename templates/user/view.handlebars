@@ -5,12 +5,10 @@
 float:left;
 width:300px; // or 33% for equal width independent of parent width
 }
-* {
-color: #0C090A;
-}
 body{
   background-size:cover;
   background-color: #0C090A;
+  color: #0C090A;
 }
 .contenido {
   margin: 30px auto;
@@ -100,18 +98,23 @@ a {
   letter-spacing: 0px;
 }
 </style>
+{{> navbar}}
 <div class="contenido">
   <div class="ticket">
     <div class="hqr">
       <div class="column left-one"></div>
       <div class="column center">
-        <div id="qrcode">{{ target.ref }}</div>
+        <img src={{src}} alt="" style="width: 100px; height: 100px;">
       </div>
       <div class="column right-one"></div>
     </div>
     </div>
+    
     <div class="details">
-      <div class="tdata name">
+      <div class="tinfo">
+        Choice
+      </div>
+      <div class="tdata name" style="font-weight: bold;">
         {{ target.choice }}
       </div>
       <div class="tinfo">
@@ -136,12 +139,6 @@ a {
       </div>
         </div>
         <div class="right">
-        <div class="tinfo">
-        Reference Number
-      </div>
-      <div class="tdata nesp">
-        {{ target.ref }}
-      </div>
         </div>
       </div>
 

@@ -27,9 +27,9 @@
             <th data-field="location" data-sortable="true">Location</th>
             <th data-field="date" data-sortable="true">date</th>
             <th data-field="time" data-sortable="true">time</th>
-            <th data-field="small" data-sortable="true">Number of small rooms</th>
-            <th data-field="medium" data-sortable="true">Number of medium rooms</th>
-            <th data-field="large" data-sortable="true">Number of large rooms</th>
+            <th data-field="roomtype" data-sortable="true">Room type</th>
+            <th data-field="price" data-sortable="true">Price</th>
+            <th data-field="booked" data-sortable="true">Booked</th>
             <th data-field="action" data-formatter="actionFormatter">Action</th>
         </tr>
     </thead>
@@ -52,7 +52,7 @@
     function actionFormatter(index, row) {
         var html = [];
         $.each(row, function (key, value) {
-            if (key == 'uuid') {
+            if (key == 'roomtype_id') {
                 html.push('<a class="edit" href="/admin/update_option/' + value + '"><i class="fa fa-edit"></i> Edit</a>')
                 html.push('<form method="POST" action="/admin/delete_option/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i> Delete</a></form>')
             }

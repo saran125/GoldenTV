@@ -74,7 +74,7 @@ async function login_process(req, res, next) {
 	}
 
 	return Passport.authenticate('local', {
-		successRedirect: "/testing",
+		successRedirect: "/login",
 		failureRedirect: "/auth/login",
 		failureFlash: true
 	})(req, res, next);

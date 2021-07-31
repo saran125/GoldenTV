@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import { Modeloption } from '../../data/option.mjs';
+import { Modelroomtype } from '../../data/roomtype.mjs';
 import { HttpError } from '../../utils/errors.mjs';
-
+import { ModelUser } from '../../data/user.mjs';
 import {ModelFaq} from '../../data/faq.mjs';
 import {ModelReview} from '../../data/review.mjs';
 // import {ModelRoomReview} from '../data/roomreview.mjs';
@@ -24,13 +24,13 @@ async function option_process(req, res) {
     try {
         console.log(req.body);
         for (let i = 0; i < req.body.location.length; i++) {
-            const option = await Modeloption.create({
+            const option = await Modelroomtype.create({
                 date: req.body.date[i],
-                time: req.body.time[i] ,
+                time: req.body.time[i],
                 location: req.body.location[i].toUpperCase(),
-                small: req.body.small[i],
-                medium: req.body.medium[i],
-                large: req.body.large[i]
+                price: req.body.price[i],
+                roomtype: req.body.roomtype[i],
+                admin_uuid: req.user.uuid
             });
             console.log(option);
         }
@@ -46,7 +46,7 @@ function option_page(req, res) {
 }
 async function viewoption(req, res) {
     console.log("Looking at all the options ");
-    // const option = await Modeloption.findAll({raw:true});
+    // const option = await Modelroomtype.findAll({raw:true});
     return res.render('admin/viewoption');
 
 }
@@ -77,18 +77,20 @@ async function option_data(req, res) {
                     location: { [Op.substring]: search },
                     time: { [Op.substring]: search },
                     date: { [Op.substring]: search },
+                    roomtype: { [Op.substring]: search },
+                    price: { [Op.substring]: search },
                 },
             }
             : undefined;
-        const total = await Modeloption.count({ where: conditions });
+        const total = await Modelroomtype.count({ where: conditions });
         const pageTotal = Math.ceil(total / pageSize);
 
-        const pageContents = await Modeloption.findAll({
+        const pageContents = await Modelroomtype.findAll({
             offset: offset,
             limit: pageSize,
             order: [[sortBy, sortOrder.toUpperCase()]],
             where: conditions,
-            raw: true, // Data only, model excluded
+            raw: true // Data only, model excluded
         });
         return res.json({
             total: total,
@@ -103,13 +105,13 @@ async function option_data(req, res) {
 router.post("/delete_option/:uuid", async function (req, res) {
     console.log("contents deleted")
     console.log(req.body);
-    Modeloption.findOne({
+    Modelroomtype.findOne({
         where: {
             uuid: req.params.uuid
         },
     }).then((option) => {
         if (option != null) {
-            Modeloption.destroy({
+            Modelroomtype.destroy({
                 where: {
                     uuid: req.params.uuid
                 }
@@ -122,9 +124,9 @@ router.post("/delete_option/:uuid", async function (req, res) {
 });
 router.get("/update_option/:uuid", async function (req, res) {
     console.log("update Option page accessed");
-    const option = await Modeloption.findOne({
+    const option = await Modelroomtype.findOne({
         where: {
-            uuid: req.params.uuid
+            roomtype_id: req.params.uuid
         }
     });
     return res.render('admin/update_option', {
@@ -133,16 +135,17 @@ router.get("/update_option/:uuid", async function (req, res) {
 });
 router.post("/update_option/:uuid", async function (req, res) {
     console.log("updated Option page accessed");
-    const option = await Modeloption.update({
+    const option = await Modelroomtype.update({
         location: req.body.location,
         date:req.body.date,
         time: req.body.time,
         small: req.body.small,
         medium: req.body.medium,
-        large: req.body.large
+        large: req.body.large,
+        admin_uuid: req.user.uuid
     }, {
         where: {
-            uuid: req.params.uuid
+            roomtype_id: req.params.uuid
         }
     });
     console.log("Updated Option")

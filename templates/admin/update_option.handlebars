@@ -55,12 +55,16 @@
                                             <option style="color: black;">9pm to 11.45pm</option>
                                         </select>
                                     </td>
+
                                     <td>
-                                        <input type="number" name='small' class="form-control" style="color: black;" value="{{option.small}}"/>
-                                    </td>
-                                    <td>
-                                        <input type="number" name='medium' class="form-control" style="color: black;" value="{{option.medium}}"/>
-                                    </td>
+                                    <select name="roomtype" required class="form-control" value="{{option.roomtype}}">
+                                        <option style="color: black;">Small</option>
+                                        <option style="color: black;">Medium</option>
+                                        <option style="color: black;">Large</option>
+                                        <option style="color: black;">6pm to 8.45pm</option>
+                                        <option style="color: black;">9pm to 11.45pm</option>
+                                    </select>
+                                       </td>
                                     <td>
                                         <input type="number" name='large' class="form-control" style="color: black;" value="{{option.large}}"/>
                                     </td>
@@ -71,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" class="btn btn-primary pull-right" value="Submit">
+                <input type="submit" class="btn btn-primary pull-right" value="Save">
 
             </div>
         </div>
