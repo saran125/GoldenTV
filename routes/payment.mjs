@@ -11,7 +11,6 @@ var Publishable_Key = 'pk_test_51JH64qCNftL7aDDGxbmRaLzvCWayIEyV27af9E3JXthLTjN9
 var Secret_Key = 'sk_test_51JH64qCNftL7aDDGaAmYV24FR9HK1Mmf7bPTCWP6bFBGPjU8v5pUsEq5CXcp1xpDM3A93kZitOMVtS923oMGZ7qG00FqSWb3S0'
 import st from 'stripe';
 const stripe = (st)(Secret_Key);
-import { Modelticket } from '../data/ticket.mjs';
 import { Modelroomtype } from '../data/roomtype.mjs';
 import { room_details } from './user/user.js';
 const router = Router();

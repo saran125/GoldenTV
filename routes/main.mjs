@@ -4,7 +4,6 @@ import { flashMessage } from '../utils/flashmsg.mjs'
 // import { UploadFile, UploadTo, DeleteFile, DeleteFilePath } from '../utils/multer.mjs';
 // import axios from 'axios';
 import Review from '../routes/user/review.mjs';
-import { Modelticket } from '../data/ticket.mjs';
 // import Passport from 'passport';
 import path from 'path';
 import fs from 'fs';

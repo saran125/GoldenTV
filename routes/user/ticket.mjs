@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { nanoid } from 'nanoid'
-import { Modelticket } from '../../data/ticket.mjs';
 import {Modelroomtype} from "../../data/roomtype.mjs"
 import ORM from "sequelize";
 import qr from 'qrcode';
