@@ -9,7 +9,6 @@ import { ModelMovieInfo } from '../data/movieinfo.mjs';
 import { ModelSongInfo } from '../data/songinfo.mjs';
 import { ModelReview } from './review.mjs';
 import { ModelFaq } from './faq.mjs';
-import { Modelticket } from './ticket.mjs';
 import { Modelroomtype } from './roomtype.mjs';
 /**
  * @param database {ORM.Sequelize}
@@ -25,7 +24,6 @@ export function initialize_models(database) {
 		ModelSongInfo.initialize(database);
 		ModelReview.initialize(database);
 		ModelFaq.initialize(database);
-		Modelticket.initialize(database);
 		Modelroomtype.initialize(database);
 
 		console.log("Building ORM model relations and indices");
