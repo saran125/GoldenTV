@@ -20,12 +20,10 @@ export class ModelSongInfo extends Model {
 			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"admin_uuid" : { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
 			"user_uuid" : { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },	
-
             "songimage" : { type: DataTypes.STRING(650), allowNull: false },
             "songname" : { type: DataTypes.STRING(650), allowNull: false },
             "songagerating" : { type: DataTypes.STRING(650), allowNull: false },
             "songduration" : { type: DataTypes.FLOAT(4), allowNull: false },
-
             "songPop" : { type: DataTypes.STRING(65), allowNull: false },
             "songRock" : { type: DataTypes.STRING(65), allowNull: false },
             "songMetal" : { type: DataTypes.STRING(65), allowNull: false },
