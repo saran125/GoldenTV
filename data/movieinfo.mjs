@@ -24,15 +24,16 @@ export class ModelMovieInfo extends Model {
 			"moviename": { type: DataTypes.STRING(650), allowNull: false },
 			"movieagerating": { type: DataTypes.STRING(650), allowNull: false },
 			"movieduration": { type: DataTypes.FLOAT(4), allowNull: false },
-			"movieHorror": { type: DataTypes.STRING(65), allowNull: false },
-			"movieComedy": { type: DataTypes.STRING(65), allowNull: false },
-			"movieScience": { type: DataTypes.STRING(65), allowNull: false },
-			"movieRomance": { type: DataTypes.STRING(65), allowNull: false },
-			"movieAnimation": { type: DataTypes.STRING(65), allowNull: false },
-			"movieAdventure": { type: DataTypes.STRING(65), allowNull: false },
-			"movieEmotional": { type: DataTypes.STRING(65), allowNull: false },
-			"movieMystery": { type: DataTypes.STRING(65), allowNull: false },
-			"movieAction": { type: DataTypes.STRING(65), allowNull: false }
+			"moviegenre": { type: DataTypes.ENUM('Horror', 'Comedy', 'Science'), allowNull: false }
+			// "movieHorror": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieComedy": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieScience": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieRomance": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieAnimation": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieAdventure": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieEmotional": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieMystery": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieAction": { type: DataTypes.STRING(65), allowNull: false }
 		}, {
 			"sequelize": database,
 			"modelName": "MovieInfo",
@@ -60,13 +61,13 @@ export class ModelMovieInfo extends Model {
 	get movieduration() { return this.getDataValue("movieduration"); }
 	get dateUpdated() { return this.getDataValue("dateUpdated") };
 
-	get movieHorror() { return this.getDataValue("movieHorror"); }
-	get movieComedy() { return this.getDataValue("movieComedy"); }
-	get movieScience() { return this.getDataValue("movieScience"); }
-	get movieRomance() { return this.getDataValue("movieRomance"); }
-	get movieAnimation() { return this.getDataValue("movieAnimation"); }
-	get movieAdventure() { return this.getDataValue("movieAdventure"); }
-	get movieEmotional() { return this.getDataValue("movieEmotional"); }
-	get movieMystery() { return this.getDataValue("movieMystery"); }
-	get movieAction() { return this.getDataValue("movieAction"); }
+	// get movieHorror() { return this.getDataValue("movieHorror"); }
+	// get movieComedy() { return this.getDataValue("movieComedy"); }
+	// get movieScience() { return this.getDataValue("movieScience"); }
+	// get movieRomance() { return this.getDataValue("movieRomance"); }
+	// get movieAnimation() { return this.getDataValue("movieAnimation"); }
+	// get movieAdventure() { return this.getDataValue("movieAdventure"); }
+	// get movieEmotional() { return this.getDataValue("movieEmotional"); }
+	// get movieMystery() { return this.getDataValue("movieMystery"); }
+	// get movieAction() { return this.getDataValue("movieAction"); }
 }

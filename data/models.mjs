@@ -175,23 +175,28 @@ export function initialize_models(database) {
 	try {
 		console.log("Generate_movies");
 		const root_parameters = {	
-			movie_uuid    	: generate_movieinfo.movie_uuid,
+			movie_uuid    	: "generate_movieinfo.movie_uuid",
 			admin_uuid		: "00000000-0000-0000-0000-000000000000",
 			user_uuid		: "00000000-0000-0000-0000-000000000000",
-            movieimage		: generate_movieinfo.movieimage,
-            moviename		: generate_movieinfo.moviename,
-            movieagerating	: generate_movieinfo.movieagerating,
-            movieduration	: generate_movieinfo.movieduration,
-
-            movieHorror		: generate_movieinfo.movieHorror,
-            movieComedy		: generate_movieinfo.movieComedy,
-            movieScience	: generate_movieinfo.movieScience,
-        	movieRomance	: generate_movieinfo.movieRomance,
-            movieAnimation	: generate_movieinfo.movieAnimation,
-            movieAdventure	: generate_movieinfo.movieAdventure,
-            movieEmotional	: generate_movieinfo.movieEmotional,
-            movieMystery	: generate_movieinfo.movieMystery,
-            movieAction		: generate_movieinfo.movieAction
+            movieimage		: "generate_movieinfo.movieimage",
+            moviename		: "generate_movieinfo.moviename",
+            movieagerating	: "generate_movieinfo.movieagerating",
+            movieduration	: "generate_movieinfo.movieduration",
+			moviegenre	    : "generate_movieinfo.moviegenre"
+            // movieimage		: generate_movieinfo.movieimage,
+            // moviename		: generate_movieinfo.moviename,
+            // movieagerating	: generate_movieinfo.movieagerating,
+            // movieduration	: generate_movieinfo.movieduration,
+			// moviegenre	    : generate_movieinfo.moviegenre
+            // movieHorror		: generate_movieinfo.movieHorror,
+            // movieComedy		: generate_movieinfo.movieComedy,
+            // movieScience	: generate_movieinfo.movieScience,
+        	// movieRomance	: generate_movieinfo.movieRomance,
+            // movieAnimation	: generate_movieinfo.movieAnimation,
+            // movieAdventure	: generate_movieinfo.movieAdventure,
+            // movieEmotional	: generate_movieinfo.movieEmotional,
+            // movieMystery	: generate_movieinfo.movieMystery,
+            // movieAction		: generate_movieinfo.movieAction
 		};
 		//	Find for existing account with the same id, create or update
 		var account = await ModelMovieInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});

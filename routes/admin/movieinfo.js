@@ -58,14 +58,15 @@ async function chooseeditmoviestable_data(req, res) {
 				"moviename":  { [Op.substring]: search }, 
 				"movieagerating": { [Op.substring]: search },
 				"movieduration": { [Op.substring]: search },
-				"movieHorror": { [Op.substring]: search },
-				"movieComedy": { [Op.substring]: search },
-				"movieScience": { [Op.substring]: search },
-				"movieRomance": { [Op.substring]: search },
-				"movieAnimation": { [Op.substring]: search },
-				"movieEmotional": { [Op.substring]: search },
-				"movieMystery": { [Op.substring]: search },
-				"movieAction": { [Op.substring]: search }
+				"moviegenre": { [Op.substring]: search }
+				// "movieHorror": { [Op.substring]: search },
+				// "movieComedy": { [Op.substring]: search },
+				// "movieScience": { [Op.substring]: search },
+				// "movieRomance": { [Op.substring]: search },
+				// "movieAnimation": { [Op.substring]: search },
+				// "movieEmotional": { [Op.substring]: search },
+				// "movieMystery": { [Op.substring]: search },
+				// "movieAction": { [Op.substring]: search }
 			}
 		} : undefined;
 
@@ -126,16 +127,17 @@ async function createmovie_process(req, res, next) {
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
 			"movieduration": req.body.movieduration,
+			"moviegenre": req.body.moviegenre
 
-			"movieHorror": Boolean(req.body.movieHorror),
-			"movieComedy": Boolean(req.body.movieComedy),
-			"movieScience": Boolean(req.body.movieScience),
-			"movieRomance": Boolean(req.body.movieRomance),
-			"movieAnimation": Boolean(req.body.movieAnimation),
-			"movieAdventure": Boolean(req.body.movieAdventure),
-			"movieEmotional": Boolean(req.body.movieEmotional),
-			"movieMystery": Boolean(req.body.movieMystery),
-			"movieAction": Boolean(req.body.movieAction)			
+			// "movieHorror": Boolean(req.body.movieHorror),
+			// "movieComedy": Boolean(req.body.movieComedy),
+			// "movieScience": Boolean(req.body.movieScience),
+			// "movieRomance": Boolean(req.body.movieRomance),
+			// "movieAnimation": Boolean(req.body.movieAnimation),
+			// "movieAdventure": Boolean(req.body.movieAdventure),
+			// "movieEmotional": Boolean(req.body.movieEmotional),
+			// "movieMystery": Boolean(req.body.movieMystery),
+			// "movieAction": Boolean(req.body.movieAction)			
 		});
 		console.log('Description created: $(createmovies.email)');
 		createmovies.save();
