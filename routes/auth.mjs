@@ -5,7 +5,9 @@ import Hash from 'hash.js';
 import session from 'express-session';
 import mysql from 'mysql';
 import Passport from 'passport';
-
+import ExpressHBS from 'express-handlebars';
+const hbsRender = ExpressHBS.create({});
+import JWT from 'jsonwebtoken';
 const router = Router();
 export default router;
 
@@ -24,6 +26,7 @@ router.get("/login", login_page);
 router.post("/login", login_process);
 router.get("/register", register_page);
 router.post("/register", register_process);
+router.get("/verify/:token", verify_process);
 router.get("/profile", profile_page);
 
 /**
@@ -74,7 +77,7 @@ async function login_process(req, res, next) {
 	}
 
 	return Passport.authenticate('local', {
-		successRedirect: "/testing",
+		successRedirect: "/login",
 		failureRedirect: "/auth/login",
 		failureFlash: true
 	})(req, res, next);
@@ -130,8 +133,10 @@ async function register_process(req, res) {
 			password: Hash.sha256().update(req.body.password).digest("hex"),
 			name: req.body.name,
 		});
+		await send_verification(user.uuid, user.email);
 		flashMessage(res, 'success', 'Successfully created an account. Please login', 'fas fa-sign-in-alt', true);
 		return res.redirect("/auth/login");
+
 	}
 	catch (error) {
 		//	Else internal server error
@@ -140,6 +145,83 @@ async function register_process(req, res) {
 		return res.status(500).end();
 	}
 };
+const CLIENT_ID = '606882834321-g960n5vid466qrmtpcrvno3n8mm97ui0.apps.googleusercontent.com'
+const CLEINT_SECRET = 'ddcxoBS7eD1MK4iMlqSHItvq'
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
+const REFRESH_TOKEN = '1//04kNCsE6pIn8-CgYIARAAGAQSNwF-L9Ir4cYR9uueroLFBr7H2IPRf_f7M00FGbkFTpOmQvKkDdbSvEiqyr_2kEZa5lkRSXG7yr4'
+const oAuth2Client = new google.auth.OAuth2(
+	CLIENT_ID,
+	CLEINT_SECRET,
+	REDIRECT_URI
+);
+import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+async function send_verification(uid, email) {
+	const accessToken = await oAuth2Client.getAccessToken();
+	const transport = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			type: 'OAuth2',
+			user: 'nypgoldentv@gmail.com',
+			clientId: CLIENT_ID,
+			clientSecret: CLEINT_SECRET,
+			refreshToken: REFRESH_TOKEN,
+			accessToken: accessToken,
+		},
+	});
+	const token = JWT.sign({
+		uuid: uid
+	}, 'the-key', {
+		expiresIn: '100000'
+	});
+
+	//	Send email using google
+	return transport.sendMail({
+		to: email,
+		from: 'Golden Tv',
+		subject: `Verify your email`,
+		html: await hbsRender.render(`${process.cwd()}/templates/layouts/email-verify.handlebars`, {
+			token: token
+		})
+	});
+}
+async function verify_process(req, res) {
+	const token = req.params.token;
+	let uuid = null;
+	try {
+		const payload = JWT.verify(token, 'the-key');
+		uuid = payload.uuid;
+	}
+	catch (error) {
+		console.error(`The token is invalid`);
+		console.error(error);
+		return res.sendStatus(400).end();
+	}
+
+	try {
+		const user = await ModelUser.findByPk(uuid);
+		const update = await ModelUser.update({
+			verified: true
+		}, {
+			where: {
+				uuid:uuid
+			}
+		});
+		// user.verify()
+		user.save();
+		return res.render("auth/verified", {
+			name: user.name
+		});
+	}
+	catch (error) {
+		console.error(`Failed to locate ${uuid}`);
+		console.error(error);
+		return res.sendStatus(500).end();
+	}
+}
+
 
 async function profile_page(req, res) {
 	if (req.sessionID) {

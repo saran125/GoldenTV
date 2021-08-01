@@ -1,0 +1,14 @@
+ room_title 		: generate_roominfo.room_title,
+            small_roominfo 	: generate_roominfo.small_roominfo,
+            small_roomprice : generate_roominfo.small_roomprice,
+            small_roomimage1: generate_roominfo.small_roomimage1,
+            small_roomimage2: generate_roominfo.small_roomimage2,
+
+            med_roominfo 	: generate_roominfo.med_roominfo,
+            med_roomprice 	: generate_roominfo.med_roomprice,
+            med_roomimage 	: generate_roominfo.med_roomimage,
+
+            large_roominfo 	: generate_roominfo.large_roominfo,
+            large_roomprice : generate_roominfo.large_roomprice,
+            large_roomimage1: generate_roominfo.large_roomimage1,
+            large_roomimage2: generate_roominfo.large_roomimage2

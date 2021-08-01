@@ -11,12 +11,11 @@ var Publishable_Key = 'pk_test_51JH64qCNftL7aDDGxbmRaLzvCWayIEyV27af9E3JXthLTjN9
 var Secret_Key = 'sk_test_51JH64qCNftL7aDDGaAmYV24FR9HK1Mmf7bPTCWP6bFBGPjU8v5pUsEq5CXcp1xpDM3A93kZitOMVtS923oMGZ7qG00FqSWb3S0'
 import st from 'stripe';
 const stripe = (st)(Secret_Key);
-import { Modelticket } from '../data/ticket.mjs';
-import { Modeloption } from '../data/option.mjs';
+import { Modelroomtype } from '../data/roomtype.mjs';
 import { room_details } from './user/user.js';
 const router = Router();
 export default router;
-router.get("/generate", page_generate);
+router.get("/generate/:roomtype", page_generate);
 router.post("/generate", nets_generate);
 router.post("/query", nets_query);
 router.post("/void", nets_void);
@@ -34,11 +33,14 @@ let price = 0;
  * @param {import('express').Response} res 
  */
 async function page_generate(req, res) {
-	let cents = 0;
-	cents += Math.round(room_details.price * 100);
-	
-	console.log(room_details.location);
-	return res.render('user/payment', {room_details,price, cents});
+	const details = await Modelroomtype.findByPk(req.params.roomtype);
+	// try {
+		let user = req.user.uuid;
+		return res.render('user/payment', { details })
+	// catch(error){
+	// 	return res.render('404');
+	// };
+
 } 
 /**
  * Signs the payload with the secret key
@@ -54,7 +56,6 @@ function generate_signature(payload) {
 	// 4. signature = base64encode(signature)Base64 encode
 	return (Buffer.from(hash, 'hex').toString('base64'));
 }
-
 /**
  * Generates a NETs QR code to be scanned. With specified price in CENTS
  * @param {import('express').Request} req 
@@ -177,49 +178,12 @@ async function nets_query(req, res) {
 			//	Okay
 			case "00":
 				console.log('successfull');
-				const roomtype = await Modeloption.findOne({
-					where: {
-						time: room_details.time, location: room_details.location, date: room_details.date
-					}
-				});
-				console.log(room_details.roomtype);
-				if (room_details.roomtype == 'small') {
-					console.log('Small - 1');
-					roomtype.update({
-						small: roomtype.small - 1
-					});
-					roomtype.save();
-				}
-				else if (room_details.roomtype == 'medium') {
-					console.log('Medium - 1');
-					roomtype.update({
-						medium: roomtype.medium - 1
-					});
-					roomtype.save();
-				}
-				else if (room_details.roomtype == 'large') {
-					console.log('Big - 1');
-					roomtype.update({
-						big: roomtype.big - 1
-					});
-					roomtype.save();
-				}
-				const ticket = await Modelticket.create({
-					choice: room_details.choice,
-					location: room_details.location,
-					date: room_details.date,
-					time: room_details.time,
-					roomtype: room_details.roomtype,
-					ref: random_ref,
-				});
-				console.log(room_details);
 				return res.json({
 					status: 1
 				});
 
 			//	Failed
 			default:
-				room_details = { location: '', date: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref, price: 0 };
 				return res.json({
 					status: -1
 				});
@@ -293,29 +257,30 @@ async function nets_void(req, res) {
 		return res.sendStatus(500);
 	}
 }
-
-router.get('/paypal', (req, res) => {
+let paypal_price = 0;
+router.post('/paypal/:room_id', (req, res) => {
+	paypal_price +=  req.body.amount;
 	const create_payment_json = {
 		"intent": "sale",
 		"payer": {
 			"payment_method": "paypal"
 		},
 		"redirect_urls": {
-			"return_url": "http://localhost:3000/payment/paypal/success",
+			"return_url": "http://localhost:3000/payment/paypal/success/"+ req.body.amount+"/"+req.params.room_id,
 			"cancel_url": "http://localhost:3000/payment/cancel"
 		},
 		"transactions": [{
 			"item_list": {
 				"items": [{
 					"name": "Golden Tv",
-					"price": 5.00,
+					"price": req.body.amount,
 					"currency": "SGD",
 					"quantity": 1
 				}]
 			},
 			"amount": {
 				"currency": "SGD",
-				"total": 5.00
+				"total": req.body.amount
 			},
 			"description": "Golden TV"
 		}]
@@ -335,7 +300,7 @@ router.get('/paypal', (req, res) => {
 
 });
 
-router.get('/paypal/success', (req, res) => {
+router.get('/paypal/success/:price/:room_id', (req, res) => {
 	const payerId = req.query.PayerID;
 	const paymentId = req.query.paymentId;
 
@@ -344,7 +309,7 @@ router.get('/paypal/success', (req, res) => {
 		"transactions": [{
 			"amount": {
 				"currency": "SGD",
-				"total": 5.00
+				"total": req.params.price
 			}
 		}]
 	};
@@ -354,33 +319,98 @@ router.get('/paypal/success', (req, res) => {
 			throw error;
 		} else {
 			console.log(JSON.stringify(payment));
-			res.redirect('/payment/success');
+			res.redirect('/payment/success/'+ req.params.room_id);
 		}
 	});
 });
-router.get("/success", (req, res) => {
-	console.log("payment is success");
-	return res.render('success', {
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
+import { connect } from 'http2';
+const CLIENT_ID = '606882834321-g960n5vid466qrmtpcrvno3n8mm97ui0.apps.googleusercontent.com'
+const CLEINT_SECRET = 'ddcxoBS7eD1MK4iMlqSHItvq'
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
+const REFRESH_TOKEN = '1//04kNCsE6pIn8-CgYIARAAGAQSNwF-L9Ir4cYR9uueroLFBr7H2IPRf_f7M00FGbkFTpOmQvKkDdbSvEiqyr_2kEZa5lkRSXG7yr4'
+const oAuth2Client = new google.auth.OAuth2(
+	CLIENT_ID,
+	CLEINT_SECRET,
+	REDIRECT_URI
+);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+router.get("/success/:room_id",async function (req, res, next) {
+	const update = await Modelroomtype.update({
+		booked: "Yes",
+		user_id: req.user.uuid
+	}, {
+		where: {
+			roomtype_id: req.params.room_id
+		}
+	});
+	console.log("ticket page accessed");
+	const room = await Modelroomtype.findOne({
+			where: {
+			roomtype_id: req.params.room_id
+			}
+		});
+	const accessToken = await oAuth2Client.getAccessToken();
+
+	const transport = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			type: 'OAuth2',
+			user: 'nypgoldentv@gmail.com',
+			clientId: CLIENT_ID,
+			clientSecret: CLEINT_SECRET,
+			refreshToken: REFRESH_TOKEN,
+			accessToken: accessToken,
+		},
+	}); 
+		const mailOptions = { 
+		from: 'Golden TV <no-reply>',
+		to: req.user.email,
+		subject: 'Booking Confirmation',
+		html: "<h1>Golden Tv Room Booking Confirmation</h1>"+
+		    "<h2>Hello "+req.user.name+"</h2>"+
+			"<h3>---Room details---</h3>"+
+			"<h4>Choice: " +room.choice+"</h4>"+
+			"<h4>Location: " + room.location + "</h4>" +
+			"<h4>Date: " + room.date + "</h4>" +
+			"<h4>Time Slot: " + room.time + "</h4>"+
+			"<h4>Room Size: " + room.roomtype + "</h4>" +
+			"<h4>Price: $" + room.price + "</h4>"+
+			'<h3>Present this email or the ticket which you can access on our website during entry!</h3>' +
+			"<ul><li> Please note that all completed and confirmed transactions <bold> CANNOT BE CANCELLED OR REFUNDED</bold> under any circumstances.</li><li>Please arrive 15mins in advance to purchase pop-corn</li>"+
+			"<li>Please note that <bold>PROOF OF AGE is required for NC16, M18 & R21 films </bold> during entry into the cinema. Please produce valid identity document that displays your photograph and date of birth as proof of age when requested. The Management reserves the right to verify the age of any patron and/or deny any patron from purchasing and/or collecting tickets and/or entry into the cinema if they are not able to produce a proper or valid identity document as proof of age or do not meet the minimum qualifying age based on the relevant film rating. Tickets purchased in such cases are <bold>NOT EXCHANGEABLE OR REFUNDABLE </bold> under any circumstances.</li>"+
+			"<li> For Answers to Your questions, Please contact us through our email nypgoldentv@gmail.com. Please note that all emails will be replied to within three working day.</li></ul>"+
+			"<h2>Thank You For Choosing Golden Tv. We look forward to serve you!</h2>",
+	};
+	const result = await transport.sendMail(mailOptions);
+	console.log('Sent email..');
+	console.log('Payment is succeed')
+	return res.render('success', { room
 	});
 });
-
 router.get("/cancel", (req, res) => {
 	console.log("Payment is Cancalled");
 	return res.render('cancel', {
 	});
 });
-
-router.post('/card', (req, res) => {
-	const amount = 600;
+router.get("/timeout", (req, res) => {
+	console.log("Time Out");
+	return res.render('timeout', {
+	});
+});
+router.post('/card/:room_id', (req, res) => {
+	const amount = req.body.amount;
 	stripe.customers.create({
 		email: req.body.stripeEmail,
 		source: req.body.stripeToken
 	})
 		.then(customer => stripe.charges.create({
 			amount,
-			description: 'Saran bought a room',
+			description: 'Bought a room',
 			currency: 'SGD',
 			customer: customer.id
 		}))
-		.then(charge => res.redirect('/payment/success'));
+		.then(charge => res.redirect('/payment/success/'+ req.params.room_id));
 });

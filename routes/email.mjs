@@ -4,10 +4,10 @@ import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 import fs from 'fs';
 import Hogan from 'hogan.js'
-const CLIENT_ID = '1017651201058-16apnm5uulqobtm41bgj79nni780l359.apps.googleusercontent.com'
-const CLEINT_SECRET = 'qq-XKkNozVVa28IMWrNi6I_Q'
+const CLIENT_ID = '606882834321-g960n5vid466qrmtpcrvno3n8mm97ui0.apps.googleusercontent.com'
+const CLEINT_SECRET = 'ddcxoBS7eD1MK4iMlqSHItvq'
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
-const REFRESH_TOKEN = '1//04IItRcscZcBbCgYIARAAGAQSNwF-L9IrCCCxiWyU3lPrwt2pgVWcWtQxvPB0FLUj1-ySVr_IwLtdNjfys8ciDmFmdawUzCF9VEI'
+const REFRESH_TOKEN = '1//04kNCsE6pIn8-CgYIARAAGAQSNwF-L9Ir4cYR9uueroLFBr7H2IPRf_f7M00FGbkFTpOmQvKkDdbSvEiqyr_2kEZa5lkRSXG7yr4'
 import { room_details } from './main.mjs';
 const router = Router();
 export default router;

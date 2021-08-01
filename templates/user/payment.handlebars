@@ -148,10 +148,13 @@
 </style>
 <body onload="generate_qr_code(null)">
 <div class="container mt-5">
+
 	<div class="row d-flex justify-content-center align-items-center">
-	<button class="button"  id="change" onclick="nets()">NetsQR</button>
-	<button class="button"  id="change" onclick="paypal()">PayPal</button>
-	<button class="button" id="change" onclick="card()">Card</button>
+		<div id="payment">
+			<button class="button"  id="change" onclick="nets()">NetsQR</button>
+			<button class="button"  id="change" onclick="paypal()">PayPal</button>
+			<button class="button" id="change" onclick="card()">Card</button>
+		</div>
 		<div class="col-md-8">
 			<div id="regForm">
 			<div id="qrcode">
@@ -160,13 +163,15 @@
 					<h1>Nets QR</h1>
 				</div>
 				<div>
-					<input type="number" name="amount" id="price" value="{{cents}}" style="display: none;">
+					<input type="number" name="amount" id="price" value="{{details.price}}" style="display: none;">
 					<h3> Room Details</h3>
-						<h5> Location: {{room_details.location}}</h5>
-						<h5> Time Slot: {{room_details.time}}</h5>
-						<h5> Date:   {{room_details.date}}</h5>
-						<h5> Room type: {{room_details.roomtype}}</h5>
-						<h5> Price: ${{room_details.price}}</h5>
+					<input type="text" id="room_id" value="{{details.roomtype_id}}" style="display: none;" >
+						<h5> Location: {{details.location}}</h5>
+						<h5> Time Slot: {{details.time}}</h5>
+						<h5> Date:   {{details.date}}</h5>
+						<h5> Room type: {{details.roomtype}}</h5>
+						<h5> Price: ${{details.price}}</h5>
+						
 						<p>  ***Pay in 10mins***</p>
 						<div class="qr">
 							<img src="null" id="qr_code" class="img">
@@ -180,17 +185,19 @@
 				</div>
 				<div>
 					<h3> Room Details</h3>
-					<h5> Location: {{room_details.location}}</h5>
-					<h5> Time Slot: {{room_details.time}}</h5>
-					<h5> Date: {{room_details.date}}</h5>
-					<h5> Room type: {{room_details.roomtype}}</h5>
-					<h5> Price: ${{room_details.price}}</h5>
+					<h5> Location: {{details.location}}</h5>
+					<h5> Time Slot: {{details.time}}</h5>
+					<h5> Date: {{details.date}}</h5>
+					<h5> Room type: {{details.roomtype}}</h5>
+					<h5> Price: ${{details.price}}</h5>
 					<p> ***Pay in 10mins***</p>
-					<a href="/payment/paypal"><button id="paypal-button">
+					<form method="POST" action="/payment/paypal/{{details.roomtype_id}}">
+					<input type="number" name="amount" id="price" value="{{details.price}}" style="display: none;">
+					 <button id="paypal-button" type="submit">
 							Pay by
 							<i>Pay</i><i>Pal</i>
 					</button>
-					</a>
+					</form>
 				</div>
 			</div>
 			<div id="card">
@@ -199,45 +206,27 @@
 				</div>
 				<div>
 					<h3> Room Details</h3>
-					<h5> Location: {{room_details.location}}</h5>
-					<h5> Time Slot: {{room_details.time}}</h5>
-					<h5> Date: {{room_details.date}}</h5>
-					<h5> Room type: {{room_details.roomtype}}</h5>
-					<h5> Price: ${{room_details.price}}</h5>
+					<h5> Location: {{details.location}}</h5>
+					<h5> Time Slot: {{details.time}}</h5>
+					<h5> Date: {{details.date}}</h5>
+					<h5> Room type: {{details.roomtype}}</h5>
+					<h5> Price: ${{details.price}}</h5>
 					<p> ***Pay in 10mins***</p>
-					<form action="/payment/card" method="POST">
+					<form action="/payment/card/{{details.roomtype_id}}" method="POST">
 						<script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_51JH64qCNftL7aDDGxbmRaLzvCWayIEyV27af9E3JXthLTjN9kQdPbtZNhPQM7Sp2eKsaQly6wunPsZL0wkwI8Qsu00RrfNYjBl"
-							data-amount="600" data-name="Saran" data-description="Booking room at golden Tv"
+							data-amount="{{details.price}}00" data-name="Golden TV" data-description="Booking {{details.roomtype}} Room"
 							data-image="../../public/img/goldentvlogo.png" data-locale="auto">
 							</script>
+						
+							<input type="number" name="amount" id="price" value="{{details.price}}00" style="display: none;">
 						<script>
-							// Hide default stripe button
 							document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
 						</script>
 						<button type="submit" id="paypal-button">Pay with
 						<i>Card</i></button>
+					
 					</form>
 				</div>
-			</div>
-			<div id="success">
-				<h1 style="font-weight: bold;"> You have successfully Paid</h1>
-				<h2 style=" text-decoration: underline;"> Room Details</h2>
-				<h5> Location: {{room_details.location}}</h5>
-				<h5> Time Slot: {{room_details.time}}</h5>
-				<h5> Date: {{room_details.date}}</h5>
-				<h5> Room type: {{room_details.roomtype}}</h5>
-				<h5> Price: ${{room_details.price}}</h5>
-				<a href="/" ><button id="hello" class="button" >Home</button></a>
-				<a href="/ticket/ticketlist"><button id="hello" class="button" >My tickets</button></a>
-			</div>
-			<div id="timeout">
-				<h1> Sorry! Time Out. You need to book again!</h1>
-				<a href="/" ><button id="hello" class="button" >Home</button></a>
-			</div>
-			<div id="cancel">
-				<h1> Due to some reasons, payment is declined!</h1>
-				<h1> Please Book Room Again!</h1>
-				<a href="/"><button id="hello" class="button" >Home</button></a>
 			</div>
 		</div>
 	</div>
@@ -246,9 +235,6 @@
 	 * Make a request to generate the QR code
 	 * @param {InputEvent} event
 	 **/
-	document.getElementById("success").style.display = "none";
-	document.getElementById("timeout").style.display = "none";
-	document.getElementById("cancel").style.display = "none";
 	document.getElementById("paypal").style.display = "none";
 	document.getElementById("card").style.display = "none";
 	async function generate_qr_code(event) {
@@ -258,7 +244,7 @@
 			},
 			method: "POST",
 			body:   JSON.stringify({
-				amount: document.getElementById("price").value
+				amount: document.getElementById("price").value * 100
 			})
 		});
 		if (response.ok) {
@@ -295,7 +281,8 @@
 					transaction_date: transaction.transaction_date,
 					transaction_time: transaction.transaction_time,
 					stan:             transaction.stan,
-					amount:           transaction.amount
+					amount:           transaction.amount,
+					room_id: document.getElementById("room_id").value
 				})
 			});
 
@@ -310,13 +297,14 @@
 				break;
 				case 1: 
 					console.log(`Payment succeeded`);
-					document.getElementById("qrcode").style.display = "none";
-					document.getElementById("success").style.display = "inline";
+
+					document.getElementById("payment").style.display = "none";
+					window.location.href = "/payment/success/"+ document.getElementById("room_id").value;
 				break;
 				case -1:
 					console.log(`Payment cancelled`);
-					document.getElementById("qrcode").style.display = "none";
-					document.getElementById("cancel").style.display = "inline";
+					document.getElementById("payment").style.display = "none";
+					window.location.href = "/payment/cancel";
 					//	TODO: Hide the qr code, set image to X
 				break;
 			}
@@ -351,8 +339,8 @@
 			switch (status) {
 				case 1:
 					console.log(`Transaction cancelled successfully`);
-					document.getElementById("qrcode").style.display = "none";
-					document.getElementById("timeout").style.display = "inline";
+					document.getElementById("payment").style.display = "none";
+					window.location.href = "/payment/timeout";
 				break;
 
 				default:
@@ -372,12 +360,13 @@ function nets(){
 	document.getElementById("qrcode").style.display = "inline";
 	document.getElementById("card").style.display = "none";
 }
-	function paypal() {
+function paypal() {
 		document.getElementById("paypal").style.display = "inline";
 		document.getElementById("qrcode").style.display = "none";
 		document.getElementById("card").style.display = "none";
 	}
-	function card() {
+function card() {
+	document.getElementById("paypal").style.display = "none";
 			document.getElementById("card").style.display = "inline";
 			document.getElementById("qrcode").style.display = "none";
 		}

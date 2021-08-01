@@ -67,6 +67,7 @@
     {{!--
     <link rel="stylesheet" href="/public/css/businessstatistics.css"> --}}
 </head>
+{{> navbar}}
 <body id='bodybg'>
     <h1>My Tickets</h1>
     <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
@@ -76,7 +77,6 @@
         data-url="/ticket/tickettable-data">
         <thead>
             <tr>
-                <th data-field="id" >Id</th>
                 <th data-field="choice">Choice</th>
                 <th data-field="location">Location</th>
                 <th data-field="date">Date</th>
@@ -95,7 +95,7 @@
          **/
         function table_row_edit(value, row, index) {
             return `
-		<a href="/ticket/view/${row.uuid}">
+		<a href="/ticket/view/${row.roomtype_id}">
 			<i class="fa fa-eye"></i>
 		</a>
 		`;

@@ -281,9 +281,13 @@
                 <div class="MovieDuration">{{ movieduration }}</div>  
             </div>
         </div>
-
-        <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
+        {{#if (cmp_eq user.role "customer") }}
+        <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review!</button></a></p>
         <p><a id="movie"><button class="purchase" > Book Now! </button> </a></p>
+        {{else}}
+        <p><a href="/retrieveReview"><button class="Review1"> Review!</button></a></p>
+        <p><a href="/auth/login"><button class="Review1">login to book!</button></a></p>
+        {{/if}}
     </div>
     
 </div>
@@ -322,13 +326,19 @@
                 <div class="SongDuration">{{ songduration }}</div>   
             </div>
         </div>
+        {{#if (cmp_eq user.role "customer") }}
         <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
         <p><a id="karaoke"><button class="purchase" > Book Now! </button></a></p>
+        {{else}}
+        <p><a href="/retrieveReview/{{ user.uuid }}"><button class="Review1"> Review! </button></a></p>
+        <p><a href="/auth/login"><button class="Review1">login to book!</button></a></p>
+        {{/if}}
     </div>
 </div>
 <script>
+
     var value = "Movie";
     document.getElementById("movie").href = "/user/booking/" + value;
-    var value = "Karaoke"
+    var value = "Karaoke";
     document.getElementById("karaoke").href = "/user/booking/" + value;
 </script>

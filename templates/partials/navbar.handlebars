@@ -100,14 +100,13 @@ div.clock {
 			<li class="nav-item">
 				<a class="nav-link" href="/contactus">About Us</a>
 			</li>
-			{{#if user}}
 			{{#if (cmp_eq user.role "admin") }}
 			<li class="nav-item">
 				<a class="nav-link" href="/businessstatistics">Statistics</a>
 			</li>
+			<a href="/admin/viewoption" class="nav-link">Manage all the Options</a>
 			{{/if}}	
-			{{/if}}	
-			{{#if user}}
+			{{#if (cmp_eq user.role "customer") }}
 			<li class="nav-item">
 				<a class="nav-link" href="/ticket/ticketlist">My Tickets</a>
 			</li>
@@ -116,22 +115,17 @@ div.clock {
 				<a class="nav-link" href="/test">test404</a>
 			</li>											 --}}
 		</ul>
+
 		<ul class="navbar-nav ml-auto">
-			{{#if user}}
+			{{#if user }}
 				<li class="nav-item">
 					<a href="/auth/logout" class="nav-link">Logout</a>
 				</li>
-			{{else}}
-			
-			<li class="nav-item dropdown">
-				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Admin</a>
-				<div class="dropdown-menu">
-					
-					<a href="/admin/option" class="dropdown-item">Add option</a>
-					<a href="/admin/viewoption" class="dropdown-item">Manage all the Options</a>
-				</div>
-			</li>
-		
+				<li class="nav-item">
+					<a href="/auth/profile" class="nav-link">Profile</a>
+				</li>
+				{{/if}}
+			{{#if (cmp_eq user.role not "admin" and "customer") }}
 				<li class="nav-item">
 					{{!-- main.js router(/login)--}}
 					<a href="/auth/login" class="nav-link">Login</a>
@@ -139,12 +133,7 @@ div.clock {
 				<li class="nav-item">
 					<a href="/auth/register" class="nav-link">Register</a>
 				</li>
-				{{#if user }}
-				<li class="nav-item">
-					<a href="/auth/profile" class="nav-link">Profile</a>
-				</li>
-			{{/if}}
-			{{/if}}
+				{{/if}}
 		</ul>
 	</div>
 </nav>

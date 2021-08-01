@@ -23,18 +23,7 @@ upload.fields([
   ]),
 editrooms_process);
 
-// router.get("/test", test_page);
-// /**
-//  * Renders the home page
-//  * @param {Request}  req Express Request handle
-//  * @param {Response} res Express Response handle
-//  */
-// // ---------------- 
-// //	TODO:	Common URL paths here
-// async function test_page(req, res) {
-// 	console.log("Home page accessed");
-// 	return res.render('404');
-// }
+
 
 /**
  * Renders the login page

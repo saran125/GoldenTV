@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import { nanoid } from 'nanoid';
 import { ModelRoomInfo } from '../../data/roominfo.mjs';
-import { Modelticket } from '../../data/ticket.mjs';
-import { Modeloption } from '../../data/option.mjs';
+import { Modelroomtype } from '../../data/roomtype.mjs';
 const router = Router();
 export default router;
 router.post("/booking/:choice", booking_process);
@@ -13,37 +12,15 @@ export var room_details = { location: '', date: '', time: '', choice: '', uuid: 
 async function booking_process(req, res) {
     console.log('Description created: $(booking.choice)');
     try {
-        room_details = { location: '', date: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref, price: 0 };
+        room_details = { location: '', date: '', time: '', choice: '', uuid: '', ref: random_ref, price: 0 };
         console.log(req.body);
-        Modeloption.destroy({
-            where: {
-                small: 0, medium: 0, large: 0
-            }
+        const roomtype = await Modelroomtype.findOne({ where: { time: req.body.time, location: req.body.location, date: req.body.date, roomtype: req.body.room, booked: 'No'  } });
+        roomtype.update({
+            choice: req.params.choice
         });
-        const roomtype = await Modeloption.findOne({ where: { time: req.body.time, location:req.body.location, date:req.body.date } });
+        roomtype.save();
         console.log(roomtype);
-        console.log(roomtype.uuid);
-        room_details.location = req.body.location;
-        room_details.time = req.body.time;
-        room_details.roomtype = req.body.room;
-        room_details.date = req.body.date;
-        room_details.uuid = roomtype.uuid;
-        room_details.choice = req.params.choice;
-        const room = await ModelRoomInfo.findOne({
-            where: {
-                "roominfo_uuid": "test"
-            }
-        });
-        if(req.body.room == 'small'){
-            room_details.price += room.small_roomprice
-        }
-        if (req.body.room == 'medium') {
-            room_details.price += room.med_roomprice
-        }
-        if (req.body.room == 'large') {
-            room_details.price += room.large_roomprice
-        }
-        return res.redirect("/payment/generate");
+        return res.redirect("/payment/generate/"+ roomtype.roomtype_id);
     }
     catch (error) {
         console.error(error);
@@ -54,8 +31,8 @@ async function booking_page(req, res) {
     room_details = { };
     var choice = req.params.choice;
     console.log(choice);
-    Modeloption.sync({ alert: true }).then(() => {
-        return Modeloption.findAll({ attributes: ['location'] });
+    Modelroomtype.sync({ alert: true }).then(() => {
+        return Modelroomtype.findAll({ attributes: ['location'], where: { booked: 'No'} });
     }).then((data) => {
         let All_location = [];
         data.forEach(element => {
@@ -72,7 +49,7 @@ async function booking_page(req, res) {
         }
         console.log(location);
         return res.render('user/booking', {
-            location, Modeloption, choice
+            location, Modelroomtype, choice
         });
     })
         .catch((err) => {
@@ -83,8 +60,8 @@ async function booking_page(req, res) {
 router.post("/date", async function (req, res) {
     console.log("Loooking for all the date");
     console.log(req.body);
-    Modeloption.sync({ alert: true }).then(() => {
-        return Modeloption.findAll({ attributes: ['date'], where: { location: req.body.location } });
+    Modelroomtype.sync({ alert: true }).then(() => {
+        return Modelroomtype.findAll({ attributes: ['date'], where: { location: req.body.location, booked: 'No'  } });
     }).then((data) => {
         let date = [];
         data.forEach(element => {
@@ -107,8 +84,8 @@ router.post("/date", async function (req, res) {
 router.post("/time", async function (req, res){
     console.log("Loooking for all the time");
     console.log(req.body);
-    Modeloption.sync({ alert: true }).then(() => {
-        return Modeloption.findAll({ attributes: ['time'], where: { location: req.body.location, date: req.body.date } });
+    Modelroomtype.sync({ alert: true }).then(() => {
+        return Modelroomtype.findAll({ attributes: ['time'], where: { booked: 'No' , location: req.body.location, date: req.body.date } });
     }).then((data) => {
         let time = [];
         data.forEach(element => {
@@ -116,26 +93,52 @@ router.post("/time", async function (req, res){
             console.log(element.toJSON().time);
         })
         console.log(time);
+        var mytime = [];
+        for (let i = 0; i < time.length; i++) {
+            if (mytime.indexOf(time[i]) === -1) {
+                mytime.push(time[i]);
+            }
+        }
+        console.log(mytime);
         return res.json({
-            time: time
+            time: mytime
         })
     })
 });
 router.post("/roomtype", async function (req, res) {
     console.log("Loooking for all the roomtype");
     console.log(req.body);
-    const roomtype = await Modeloption.findOne({
+    const Small = await Modelroomtype.findAndCountAll({
         where: {
-            time: req.body.time, date: req.body.date, location: req.body.location
+            time: req.body.time, date: req.body.date, location: req.body.location, roomtype: "Small", booked: 'No'
         }
     });
-    if (roomtype.small <= 0) {
+    const check = await Modelroomtype.findOne({
+        where: {
+            time: req.body.time, date: req.body.date, location: req.body.location, roomtype: "Small", booked: 'No'
+        }
+    });
+    const Medium = await Modelroomtype.findAndCountAll({
+        where: {
+            time: req.body.time, date: req.body.date, location: req.body.location, roomtype: "Medium", booked: 'No'
+        }
+    });
+    const Large = await Modelroomtype.findAndCountAll({
+        where: {
+            time: req.body.time, date: req.body.date, location: req.body.location, roomtype: "Large", booked: 'No'
+        }
+    });
+    console.log("Small " + Small.count);
+    console.log(check);
+    console.log("Medium " + Medium.count);
+    console.log( "Large "+ Large.count);
+    if (Small.count <= 0) {
         var small = false;
     };
-    if (roomtype.medium <= 0) {
+    if (Medium.count <= 0) {
        var medium = false;
     };
-    if (roomtype.large <= 0) {
+    if (Large.count <= 0) {
        var large = false;
     };
     return res.json({
