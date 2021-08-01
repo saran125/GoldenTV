@@ -109,7 +109,8 @@ export class ModelMovieInfo extends Model {
 	get movieimage() { return this.getDataValue("movieimage"); }
 	get moviename() { return this.getDataValue("moviename"); }  
 	get movieagerating() { return this.getDataValue("movieagerating"); }
-	get movieduration() { return this.getDataValue("movieduration"); }        
+	get movieduration() { return this.getDataValue("movieduration"); } 
+	get dateUpdated() { return this.getDataValue("dateUpdated") }; 
 
     get movieHorror() { return this.getDataValue("movieHorror"); }
 	get movieComedy() { return this.getDataValue("movieComedy"); }
