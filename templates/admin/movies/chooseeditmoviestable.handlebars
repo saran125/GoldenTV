@@ -131,14 +131,14 @@
         alt="Norway" class="w3-hover-opacity">
 		`;
       }
+
       function table_row_genres(value, row, index) {
         return `<div style="font-size: 12px; 
                 width: 75px;
                 background-color: purple;
-                border: 1px solid gold;
-                " 
-                class="MovieTag"> ${row.moviegenre} </div>`;
+                border: 1px solid gold;">` + "Horror" + `</div>`;
       }
+
       /**
        * Formats the action column for each row of data
        **/
@@ -152,65 +152,6 @@
 			<i class="fa fa-trash"></i>
 		</a>
 		`;
-      }
-
-      {
-        {
-          !-- async function action_delete(tid) {
-            const response = await fetch("/admin/manage-users/api/delete", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ uuid: tid })
-            });
-
-            if (response.ok) {
-              $('#table-user').bootstrapTable('refresh');
-            }
-            else {
-              $('#dialog-failed').modal();
-            }
-          } --}
-      }
-      {
-        {
-          !--
-          $(document).ready(function () {
-            $('#dtBasicExample').DataTable({
-              lengthMenu: [[2, 4, 8, -1], [2, 4, 8, "All"]],
-              pageLength: 4,
-              "searching": true // false to disable search (or any other option)
-            });
-            $('.dataTables_length').addClass('bs-select');
-          }); --}
-      }
-
-      {
-        {
-          !--$(function () {
-            $('#toolbar').find('select').change(function () {
-              $table.bootstrapTable('destroy').bootstrapTable({
-                exportDataType: $(this).val(),
-                exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
-                columns: [
-                  {
-                    field: 'state',
-                    checkbox: true,
-                    visible: $(this).val() === 'selected'
-                  },
-                  {
-                    field: 'moviename',
-                    title: 'Movie Name'
-                  }, {
-                    field: 'name',
-                    title: 'Item Name'
-                  }, {
-                    field: 'price',
-                    title: 'Item Price'
-                  }
-                ]
-              })
-            }).trigger('change')
-          }) --}
       }
 
     </script>
