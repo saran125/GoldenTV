@@ -46,25 +46,14 @@ div.blackblock {
   </div>
 
   <div class="form-group">
-  <h5>Small Room Image 1</h5>
+  <h5>Small Room Image</h5>
   <input type="file" id="small_roomimage1" 
   onchange="document.getElementById('imagedisplay1').src = window.URL.createObjectURL(this.files[0])" 
-  name="small_roomimage1" value="{{small_roomimage1}}" required>  
+  name="small_roomimage" value="{{small_roomimage}}" required>  
 
-  <img id="imagedisplay1" src="/public/uploads/{{ roomlist.small_roomimage1 }}"
+  <img id="imagedisplay1" src="/public/uploads/{{ roomlist.small_roomimage }}"
   alt="" class="border img-thumbnail img-fluid"
-  style="width: 110px; height: 160px; padding-bottom: 5px;">
-  </div>
-
-  <div class="form-group">
-  <h5>Small Room Image 2</h5>
-  <input type="file" id="small_roomimage2" 
-  onchange="document.getElementById('imagedisplay2').src = window.URL.createObjectURL(this.files[0])" 
-  name="small_roomimage2" value="{{small_roomimage2}}" required>  
-
-  <img id="imagedisplay2" src="/public/uploads/{{ roomlist.small_roomimage2 }}"
-  alt="" class="border img-thumbnail img-fluid"
-  style="width: 110px; height: 160px; padding-bottom: 5px;">
+  style="width: 200px; height: 150px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
@@ -86,7 +75,7 @@ div.blackblock {
 
   <img id="imagedisplay3" src="/public/uploads/{{ roomlist.med_roomimage }}"
   alt="" class="border img-thumbnail img-fluid"
-  style="width: 110px; height: 160px; padding-bottom: 5px;">
+  style="width: 200px; height: 150px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
@@ -101,30 +90,14 @@ div.blackblock {
   </div> 
 
   <div class="form-group">
-  <h5>Large Room Image 1</h5>
-  <input type="file" id="large_roomimage1" 
+  <h5>Large Room Image</h5>
+  <input type="file" id="large_roomimage" 
   onchange="document.getElementById('imagedisplay4').src = window.URL.createObjectURL(this.files[0])" 
-  name="large_roomimage1" value="{{large_roomimage1}}" required>  
+  name="large_roomimage" value="{{large_roomimage}}" required>  
 
-  <img id="imagedisplay4" src="/public/uploads/{{ roomlist.large_roomimage1 }}"
+  <img id="imagedisplay4" src="/public/uploads/{{ roomlist.large_roomimage }}"
   alt="" class="border img-thumbnail img-fluid"
-  style="width: 110px; height: 160px; padding-bottom: 5px;">
-  </div>
-
-  <div class="form-group">
-  <h5>Large Room Image 2</h5>
-  <input type="file" name="large_roomimage2" value="{{roomlist.large_roomimage2}}" required>
-  </div>
-
-  <div class="form-group">
-  <h5>Large Room Image 2</h5>
-  <input type="file" id="large_roomimage2" 
-  onchange="document.getElementById('imagedisplay5').src = window.URL.createObjectURL(this.files[0])" 
-  name="large_roomimage2" value="{{large_roomimage2}}" required>  
-
-  <img id="imagedisplay5" src="/public/uploads/{{ roomlist.large_roomimage2 }}"
-  alt="" class="border img-thumbnail img-fluid"
-  style="width: 110px; height: 160px; padding-bottom: 5px;">
+  style="width: 200px; height: 150px; padding-bottom: 5px;">
   </div>
 
   <div class="submit">

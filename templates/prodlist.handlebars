@@ -1,13 +1,23 @@
 <style>
-  body, button {
+  body,
+  button {
     background-color: black;
   }
 
-   h2, h3, h4, h5, .MovieName, .MovieTag, .MovieDuration, .SongName, .SongTag, .SongDuration{
+  h2,
+  h3,
+  h4,
+  h5,
+  .MovieName,
+  .MovieTag,
+  .MovieDuration,
+  .SongName,
+  .SongTag,
+  .SongDuration {
     color: gold;
   }
 
-  .RoomsPricing{
+  .RoomsPricing {
     padding-top: 5px;
     padding-right: 5px;
     padding-bottom: 25px;
@@ -15,8 +25,8 @@
     width: 300px;
     float: left;
   }
-  
-  .GVE{
+
+  .GVE {
     padding-top: 5px;
     padding-right: 5px;
     padding-bottom: 5px;
@@ -26,15 +36,16 @@
     background-color: gold;
     border: 1px solid grey;
   }
-  
-  .GVE h4, .GVE h5{
+
+  .GVE h4,
+  .GVE h5 {
     padding-left: 5px;
     float: left;
     color: black;
     background-color: gold;
   }
-  
-  .List{
+
+  .List {
     position: relative;
     padding-top: 5px;
     padding-right: 5px;
@@ -43,8 +54,8 @@
     width: 600px;
     float: left;
   }
-  
-  .filter{
+
+  .filter {
     padding-top: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
@@ -53,40 +64,41 @@
     float: right;
     border: 1px solid grey;
   }
-  
-  .FilterOptions{
+
+  .FilterOptions {
     list-style-type: none;
   }
-  
+
   .List img {
     width: 150px;
     height: 235px;
     float: left;
   }
-  
+
   .w3-container w3-white1 {
     width: 50%;
     float: left;
   }
-  
+
   .w3-container w3-white2 {
     width: 35%;
     float: left;
   }
-  
+
   .w3-container w3-white3 {
     width: 15%;
     float: right;
   }
-  
+
   .Title {
     padding-right: 10px;
     padding-left: 10px;
     width: 50%;
     float: left;
   }
-  
-  .MoviesAdded, .SongsAdded {
+
+  .MoviesAdded,
+  .SongsAdded {
     text-align: center;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -97,35 +109,40 @@
     left: 155px;
   }
 
-  .MovieName, .SongName {
+  .MovieName,
+  .SongName {
     font-size: 10px;
     width: 160px;
     float: left;
     border: 1px solid grey;
   }
 
-  .MovieRating, .SongRating {
+  .MovieRating,
+  .SongRating {
     font-size: 10px;
     width: 160px;
     float: left;
     border: 1px solid grey;
   }
 
-  .MovieDuration, .SongDuration {
+  .MovieDuration,
+  .SongDuration {
     font-size: 10px;
     width: 160px;
     float: left;
     border: 1px solid grey;
   }
 
-  .GenreTags1, .GenreTags2 {
+  .GenreTags1,
+  .GenreTags2 {
     font-size: 12px;
     float: right;
     width: 80px;
     height: 90px;
   }
 
-  .MovieTag, .SongTag {
+  .MovieTag,
+  .SongTag {
     font-size: 12px;
     width: 75px;
     float: right;
@@ -133,23 +150,25 @@
     border: 1px solid gold;
   }
 
-  .MovieAdd1, .SongAdd1 {
+  .MovieAdd1,
+  .SongAdd1 {
     width: 175px;
     height: 125px;
   }
 
-  .MovieAdd2, .SongAdd2 {
+  .MovieAdd2,
+  .SongAdd2 {
     width: 165px;
     height: 125px;
     position: absolute;
     top: 0px;
     left: 200px;
   }
-    
-  .purchase{
+
+  .purchase {
     float: right;
     width: 95px;
-    height:40px;
+    height: 40px;
     border: 1px solid;
     border-color: gold;
     color: gold;
@@ -157,11 +176,11 @@
     bottom: 8px;
     right: 16px;
   }
-  
-  .Review1{
+
+  .Review1 {
     float: right;
     width: 95px;
-    height:40px;
+    height: 40px;
     border: 1px solid;
     border-color: gold;
     color: gold;
@@ -169,8 +188,10 @@
     bottom: 8px;
     right: 125px;
   }
-  
-  .purchase:hover, .Review1:hover, .filter:hover{
+
+  .purchase:hover,
+  .Review1:hover,
+  .filter:hover {
     background-color: gold;
     color: black;
   }
@@ -179,51 +200,42 @@
 <title>Movie/Karaoke Selection</title>
 {{>navbar}}
 <div class="RoomsPricing">
-<h2>{{ room_title }}</h2>
+  <h2>{{ room_title }}</h2>
 
-<form action="../prod/editroominfo">
-<input type="submit" value="Edit" class="btn btn-outline-warning">
-</form>
+  <form action="../prod/editroominfo">
+    <input type="submit" value="Edit" class="btn btn-outline-warning">
+  </form>
 
-<div class="w3-third w3-container w3-margin-bottom">
+  <div class="w3-third w3-container w3-margin-bottom">
     <div class="w3-container w3-white">
-        <h4>{{ small_roominfo }}</h4>
-        <h4>${{ small_roomprice }}</h4>
+      <h4>{{ small_roominfo }}</h4>
+      <h4>${{ small_roomprice }}</h4>
     </div>
     <div class="w3-container w3-white">
-		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="/public/uploads/{{ small_roomimage1 }}"
-         alt="Norway" class="w3-hover-opacity">
-        <img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="/public/uploads/{{ small_roomimage2 }}"
-         alt="Norway" class="w3-hover-opacity">
+      <img style="width: 220px; height: 205px; padding-bottom: 25px;" src="/public/uploads/{{ small_roomimage }}"
+        alt="Norway" class="w3-hover-opacity">
     </div>
-</div>
-<div class="w3-third w3-container w3-margin-bottom">
+  </div>
+  <div class="w3-third w3-container w3-margin-bottom">
     <div class="w3-container w3-white">
-        <h4>{{ med_roominfo }}</h4>
-        <h4>${{ med_roomprice }}</h4>
+      <h4>{{ med_roominfo }}</h4>
+      <h4>${{ med_roomprice }}</h4>
     </div>
     <div class="w3-container w3-white">
-		<img style="width: 220px; height: 205px; padding-bottom: 25px;" 
-        src="/public/uploads/{{ med_roomimage }}"
-         alt="Norway" class="w3-hover-opacity">
+      <img style="width: 220px; height: 205px; padding-bottom: 25px;" src="/public/uploads/{{ med_roomimage }}"
+        alt="Norway" class="w3-hover-opacity">
     </div>
-</div>
-<div class="w3-third w3-container w3-margin-bottom">
+  </div>
+  <div class="w3-third w3-container w3-margin-bottom">
     <div class="w3-container w3-white">
-        <h4>{{ large_roominfo }}</h4>
-        <h4>${{ large_roomprice }}</h4>
+      <h4>{{ large_roominfo }}</h4>
+      <h4>${{ large_roomprice }}</h4>
     </div>
     <div class="w3-container w3-white">
-		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="/public/uploads/{{ large_roomimage1 }}"
-         alt="Norway" class="w3-hover-opacity">
-        <img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="/public/uploads/{{ large_roomimage2 }}"
-         alt="Norway" class="w3-hover-opacity">
+      <img style="width: 220px; height: 205px; padding-bottom: 25px;" src="/public/uploads/{{ large_roomimage }}"
+        alt="Norway" class="w3-hover-opacity">
     </div>
-</div>
+  </div>
 </div>
 
 <div class="List">
@@ -231,114 +243,107 @@
 </div>
 
 <div class="List">
-<h3>Book a room now for singing/watching movies!</h3>
-<div class="List">
-</div>
+  <h3>Book a room now for singing/watching movies!</h3>
+  <div class="List">
+  </div>
 
-<form action="../movie/chooseeditmoviestable">
-<input type="submit" value="Movies Information" class="btn btn-outline-warning">
-</form>
+  <form action="../movie/chooseeditmoviestable">
+    <input type="submit" value="Movies Information" class="btn btn-outline-warning">
+  </form>
 
-<div class="List">
-</div>
+  <div class="List">
+  </div>
 
-<form action="../song/chooseeditsongstable">
-<input type="submit" value="Songs Information" class="btn btn-outline-warning">
-</form>
+  <form action="../song/chooseeditsongstable">
+    <input type="submit" value="Songs Information" class="btn btn-outline-warning">
+  </form>
 
-<div class="List">
+  <div class="List">
     <div class="w3-container w3-white1">
-        <img src="/public/img/moviewatch.png" alt="Norway" class="w3-hover-opacity">
+      <img src="/public/img/moviewatch.png" alt="Norway" class="w3-hover-opacity">
     </div>
     <div class="w3-container w3-white2">
-        <div class="Title">
-            <h6>Movies Added:</h6>
+      <div class="Title">
+        <h6>Movies Added:</h6>
+      </div>
+
+      <div class="MoviesAdded">
+        <div class="MovieAdd1">
+          <img style="width: 75px; height: 100px;" src="/public/img/img3722.webp" alt="Norway" class="w3-hover-opacity">
+          <div class="GenreTags1">
+            <div class="MovieTag"> Horror </div>
+          </div>
+          <div class="MovieName">{{ moviename }} </div>
+          <div class="MovieRating">{{ movieagerating }}</div>
+          <div class="MovieDuration">{{ movieduration }}</div>
         </div>
 
-        <div class="MoviesAdded">
-            <div class="MovieAdd1">
-                <img style="width: 75px; height: 100px;" 
-                src="/public/img/img3722.webp"
-                alt="Norway" class="w3-hover-opacity">
-                <div class="GenreTags1">
-                    <div class="MovieTag"> Horror </div>
-                </div>
-                <div class="MovieName">{{ moviename }} </div>
-                <div class="MovieRating">{{ movieagerating }}</div>  
-                <div class="MovieDuration">{{ movieduration }}</div>
-            </div>
-
-            <div class="MovieAdd2">
-                <img style="width: 75px; height: 100px;" 
-                src="/public/img/img3725.webp"
-                alt="Norway" class="w3-hover-opacity">
-                <div class="GenreTags2">
-                    <div class="MovieTag"> Comedy </div>
-                    <div class="MovieTag"> Animation </div>
-                </div>
-                <div class="MovieName">{{ moviename }} </div>
-                <div class="MovieRating">{{ movieagerating }}</div>  
-                <div class="MovieDuration">{{ movieduration }}</div>  
-            </div>
+        <div class="MovieAdd2">
+          <img style="width: 75px; height: 100px;" src="/public/img/img3725.webp" alt="Norway" class="w3-hover-opacity">
+          <div class="GenreTags2">
+            <div class="MovieTag"> Comedy </div>
+            <div class="MovieTag"> Animation </div>
+          </div>
+          <div class="MovieName">{{ moviename }} </div>
+          <div class="MovieRating">{{ movieagerating }}</div>
+          <div class="MovieDuration">{{ movieduration }}</div>
         </div>
-        {{#if (cmp_eq user.role "customer") }}
-        <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review!</button></a></p>
-        <p><a id="movie"><button class="purchase" > Book Now! </button> </a></p>
-        {{else}}
-        <p><a href="/retrieveReview"><button class="Review1"> Review!</button></a></p>
-        <p><a href="/auth/login"><button class="Review1">login to book!</button></a></p>
-        {{/if}}
+      </div>
+      {{#if (cmp_eq user.role "customer") }}
+      <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review!</button></a></p>
+      <p><a id="movie"><button class="purchase"> Book Now! </button> </a></p>
+      {{else}}
+      <p><a href="/retrieveReview"><button class="Review1"> Review!</button></a></p>
+      <p><a href="/auth/login"><button class="Review1">login to book!</button></a></p>
+      {{/if}}
     </div>
-    
-</div>
 
-<div class="List">
+  </div>
+
+  <div class="List">
     <div class="w3-container w3-white1">
-        <img src="/public/img/karaokesing.png" alt="Norway" class="w3-hover-opacity">
+      <img src="/public/img/karaokesing.png" alt="Norway" class="w3-hover-opacity">
     </div>
     <div class="w3-container w3-white2">
-        <div class="Title">
-            <h6>Songs Added:</h6>
+      <div class="Title">
+        <h6>Songs Added:</h6>
+      </div>
+      <div class="SongsAdded">
+        <div class="SongAdd1">
+          <img style="width: 75px; height: 100px;" src="/public/img/orangealbum.jpg" alt="Norway"
+            class="w3-hover-opacity">
+          <div class="GenreTags1">
+            <div class="SongTag"> Pop </div>
+          </div>
+          <div class="SongName">{{ songname }} </div>
+          <div class="SongRating">{{ songagerating }}</div>
+          <div class="SongDuration">{{ songduration }}</div>
         </div>
-        <div class="SongsAdded">
-            <div class="SongAdd1">
-                <img style="width: 75px; height: 100px;" 
-                src="/public/img/orangealbum.jpg"
-                alt="Norway" class="w3-hover-opacity">
-                <div class="GenreTags1">
-                    <div class="SongTag"> Pop </div>
-                </div>
-                <div class="SongName">{{ songname }} </div>
-                <div class="SongRating">{{ songagerating }}</div>  
-                <div class="SongDuration">{{ songduration }}</div> 
-            </div>
 
-            <div class="SongAdd2">
-                <img style="width: 75px; height: 100px;" 
-                src="/public/img//XXXV.jpg"
-                alt="Norway" class="w3-hover-opacity">
-                <div class="GenreTags2">
-                    <div class="SongTag"> Rock </div>
-                    <div class="SongTag"> Rap </div>
-                </div>
-                <div class="SongName">{{ songname }} </div>
-                <div class="SongRating">{{ songagerating }}</div>  
-                <div class="SongDuration">{{ songduration }}</div>   
-            </div>
+        <div class="SongAdd2">
+          <img style="width: 75px; height: 100px;" src="/public/img//XXXV.jpg" alt="Norway" class="w3-hover-opacity">
+          <div class="GenreTags2">
+            <div class="SongTag"> Rock </div>
+            <div class="SongTag"> Rap </div>
+          </div>
+          <div class="SongName">{{ songname }} </div>
+          <div class="SongRating">{{ songagerating }}</div>
+          <div class="SongDuration">{{ songduration }}</div>
         </div>
-        {{#if (cmp_eq user.role "customer") }}
-        <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
-        <p><a id="karaoke"><button class="purchase" > Book Now! </button></a></p>
-        {{else}}
-        <p><a href="/retrieveReview/{{ user.uuid }}"><button class="Review1"> Review! </button></a></p>
-        <p><a href="/auth/login"><button class="Review1">login to book!</button></a></p>
-        {{/if}}
+      </div>
+      {{#if (cmp_eq user.role "customer") }}
+      <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
+      <p><a id="karaoke"><button class="purchase"> Book Now! </button></a></p>
+      {{else}}
+      <p><a href="/retrieveReview/{{ user.uuid }}"><button class="Review1"> Review! </button></a></p>
+      <p><a href="/auth/login"><button class="Review1">login to book!</button></a></p>
+      {{/if}}
     </div>
-</div>
-<script>
+  </div>
+  <script>
 
     var value = "Movie";
     document.getElementById("movie").href = "/user/booking/" + value;
     var value = "Karaoke";
     document.getElementById("karaoke").href = "/user/booking/" + value;
-</script>
+  </script>

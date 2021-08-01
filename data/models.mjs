@@ -133,20 +133,18 @@ export function initialize_models(database) {
 		const root_parameters = {	
 			roominfo_uuid   : "test",
 			admin_uuid      : "00000000-0000-0000-0000-000000000000",
-            room_title 		: "Room",
-            small_roominfo 	: 'Small',
-            small_roomprice : 16,
-            small_roomimage1: 'generate_roominfo.small_roomimage1',
-            small_roomimage2: 'generate_roominfo.small_roomimage2',
+            room_title 		: generate_roominfo.room_title,
+            small_roominfo 	: generate_roominfo.small_roominfo,
+            small_roomprice : generate_roominfo.small_roomprice,
+            small_roomimage : generate_roominfo.small_roomimage,
 
-            med_roominfo 	: 'Medium',
-            med_roomprice 	: 24,
-            med_roomimage 	: 'generate_roominfo.med_roomimage',
+            med_roominfo 	: generate_roominfo.med_roominfo,
+            med_roomprice 	: generate_roominfo.med_roomprice,
+            med_roomimage 	: generate_roominfo.med_roomimage,
 
-            large_roominfo 	: 'Large',
-            large_roomprice : 32,
-            large_roomimage1: 'generate_roominfo.large_roomimage1',
-            large_roomimage2: 'generate_roominfo.large_roomimage2'
+            large_roominfo 	: generate_roominfo.large_roominfo,
+            large_roomprice : generate_roominfo.large_roomprice,
+            large_roomimage : generate_roominfo.large_roomimage
 		};
 		//	Find for existing account with the same id, create or update
 		var account = await ModelRoomInfo.findOne({where: { "roominfo_uuid": root_parameters.roominfo_uuid }});
