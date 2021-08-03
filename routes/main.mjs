@@ -224,5 +224,7 @@ router.get("/contactus", function (req, res) {
 
 	});
 });
-
+router.get("/testing", function (req, res){
+	return res.render("admin/Counter")
+})
 
