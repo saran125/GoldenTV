@@ -15,80 +15,29 @@ export class ModelMovieInfo extends Model {
 	**/
 	static initialize(database) {
 		ModelMovieInfo.init({
-			"movie_uuid" : { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
+			"movie_uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"admin_uuid" : { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
-			"user_uuid" : { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },	
-            "movieimage" : { type: DataTypes.STRING(650), allowNull: false,
-				set(value){ 
-					this.setDataValue('movieimage', value);
-				} 
-			},
-            "moviename" : { type: DataTypes.STRING(650), allowNull: false,
-				set(value){ 
-					this.setDataValue('moviename', value);
-				} 
-			},
-            "movieagerating" : { type: DataTypes.STRING(650), allowNull: false,
-				set(value){ 
-					this.setDataValue('movieagerating', value);
-				} 
-			},
-            "movieduration" : { type: DataTypes.FLOAT(4), allowNull: false,
-				set(value){ 
-					this.setDataValue('movieduration', value);
-				} 
-			},
-            "movieHorror" : { type: DataTypes.STRING(65), allowNull: false, 
-				set(value){ 
-					this.setDataValue('movieHorror', value);
-				} 
-			},
-            "movieComedy" : { type: DataTypes.STRING(65), allowNull: false, 
-				set(value){ 
-					this.setDataValue('movieComedy', value);
-				} 
-			},
-            "movieScience" : { type: DataTypes.STRING(65), allowNull: false, 
-				set(value){ 
-					this.setDataValue('movieScience', value);
-				} 
-			},
-            "movieRomance" : { type: DataTypes.STRING(65), allowNull: false, 
-				set(value){ 
-					this.setDataValue('movieRomance', value);
-				} 
-			},
-            "movieAnimation" : { type: DataTypes.STRING(65), allowNull: false, 
-				set(value){ 
-					this.setDataValue('movieAnimation', value);
-				} 
-			},
-            "movieAdventure" : { type: DataTypes.STRING(65), allowNull: false, 
-				set(value){ 
-					this.setDataValue('movieAdventure', value);
-				} 
-			},
-            "movieEmotional" : { type: DataTypes.STRING(65), allowNull: false, 
-				set(value){ 
-					this.setDataValue('movieEmotional', value);
-				} 
-			},
-            "movieMystery" : { type: DataTypes.STRING(65), allowNull: false, 
-				set(value){ 
-					this.setDataValue('movieMystery', value);
-				} 
-			},
-            "movieAction" : { type: DataTypes.STRING(65), allowNull: false, 
-				set(value){ 
-					this.setDataValue('movieAction', value);
-				} 
-			}
+			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
+			"user_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
+			"movieimage": { type: DataTypes.STRING(650), allowNull: false },
+			"moviename": { type: DataTypes.STRING(650), allowNull: false },
+			"movieagerating": { type: DataTypes.STRING(650), allowNull: false },
+			"movieduration": { type: DataTypes.FLOAT(4), allowNull: false },
+			"moviegenre": { type: DataTypes.ENUM('Horror', 'Comedy', 'Science'), allowNull: false }
+			// "movieHorror": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieComedy": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieScience": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieRomance": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieAnimation": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieAdventure": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieEmotional": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieMystery": { type: DataTypes.STRING(65), allowNull: false },
+			// "movieAction": { type: DataTypes.STRING(65), allowNull: false }
 		}, {
 			"sequelize": database,
 			"modelName": "MovieInfo",
-			"hooks"    : {
+			"hooks": {
 				"afterUpdate": ModelMovieInfo._auto_update_timestamp
 			}
 		});
@@ -107,17 +56,18 @@ export class ModelMovieInfo extends Model {
 	}
 
 	get movieimage() { return this.getDataValue("movieimage"); }
-	get moviename() { return this.getDataValue("moviename"); }  
+	get moviename() { return this.getDataValue("moviename"); }
 	get movieagerating() { return this.getDataValue("movieagerating"); }
-	get movieduration() { return this.getDataValue("movieduration"); }        
+	get movieduration() { return this.getDataValue("movieduration"); }
+	get dateUpdated() { return this.getDataValue("dateUpdated") };
 
-    get movieHorror() { return this.getDataValue("movieHorror"); }
-	get movieComedy() { return this.getDataValue("movieComedy"); }
-	get movieScience() { return this.getDataValue("movieScience"); }  
-	get movieRomance() { return this.getDataValue("movieRomance"); }  
-	get movieAnimation() { return this.getDataValue("movieAnimation"); }  
-	get movieAdventure() { return this.getDataValue("movieAdventure"); }  
-	get movieEmotional() { return this.getDataValue("movieEmotional"); }
-	get movieMystery() { return this.getDataValue("movieMystery"); }  
-	get movieAction() { return this.getDataValue("movieAction"); }
+	// get movieHorror() { return this.getDataValue("movieHorror"); }
+	// get movieComedy() { return this.getDataValue("movieComedy"); }
+	// get movieScience() { return this.getDataValue("movieScience"); }
+	// get movieRomance() { return this.getDataValue("movieRomance"); }
+	// get movieAnimation() { return this.getDataValue("movieAnimation"); }
+	// get movieAdventure() { return this.getDataValue("movieAdventure"); }
+	// get movieEmotional() { return this.getDataValue("movieEmotional"); }
+	// get movieMystery() { return this.getDataValue("movieMystery"); }
+	// get movieAction() { return this.getDataValue("movieAction"); }
 }

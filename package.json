@@ -43,7 +43,7 @@
 		"qrcode": "^1.4.4",
 		"sequelize": "^6.6.2",
 		"serve-favicon": "^2.5.0",
-		"stripe": "^8.165.0",
+		"stripe": "^8.167.0",
 		"uuid": "^8.3.2",
 		"uuidv4": "^6.2.10"
 	},

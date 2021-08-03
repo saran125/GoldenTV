@@ -26,7 +26,6 @@ export class ModelReview extends Model {
 			"uuid"       : { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			
 			"verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false },
 			"rating"     : { type: DataTypes.STRING(5), allowNUll: false },
 			"feedback"   : {type: DataTypes.STRING(128), allowNull: false},

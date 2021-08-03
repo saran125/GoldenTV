@@ -15,33 +15,17 @@ export class ModelHomeInfo extends Model {
 	**/
 	static initialize(database) {
 		ModelHomeInfo.init({
-			"homeinfo_uuid" 	: { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
-			"dateCreated"		: { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"admin_uuid" 		: { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },	
-			"homedescription" 	: { type: DataTypes.STRING(650), allowNull: false,
-				set(value){ 
-					this.setDataValue('homedescription', value);
-				} 
-			},
-			"homepolicy" : { type: DataTypes.STRING(128), allowNull: false ,
-				set(value){ 
-					this.setDataValue('homepolicy', value);
-				} 
-			},
-			"homeimage" : { type: DataTypes.STRING(4096), allowNull: false, defaultValue: "" ,
-				set(value){ 
-					this.setDataValue('homeimage', value);
-				} 
-			},
-			"homepolicyimage" : { type: DataTypes.STRING(4096), allowNull: false, defaultValue: "" ,
-				set(value){ 
-					this.setDataValue('homepolicyimage', value);
-				} 
-			}
+			"homeinfo_uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
+			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
+			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
+			"homedescription": { type: DataTypes.STRING(650), allowNull: false },
+			"homepolicy": { type: DataTypes.STRING(128), allowNull: false },
+			"homeimage": { type: DataTypes.STRING(4096), allowNull: false, defaultValue: "" },
+			"homepolicyimage": { type: DataTypes.STRING(4096), allowNull: false, defaultValue: "" }
 		}, {
 			"sequelize": database,
 			"modelName": "HomeInfo",
-			"hooks"    : {
+			"hooks": {
 				"afterUpdate": ModelHomeInfo._auto_update_timestamp
 			}
 		});
@@ -59,8 +43,8 @@ export class ModelHomeInfo extends Model {
 		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
 	}
 
-	get homedescription() { return this.getDataValue("homedescription"); }   
+	get homedescription() { return this.getDataValue("homedescription"); }
 	get homepolicy() { return this.getDataValue("homepolicy"); }
-    get homeimage() { return String (this.getDataValue("homeimage")); }  
-    get homepolicyimage() { return String(this.getDataValue("homepolicyimage")); }  
+	get homeimage() { return String(this.getDataValue("homeimage")); }
+	get homepolicyimage() { return String(this.getDataValue("homepolicyimage")); }
 }

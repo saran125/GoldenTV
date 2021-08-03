@@ -1,48 +1,48 @@
 <style>
+  body {
+    background-color: black;
+  }
 
-body {
-  background-color: black;
-}
+  h1,
+  h5,
+  label {
+    color: gold;
+  }
 
-h1, h5, label {
-  color: gold;
-}
+  div.blackblock {
+    background-color: black;
+    height: 25px;
+  }
 
-div.blackblock {
-  background-color: black;
-  height: 25px;
-}
+  .btn#query {
+    background-color: black;
+    color: gold;
+    border: 1px solid white;
+  }
 
-.btn#query {
-  background-color: black;
-  color: gold;
-  border: 1px solid white;
-}
-
-.btn#query:hover {
-  background-color: grey;
-  color: white;
-}
+  .btn#query:hover {
+    background-color: grey;
+    color: white;
+  }
 </style>
 {{>navbar}}
 <h1 class="display-4">Create Movies</h1>
 
 <form method="POST" action="" name="" enctype="multipart/form-data">
-  
+
   <div class="form-group">
-  <h5>Movie Image</h5>
-  <input type="file" id="movieimage" 
-  onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])" 
-  name="movieimage" value="{{movieimage}}" required>
-  
-  <img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" 
-  alt="" class="border img-thumbnail img-fluid"
-  style="width: 110px; height: 160px; padding-bottom: 5px;">
+    <h5>Movie Image</h5>
+    <input type="file" id="movieimage"
+      onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
+      name="movieimage" value="{{movieimage}}" required>
+
+    <img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" alt="" class="border img-thumbnail img-fluid"
+      style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
-  <h5>Movie Name</h5>
-  <input type="moviename" name="moviename" class="form-control" value="{{movie_name}}" required>
+    <h5>Movie Name</h5>
+    <input type="moviename" name="moviename" class="form-control" value="{{movie_name}}" required>
   </div>
 
   <h5>Movie Age Rating</h5>
@@ -76,38 +76,55 @@ div.blackblock {
 
   <h5>Movie Duration (Mins)</h5>
   <div class="form-group">
-  <input type="number" placeholder="120" step="any" style="width: 100px;" name="movieduration" min="0" class="form-control" value="{{movieduration}}" required>
+    <input type="number" placeholder="120" step="any" style="width: 100px;" name="movieduration" min="0"
+      class="form-control" value="{{movieduration}}" required>
   </div>
 
   <div class="form-group">
-  <h5>Movie Genres</h5>
-	<input type="checkbox" name="movieHorror" value="false">
-	<label class="form-check-label" for="Horror">Horror</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="movieComedy" value="false">
-	<label class="form-check-label" for="Comedy">Comedy</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="movieScience" value="false">
-	<label class="form-check-label" for="Science">Science</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="movieRomance" value="false">
-	<label class="form-check-label" for="Romance">Romance</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="movieAnimation" value="false">
-	<label class="form-check-label" for="Animation">Animation</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="movieAdventure" value="false">
-	<label class="form-check-label" for="Adventure">Adventure</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="movieEmotional" value="false">
-	<label class="form-check-label" for="Emotional">Emotional</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="movieMystery" value="false">
-	<label class="form-check-label" for="Mystery">Mystery</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="movieAction" value="false">
-	<label class="form-check-label" for="Action">Action</label>
+    <h5>Movie Genres</h5>
+    <span>
+      <input type="radio" name="moviegenre" value="Horror">
+      <label for="Horror"> Horror </label><br>
+    </span>
+    <span>
+      <input type="radio" name="moviegenre" value="Comedy">
+      <label for="Comedy"> Comedy </label><br>
+    </span>
+    <span>
+      <input type="radio" name="moviegenre" value="Animation">
+      <label for="Animation"> Animation </label>
+    </span>
   </div>
+
+  {{!-- <div class="form-group">
+    <h5>Movie Genres</h5>
+    <input type="checkbox" name="movieHorror" value="false">
+    <label class="form-check-label" for="Horror">Horror</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieComedy" value="false">
+    <label class="form-check-label" for="Comedy">Comedy</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieScience" value="false">
+    <label class="form-check-label" for="Science">Science</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieRomance" value="false">
+    <label class="form-check-label" for="Romance">Romance</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieAnimation" value="false">
+    <label class="form-check-label" for="Animation">Animation</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieAdventure" value="false">
+    <label class="form-check-label" for="Adventure">Adventure</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieEmotional" value="false">
+    <label class="form-check-label" for="Emotional">Emotional</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieMystery" value="false">
+    <label class="form-check-label" for="Mystery">Mystery</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieAction" value="false">
+    <label class="form-check-label" for="Action">Action</label>
+  </div> --}}
 
   <div class="submit">
     <input class="btn" id="query" type="submit">

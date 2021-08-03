@@ -1,37 +1,38 @@
 <style>
-* {
+  * {
     color: gold;
-}
+  }
 
-#toolbar {
-  width: 175px;
-  margin: 0;
-}
+  #toolbar {
+    width: 175px;
+    margin: 0;
+  }
 
-table#dtBasicExample th {
+  table#dtBasicExample th {
     color: gold;
-}
+  }
 
-body#bodybg, table#dtBasicExample td {
-  background: black;
-  color: gold;
-}
+  body#bodybg,
+  table#dtBasicExample td {
+    background: black;
+    color: gold;
+  }
 
-#dtBasicExample {
-  width:min-content;
-}
+  #dtBasicExample {
+    width: min-content;
+  }
 
-.List{
-  position: relative;
-  padding-top: 5px;
-  padding-right: 5px;
-  padding-bottom: 10px;
-  padding-left: 5px;
-  width: 600px;
-  float: left;
-}
+  .List {
+    position: relative;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    width: 600px;
+    float: left;
+  }
 
-div.blackblock1 {
+  div.blackblock1 {
     background-color: black;
     width: 800px;
     height: 10px;
@@ -51,207 +52,98 @@ div.blackblock1 {
 </style>
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
-{{!-- 
-<script src="/public/js/businessstatistics.js"></script> --}}
-{{!-- <link rel="stylesheet" href="/public/css/businessstatistics.css"> --}}
-</head> 
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+  {{!--
+  <script src="/public/js/businessstatistics.js"></script> --}}
+  {{!--
+  <link rel="stylesheet" href="/public/css/businessstatistics.css"> --}}
+</head>
 
 <body id='bodybg'>
   {{>navbar}}
-<div class="CreateMoviesAndSongs">
+  <div class="CreateMoviesAndSongs">
     <div class="submit">
-        <form action="../movie/createmovie">
-            <input type="submit" value="Create Movie" class="btn btn-outline-warning">
-        </form>
+      <form action="../movie/createmovie">
+        <input type="submit" value="Create Movie" class="btn btn-outline-warning">
+      </form>
     </div>
     <div class="blackblock1"></div>
 
-<h1>Movie Data Table</h1>
+    <h1>Movie Data Table</h1>
 
-{{!-- <div id="toolbar" class="select">
-  <select class="form-control">
-    <option value="">Export Basic</option>
-    <option value="all">Export All</option>
-    <option value="selected">Export Selected</option>
-  </select>
-</div> --}}
+    {{!-- <div id="toolbar" class="select">
+      <select class="form-control">
+        <option value="">Export Basic</option>
+        <option value="all">Export All</option>
+        <option value="selected">Export Selected</option>
+      </select>
+    </div> --}}
 
-<table
-    id = "id"
-    data-show-export="true"
- 	  data-toggle="table"
-    data-search="true"
-    data-pagination="true"
-    data-total-field="total"
-    data-data-field="rows"
-    data-show-columns-toggle-all="true"
-	  data-side-pagination="server"
-    data-sort-name="dateCreated"
-    data-height="600"
-    data-silent-sort="false"
-    data-server-sort="true"
-    data-search="true"
-    {{!-- data-page-number="50" --}}
-    data-pagination="true"
-    {{!-- data-page-size="5" --}}
-    data-page-list="[10, 25, 50, 100, 200, All]"
-    data-show-refresh="true"
-    data-show-columns="true"
-    data-show-columns-search="true"
-    data-addrbar="true"
-	data-url="/movie/chooseeditmoviestable-data"
-    >
-	<thead>
-		<tr>
-            <th data-field="dateCreated" data-sortable="true">Creation Date</th>
-            <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-            <th 
-            {{!-- data-field="movieimage" --}}
-            data-formatter="table_row_image"
-            >Movie Poster</th>
-            <th data-field="moviename" data-sortable="true">Name</th>
-            <th data-field="movieagerating" data-sortable="true">Age Rating</th>
-            <th data-field="movieduration" data-sortable="true">Duration</th>
-            <th data-formatter="table_row_genres" data-sortable="true">Genre(s)</th>
-            <th data-formatter="table_row_edit" >Edit</th>
-		</tr>
-	</thead>
-</table>
+    <table id="id" data-show-export="true" data-toggle="table" data-search="true" data-pagination="true"
+      data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true" data-side-pagination="server"
+      data-sort-name="dateCreated" data-height="600" data-silent-sort="false" data-server-sort="true" data-search="true"
+      {{!-- data-page-number="50" --}} data-pagination="true" {{!-- data-page-size="5" --}}
+      data-page-list="[10, 25, 50, 100, 200, All]" data-show-refresh="true" data-show-columns="true"
+      data-show-columns-search="true" data-addrbar="true" data-url="/movie/chooseeditmoviestable-data">
+      <thead>
+        <tr>
+          <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+          <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+          <th {{!-- data-field="movieimage" --}} data-formatter="table_row_image">Movie Poster</th>
+          <th data-field="moviename" data-sortable="true">Name</th>
+          <th data-field="movieagerating" data-sortable="true">Age Rating</th>
+          <th data-field="movieduration" data-sortable="true">Duration</th>
+          <th data-formatter="table_row_genres" data-sortable="true">Genre(s)</th>
+          <th data-formatter="table_row_edit">Edit</th>
+        </tr>
+      </thead>
+    </table>
 
-<script>
+    <script>
 
-	function table_row_image(value, row, index) {
-		return `
+      function table_row_image(value, row, index) {
+        return `
 		<img src="/public/uploads/${row.movieimage}" 
         style="width: 110px; height: 160px; padding-bottom: 5px;"
         alt="Norway" class="w3-hover-opacity">
 		`;
-	}
+      }
 
-  	function table_thumbnail(value, row, index) {
-		return `
+      function table_thumbnail(value, row, index) {
+        return `
 		<img src="/public/uploads/${row.thumbnail}" 
         style="width: 110px; height: 160px; padding-bottom: 5px;"
         alt="Norway" class="w3-hover-opacity">
 		`;
-	}
-    function table_row_genres(value, row, index) { 
-        var checkHorror = row.movieHorror;
-        var checkComedy = row.movieComedy;
-        var checkScience = row.movieScience;
-        var checkRomance = row.movieRomance;
-        var checkAnimation = row.movieAnimation;
-        var checkAdventure = row.movieAdventure;
-        var checkEmotional = row.movieEmotional;
-        var checkMystery = row.movieMystery;
-        var checkAction	= row.movieAction;
-        if (checkHorror == 1) {
-           checkHorror = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Horror" + `</div>`;
-        }
-        else {checkHorror = ""}
-        if (checkComedy == 1) {
-           checkComedy = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Comedy" + `</div>`;
-        }
-        else {checkComedy = ""}
-        if (checkScience == 1) {
-           checkScience = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Science" + `</div>`;
-        }
-        else {checkScience = ""}
-        if (checkRomance == 1) {
-           checkRomance = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Romance" + `</div>`;
-        }
-        else {checkRomance = ""}
-        if (checkAnimation == 1) {
-           checkAnimation = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Animation" + `</div>`;
-        }
-        else {checkAnimation = ""}
-        if (checkAdventure == 1) {
-           checkAdventure = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Adventure" + `</div>`;
-        }
-        else {checkAdventure = ""}
-        if (checkEmotional == 1) {
-           checkEmotional = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Emotional" + `</div>`;
-        }
-        else {checkEmotional = ""}
-        if (checkMystery == 1) {
-           checkMystery = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Mystery" + `</div>`;
-        }
-        else {checkMystery = ""}
-        if (checkAction == 1) {
-           checkAction = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Action" + `</div>`;
-        }
-        else {checkAction = ""}
-        return checkHorror + 
-        checkComedy + 
-        checkScience + 
-        checkRomance + 
-        checkAnimation + 
-        checkAdventure + 
-        checkEmotional + 
-        checkMystery + 
-        checkAction
-    }
-	/**
-	 * Formats the action column for each row of data
-	 **/
-	function table_row_edit(value, row, index) {
-		return `
+      }
+
+      function table_row_genres(value, row, index) {
+        return `<div style="font-size: 12px; 
+                width: 75px;
+                background-color: purple;
+                border: 1px solid gold;">` + "Horror" + `</div>`;
+      }
+
+      /**
+       * Formats the action column for each row of data
+       **/
+      function table_row_edit(value, row, index) {
+        return `
 		<a href="../movie/updatemovie/${row.movie_uuid}">
 			<i class="fa fa-edit"></i>
 		</a>
@@ -260,58 +152,8 @@ div.blackblock1 {
 			<i class="fa fa-trash"></i>
 		</a>
 		`;
-	}
+      }
 
-	{{!-- async function action_delete(tid) {
-		const response = await fetch("/admin/manage-users/api/delete", {
-			method:  "POST",
-			headers: { "Content-Type": "application/json" },
-			body:    JSON.stringify({ uuid: tid })
-		});
-
-		if (response.ok) {
-			$('#table-user').bootstrapTable('refresh');
-		}
-		else {
-			$('#dialog-failed').modal();
-		}
-	} --}}
-{{!--     
-    $(document).ready(function () {
-    $('#dtBasicExample').DataTable({
-        lengthMenu: [ [2, 4, 8, -1], [2, 4, 8, "All"] ],
-        pageLength: 4,
-    "searching": true // false to disable search (or any other option)
-    });
-    $('.dataTables_length').addClass('bs-select');
-    }); --}}
-
-      {{!-- $(function() {
-    $('#toolbar').find('select').change(function () {
-      $table.bootstrapTable('destroy').bootstrapTable({
-        exportDataType: $(this).val(),
-        exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
-        columns: [
-          {
-            field: 'state',
-            checkbox: true,
-            visible: $(this).val() === 'selected'
-          },
-          {
-            field: 'moviename',
-            title: 'Movie Name'
-          }, {
-            field: 'name',
-            title: 'Item Name'
-          }, {
-            field: 'price',
-            title: 'Item Price'
-          }
-        ]
-      })
-    }).trigger('change')
-  }) --}}
-
-</script>
+    </script>
 
 </body>
