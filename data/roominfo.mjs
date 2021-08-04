@@ -54,11 +54,9 @@ export class ModelRoomInfo extends Model {
 	get small_roominfo() { return String(this.getDataValue("small_roominfo")); }
 	get small_roomprice() { return String(this.getDataValue("small_roomprice")); }
 	get small_roomimage() { return String(this.getDataValue("small_roomimage")); }
-
 	get med_roominfo() { return String(this.getDataValue("med_roominfo")); }
 	get med_roomprice() { return String(this.getDataValue("med_roomprice")); }
 	get med_roomimage() { return String(this.getDataValue("med_roomimage")); }
-
 	get large_roominfo() { return String(this.getDataValue("large_roominfo")); }
 	get large_roomprice() { return String(this.getDataValue("large_roomprice")); }
 	get large_roomimage() { return String(this.getDataValue("large_roomimage")); }
