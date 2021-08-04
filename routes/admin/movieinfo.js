@@ -7,17 +7,17 @@ import ORM from "sequelize";
 const router = Router();
 export default router;
 
-router.get ("/chooseeditmoviestable", chooseeditmoviestable);
-router.get ("/chooseeditmoviestable-data", chooseeditmoviestable_data);
+router.get("/chooseeditmoviestable", chooseeditmoviestable);
+router.get("/chooseeditmoviestable-data", chooseeditmoviestable_data);
 router.get("/createmovie", createmovie_page);
-router.post("/createmovie",  
-upload.single('movieimage'),
-createmovie_process);
-router.get ("/updatemovie/:movie_uuid", updatemovie_page);
-router.put ("/updatemovie/:movie_uuid", 
-upload.single('movieimage'),
-updatemovie_process);
-router.get ("/deletemovie/:movie_uuid", deletemovie);
+router.post("/createmovie",
+	upload.single('movieimage'),
+	createmovie_process);
+router.get("/updatemovie/:movie_uuid", updatemovie_page);
+router.put("/updatemovie/:movie_uuid",
+	upload.single('movieimage'),
+	updatemovie_process);
+router.get("/deletemovie/:movie_uuid", deletemovie);
 
 /**
  * Provide Bootstrap table with data
@@ -27,7 +27,7 @@ router.get ("/deletemovie/:movie_uuid", deletemovie);
 // ---------------- 
 //	TODO:	Common URL paths here
 async function chooseeditmoviestable(req, res) {
-	return res.render('admin/movies/chooseeditmoviestable'); 
+	return res.render('admin/movies/chooseeditmoviestable');
 }
 
 /**
@@ -39,49 +39,41 @@ async function chooseeditmoviestable(req, res) {
 //	TODO:	Common URL paths here
 async function chooseeditmoviestable_data(req, res) {
 	try {
-		let pageSize  = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
-		let offset    = parseInt(req.query.offset);   //page * pageSize;
-		let sortBy    = (req.query.sort)?   req.query.sort  : "dateCreated";
-		let sortOrder = (req.query.order)?  req.query.order : "desc";
-		let search    = req.query.search;
+		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
+		let offset = parseInt(req.query.offset);   //page * pageSize;
+		let sortBy = (req.query.sort) ? req.query.sort : "dateCreated";
+		let sortOrder = (req.query.order) ? req.query.order : "desc";
+		let search = req.query.search;
 
 		//if (page < 0)     throw new HttpError(400, "Invalid page number");
 		if (pageSize < 0) throw new HttpError(400, "Invalid page size");
-		if (offset < 0)   throw new HttpError(400, "Invalid offset index");
+		if (offset < 0) throw new HttpError(400, "Invalid offset index");
 
 		// TODO: Do your search filter with this
 		/** @type {import('sequelize/types').WhereOptions} */
-		const conditions   = (search) ? {
+		const conditions = (search) ? {
 			[Op.or]: {
-				"dateCreated":  { [Op.substring]: search }, 
-				"dateUpdated":  { [Op.substring]: search }, 
-				"moviename":  { [Op.substring]: search }, 
+				"dateCreated": { [Op.substring]: search },
+				"dateUpdated": { [Op.substring]: search },
+				"moviename": { [Op.substring]: search },
 				"movieagerating": { [Op.substring]: search },
 				"movieduration": { [Op.substring]: search },
 				"moviegenre": { [Op.substring]: search }
-				// "movieHorror": { [Op.substring]: search },
-				// "movieComedy": { [Op.substring]: search },
-				// "movieScience": { [Op.substring]: search },
-				// "movieRomance": { [Op.substring]: search },
-				// "movieAnimation": { [Op.substring]: search },
-				// "movieEmotional": { [Op.substring]: search },
-				// "movieMystery": { [Op.substring]: search },
-				// "movieAction": { [Op.substring]: search }
 			}
 		} : undefined;
 
-		const total        = await ModelMovieInfo.count({where: conditions});
-		const pageTotal    = Math.ceil(total / pageSize);
+		const total = await ModelMovieInfo.count({ where: conditions });
+		const pageTotal = Math.ceil(total / pageSize);
 		//	Clamp values to prevent overflow
 		//page   = (page   < pageTotal)? page : pageTotal;
 		//offset = (page - 1) * pageSize;
 
 		const pageContents = await ModelMovieInfo.findAll({
 			offset: offset,
-			limit:  pageSize,
+			limit: pageSize,
 			order: [[sortBy, sortOrder.toUpperCase()]],
-			where:  conditions,
-			raw:    true	//	Data only, model excluded
+			where: conditions,
+			raw: true	//	Data only, model excluded
 		});
 
 		// const choosemovies = await ModelMovies.findAll({raw: true});
@@ -122,7 +114,7 @@ async function createmovie_process(req, res, next) {
 		const createmovies = await ModelMovieInfo.create({
 			"movie_uuid": req.body.movie_uuid,
 			"admin_uuid": "00000000-0000-0000-0000-000000000000",
-			"user_uuid" : "00000000-0000-0000-0000-000000000000",
+			"user_uuid": "00000000-0000-0000-0000-000000000000",
 			"movieimage": req.file.filename,
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
@@ -142,14 +134,14 @@ async function createmovie_process(req, res, next) {
 		console.log('Description created: $(createmovies.email)');
 		createmovies.save();
 		return res.redirect("/movie/chooseeditmoviestable"
-		// , { email: email }
+			// , { email: email }
 		);
 	}
 	catch (error) {
 		console.error(`Credentials problem: ${req.body.email}`);
 		console.error(error);
-		return res.render('admin/movies/createmovies', 
-		// { errors: errors }
+		return res.render('admin/movies/createmovies',
+			// { errors: errors }
 		);
 	}
 }
@@ -165,10 +157,11 @@ async function updatemovie_page(req, res) {
 	const tid = String(req.params.movie_uuid);
 	const movie = await ModelMovieInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
-	return res.render('admin/movies/updatemovie', 
-	{ movie : movie,
-	//   movieRomance: movie.movieRomance
-	 }
+	return res.render('admin/movies/updatemovie',
+		{
+			movie: movie,
+			//   movieRomance: movie.movieRomance
+		}
 	);
 };
 
@@ -177,7 +170,7 @@ async function updatemovie_page(req, res) {
  * @param {import('express').Request} req 
  * @param {import('express').Response} res 
  */
- async function updatemovie_process(req, res) {
+async function updatemovie_process(req, res) {
 	try {
 		const tid = String(req.params.movie_uuid);
 		const movie = await ModelMovieInfo.findByPk(tid);
@@ -187,31 +180,23 @@ async function updatemovie_page(req, res) {
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
 			"movieduration": req.body.movieduration,
-			"movieHorror": Boolean(req.body.movieHorror),
-			"movieComedy": Boolean(req.body.movieComedy),
-			"movieScience": Boolean(req.body.movieScience),
-			"movieRomance": Boolean(req.body.movieRomance),
-			"movieAnimation": Boolean(req.body.movieAnimation),
-			"movieAdventure": Boolean(req.body.movieAdventure),
-			"movieEmotional": Boolean(req.body.movieEmotional),
-			"movieMystery": Boolean(req.body.movieMystery),
-			"movieAction": Boolean(req.body.movieAction)
+			"moviegenre": req.body.genre
 		});
 		movie.save();
-		fs.unlink(movieimage, function(err) {
+		fs.unlink(movieimage, function (err) {
 			if (err) {
-			  throw err
+				throw err
 			} else {
-			  console.log("Successfully deleted the file.")
+				console.log("Successfully deleted the file.")
 			}
-		  })
+		})
 		return res.redirect("/movie/chooseeditmoviestable");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.movie_uuid}`);
 		// console.error(error);
-        // const movieimage = './public/uploads/' + movie['movieimage'];
-        // fs.unlink(movieimage, function(err) {
+		// const movieimage = './public/uploads/' + movie['movieimage'];
+		// fs.unlink(movieimage, function(err) {
 		// 	if (err) {
 		// 	  throw err
 		// 	} else {
@@ -229,7 +214,7 @@ async function updatemovie_page(req, res) {
  * @param {import('express').Response} res 
  * @param {import('express').NextFunction} next
  */
- async function deletemovie(req, res, next) {
+async function deletemovie(req, res, next) {
 	try {
 		const tid = String(req.params.movie_uuid);
 		// if (tid == undefined)
@@ -237,7 +222,7 @@ async function updatemovie_page(req, res) {
 		const target = await ModelMovieInfo.findByPk(tid);
 
 		// movieimage = target.movieimage
-		
+
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
 		target.destroy();

@@ -1,48 +1,48 @@
 <style>
+  body {
+    background-color: black;
+  }
 
-body {
-  background-color: black;
-}
+  h1,
+  h5,
+  label {
+    color: gold;
+  }
 
-h1, h5, label {
-  color: gold;
-}
+  div.blackblock {
+    background-color: black;
+    height: 25px;
+  }
 
-div.blackblock {
-  background-color: black;
-  height: 25px;
-}
+  .btn#query {
+    background-color: black;
+    color: gold;
+    border: 1px solid white;
+  }
 
-.btn#query {
-  background-color: black;
-  color: gold;
-  border: 1px solid white;
-}
-
-.btn#query:hover {
-  background-color: grey;
-  color: white;
-}
+  .btn#query:hover {
+    background-color: grey;
+    color: white;
+  }
 </style>
 {{>navbar}}
 <h1 class="display-4">Update Song</h1>
 
 <form method="POST" action="/song/updatesong/{{song.song_uuid}}?_method=PUT" name="" enctype="multipart/form-data">
-  
-  <div class="form-group">
-  <h5>Song Image</h5>
-  <input type="file" id="songimage" 
-  onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])" 
-  name="songimage" value="{{songimage}}" required>  
 
-  <img id="imagedisplay" src="/public/uploads/{{song.songimage}}"
-  alt="" class="border img-thumbnail img-fluid"
-  style="width: 110px; height: 160px; padding-bottom: 5px;">
+  <div class="form-group">
+    <h5>Song Image</h5>
+    <input type="file" id="songimage"
+      onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
+      name="songimage" value="{{songimage}}" required>
+
+    <img id="imagedisplay" src="/public/uploads/{{song.songimage}}" alt="" class="border img-thumbnail img-fluid"
+      style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
-  <h5>Song Name</h5>
-  <input type="songname" name="songname" class="form-control" value="{{song.songname}}" required>
+    <h5>Song Name</h5>
+    <input type="songname" name="songname" class="form-control" value="{{song.songname}}" required>
   </div>
 
   <h5>Song Age Rating</h5>
@@ -75,37 +75,57 @@ div.blackblock {
   <div class="blackblock"></div>
 
   <div class="form-group">
-  <h5>Song Duration (Mins)</h5>
-  <input type="number" placeholder="120" step="any" style="width: 100px;" name="songduration" min="0" class="form-control" value="{{songduration}}" required>
+    <h5>Song Duration (Mins)</h5>
+    <input type="number" placeholder="120" step="any" style="width: 100px;" name="songduration" min="0"
+      class="form-control" value="{{songduration}}" required>
   </div>
 
   <div class="form-group">
     <h5>Song Genres</h5>
-	<input type="checkbox" name="songPop" value="{{ song.songPop }}">
-	<label class="form-check-label" for="Pop">Pop</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songRock" value="{{ song.songRock }}">
-	<label class="form-check-label" for="Rock">Rock</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songMetal" value="{{ song.songMetal }}">
-	<label class="form-check-label" for="Metal">Metal</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songCountry" value="{{ song.songCountry }}">
-	<label class="form-check-label" for="Country">Country</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songRap" value="{{ song.songRap }}">
-	<label class="form-check-label" for="Rap">Rap</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songElectronic" value="{{ song.songElectronic }}">
-	<label class="form-check-label" for="Electronic">Electronic</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songJazz" value="{{ song.songJazz }}">
-	<label class="form-check-label" for="Jazz">Jazz</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songFolk" value="{{ song.songFolk }}">
-	<label class="form-check-label" for="Folk">Folk</label>
-	<div class="blackbox"></div>
+    <span>
+      <input type="radio" name="songgenre" value="Pop">
+      {{radioCheck song.songgenre 'Pop'}}
+      <label for="Pop"> Pop </label><br>
+    </span>
+    <span>
+      <input type="radio" name="songgenre" value="Metal">
+      {{radioCheck song.songgenre 'Metal'}}
+      <label for="Metal"> Metal </label><br>
+    </span>
+    <span>
+      <input type="radio" name="songgenre" value="Rock">
+      {{radioCheck song.songgenre 'Rock'}}
+      <label for="Rock"> Rock </label>
+    </span>
   </div>
+
+  {{!-- <div class="form-group">
+    <h5>Song Genres</h5>
+    <input type="checkbox" name="songPop" value="{{ song.songPop }}">
+    <label class="form-check-label" for="Pop">Pop</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songRock" value="{{ song.songRock }}">
+    <label class="form-check-label" for="Rock">Rock</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songMetal" value="{{ song.songMetal }}">
+    <label class="form-check-label" for="Metal">Metal</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songCountry" value="{{ song.songCountry }}">
+    <label class="form-check-label" for="Country">Country</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songRap" value="{{ song.songRap }}">
+    <label class="form-check-label" for="Rap">Rap</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songElectronic" value="{{ song.songElectronic }}">
+    <label class="form-check-label" for="Electronic">Electronic</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songJazz" value="{{ song.songJazz }}">
+    <label class="form-check-label" for="Jazz">Jazz</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songFolk" value="{{ song.songFolk }}">
+    <label class="form-check-label" for="Folk">Folk</label>
+    <div class="blackbox"></div>
+  </div> --}}
 
   <div class="submit">
     <input class="btn" id="query" type="submit">

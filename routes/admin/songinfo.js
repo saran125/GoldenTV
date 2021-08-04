@@ -58,14 +58,7 @@ async function chooseeditsongstable_data(req, res) {
 				"songname":  { [Op.substring]: search }, 
 				"songagerating": { [Op.substring]: search },
 				"songduration": { [Op.substring]: search },
-				"songPop": { [Op.substring]: search },
-				"songRock": { [Op.substring]: search },
-				"songMetal": { [Op.substring]: search },
-				"songCountry": { [Op.substring]: search },
-				"songRap": { [Op.substring]: search },
-				"songElectronic": { [Op.substring]: search },
-				"songJazz": { [Op.substring]: search },
-				"songFolk": { [Op.substring]: search }
+				"songgenre": { [Op.substring]: search }
 			}
 		} : undefined;
 
@@ -126,14 +119,7 @@ async function createsong_process(req, res) {
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
 			"songduration": req.body.songduration,
-			"songPop": Boolean(req.body.songPop),
-			"songRock": Boolean(req.body.songRock),
-			"songMetal": Boolean(req.body.songMetal),
-			"songCountry": Boolean(req.body.songCountry),
-			"songElectronic" : Boolean(req.body.songElectronic),
-			"songRap": Boolean(req.body.songRap),
-			"songJazz": Boolean(req.body.songJazz),
-			"songFolk": Boolean(req.body.songFolk)
+			"songgenre": req.body.songgenre
 		});
 		createsongs.save()
 		console.log('Description created: $(createsongs.email)');
@@ -181,14 +167,7 @@ async function updatesong_page(req, res) {
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
 			"songduration": req.body.songduration,
-			"songPop": Boolean(req.body.songPop),
-			"songRock": Boolean(req.body.songRock),
-			"songMetal": Boolean(req.body.songMetal),
-			"songCountry": Boolean(req.body.songCountry),
-			"songRap": Boolean(req.body.songRap),
-			"songElectronic": Boolean(req.body.songElectronic),
-			"songJazz": Boolean(req.body.songJazz),
-			"songFolk": Boolean(req.body.songFolk)
+			"songgenre": req.body.songgenre
 		});
 		song.save();
 		fs.unlink(songimage, function(err) {
