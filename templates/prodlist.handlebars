@@ -201,11 +201,11 @@
 {{>navbar}}
 <div class="RoomsPricing">
   <h2>{{ room_title }}</h2>
-
+  {{#if (cmp_eq user.role "staff") }}
   <form action="../prod/editroominfo">
     <input type="submit" value="Edit" class="btn btn-outline-warning">
   </form>
-
+  {{/if}}
   <div class="w3-third w3-container w3-margin-bottom">
     <div class="w3-container w3-white">
       <h4>{{ small_roominfo }}</h4>
@@ -246,7 +246,7 @@
   <h3>Book a room now for singing/watching movies!</h3>
   <div class="List">
   </div>
-
+  {{#if (cmp_eq user.role "staff") }}
   <form action="../movie/chooseeditmoviestable">
     <input type="submit" value="Movies Information" class="btn btn-outline-warning">
   </form>
@@ -257,7 +257,7 @@
   <form action="../song/chooseeditsongstable">
     <input type="submit" value="Songs Information" class="btn btn-outline-warning">
   </form>
-
+  {{/if}}
   <div class="List">
     <div class="w3-container w3-white1">
       <img src="/public/img/moviewatch.png" alt="Norway" class="w3-hover-opacity">

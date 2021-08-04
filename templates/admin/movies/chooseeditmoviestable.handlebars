@@ -108,7 +108,7 @@
           <th data-field="moviename" data-sortable="true">Name</th>
           <th data-field="movieagerating" data-sortable="true">Age Rating</th>
           <th data-field="movieduration" data-sortable="true">Duration</th>
-          <th data-formatter="table_row_genres" data-sortable="true">Genre(s)</th>
+          <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
           <th data-formatter="table_row_edit">Edit</th>
         </tr>
       </thead>
@@ -122,21 +122,6 @@
         style="width: 110px; height: 160px; padding-bottom: 5px;"
         alt="Norway" class="w3-hover-opacity">
 		`;
-      }
-
-      function table_thumbnail(value, row, index) {
-        return `
-		<img src="/public/uploads/${row.thumbnail}" 
-        style="width: 110px; height: 160px; padding-bottom: 5px;"
-        alt="Norway" class="w3-hover-opacity">
-		`;
-      }
-
-      function table_row_genres(value, row, index) {
-        return `<div style="font-size: 12px; 
-                width: 75px;
-                background-color: purple;
-                border: 1px solid gold;">` + "Horror" + `</div>`;
       }
 
       /**

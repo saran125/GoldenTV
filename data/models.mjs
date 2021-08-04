@@ -178,11 +178,11 @@ export function initialize_models(database) {
 			movie_uuid    	: generate_movieinfo.movie_uuid,
 			admin_uuid		: "00000000-0000-0000-0000-000000000000",
 			user_uuid		: "00000000-0000-0000-0000-000000000000",
-            movieimage		: 'generate_movieinfo.movieimage',
-            moviename		: 'generate_movieinfo.moviename',
-            movieagerating	: 'generate_movieinfo.movieagerating',
-            movieduration	: 'generate_movieinfo.movieduration',
-			moviegenre	    : 'generate_movieinfo.moviegenre'
+            movieimage		: generate_movieinfo.movieimage,
+            moviename		: generate_movieinfo.moviename,
+            movieagerating	: generate_movieinfo.movieagerating,
+            movieduration	: generate_movieinfo.movieduration,
+			moviegenre	    : generate_movieinfo.moviegenre
 		};
 		//	Find for existing account with the same id, create or update
 		var account = await ModelMovieInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});

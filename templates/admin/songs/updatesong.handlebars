@@ -48,7 +48,7 @@
   <h5>Song Age Rating</h5>
   <br>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="G" value="G" name="songagerating" checked>
+    <input class="form-check-input" type="radio" id="G" value="G" name="songagerating">
     <label class="form-check-label" for="G">G</label>
   </div>
   <div class="form-check form-check-inline">
@@ -82,21 +82,42 @@
 
   <div class="form-group">
     <h5>Song Genres</h5>
+    {{#if (cmp_eq song.songgenre "Pop") }}
     <span>
-      <input type="radio" name="songgenre" value="Pop">
-      {{radioCheck song.songgenre 'Pop'}}
+      <input type="radio" id="Pop" name="songgenre" value="Pop" checked>
       <label for="Pop"> Pop </label><br>
     </span>
+    {{else}}
     <span>
-      <input type="radio" name="songgenre" value="Metal">
-      {{radioCheck song.songgenre 'Metal'}}
+      <input type="radio" id="Pop" name="songgenre" value="Pop">
+      <label for="Pop"> Pop </label><br>
+    </span>
+    {{/if}}	
+
+    {{#if (cmp_eq song.songgenre "Metal") }}
+    <span>
+      <input type="radio" id="Metal" name="songgenre" value="Metal" checked>
       <label for="Metal"> Metal </label><br>
     </span>
+    {{else}}
     <span>
-      <input type="radio" name="songgenre" value="Rock">
-      {{radioCheck song.songgenre 'Rock'}}
+      <input type="radio" id="Metal" name="songgenre" value="Metal">
+      <label for="Metal"> Metal </label><br>
+    </span>
+    {{/if}}	
+
+    {{#if (cmp_eq song.songgenre "Rock") }}
+    <span>
+      <input type="radio" id="Rock" name="songgenre" value="Rock" checked>
       <label for="Rock"> Rock </label>
     </span>
+    {{else}}
+    <span>
+      <input type="radio" id="Rock" name="songgenre" value="Rock">
+      <label for="Rock"> Rock </label>
+    </span>
+    {{/if}}	
+
   </div>
 
   {{!-- <div class="form-group">
