@@ -100,7 +100,7 @@ div.clock {
 			<li class="nav-item">
 				<a class="nav-link" href="/contactus">About Us</a>
 			</li>
-			{{#if (cmp_eq user.role "admin") }}
+			{{#if (cmp_eq user.role "staff") }}
 			<li class="nav-item">
 				<a class="nav-link" href="/businessstatistics">Statistics</a>
 			</li>
@@ -125,7 +125,7 @@ div.clock {
 					<a href="/auth/profile" class="nav-link">Profile</a>
 				</li>
 				{{/if}}
-			{{#if (cmp_eq user.role not "admin" and "customer") }}
+			{{#if (cmp_eq user.role not "staff" and "customer") }}
 				<li class="nav-item">
 					{{!-- main.js router(/login)--}}
 					<a href="/auth/login" class="nav-link">Login</a>

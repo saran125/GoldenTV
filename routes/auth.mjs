@@ -61,6 +61,13 @@ async function login_process(req, res, next) {
 		if (!regexEmail.test(req.body.email)) {
 			errors = errors.concat({ text: "Invalid email address!" });
 		}
+		// else {
+		// 	const user = await ModelUser.findOne({ where: { email: req.body.email } });
+		// 	if (user.verified == false) {
+		// 		errors = errors.concat({ text: "The Email is Not verified. Please verifiy it! Please Check You email to verify!" });
+		// 	}
+		// 	await send_verification(user.uuid, user.email);
+		// }
 
 		if (!regexPwd.test(req.body.password)) {
 			errors = errors.concat({ text: "Password Requires minimum 8 characters, at least 1 Uppercase letter, 1 Lowercase Letter, 1 number and 1 Special Character!" });
@@ -77,7 +84,7 @@ async function login_process(req, res, next) {
 	}
 
 	return Passport.authenticate('local', {
-		successRedirect: "/login",
+		successRedirect: "/home",
 		failureRedirect: "/auth/login",
 		failureFlash: true
 	})(req, res, next);

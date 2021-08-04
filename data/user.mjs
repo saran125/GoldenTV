@@ -5,8 +5,9 @@ const { Sequelize, DataTypes, Model } = ORM;
  * For enumeration use
 **/
 export class UserRole {
-	static get Admin() { return "admin"; }
+	static get Staff() { return "staff"; }
 	static get User()  { return "customer";  }
+	static get Manger() { return "manager"; }
 }
 
 /**
@@ -29,7 +30,7 @@ export class ModelUser extends Model {
 			"name"       : { type: DataTypes.STRING(64),  allowNull: false },
 			"email"      : { type: DataTypes.STRING(128), allowNull: false },
 			"password"   : { type: DataTypes.STRING(64),  allowNull: false },
-			"role"       : { type: DataTypes.ENUM(UserRole.User, UserRole.Admin), defaultValue: "customer", allowNull: false },
+			"role"       : { type: DataTypes.ENUM(UserRole.User, UserRole.Staff, UserRole.Manger), defaultValue: "customer", allowNull: false },
 			"verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false }
 		}, {
 			"sequelize": database,

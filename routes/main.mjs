@@ -4,14 +4,13 @@ import { flashMessage } from '../utils/flashmsg.mjs'
 // import { UploadFile, UploadTo, DeleteFile, DeleteFilePath } from '../utils/multer.mjs';
 // import axios from 'axios';
 import Review from '../routes/user/review.mjs';
-// import Passport from 'passport';
 import path from 'path';
 import fs from 'fs';
 import express from 'express';
 import methodOverride from 'method-override';
 import payment from '../routes/payment.mjs';
 import { ModelReview } from '../data/review.mjs';
-// import {ModelRoomReview} from '../data/roomreview.mjs';
+import { ModelUser } from '../data/user.mjs';
 import RouterReview from './user/review.mjs';
 import Routerfaq from './admin/faq.mjs';
 // import RouterRoomReview from './roomreview.mjs';
@@ -26,6 +25,7 @@ import MovieInfo from '../routes/admin/movieinfo.js';
 import SongInfo from '../routes/admin/songinfo.js';
 import User from '../routes/user/user.js';
 import ticket from '../routes/user/ticket.mjs';
+import counter from './admin/counter.js'
 
 // router.use("/sendemail", Email);
 router.use("/admin", Admin);
@@ -36,6 +36,7 @@ router.use("/song", SongInfo);
 router.use('/user', User);
 router.use('/ticket', ticket);
 router.use("/payment", payment);
+router.use("/counter", counter);
 router.get("/paymentOption", async function (req, res) {
 	console.log("Choosing payment method");
 	return res.render('user/PaymentOption');
@@ -127,20 +128,6 @@ function roleResult(role) {
 	}
 	return [user, admin];
 }
-router.get("/login", async function (req, res) {
-	console.log("Home page accessed after logging in");
-	// After login
-	// if role column of ModelUser is customer
-	console.log(req.user.role);
-	// cannot have document bla
-	// accessing the role column of the users table
-	if (req.user.role == 'customer') {
-		return res.redirect('/home');
-	}
-	else if (req.user.role == 'admin') {
-		return res.redirect('/home');
-	}
-});
 
 // router.get ("/axios-test",  example_axios);
 
@@ -224,7 +211,3 @@ router.get("/contactus", function (req, res) {
 
 	});
 });
-router.get("/testing", function (req, res){
-	return res.render("admin/Counter")
-})
-

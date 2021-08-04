@@ -1,16 +1,26 @@
+<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
 <style>
+   *{
+       color: gold;
+   }
     body{
         background-color: black;
     }
+    .table{
+        color: gold;
+        margin-top: 20px;
+    }
     .counter{
-    color: #f27f21;
+    color: #000000;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
     height: 190px;
     width: 190px;
     padding: 30px 25px 25px;
     margin: 0 auto;
-    border: 3px solid #f27f21;
+    border: 3px solid gold;
     border-radius: 20px 20px;
     position: relative;
     z-index: 1;
@@ -18,7 +28,7 @@
 .counter:before,
 .counter:after{
     content: "";
-    background: #f3f3f3;
+    background: gold;
     border-radius: 20px;
     box-shadow: 4px 4px 2px rgba(0,0,0,0.2);
     position: absolute;
@@ -32,7 +42,7 @@
     background: transparent;
     width: 100px;
     height: 100px;
-    border: 15px solid #f27f21;
+    border: 15px solid gold;
     border-top: none;
     border-right: none;
     border-radius: 0 0 0 20px;
@@ -50,7 +60,7 @@
 }
 .counter:hover .counter-icon{ transform: rotateY(360deg); }
 .counter .counter-value{
-    color: #555;
+    color: rgb(0, 0, 0);
     font-size: 30px;
     font-weight: 600;
     line-height: 20px;
@@ -65,58 +75,94 @@
     text-transform: uppercase;
     margin: 0 0 15px;
 }
-.counter.blue{
-    color: #4accdb;
-    border-color: #4accdb;
-}
-.counter.blue:after{
-    border-bottom-color: #4accdb;
-    border-left-color: #4accdb;
-}
+
 @media screen and (max-width:990px){
     .counter{ margin-bottom: 40px; }
 }
 </style>
+{{> navbar}}
 <div class="container">
     <div class="row">
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-3 col-sm-6" id="users" >
+            <div class="counter">
+                <div class="counter-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <span class="counter-value">{{total}}</span>
+                <h3 style="color: black;">Total Users</h3>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6" id="customer">
             <div class="counter">
                 <div class="counter-icon">
                     <i class="fas fa-address-book"></i>
                 </div>
-                <span class="counter-value">270</span>
-                <h3>Registered Customer</h3>
+                <span class="counter-value">{{customer}}</span>
+                <h3 style="color: black;">Registered Customer</h3>
             </div>
+           
         </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="counter blue">
+        <div class="col-md-3 col-sm-6" id="staff" >
+            <div class="counter ">
                 <div class="counter-icon">
                     <i class="fas fa-id-card"></i>
                 </div>
-                <span class="counter-value">255</span>
-                <h3>Total Staff</h3>
+                <span class="counter-value">{{staff}}</span>
+                <h3 style="color: black;">Staff</h3>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="counter ">
+        <div class="col-md-3 col-sm-6" id="manager">
+            <div class="counter">
                 <div class="counter-icon">
-                    <i class="fas fa-couch"></i>
+                    <i class='fas fa-user'></i>
                 </div>
-                <span class="counter-value">233</span>
-                <h3>Left Rooms</h3>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="counter blue">
-                <div class="counter-icon">
-                    <i class='fa fa-book'></i>
-                </div>
-                <span class="counter-value">233</span>
-                <h3>Booked Rooms</h3>
+                <span class="counter-value">{{manager}}</span>
+                <h3 style="color: black;">Manager</h3>
             </div>
         </div>
     </div>
 </div>
+
+<div class="table">
+<table id="table"   data-toolbar="#toolbar" data-toggle="table" data-url="/counter/users-data"
+ data-height="460" data-pagination="true" data-pagination="true" data-side-pagination="server"
+  data-search="true" data-page-list="[10, 25, 50, 100, all]"  >
+    <thead>
+        <tr>
+            <th data-field="name" >Name</th>
+            <th data-field="email">Email Address</th>
+            <th data-field="verified">Email Verification</th>
+            <th data-field="role">User Role</th>
+        </tr>
+    </thead>
+</table>
+</div>
+<script>
+    var $table = $('#table')
+    $(function () {
+        $('#users').click(function () {
+            $table.bootstrapTable('refresh',{
+
+            })
+        })
+        $('#customer').click(function () {
+            $table.bootstrapTable('filterBy', {
+                role:"customer"
+            })
+            alert(role);
+        })
+        $('#staff').click(function () {
+            $table.bootstrapTable('filterBy', {
+                role: 'staff'
+            })
+        })
+        $('#manager').click(function () {
+            $table.bootstrapTable('filterBy', {
+                role: 'manager'
+            })
+        })
+    })
+</script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script>
     $(document).ready(function(){
@@ -124,7 +170,7 @@
     $(this).prop('Counter',0).animate({
     Counter: $(this).text()
     },{
-    duration: 3500,
+    duration: 1000,
     easing: 'swing',
     step: function (now){
     $(this).text(Math.ceil(now));
