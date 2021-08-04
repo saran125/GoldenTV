@@ -178,21 +178,11 @@ export function initialize_models(database) {
 			movie_uuid    	: generate_movieinfo.movie_uuid,
 			admin_uuid		: "00000000-0000-0000-0000-000000000000",
 			user_uuid		: "00000000-0000-0000-0000-000000000000",
-            movieimage		: generate_movieinfo.movieimage,
-            moviename		: generate_movieinfo.moviename,
-            movieagerating	: generate_movieinfo.movieagerating,
-            movieduration	: generate_movieinfo.movieduration,
-			moviegenre	    : generate_movieinfo.moviegenre
-
-            // movieHorror		: generate_movieinfo.movieHorror,
-            // movieComedy		: generate_movieinfo.movieComedy,
-            // movieScience	: generate_movieinfo.movieScience,
-        	// movieRomance	: generate_movieinfo.movieRomance,
-            // movieAnimation	: generate_movieinfo.movieAnimation,
-            // movieAdventure	: generate_movieinfo.movieAdventure,
-            // movieEmotional	: generate_movieinfo.movieEmotional,
-            // movieMystery	: generate_movieinfo.movieMystery,
-            // movieAction		: generate_movieinfo.movieAction
+            movieimage		: 'generate_movieinfo.movieimage',
+            moviename		: 'generate_movieinfo.moviename',
+            movieagerating	: 'generate_movieinfo.movieagerating',
+            movieduration	: 'generate_movieinfo.movieduration',
+			moviegenre	    : 'generate_movieinfo.moviegenre'
 		};
 		//	Find for existing account with the same id, create or update
 		var account = await ModelMovieInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
@@ -230,15 +220,7 @@ export function initialize_models(database) {
             songname		: generate_songinfo.songname,
             songagerating	: generate_songinfo.songagerating,
             songduration	: generate_songinfo.songduration,
-
-            songPop			: generate_songinfo.songPop,
-            songRock		: generate_songinfo.songRock,
-            songMetal		: generate_songinfo.songMetal,
-        	songCountry		: generate_songinfo.songCountry,
-            songRap			: generate_songinfo.songRap,
-            songElectronic	: generate_songinfo.songElectronic,
-            songJazz		: generate_songinfo.songJazz,
-            songFolk		: generate_songinfo.songFolk
+			songgenre		: generate_songinfo.songgenre
 		};
 		//	Find for existing account with the same id, create or update
 		var account = await ModelSongInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});

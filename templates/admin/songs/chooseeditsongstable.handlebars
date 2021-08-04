@@ -101,7 +101,7 @@ div.blackblock1 {
             <th data-field="songname" data-sortable="true">Name</th>
             <th data-field="songagerating" data-sortable="true">Age Rating</th>
             <th data-field="songduration" data-sortable="true">Duration</th>
-            <th data-formatter="table_row_genres" data-sortable="true">Genre(s)</th>
+            <th data-field="songgenre" data-sortable="true">Genre(s)</th>
             <th data-formatter="table_row_edit" >Edit</th>
 		</tr>
 	</thead>
@@ -116,96 +116,7 @@ div.blackblock1 {
         alt="Norway" class="w3-hover-opacity">
 		`;
 	}
-    function table_row_genres(value, row, index) { 
-        var checkPop = row.songPop;
-        var checkCountry = row.songCountry;
-        var checkRock = row.songRock;
-        var checkMetal = row.songMetal;
-        var checkRap = row.songRap;
-        var checkElectronic = row.songElectronic;
-        var checkJazz = row.songJazz;
-        var checkFolk = row.songFolk;
-        if (checkPop == 1) {
-           checkPop = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Pop" + `</div>`;
-        }
-        else {checkPop = ""}
-        if (checkCountry == 1) {
-           checkCountry = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Country" + `</div>`;
-        }
-        else {checkCountry = ""}
-        if (checkRock == 1) {
-           checkRock = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Rock" + `</div>`;
-        }
-        else {checkRock = ""}
-        if (checkMetal == 1) {
-           checkMetal = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Metal" + `</div>`;
-        }
-        else {checkMetal = ""}
-        if (checkRap == 1) {
-           checkRap = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Rap" + `</div>`;
-        }
-        else {checkRap = ""}
-        if (checkElectronic == 1) {
-           checkElectronic = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Electronic" + `</div>`;
-        }
-        else {checkElectronic = ""}
-        if (checkJazz == 1) {
-           checkJazz = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Jazz" + `</div>`;
-        }
-        else {checkJazz = ""}
-        if (checkFolk == 1) {
-           checkFolk = `<div style="font-size: 12px; 
-           width: 75px;
-           background-color: purple;
-           border: 1px solid gold;
-           " 
-           class="MovieTag">` + "Folk" + `</div>`;
-        }
-        else {checkFolk = ""}
-        return checkPop +
-        checkCountry +
-        checkRock +
-        checkMetal +
-        checkRap +
-        checkElectronic +
-        checkJazz +
-        checkFolk
-    }
+
 	/**
 	 * Formats the action column for each row of data
 	 **/
