@@ -202,7 +202,7 @@
 <div class="RoomsPricing">
   <h2>{{ room_title }}</h2>
   {{#if (cmp_eq user.role "staff") }}
-  <form action="../prod/editroominfo">
+  <form action="../rooms/chooseeditroomstable">
     <input type="submit" value="Edit" class="btn btn-outline-warning">
   </form>
   {{/if}}

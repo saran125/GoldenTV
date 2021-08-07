@@ -23,6 +23,7 @@ import HomeInfo from '../routes/admin/homeinfo.js';
 import Prodlist from '../routes/admin/prodlist.js';
 import MovieInfo from '../routes/admin/movieinfo.js';
 import SongInfo from '../routes/admin/songinfo.js';
+import RoomInfo from '../routes/admin/roominfo.js';
 import User from '../routes/user/user.js';
 import ticket from '../routes/user/ticket.mjs';
 import counter from './admin/counter.js'
@@ -31,6 +32,7 @@ import counter from './admin/counter.js'
 router.use("/admin", Admin);
 router.use("/", HomeInfo);
 router.use("/prod", Prodlist);
+router.use("/rooms", RoomInfo);
 router.use("/movie", MovieInfo);
 router.use("/song", SongInfo);
 router.use('/user', User);

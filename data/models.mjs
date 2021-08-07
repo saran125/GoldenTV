@@ -33,10 +33,10 @@ export function initialize_models(database) {
 		console.log("Adding intitialization hooks");
 		//	Run once hooks during initialization 
 		database.addHook("afterBulkSync", generate_root_account.name,  generate_root_account.bind(this, database));
-		database.addHook("afterBulkSync", generate_homeinfo.homeinfo_uuid, generate_homeinfo.bind(this, database));
-		database.addHook("afterBulkSync", generate_roominfo.roominfo_uuid, generate_roominfo.bind(this, database));
-		database.addHook("afterBulkSync", generate_movieinfo.movieinfo_uuid, generate_movieinfo.bind(this, database));
-		database.addHook("afterBulkSync", generate_songinfo.songinfo_uuid, generate_songinfo.bind(this, database));
+		// database.addHook("afterBulkSync", generate_homeinfo.homeinfo_uuid, generate_homeinfo.bind(this, database));
+		// database.addHook("afterBulkSync", generate_roominfo.roominfo_uuid, generate_roominfo.bind(this, database));
+		// database.addHook("afterBulkSync", generate_movieinfo.movieinfo_uuid, generate_movieinfo.bind(this, database));
+		// database.addHook("afterBulkSync", generate_songinfo.songinfo_uuid, generate_songinfo.bind(this, database));
 		database.addHook("afterBulkSync", generate_review.name, generate_review.bind(this, database));
 		database.addHook("afterBulkSync", generate_Faq.name, generate_Faq.bind(this, database));
 		// database.addHook("afterBulkSync", generate_ticket.email, generate_ticket.bind(this, database));
@@ -83,161 +83,161 @@ export function initialize_models(database) {
 	}
 }
 
-/**
- * This function creates a root account 
- * @param {Sequelize} database Database ORM handle
- * @param {SyncOptions} options Synchronization options, not used
- */
- async function generate_homeinfo(database, options) {
-	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_homeinfo.email);
-	//	Create a root user if not exists otherwise update it
-	try {
-		console.log("Generate_homeinfo");
-		const root_parameters = {	
-			homeinfo_uuid   : "test",
-			admin_uuid      : "00000000-0000-0000-0000-000000000000",
-			homedescription : generate_homeinfo.homedescription,
-			homepolicy 		: generate_homeinfo.homepolicy,
-			homeimage		: generate_homeinfo.homeimage,
-			homepolicyimage : generate_homeinfo.homepolicyimage,
-		};
-		//	Find for existing account with the same id, create or update
-		var account = await ModelHomeInfo.findOne({where: { "homeinfo_uuid": root_parameters.homeinfo_uuid }});
+// /**
+//  * This function creates a root account 
+//  * @param {Sequelize} database Database ORM handle
+//  * @param {SyncOptions} options Synchronization options, not used
+//  */
+//  async function generate_homeinfo(database, options) {
+// 	//	Remove this callback to ensure it runs only once
+// 	database.removeHook("afterBulkSync", generate_homeinfo.email);
+// 	//	Create a root user if not exists otherwise update it
+// 	try {
+// 		console.log("Generate_homeinfo");
+// 		const root_parameters = {	
+// 			homeinfo_uuid   : "test",
+// 			admin_uuid      : "00000000-0000-0000-0000-000000000000",
+// 			homedescription : generate_homeinfo.homedescription,
+// 			homepolicy 		: generate_homeinfo.homepolicy,
+// 			homeimage		: generate_homeinfo.homeimage,
+// 			homepolicyimage : generate_homeinfo.homepolicyimage,
+// 		};
+// 		//	Find for existing account with the same id, create or update
+// 		var account = await ModelHomeInfo.findOne({where: { "homeinfo_uuid": root_parameters.homeinfo_uuid }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelHomeInfo.create(root_parameters));
+// 		account = await ((account) ? account.update(root_parameters): ModelHomeInfo.create(root_parameters));
 		
-		console.log("== Gxenerated root account ==");
-		console.log(account.toJSON());
-		console.log("============================");
-		return Promise.resolve();
-	}
-	catch (error) {
-		console.error ("Failed to generate root administrator user account");
-		console.error (error);
-		return Promise.reject(error);
-	}
-}
+// 		console.log("== Gxenerated root account ==");
+// 		console.log(account.toJSON());
+// 		console.log("============================");
+// 		return Promise.resolve();
+// 	}
+// 	catch (error) {
+// 		console.error ("Failed to generate root administrator user account");
+// 		console.error (error);
+// 		return Promise.reject(error);
+// 	}
+// }
 
-/**
- * This function creates a root account 
- * @param {Sequelize} database Database ORM handle
- * @param {SyncOptions} options Synchronization options, not used
- */
- async function generate_roominfo(database, options) {
-	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_roominfo.email);
-	//	Create a root user if not exists otherwise update it
-	try {
-		console.log("Generate_rooms");
-		const root_parameters = {	
-			roominfo_uuid   : "test",
-			admin_uuid      : "00000000-0000-0000-0000-000000000000",
-            room_title 		: generate_roominfo.room_title,
-            small_roominfo 	: generate_roominfo.small_roominfo,
-            small_roomprice : generate_roominfo.small_roomprice,
-            small_roomimage : generate_roominfo.small_roomimage,
+// /**
+//  * This function creates a root account 
+//  * @param {Sequelize} database Database ORM handle
+//  * @param {SyncOptions} options Synchronization options, not used
+//  */
+//  async function generate_roominfo(database, options) {
+// 	//	Remove this callback to ensure it runs only once
+// 	database.removeHook("afterBulkSync", generate_roominfo.email);
+// 	//	Create a root user if not exists otherwise update it
+// 	try {
+// 		console.log("Generate_rooms");
+// 		const root_parameters = {	
+// 			roominfo_uuid   : "test",
+// 			admin_uuid      : "00000000-0000-0000-0000-000000000000",
+//             room_title 		: generate_roominfo.room_title,
+//             small_roominfo 	: generate_roominfo.small_roominfo,
+//             small_roomprice : generate_roominfo.small_roomprice,
+//             small_roomimage : generate_roominfo.small_roomimage,
 
-            med_roominfo 	: generate_roominfo.med_roominfo,
-            med_roomprice 	: generate_roominfo.med_roomprice,
-            med_roomimage 	: generate_roominfo.med_roomimage,
+//             med_roominfo 	: generate_roominfo.med_roominfo,
+//             med_roomprice 	: generate_roominfo.med_roomprice,
+//             med_roomimage 	: generate_roominfo.med_roomimage,
 
-            large_roominfo 	: generate_roominfo.large_roominfo,
-            large_roomprice : generate_roominfo.large_roomprice,
-            large_roomimage : generate_roominfo.large_roomimage
-		};
-		//	Find for existing account with the same id, create or update
-		var account = await ModelRoomInfo.findOne({where: { "roominfo_uuid": root_parameters.roominfo_uuid }});
+//             large_roominfo 	: generate_roominfo.large_roominfo,
+//             large_roomprice : generate_roominfo.large_roomprice,
+//             large_roomimage : generate_roominfo.large_roomimage
+// 		};
+// 		//	Find for existing account with the same id, create or update
+// 		var account = await ModelRoomInfo.findOne({where: { "roominfo_uuid": root_parameters.roominfo_uuid }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelRoomInfo.create(root_parameters));
+// 		account = await ((account) ? account.update(root_parameters): ModelRoomInfo.create(root_parameters));
 		
-		console.log("== Gxenerated root account ==");
-		console.log(account.toJSON());
-		console.log("============================");
-		return Promise.resolve();
-	}
-	catch (error) {
-		console.error ("Failed to generate root administrator user account");
-		console.error (error);
-		return Promise.reject(error);
-	}
-}
+// 		console.log("== Gxenerated root account ==");
+// 		console.log(account.toJSON());
+// 		console.log("============================");
+// 		return Promise.resolve();
+// 	}
+// 	catch (error) {
+// 		console.error ("Failed to generate root administrator user account");
+// 		console.error (error);
+// 		return Promise.reject(error);
+// 	}
+// }
 
-/**
- * This function creates a root account 
- * @param {Sequelize} database Database ORM handle
- * @param {SyncOptions} options Synchronization options, not used
- */
- async function generate_movieinfo(database, options) {
-	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_movieinfo.admin_uuid);
-	//	Create a root user if not exists otherwise update it
-	try {
-		console.log("Generate_movies");
-		const root_parameters = {	
-			movie_uuid    	: generate_movieinfo.movie_uuid,
-			admin_uuid		: "00000000-0000-0000-0000-000000000000",
-			user_uuid		: "00000000-0000-0000-0000-000000000000",
-            movieimage		: generate_movieinfo.movieimage,
-            moviename		: generate_movieinfo.moviename,
-            movieagerating	: generate_movieinfo.movieagerating,
-            movieduration	: generate_movieinfo.movieduration,
-			moviegenre	    : generate_movieinfo.moviegenre
-		};
-		//	Find for existing account with the same id, create or update
-		var account = await ModelMovieInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
+// /**
+//  * This function creates a root account 
+//  * @param {Sequelize} database Database ORM handle
+//  * @param {SyncOptions} options Synchronization options, not used
+//  */
+//  async function generate_movieinfo(database, options) {
+// 	//	Remove this callback to ensure it runs only once
+// 	database.removeHook("afterBulkSync", generate_movieinfo.admin_uuid);
+// 	//	Create a root user if not exists otherwise update it
+// 	try {
+// 		console.log("Generate_movies");
+// 		const root_parameters = {	
+// 			movie_uuid    	: generate_movieinfo.movie_uuid,
+// 			admin_uuid		: "00000000-0000-0000-0000-000000000000",
+// 			user_uuid		: "00000000-0000-0000-0000-000000000000",
+//             movieimage		: generate_movieinfo.movieimage,
+//             moviename		: generate_movieinfo.moviename,
+//             movieagerating	: generate_movieinfo.movieagerating,
+//             movieduration	: generate_movieinfo.movieduration,
+// 			moviegenre	    : generate_movieinfo.moviegenre
+// 		};
+// 		//	Find for existing account with the same id, create or update
+// 		var account = await ModelMovieInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelMovieInfo.create(root_parameters));
+// 		account = await ((account) ? account.update(root_parameters): ModelMovieInfo.create(root_parameters));
 		
-		console.log("== Gxenerated root account ==");
-		console.log(account.toJSON());
-		console.log("============================");
-		return Promise.resolve();
-	}
-	catch (error) {
-		console.error ("Failed to generate movies");
-		console.error (error);
-		return Promise.reject(error);
-	}
-}
+// 		console.log("== Gxenerated root account ==");
+// 		console.log(account.toJSON());
+// 		console.log("============================");
+// 		return Promise.resolve();
+// 	}
+// 	catch (error) {
+// 		console.error ("Failed to generate movies");
+// 		console.error (error);
+// 		return Promise.reject(error);
+// 	}
+// }
 
-/**
- * This function creates a root account 
- * @param {Sequelize} database Database ORM handle
- * @param {SyncOptions} options Synchronization options, not used
- */
- async function generate_songinfo(database, options) {
-	//	Remove this callback to ensure it runs only once
-	database.removeHook("afterBulkSync", generate_songinfo.email);
-	//	Create a root user if not exists otherwise update it
-	try {
-		console.log("Generate_songs");
-		const root_parameters = {	
-			song_uuid    	: generate_songinfo.song_uuid,
-			admin_uuid		: "00000000-0000-0000-0000-000000000000",
-			user_uuid		: "00000000-0000-0000-0000-000000000000",
-            songimage		: generate_songinfo.songimage,
-            songname		: generate_songinfo.songname,
-            songagerating	: generate_songinfo.songagerating,
-            songduration	: generate_songinfo.songduration,
-			songgenre		: generate_songinfo.songgenre
-		};
-		//	Find for existing account with the same id, create or update
-		var account = await ModelSongInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
+// /**
+//  * This function creates a root account 
+//  * @param {Sequelize} database Database ORM handle
+//  * @param {SyncOptions} options Synchronization options, not used
+//  */
+//  async function generate_songinfo(database, options) {
+// 	//	Remove this callback to ensure it runs only once
+// 	database.removeHook("afterBulkSync", generate_songinfo.email);
+// 	//	Create a root user if not exists otherwise update it
+// 	try {
+// 		console.log("Generate_songs");
+// 		const root_parameters = {	
+// 			song_uuid    	: generate_songinfo.song_uuid,
+// 			admin_uuid		: "00000000-0000-0000-0000-000000000000",
+// 			user_uuid		: "00000000-0000-0000-0000-000000000000",
+//             songimage		: generate_songinfo.songimage,
+//             songname		: generate_songinfo.songname,
+//             songagerating	: generate_songinfo.songagerating,
+//             songduration	: generate_songinfo.songduration,
+// 			songgenre		: generate_songinfo.songgenre
+// 		};
+// 		//	Find for existing account with the same id, create or update
+// 		var account = await ModelSongInfo.findOne({where: { "admin_uuid": root_parameters.admin_uuid }});
 		
-		account = await ((account) ? account.update(root_parameters): ModelSongInfo.create(root_parameters));
+// 		account = await ((account) ? account.update(root_parameters): ModelSongInfo.create(root_parameters));
 		
-		console.log("== Gxenerated root account ==");
-		console.log(account.toJSON());
-		console.log("============================");
-		return Promise.resolve();
-	}
-	catch (error) {
-		console.error ("Failed to generate root administrator user account");
-		console.error (error);
-		return Promise.reject(error);
-	}
-}
+// 		console.log("== Gxenerated root account ==");
+// 		console.log(account.toJSON());
+// 		console.log("============================");
+// 		return Promise.resolve();
+// 	}
+// 	catch (error) {
+// 		console.error ("Failed to generate root administrator user account");
+// 		console.error (error);
+// 		return Promise.reject(error);
+// 	}
+// }
 
 
 /**

@@ -28,11 +28,11 @@ div.blackblock {
 <body>
 <h1 class="display-4">Edit Rooms</h1>
 <form method="POST" action="" name="" enctype="multipart/form-data">
-  
+{{!--   
   <div class="form-group">
   <h5>Rooms Pricings Title</h5>
   <input type="room_title" name="room_title" class="form-control" value="{{roomlist.room_title}}" required>
-  </div>
+  </div> --}}
 
   <div class="form-group">
   <h5>Small Room Information</h5>
@@ -56,7 +56,7 @@ div.blackblock {
   style="width: 200px; height: 150px; padding-bottom: 5px;">
   </div>
 
-  <div class="form-group">
+  {{!-- <div class="form-group">
   <h5>Medium Room Information</h5>
   <input type="med_roominfo" name="med_roominfo" class="form-control" value="{{roomlist.med_roominfo}}" required>
   </div> 
@@ -98,7 +98,7 @@ div.blackblock {
   <img id="imagedisplay4" src="/public/uploads/{{ roomlist.large_roomimage }}"
   alt="" class="border img-thumbnail img-fluid"
   style="width: 200px; height: 150px; padding-bottom: 5px;">
-  </div>
+  </div> --}}
 
   <div class="submit">
     <input class="btn" id="query" type="submit">

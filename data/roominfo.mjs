@@ -15,20 +15,26 @@ export class ModelRoomInfo extends Model {
 	**/
 	static initialize(database) {
 		ModelRoomInfo.init({
-			"roominfo_uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
+			"room_uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
-			"room_title": { type: DataTypes.STRING(650), allowNull: false },
-			"small_roominfo": { type: DataTypes.STRING(650), allowNull: false },
-			"small_roomprice": { type: DataTypes.FLOAT(4) },
-			"small_roomimage": { type: DataTypes.STRING(650), allowNull: false },
-			"med_roominfo": { type: DataTypes.STRING(650), allowNull: false },
-			"med_roomprice": { type: DataTypes.FLOAT(4) },
-			"med_roomimage": { type: DataTypes.STRING(650), allowNull: false },
-			"large_roominfo": { type: DataTypes.STRING(650), allowNull: false },
-			"large_roomprice": { type: DataTypes.FLOAT(4) },
-			"large_roomimage": { type: DataTypes.STRING(650), allowNull: false }
+			// "room_title": { type: DataTypes.STRING(650), allowNull: false },
+			"roomname": { type: DataTypes.STRING(100), allowNull: false },
+			"roomsize": { type: DataTypes.ENUM('Small', 'Medium', 'Large'), allowNull: true },
+			"roomprice": { type: DataTypes.FLOAT(4) },
+			"roominfo": { type: DataTypes.STRING(650), allowNull: false },
+			"roomimage": { type: DataTypes.STRING(650), allowNull: false },
+			"location": { type: DataTypes.STRING(100), allowNull: false }
+			// "small_roominfo": { type: DataTypes.STRING(650), allowNull: false },
+			// "small_roomprice": { type: DataTypes.FLOAT(4) },
+			// "small_roomimage": { type: DataTypes.STRING(650), allowNull: false },
+			// "med_roominfo": { type: DataTypes.STRING(650), allowNull: false },
+			// "med_roomprice": { type: DataTypes.FLOAT(4) },
+			// "med_roomimage": { type: DataTypes.STRING(650), allowNull: false },
+			// "large_roominfo": { type: DataTypes.STRING(650), allowNull: false },
+			// "large_roomprice": { type: DataTypes.FLOAT(4) },
+			// "large_roomimage": { type: DataTypes.STRING(650), allowNull: false }
 		}, {
 			"sequelize": database,
 			"modelName": "RoomInfo",

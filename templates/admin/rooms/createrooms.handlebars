@@ -1,0 +1,114 @@
+<style>
+  body {
+    background-color: black;
+  }
+
+  h1,
+  h5,
+  label {
+    color: gold;
+  }
+
+  div.blackblock {
+    background-color: black;
+    height: 25px;
+  }
+
+  .btn#query {
+    background-color: black;
+    color: gold;
+    border: 1px solid white;
+  }
+
+  .btn#query:hover {
+    background-color: grey;
+    color: white;
+  }
+</style>
+{{>navbar}}
+<h1 class="display-4">Create Rooms</h1>
+
+<form method="POST" action="" name="" enctype="multipart/form-data">
+
+  <div class="form-group">
+    <h5>Room Image</h5>
+    <input type="file" id="roomimage"
+      onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
+      name="roomimage" value="{{roomimage}}" required>
+
+    <img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" alt="" class="border img-thumbnail img-fluid"
+      style="width: 110px; height: 160px; padding-bottom: 5px;">
+  </div>
+
+  <div class="form-group">
+    <h5>Room Name</h5>
+    <input type="string" name="roomname" class="form-control" value="{{roomname}}" required>
+  </div>
+
+  <h5>Room Size</h5>
+  <br>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="Small" value="Small" name="roomsize" checked>
+    <label class="form-check-label" for="Small">Small</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="Medium" value="Medium" name="roomsize">
+    <label class="form-check-label" for="Medium">Medium</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="Large" value="Large" name="roomsize">
+    <label class="form-check-label" for="Large">Large</label>
+  </div>
+
+  <div class="blackblock"></div>
+
+  <h5>Room Price</h5>
+  <div class="form-group">
+    <input type="number" placeholder="12" step="any" style="width: 100px;" name="roomprice" min="0"
+      class="form-control" value="{{roomprice}}" required>
+  </div>
+
+  <div class="form-group">
+    <h5>Room Information</h5>
+    <input type="string" name="roominfo" class="form-control" value="{{roominfo}}" required>
+  </div>
+
+  <div class="form-group">
+    <h5>Location</h5>
+    <input type="string" name="location" class="form-control" value="{{location}}" required>
+  </div>
+
+  {{!-- <div class="form-group">
+    <h5>Movie Genres</h5>
+    <input type="checkbox" name="movieHorror" value="false">
+    <label class="form-check-label" for="Horror">Horror</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieComedy" value="false">
+    <label class="form-check-label" for="Comedy">Comedy</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieScience" value="false">
+    <label class="form-check-label" for="Science">Science</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieRomance" value="false">
+    <label class="form-check-label" for="Romance">Romance</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieAnimation" value="false">
+    <label class="form-check-label" for="Animation">Animation</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieAdventure" value="false">
+    <label class="form-check-label" for="Adventure">Adventure</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieEmotional" value="false">
+    <label class="form-check-label" for="Emotional">Emotional</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieMystery" value="false">
+    <label class="form-check-label" for="Mystery">Mystery</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="movieAction" value="false">
+    <label class="form-check-label" for="Action">Action</label>
+  </div> --}}
+
+  <div class="submit">
+    <input class="btn" id="query" type="submit">
+  </div>
+</form>
