@@ -7,13 +7,13 @@
     <div class="homecontent">
         {{ homedescription }}
     </div>
-{{!-- {{#if Admin}} --}}
+{{#if (cmp_eq user.role "staff") }}
     <div class="homecontentedit1">
         <form action="../edithomedes">
             <input type="submit" value="Edit" class="btn btn-outline-warning">
         </form>
     </div>
-{{!-- {{/if}} --}}
+{{/if}}	
 </div>
 
 
@@ -23,13 +23,13 @@
     </div>
     <div class="homeimagedes">
         {{ homepolicy }}
-        {{!-- {{#if Admin}} --}}
+        {{#if (cmp_eq user.role "staff") }}
         <div class="homecontentedit2">
             <form action="../edithomeimagepolicy">
                 <input type="submit" value="Edit" class="btn btn-outline-warning">
             </form>
-        {{!-- {{/if}} --}}
         </div>
+        {{/if}}	
     </div>
     <div class="homepolicy">
 	<img style="width:500px; height: 70px;" src="public/uploads/{{ homepolicyimage }}">

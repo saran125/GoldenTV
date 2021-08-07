@@ -175,8 +175,14 @@ async function updatemovie_process(req, res) {
 		const tid = String(req.params.movie_uuid);
 		const movie = await ModelMovieInfo.findByPk(tid);
 		const movieimage = './public/uploads/' + movie['movieimage'];
+		if (Object.keys(req.file).length != 0) {
+			var storeimage = movieimage;
+		}
+		else {
+			var storeimage = req.file.filename;
+		}
 		movie.update({
-			"movieimage": req.file.filename,
+			"movieimage": storeimage,
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
 			"movieduration": req.body.movieduration,

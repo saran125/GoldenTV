@@ -27,6 +27,7 @@
 		"format": "^0.2.2",
 		"fs": "0.0.1-security",
 		"googleapis": "^83.0.0",
+		"handlebars-helpers": "^0.10.0",
 		"hash.js": "^1.1.7",
 		"jsonwebtoken": "^8.5.1",
 		"method-override": "^3.0.0",

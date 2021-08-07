@@ -20,7 +20,8 @@ export const operators = {
 	"op_sub": sub,
 	"op_sum": sum,
 	"op_mul": mul,
-	"op_div": div
+	"op_div": div,
+	// "radioCheck":radioCheck
 };
 
 
