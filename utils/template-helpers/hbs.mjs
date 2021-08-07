@@ -1,14 +1,13 @@
-const moment = require('moment');
+// const moment = require('moment');
 
 /**
  * This file contains the implementation of commonly used operators within handlebars
  * @file operators.mjs
  */
 
-export const check = {
+export const Check = {
 	"radioCheck": radioCheck
 }
-
 
 // formatDate: function(date, targetFormat){
 // 	return moment(date).format(targetFormat);

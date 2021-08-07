@@ -48,27 +48,33 @@
   <h5>Movie Age Rating</h5>
   <br>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="G" value="G" name="movieagerating" checked>
+    <input class="form-check-input" type="radio" id="G" value="G" name="movieagerating"
+    {{radioCheck movie.movieagerating "G"}}>
     <label class="form-check-label" for="G">G</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="PG" value="PG" name="movieagerating">
+    <input class="form-check-input" type="radio" id="PG" value="PG" name="movieagerating"
+    {{radioCheck movie.movieagerating "PG"}}>
     <label class="form-check-label" for="PG">PG</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="PG13" value="PG13" name="movieagerating">
+    <input class="form-check-input" type="radio" id="PG13" value="PG13" name="movieagerating"
+    {{radioCheck movie.movieagerating "PG13"}}>
     <label class="form-check-label" for="PG13">PG13</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="NC13" value="NC13" name="movieagerating">
+    <input class="form-check-input" type="radio" id="NC13" value="NC13" name="movieagerating"
+    {{radioCheck movie.movieagerating "NC13"}}>
     <label class="form-check-label" for="NC13">NC13</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="M18" value="M18" name="movieagerating">
+    <input class="form-check-input" type="radio" id="M18" value="M18" name="movieagerating"
+    {{radioCheck movie.movieagerating "M18"}}>
     <label class="form-check-label" for="M18">M18</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="R21" value="R21" name="movieagerating">
+    <input class="form-check-input" type="radio" id="R21" value="R21" name="movieagerating"
+    {{radioCheck movie.movieagerating "R21"}}>
     <label class="form-check-label" for="R21">R21</label>
   </div>
 
@@ -82,102 +88,56 @@
 
   <div class="form-group">
     <h5>Movie Genres</h5>
-    {{!-- {{#if (radioCheck movie.moviegenre "Horror") }} --}}
+
     <span>
       <input type="radio" name="moviegenre" value="Horror"
       {{radioCheck movie.moviegenre "Horror"}}>
       <label for="Horror"> Horror </label><br>
     </span>
-    {{!-- {{else}}
-    <span>
-      <input type="radio" name="moviegenre" value="Horror">
-      <label for="Horror"> Horror </label><br>
-    </span> --}}
-    {{!-- {{/if}} --}}
 
-    {{#if (cmp_eq movie.moviegenre "Comedy") }}
     <span>
-      <input type="radio" name="moviegenre" value="Comedy" checked>
+      <input type="radio" name="moviegenre" value="Comedy"
+      {{radioCheck movie.moviegenre "Comedy"}}>
       <label for="Comedy"> Comedy </label><br>
     </span>
-    {{else}}
-    <span>
-      <input type="radio" name="moviegenre" value="Comedy">
-      <label for="Comedy"> Comedy </label><br>
-    </span>
-    {{/if}}
 
-    {{#if (cmp_eq movie.moviegenre "Animation") }}
+
     <span>
-      <input type="radio" name="moviegenre" value="Animation" checked>
+      <input type="radio" name="moviegenre" value="Animation" 
+      {{radioCheck movie.moviegenre "Animation"}}>
       <label for="Animation"> Animation </label><br>
     </span>
-    {{else}}
-    <span>
-      <input type="radio" name="moviegenre" value="Animation">
-      <label for="Animation"> Animation </label><br>
-    </span>
-    {{/if}}
 
-    {{#if (cmp_eq movie.moviegenre "Science") }}
     <span>
-      <input type="radio" name="moviegenre" value="Science" checked>
+      <input type="radio" name="moviegenre" value="Science" 
+      {{radioCheck movie.moviegenre "Science"}}>
       <label for="Science"> Science </label><br>
     </span>
-    {{else}}
-    <span>
-      <input type="radio" name="moviegenre" value="Science">
-      <label for="Science"> Science </label><br>
-    </span>
-    {{/if}}
 
-    {{#if (cmp_eq movie.moviegenre "Romance") }}
     <span>
-      <input type="radio" name="moviegenre" value="Romance" checked>
+      <input type="radio" name="moviegenre" value="Romance"
+      {{radioCheck movie.moviegenre "Romance"}}>
       <label for="Romance"> Romance </label><br>
     </span>
-    {{else}}
-    <span>
-      <input type="radio" name="moviegenre" value="Romance">
-      <label for="Romance"> Romance </label><br>
-    </span>
-    {{/if}}
 
-    {{#if (cmp_eq movie.moviegenre "Adventure") }}
     <span>
-      <input type="radio" name="moviegenre" value="Adventure" checked>
+      <input type="radio" name="moviegenre" value="Adventure"
+      {{radioCheck movie.moviegenre "Adventure"}}>
       <label for="Adventure"> Adventure </label><br>
     </span>
-    {{else}}
-    <span>
-      <input type="radio" name="moviegenre" value="Adventure">
-      <label for="Adventure"> Adventure </label><br>
-    </span>
-    {{/if}}
 
-    {{#if (cmp_eq movie.moviegenre "Emotional") }}
     <span>
-      <input type="radio" name="moviegenre" value="Emotional" checked>
+      <input type="radio" name="moviegenre" value="Emotional"
+      {{radioCheck movie.moviegenre "Emotional"}}>
       <label for="Emotional"> Emotional </label><br>
     </span>
-    {{else}}
-    <span>
-      <input type="radio" name="moviegenre" value="Emotional">
-      <label for="Emotional"> Emotional </label><br>
-    </span>
-    {{/if}}
 
-    {{#if (cmp_eq movie.moviegenre "Action") }}
     <span>
-      <input type="radio" name="Action" value="Action" checked>
+      <input type="radio" name="Action" value="Action"
+        {{radioCheck movie.moviegenre "Action"}}>
       <label for="Action"> Action </label><br>
     </span>
-    {{else}}
-    <span>
-      <input type="radio" name="Action" value="Action">
-      <label for="Action"> Action </label><br>
-    </span>
-    {{/if}}
+
   </div>
 
 

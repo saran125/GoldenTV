@@ -4,6 +4,7 @@
  * @file 
  */
 import { operators }       from './operators.mjs';
+import { Check }       from './hbs.mjs';
 import { formatters_date } from './date.mjs';
 
 /**
@@ -11,6 +12,7 @@ import { formatters_date } from './date.mjs';
  */
 export const template_helpers = Object.assign({},
 	operators, 
-	formatters_date
+	formatters_date,
+	Check
 );
 export default template_helpers;
