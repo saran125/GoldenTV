@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid'
 import {Modelroomtype} from "../../data/roomtype.mjs"
 import ORM from "sequelize";
 import qr from 'qrcode';
+import { Modelticket } from '../../data/tickets.mjs';
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
@@ -78,11 +79,12 @@ router.get("/view/:uuid", async function (req, res, next) {
         if (tid == undefined) {
             throw new HttpError(400, "Target user id is invalid");
         }
-        const target_user = await Modelroomtype.findOne({
+        const target_user = await Modelticket.findOne({
             where: {
                 roomtype_id: tid
             }
-        }); 
+        });
+         
         const url = "roomtype id: "+ target_user.roomtype_id +"\
         Location: "+ target_user.location+"\
         time: "+ target_user.time+"\

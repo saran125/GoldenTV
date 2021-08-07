@@ -15,6 +15,9 @@ export class ModelHomeInfo extends Model {
 	**/
 	static initialize(database) {
 		ModelHomeInfo.init({
+				// key
+				// value
+
 			"homeinfo_uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
@@ -43,6 +46,9 @@ export class ModelHomeInfo extends Model {
 		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
 	}
 
+	// static getHomeDesc() {
+	// 	return ModelHomeInfo.findByPk("home-info-desc").value
+	// }
 	get homedescription() { return this.getDataValue("homedescription"); }
 	get homepolicy() { return this.getDataValue("homepolicy"); }
 	get homeimage() { return String(this.getDataValue("homeimage")); }

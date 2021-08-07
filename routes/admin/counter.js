@@ -3,9 +3,11 @@ import { Modelroomtype } from '../../data/roomtype.mjs';
 import { HttpError } from '../../utils/errors.mjs';
 import { ModelUser } from '../../data/user.mjs';
 import ORM from "sequelize";
+import { Modelticket } from '../../data/tickets.mjs';
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
+router.get("/users", users);
 router.get("/users", users);
 router.get("/users-data", users_data);
 router.get("/room", room);
@@ -75,8 +77,27 @@ async function users_data(req, res) {
         total: total,
         rows: pageContents,
     });
-}
+};
+router.post("/delete/:uuid", async function (req, res) {
+    console.log("contents deleted")
+    console.log(req.body);
+    ModelUser.findOne({
+        where: {
+            uuid: req.params.uuid
+        },
+    }).then((option) => {
+        if (option != null) {
+            ModelUser.destroy({
+                where: {
+                    uuid: req.params.uuid
+                }
 
+            })
+            return res.redirect("/counter/users");
+        }
+
+    });
+});
 async function room(req, res) {
     const total  = await Modelroomtype.count({
         raw: true

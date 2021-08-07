@@ -10,6 +10,7 @@ import { ModelSongInfo } from '../data/songinfo.mjs';
 import { ModelReview } from './review.mjs';
 import { ModelFaq } from './faq.mjs';
 import { Modelroomtype } from './roomtype.mjs';
+import { Modelticket } from './tickets.mjs';
 /**
  * @param database {ORM.Sequelize}
  */
@@ -25,6 +26,7 @@ export function initialize_models(database) {
 		ModelReview.initialize(database);
 		ModelFaq.initialize(database);
 		Modelroomtype.initialize(database);
+		Modelticket.initialize(database);
 
 		console.log("Building ORM model relations and indices");
 		//	Create relations between models or tables
@@ -62,7 +64,7 @@ export function initialize_models(database) {
 			uuid    : "00000000-0000-0000-0000-000000000000",
 			name    : "root",
 			email   : "root@mail.com",
-			role    : "admin",
+			role    : "manager",
 			verified: true,
 			password: Hash.sha256().update("P@ssw0rd").digest("hex")
 		};

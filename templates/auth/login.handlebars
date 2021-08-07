@@ -1,10 +1,11 @@
 {{> navbar}}
 <style>
-	body{
+	body {
 		background-color: black;
 		color: black;
 	}
-	*{
+
+	* {
 		color: black;
 	}
 </style>
@@ -12,7 +13,7 @@
 	<div class="col-md-6 mx-auto">
 		<div class="card card-body">
 			<img class="logo" src="/public/img/goldentvlogo.png">
-			<h3 class="text-center">Account Login</h3>
+			<h3 class="text-center">Sign In</h3>
 			<form action="/auth/login" method="post">
 				<div class="form-group">
 					<label for="email">Email</label>
@@ -22,6 +23,7 @@
 					<label for="password">Password</label>
 					<input type="password" name="password" class="form-control" value="{{password}}" required>
 				</div>
+				<a href="#">Forgot password?</a>
 				<button type="submit" class="btn btn-primary pull-right">Login</button>
 			</form>
 		</div>

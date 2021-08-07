@@ -1,6 +1,11 @@
 <link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+
 <style>
    *{
        color: gold;
@@ -75,15 +80,44 @@
     text-transform: uppercase;
     margin: 0 0 15px;
 }
-
+.add{ float: left; position: relative; margin-top: 14px; margin-right: 10px; }
 @media screen and (max-width:990px){
     .counter{ margin-bottom: 40px; }
 }
 </style>
 {{> navbar}}
-<div class="container">
+
+<div class="add">
+    <a href="/auth/add/user">
+<button type="button" class="btn btn-info" id="user">Add Users</button>
+</a>
+</div>
+<div id="toolbar" class="select">
+    <select class="form-control" style="color: #000000;">
+        <option value="" style="color: #000000;">Export Basic</option>
+        <option value="all" style="color: #000000;">Export All</option>
+        <option value="selected" style="color: #000000;">Export Selected</option>
+    </select>
+</div>
+<div class="table">
+<table id="table"    data-toggle="table" data-url="/counter/users-data"
+ data-height="600" data-pagination="true" data-side-pagination="server" 
+  data-search="true" data-page-list="[10, 25, 50, 100, all]" data-show-export="true"    data-click-to-select="true"
+  data-toolbar="#toolbar">
+    <thead>
+        <tr>
+            <th data-field="name" >Name</th>
+            <th data-field="email">Email Address</th>
+            <th data-field="verified">Email Verification</th>
+            <th data-field="role">User Role</th>
+            <th data-field="action" data-formatter="actionFormatter">Action</th>
+        </tr>
+    </thead>
+</table>
+</div>
+<div class="container" id="toolbar">
     <div class="row">
-        <div class="col-md-3 col-sm-6" id="users" >
+        <div class="col-md-3 col-sm-6" id="users">
             <div class="counter">
                 <div class="counter-icon">
                     <i class="fas fa-users"></i>
@@ -100,9 +134,9 @@
                 <span class="counter-value">{{customer}}</span>
                 <h3 style="color: black;">Registered Customer</h3>
             </div>
-           
+
         </div>
-        <div class="col-md-3 col-sm-6" id="staff" >
+        <div class="col-md-3 col-sm-6" id="staff">
             <div class="counter ">
                 <div class="counter-icon">
                     <i class="fas fa-id-card"></i>
@@ -122,45 +156,47 @@
         </div>
     </div>
 </div>
-
-<div class="table">
-<table id="table"   data-toolbar="#toolbar" data-toggle="table" data-url="/counter/users-data"
- data-height="460" data-pagination="true" data-pagination="true" data-side-pagination="server"
-  data-search="true" data-page-list="[10, 25, 50, 100, all]"  >
-    <thead>
-        <tr>
-            <th data-field="name" >Name</th>
-            <th data-field="email">Email Address</th>
-            <th data-field="verified">Email Verification</th>
-            <th data-field="role">User Role</th>
-        </tr>
-    </thead>
-</table>
-</div>
 <script>
     var $table = $('#table')
-    $(function () {
-        $('#users').click(function () {
-            $table.bootstrapTable('refresh',{
+      function actionFormatter(index, row) {
+            var html = [];
+            $.each(row, function (key, value) {
+                if (key == 'uuid') {
+                    html.push('<form method="POST" action="/counter/delete/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i> Delete User</a></form>')
+                }
+            })
+            return html.join('')
+      }
+</script>
+<script>
+    var $table = $('#table')
 
+    $(function () {
+        $('#toolbar').find('select').change(function () {
+            $table.bootstrapTable('destroy').bootstrapTable({
+                exportDataType: $(this).val(),
+                exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
+                columns: [
+                    {
+                        field: 'state',
+                        checkbox: true,
+                        visible: $(this).val() === 'selected'
+                    },
+                    {
+                        field: 'name',
+                        title: 'User Name'
+                    }, 
+                    {
+                        field: 'email',
+                        title: 'Email'
+                    },
+                      {
+                        field: 'role',
+                        title: 'User Role'
+                    }
+                ]
             })
-        })
-        $('#customer').click(function () {
-            $table.bootstrapTable('filterBy', {
-                role:"customer"
-            })
-            alert(role);
-        })
-        $('#staff').click(function () {
-            $table.bootstrapTable('filterBy', {
-                role: 'staff'
-            })
-        })
-        $('#manager').click(function () {
-            $table.bootstrapTable('filterBy', {
-                role: 'manager'
-            })
-        })
+        }).trigger('change')
     })
 </script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
