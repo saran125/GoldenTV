@@ -62,7 +62,7 @@ export function initialize_models(database) {
 			uuid    : "00000000-0000-0000-0000-000000000000",
 			name    : "root",
 			email   : "root@mail.com",
-			role    : "admin",
+			role    : "manager",
 			verified: true,
 			password: Hash.sha256().update("P@ssw0rd").digest("hex")
 		};
@@ -300,43 +300,6 @@ async function generate_Faq(database, options) {
 		return Promise.reject(error);
 	}
 }
-
-// /**
-//  * This function creates a root account 
-//  * @param {Sequelize} database Database ORM handle
-//  * @param {SyncOptions} options Synchronization options, not used
-//  */
-// async function generate_ticket(database, options) {
-// 	//	Remove this callback to ensure it runs only once
-// 	database.removeHook("afterBulkSync", generate_ticket.uuid);
-// 	//	Create a root user if not exists otherwise update it
-// 	try {
-// 		console.log("Generate_ticket page");
-// 		const root_parameters = {
-// 			uuid: "00000000-0000-0000-0000-000000000000",
-// 			choice: "movie",
-// 			location: "Bishan",
-// 			date: 
-// 			time: "9am to 11.45am",
-// 			roomtype: "Small",
-// 			ref: "1234abcd",
-// 			user_id: "00000000-0000-0000-0000-000000000000"
-// 		};
-// 		//	Find for existing account with the same id, create or update
-// 		var account = await Modelticket.findOne({ where: { "uuid": root_parameters.uuid } });
-// 		account = await ((account) ? account.update(root_parameters) : Modelticket.create(root_parameters));
-// 		console.log("== Gxenerated root account ==");
-// 		console.log(account.toJSON());
-// 		console.log("============================");
-// 		return Promise.resolve();
-// 	}
-// 	catch (error) {
-// 		console.error("Failed to generate root administrator user account");
-// 		console.error(error);
-// 		return Promise.reject(error);
-// 	}
-// }
-
 
 
 
