@@ -19,10 +19,9 @@ export class ModelRoomInfo extends Model {
 			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
-			// "room_title": { type: DataTypes.STRING(650), allowNull: false },
 			"roomname": { type: DataTypes.STRING(100), allowNull: false },
 			"roomsize": { type: DataTypes.ENUM('Small', 'Medium', 'Large'), allowNull: true },
-			"roomprice": { type: DataTypes.FLOAT(4) },
+			"roomprice": { type: DataTypes.FLOAT(6) },
 			"roominfo": { type: DataTypes.STRING(650), allowNull: false },
 			"roomimage": { type: DataTypes.STRING(650), allowNull: false },
 			"location": { type: DataTypes.STRING(100), allowNull: false }

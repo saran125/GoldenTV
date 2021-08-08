@@ -37,16 +37,8 @@ async function prodlist_page(req, res) {
 	});
 	console.log('Prodlist Page accessed');
 	return res.render('prodlist', {
-		// room_title: roomlist.room_title,
-		// small_roominfo: roomlist.small_roominfo,
-		// small_roomprice: roomlist.small_roomprice,
-		// small_roomimage: roomlist.small_roomimage,
-		// med_roominfo: roomlist.med_roominfo,
-		// med_roomprice: roomlist.med_roomprice,
-		// med_roomimage: roomlist.med_roomimage,
-		// large_roominfo: roomlist.large_roominfo,
-		// large_roomprice: roomlist.large_roomprice,
-		// large_roomimage: roomlist.large_roomimage,
+		movie: "Movie",
+		song: "Song",
 		movieimage: req.body.movieimage,
 		moviename: req.body.moviename,
 		movieagerating: req.body.movieagerating,

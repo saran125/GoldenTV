@@ -1,3 +1,18 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script
+  src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
 <style>
   body,
   button {
@@ -200,48 +215,72 @@
 <title>Movie/Karaoke Selection</title>
 {{>navbar}}
 <div class="RoomsPricing">
-  <h2>{{ room_title }}</h2>
+  <h2>Location</h2>
+  <div class="w3-third w3-container w3-margin-bottom">
+  <table id="id" data-toggle="table" data-search="true" data-pagination="true"
+    data-total-field="total" data-data-field="rows" data-side-pagination="server"
+    data-sort-name="location" data-server-sort="true" data-search="true"
+    data-pagination="true" data-page-list="[3, 10, 25, 50, All]"
+    data-show-columns-search="true" data-addrbar="true" data-show-custom-view="true"
+    data-custom-view="customViewFormatter" data-url="/rooms/chooseeditroomstable-data">
+    <thead>
+      <tr>
+        <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+        <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+        <th data-field="roomname" data-sortable="true">Name</th>
+        <th data-field="roomsize" data-sortable="true">Size</th>
+        <th data-field="roomprice" data-sortable="true">Price</th>
+        <th data-field="roominfo" data-sortable="true">Information</th>
+        <th data-field="location" data-sortable="true">Location</th>
+      </tr>
+    </thead>
+  </table>
   {{#if (cmp_eq user.role "staff") }}
   <form action="../rooms/chooseeditroomstable">
     <input type="submit" value="Edit" class="btn btn-outline-warning">
   </form>
   {{/if}}
-  <div class="w3-third w3-container w3-margin-bottom">
-    <div class="w3-container w3-white">
-      <h4>{{ small_roominfo }}</h4>
-      <h4>${{ small_roomprice }}</h4>
+  <template id="profileTemplate" style="color: black;">
+    <div class="mt-2">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-lg-4 col-md-6">
+              <h5 class="mb-0 text-truncated" style="color: black;">%location%</4>
+              <h6 style="color: black;">%name%</h6>
+              <p>Size: %roomtype%</p>
+              <p class="lead">$%price%</p>
+              <p class="lead">%info%</p>
+            </div>
+            <div class="col-12 col-lg-4 col-md-6 text-center">
+              <img src="/public/uploads/%IMAGE%" alt="" class="mx-auto img-fluid">
+            </div>
+            <div class="col-12 col-lg-4">
+            </div>
+            {{#if (cmp_eq user.role "customer") }}
+            <div class="col-12 col-lg-4">
+              <small>Booking Room:</small>
+              <a id="movie"><button class="btn btn-outline-info btn-block" title="View Profile" style="width: auto;"> Movie</button></a>
+            </div>
+            <div class="col-12 col-lg-4">
+              <small>Booking Room</small>
+              <a id="karaoke"><button type="button" class="btn btn-outline-primary btn-block" title="Options">Song</button></a>
+                {{else}}
+              <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to book!</button></a></p>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="w3-container w3-white">
-      <img style="width: 220px; height: 205px; padding-bottom: 25px;" src="/public/uploads/{{ small_roomimage }}"
-        alt="Norway" class="w3-hover-opacity">
-    </div>
-  </div>
-  <div class="w3-third w3-container w3-margin-bottom">
-    <div class="w3-container w3-white">
-      <h4>{{ med_roominfo }}</h4>
-      <h4>${{ med_roomprice }}</h4>
-    </div>
-    <div class="w3-container w3-white">
-      <img style="width: 220px; height: 205px; padding-bottom: 25px;" src="/public/uploads/{{ med_roomimage }}"
-        alt="Norway" class="w3-hover-opacity">
-    </div>
-  </div>
-  <div class="w3-third w3-container w3-margin-bottom">
-    <div class="w3-container w3-white">
-      <h4>{{ large_roominfo }}</h4>
-      <h4>${{ large_roomprice }}</h4>
-    </div>
-    <div class="w3-container w3-white">
-      <img style="width: 220px; height: 205px; padding-bottom: 25px;" src="/public/uploads/{{ large_roomimage }}"
-        alt="Norway" class="w3-hover-opacity">
-    </div>
+  </template>
+  
   </div>
 </div>
 
 <div class="List">
 
 </div>
-
 <div class="List">
   <h3>Book a room now for singing/watching movies!</h3>
   <div class="List">
@@ -258,6 +297,7 @@
     <input type="submit" value="Songs Information" class="btn btn-outline-warning">
   </form>
   {{/if}}
+  
   <div class="List">
     <div class="w3-container w3-white1">
       <img src="/public/img/moviewatch.png" alt="Norway" class="w3-hover-opacity">
@@ -289,13 +329,7 @@
           <div class="MovieDuration">{{ movieduration }}</div>
         </div>
       </div>
-      {{#if (cmp_eq user.role "customer") }}
       <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review!</button></a></p>
-      <p><a id="movie"><button class="purchase"> Book Now! </button> </a></p>
-      {{else}}
-      <p><a href="/retrieveReview"><button class="Review1"> Review!</button></a></p>
-      <p><a href="/auth/login"><button class="Review1">login to book!</button></a></p>
-      {{/if}}
     </div>
 
   </div>
@@ -331,19 +365,29 @@
           <div class="SongDuration">{{ songduration }}</div>
         </div>
       </div>
-      {{#if (cmp_eq user.role "customer") }}
       <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
-      <p><a id="karaoke"><button class="purchase"> Book Now! </button></a></p>
-      {{else}}
-      <p><a href="/retrieveReview/{{ user.uuid }}"><button class="Review1"> Review! </button></a></p>
-      <p><a href="/auth/login"><button class="Review1">login to book!</button></a></p>
-      {{/if}}
     </div>
   </div>
   <script>
-
     var value = "Movie";
     document.getElementById("movie").href = "/user/booking/" + value;
     var value = "Karaoke";
     document.getElementById("karaoke").href = "/user/booking/" + value;
+  </script>
+  <script>
+
+    function customViewFormatter(data) {
+      var template = $('#profileTemplate').html()
+      var view = ''
+      $.each(data, function (i, row) {
+        view += template.replace('%location%', row.location)
+          .replace('%IMAGE%', row.roomimage)
+          .replace('%roomtype%', row.roomsize)
+          .replace('%price%', row.roomprice)
+          .replace('%info%', row.roominfo)
+          .replace('%name%', row.roomname);
+      })
+
+      return `<div class="row mx-0">${view}</div>`
+    }
   </script>
