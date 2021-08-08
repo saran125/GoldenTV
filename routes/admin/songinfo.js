@@ -156,7 +156,7 @@ async function updatesong_page(req, res) {
  */
 async function updatesong_process(req, res) {
 	try {
-		let update_image = {};
+		let update_songimage = {};
 		const tid = String(req.params.song_uuid);
 		const song = await ModelSongInfo.findByPk(tid);
 		const songimage = './public/uploads/' + song['songimage'];
@@ -170,14 +170,14 @@ async function updatesong_process(req, res) {
 						console.log("Successfully deleted the file.")
 					}
 				})
-				update_image.image = req.file.filename;
+				update_songimage.image = req.file.filename;
 			}
 			else {
-				update_image.image = song.songimage; //select NO file
+				update_songimage.image = song.songimage; //select NO file
 			}
 		}
 		song.update({
-			"songimage": update_image.image,
+			"songimage": update_songimage.image,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
 			"songduration": req.body.songduration,
@@ -189,9 +189,9 @@ async function updatesong_process(req, res) {
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.song_uuid}`);
-		console.error(error);
-		const song = await ModelSongInfo.findByPk(tid);
-		return res.render("admin/songs/updatesong", { song: song });
+		// console.error(error);
+		// const song = await ModelSongInfo.findByPk(tid);
+		return res.render("admin/songs/updatesong");
 	}
 }
 
