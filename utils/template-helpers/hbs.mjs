@@ -7,7 +7,6 @@
 
 export const Check = {
 	"radioCheck": radioCheck,
-	"prevImage": prevImage
 }
 
 // formatDate: function(date, targetFormat){

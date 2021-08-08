@@ -58,7 +58,7 @@ export function initialize_models(database) {
 		ModelUser.initialize(database);
 		ModelHomeInfo.initialize(database);
 		ModelRoomInfo.initialize(database);
-		ModelMovies.initialize(database);
+		ModelMovieInfo.initialize(database);
 		ModelSongInfo.initialize(database);
 
 		console.log("Building ORM model relations and indices");
@@ -82,6 +82,7 @@ export function initialize_models(database) {
 // ---------------- 
 //	TODO: Attach additional routers here
 import RouterAuth from './auth.mjs'
+import { ModelMovieInfo } from '/goldentv/data/movieinfo.mjs';
 router.use("/auth", RouterAuth);
 
 // // Body parser middleware to parse HTTP body to read post data

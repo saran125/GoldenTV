@@ -13,11 +13,20 @@ import ORM from "sequelize";
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
-router.post("/option", option_process);
+//Edit options
 router.get("/option", option_page);
+router.post("/option", option_process);
+//View options
 router.get("/viewoption", viewoption);
+router.get("/option-data", option_data);
+
 router.get("/retrievereview-data", review_data);
 router.get("/retrievefaq-data", retrieve_data);
+
+function option_page(req, res) {
+    console.log("Option page accessed");
+    return res.render('admin/option');
+}
 //  update choice page 
 async function option_process(req, res) {
     // console.log('Description created: $(booking.choice)');
@@ -31,6 +40,14 @@ async function option_process(req, res) {
                 price: req.body.price[i],
                 roomtype: req.body.roomtype[i],
                 admin_uuid: req.user.uuid
+
+                // roomname: req.body.roomname[i],
+                // roomsize: req.body.roomsize[i],
+                // roomprice: req.body.roomprice[i],
+                // roominfo: req.body.roominfo[i],
+                // roomimage: req.body.roomimage[i],
+                // location: req.body.location[i].toUpperCase(),
+                // admin_uuid: req.user.uuid
             });
             console.log(option);
         }
@@ -40,17 +57,14 @@ async function option_process(req, res) {
         console.error(error);
     }
 }
-function option_page(req, res) {
-    console.log("Option page accessed");
-    return res.render('admin/option');
-}
+
 async function viewoption(req, res) {
     console.log("Looking at all the options ");
     // const option = await Modelroomtype.findAll({raw:true});
     return res.render('admin/viewoption');
 
 }
-router.get("/option-data", option_data);
+
 /**
  * Provides bootstrap table with data
  * @param {import('express')Request}  req Express Request handle
@@ -79,6 +93,12 @@ async function option_data(req, res) {
                     date: { [Op.substring]: search },
                     roomtype: { [Op.substring]: search },
                     price: { [Op.substring]: search },
+
+                    // location: { [Op.substring]: search },
+                    // time: { [Op.substring]: search },
+                    // date: { [Op.substring]: search },
+                    // roomtype: { [Op.substring]: search },
+                    // price: { [Op.substring]: search },
                 },
             }
             : undefined;
