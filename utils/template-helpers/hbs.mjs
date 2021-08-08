@@ -20,12 +20,3 @@ function radioCheck(value, radioValue) {
 	}
 	return '';
 }
-
-function prevImage(value, newValue) {
-	if (newValue === ""){
-		return value;
-	}
-	else {
-		return newValue;
-	}
-}

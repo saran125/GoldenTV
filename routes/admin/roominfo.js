@@ -13,10 +13,11 @@ router.get("/createrooms", createroom_page);
 router.post("/createrooms",
 	upload.single('roomimage'),
 	createroom_process);
-// router.get("/updateroom/:room_uuid", updateroom_page);
-// router.put("/updateroom/:room_uuid",
-// 	upload.single('roomimage'),
-// 	updateroom_process);
+router.get("/updateroom/:room_uuid", updateroom_page);
+router.put("/updateroom/:room_uuid",
+	upload.single('roomimage'),
+	updateroom_process);
+
 router.get("/deleteroom/:room_uuid", deleteroom);
 
 // router.get("/editroominfo", editrooms_page);
@@ -158,6 +159,44 @@ async function createroom_process(req, res, next) {
 			// { errors: errors }
 		);
 	}
+}
+
+/**
+ * 
+ * @param {Request}  req Express Request handle
+ * @param {Response} res Express Response handle
+ */
+async function updateroom_page(req, res) {
+    console.log("Option page accessed");
+    return res.render('admin/option');
+}
+
+/**
+ * 
+ * @param {Request}  req Express Request handle
+ * @param {Response} res Express Response handle
+ */
+async function updateroom_process(req, res) {
+    // console.log('Description created: $(booking.choice)');
+    try {
+        console.log(req.body);
+        for (let i = 0; i < req.body.location.length; i++) {
+            const option = await ModelRoomInfo.create({
+                roomname: req.body.roomname[i],
+                roomsize: req.body.roomsize[i],
+                roomprice: req.body.roomprice[i],
+                roominfo: req.body.roominfo[i],
+                roomimage: req.body.roomimage[i],
+                location: req.body.location[i].toUpperCase(),
+                admin_uuid: req.user.uuid
+            });
+            console.log(option);
+        }
+        return res.redirect("/admin/viewoption");
+    }
+    catch (error) {
+        console.error(error);
+    }
 }
 
 // /**

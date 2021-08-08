@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { Modelroomtype } from '../../data/roomtype.mjs';
+import { ModelRoomInfo } from '../../data/roominfo.mjs';
 import { HttpError } from '../../utils/errors.mjs';
 import { ModelUser } from '../../data/user.mjs';
 import {ModelFaq} from '../../data/faq.mjs';
@@ -33,21 +34,20 @@ async function option_process(req, res) {
     try {
         console.log(req.body);
         for (let i = 0; i < req.body.location.length; i++) {
-            const option = await Modelroomtype.create({
-                date: req.body.date[i],
-                time: req.body.time[i],
-                location: req.body.location[i].toUpperCase(),
-                price: req.body.price[i],
-                roomtype: req.body.roomtype[i],
-                admin_uuid: req.user.uuid
-
-                // roomname: req.body.roomname[i],
-                // roomsize: req.body.roomsize[i],
-                // roomprice: req.body.roomprice[i],
-                // roominfo: req.body.roominfo[i],
-                // roomimage: req.body.roomimage[i],
+            const option = await ModelRoomInfo.create({
+                // date: req.body.date[i],
+                // time: req.body.time[i],
                 // location: req.body.location[i].toUpperCase(),
+                // price: req.body.price[i],
+                // roomtype: req.body.roomtype[i],
                 // admin_uuid: req.user.uuid
+                roomname: req.body.roomname[i],
+                roomsize: req.body.roomsize[i],
+                roomprice: req.body.roomprice[i],
+                roominfo: req.body.roominfo[i],
+                roomimage: req.file.filename[i],
+                location: req.body.location[i].toUpperCase(),
+                admin_uuid: req.user.uuid
             });
             console.log(option);
         }
