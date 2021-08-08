@@ -3,14 +3,16 @@
  * for handlebars rendering engine to provide basic conveniences.
  * @file 
  */
-import { operators }       from './operators.mjs';
+import { operators } from './operators.mjs';
+import { Check } from './hbs.mjs';
 import { formatters_date } from './date.mjs';
 
 /**
  * Consolidation of all template helpers for handlebars
  */
 export const template_helpers = Object.assign({},
-	operators, 
-	formatters_date
+	operators,
+	formatters_date,
+	Check
 );
 export default template_helpers;

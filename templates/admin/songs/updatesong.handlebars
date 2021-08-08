@@ -34,7 +34,7 @@
     <h5>Song Image</h5>
     <input type="file" id="songimage"
       onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
-      name="songimage" value="{{songimage}}" required>
+      name="songimage" value="{{ song.songimage }}">
 
     <img id="imagedisplay" src="/public/uploads/{{song.songimage}}" alt="" class="border img-thumbnail img-fluid"
       style="width: 110px; height: 160px; padding-bottom: 5px;">
@@ -48,27 +48,33 @@
   <h5>Song Age Rating</h5>
   <br>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="G" value="G" name="songagerating">
+    <input class="form-check-input" type="radio" id="G" value="G" name="songagerating" {{radioCheck
+      song.songagerating "G" }}>
     <label class="form-check-label" for="G">G</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="PG" value="PG" name="songagerating">
+    <input class="form-check-input" type="radio" id="PG" value="PG" name="songagerating" {{radioCheck
+      song.songagerating "PG" }}>
     <label class="form-check-label" for="PG">PG</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="PG13" value="PG13" name="songagerating">
+    <input class="form-check-input" type="radio" id="PG13" value="PG13" name="songagerating" {{radioCheck
+      song.songagerating "PG13" }}>
     <label class="form-check-label" for="PG13">PG13</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="NC13" value="NC13" name="songagerating">
+    <input class="form-check-input" type="radio" id="NC13" value="NC13" name="songagerating" {{radioCheck
+      song.songagerating "NC13" }}>
     <label class="form-check-label" for="NC13">NC13</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="M18" value="M18" name="songagerating">
+    <input class="form-check-input" type="radio" id="M18" value="M18" name="songagerating" {{radioCheck
+      song.songagerating "M18" }}>
     <label class="form-check-label" for="M18">M18</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="R21" value="R21" name="songagerating">
+    <input class="form-check-input" type="radio" id="R21" value="R21" name="songagerating" {{radioCheck
+      song.songagerating "R21" }}>
     <label class="form-check-label" for="R21">R21</label>
   </div>
 
@@ -77,76 +83,54 @@
   <div class="form-group">
     <h5>Song Duration (Mins)</h5>
     <input type="number" placeholder="120" step="any" style="width: 100px;" name="songduration" min="0"
-      class="form-control" value="{{songduration}}" required>
+      class="form-control" value="{{song.songduration}}" required>
   </div>
 
   <div class="form-group">
     <h5>Song Genres</h5>
-    {{#if (cmp_eq song.songgenre "Pop") }}
+
     <span>
-      <input type="radio" id="Pop" name="songgenre" value="Pop" checked>
+      <input type="radio" id="Pop" name="songgenre" value="Pop" {{radioCheck song.songgenre "Pop" }}>
       <label for="Pop"> Pop </label><br>
     </span>
-    {{else}}
-    <span>
-      <input type="radio" id="Pop" name="songgenre" value="Pop">
-      <label for="Pop"> Pop </label><br>
-    </span>
-    {{/if}}	
 
-    {{#if (cmp_eq song.songgenre "Metal") }}
     <span>
-      <input type="radio" id="Metal" name="songgenre" value="Metal" checked>
+      <input type="radio" id="Metal" name="songgenre" value="Metal" {{radioCheck song.songgenre "Metal" }}>
       <label for="Metal"> Metal </label><br>
     </span>
-    {{else}}
-    <span>
-      <input type="radio" id="Metal" name="songgenre" value="Metal">
-      <label for="Metal"> Metal </label><br>
-    </span>
-    {{/if}}	
 
-    {{#if (cmp_eq song.songgenre "Rock") }}
     <span>
-      <input type="radio" id="Rock" name="songgenre" value="Rock" checked>
-      <label for="Rock"> Rock </label>
+      <input type="radio" id="Rock" name="songgenre" value="Rock" {{radioCheck song.songgenre "Rock" }}>
+      <label for="Rock"> Rock </label><br>
     </span>
-    {{else}}
+
     <span>
-      <input type="radio" id="Rock" name="songgenre" value="Rock">
-      <label for="Rock"> Rock </label>
+      <input type="radio" id="Country" name="songgenre" value="Country" {{radioCheck song.songgenre "Country" }}>
+      <label for="Country"> Country </label><br>
     </span>
-    {{/if}}	
+
+    <span>
+      <input type="radio" id="Rap" name="songgenre" value="Rap" {{radioCheck song.songgenre "Rap" }}>
+      <label for="Rap"> Rap </label><br>
+    </span>
+
+    <span>
+      <input type="radio" id="Electronic" name="songgenre" value="Electronic" {{radioCheck song.songgenre "Electronic"
+        }}>
+      <label for="Electronic"> Electronic </label><br>
+    </span>
+
+    <span>
+      <input type="radio" id="Jazz" name="songgenre" value="Jazz" {{radioCheck song.songgenre "Jazz" }}>
+      <label for="Jazz"> Jazz </label><br>
+    </span>
+
+    <span>
+      <input type="radio" id="Folk" name="songgenre" value="Folk" {{radioCheck song.songgenre "Folk" }}>
+      <label for="Folk"> Folk </label>
+    </span>
 
   </div>
-
-  {{!-- <div class="form-group">
-    <h5>Song Genres</h5>
-    <input type="checkbox" name="songPop" value="{{ song.songPop }}">
-    <label class="form-check-label" for="Pop">Pop</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="songRock" value="{{ song.songRock }}">
-    <label class="form-check-label" for="Rock">Rock</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="songMetal" value="{{ song.songMetal }}">
-    <label class="form-check-label" for="Metal">Metal</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="songCountry" value="{{ song.songCountry }}">
-    <label class="form-check-label" for="Country">Country</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="songRap" value="{{ song.songRap }}">
-    <label class="form-check-label" for="Rap">Rap</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="songElectronic" value="{{ song.songElectronic }}">
-    <label class="form-check-label" for="Electronic">Electronic</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="songJazz" value="{{ song.songJazz }}">
-    <label class="form-check-label" for="Jazz">Jazz</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="songFolk" value="{{ song.songFolk }}">
-    <label class="form-check-label" for="Folk">Folk</label>
-    <div class="blackbox"></div>
-  </div> --}}
 
   <div class="submit">
     <input class="btn" id="query" type="submit">

@@ -7,17 +7,17 @@ import ORM from "sequelize";
 const router = Router();
 export default router;
 
-router.get ("/chooseeditsongstable", chooseeditsongstable);
-router.get ("/chooseeditsongstable-data", chooseeditsongstable_data);
+router.get("/chooseeditsongstable", chooseeditsongstable);
+router.get("/chooseeditsongstable-data", chooseeditsongstable_data);
 router.get("/createsong", createsong_page);
-router.post("/createsong",  
-upload.single('songimage'),
-createsong_process);
-router.get ("/updatesong/:song_uuid", updatesong_page);
-router.put ("/updatesong/:song_uuid", 
-upload.single('songimage'),
-updatesong_process);
-router.get ("/deletesong/:song_uuid", deletesong);
+router.post("/createsong",
+	upload.single('songimage'),
+	createsong_process);
+router.get("/updatesong/:song_uuid", updatesong_page);
+router.put("/updatesong/:song_uuid",
+	upload.single('songimage'),
+	updatesong_process);
+router.get("/deletesong/:song_uuid", deletesong);
 
 /**
  * Provide Bootstrap table with data
@@ -27,7 +27,7 @@ router.get ("/deletesong/:song_uuid", deletesong);
 // ---------------- 
 //	TODO:	Common URL paths here
 async function chooseeditsongstable(req, res) {
-	return res.render('admin/songs/chooseeditsongstable'); 
+	return res.render('admin/songs/chooseeditsongstable');
 }
 
 /**
@@ -39,41 +39,41 @@ async function chooseeditsongstable(req, res) {
 //	TODO:	Common URL paths here
 async function chooseeditsongstable_data(req, res) {
 	try {
-		let pageSize  = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
-		let offset    = parseInt(req.query.offset);   //page * pageSize;
-		let sortBy    = (req.query.sort)?   req.query.sort  : "dateCreated";
-		let sortOrder = (req.query.order)?  req.query.order : "desc";
-		let search    = req.query.search;
+		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
+		let offset = parseInt(req.query.offset);   //page * pageSize;
+		let sortBy = (req.query.sort) ? req.query.sort : "dateCreated";
+		let sortOrder = (req.query.order) ? req.query.order : "desc";
+		let search = req.query.search;
 
 		//if (page < 0)     throw new HttpError(400, "Invalid page number");
 		if (pageSize < 0) throw new HttpError(400, "Invalid page size");
-		if (offset < 0)   throw new HttpError(400, "Invalid offset index");
+		if (offset < 0) throw new HttpError(400, "Invalid offset index");
 
 		// TODO: Do your search filter with this
 		/** @type {import('sequelize/types').WhereOptions} */
-		const conditions   = (search) ? {
+		const conditions = (search) ? {
 			[Op.or]: {
-				"dateCreated":  { [Op.substring]: search }, 
-				"dateUpdated":  { [Op.substring]: search }, 
-				"songname":  { [Op.substring]: search }, 
+				"dateCreated": { [Op.substring]: search },
+				"dateUpdated": { [Op.substring]: search },
+				"songname": { [Op.substring]: search },
 				"songagerating": { [Op.substring]: search },
 				"songduration": { [Op.substring]: search },
 				"songgenre": { [Op.substring]: search }
 			}
 		} : undefined;
 
-		const total        = await ModelSongInfo.count({where: conditions});
-		const pageTotal    = Math.ceil(total / pageSize);
+		const total = await ModelSongInfo.count({ where: conditions });
+		const pageTotal = Math.ceil(total / pageSize);
 		//	Clamp values to prevent overflow
 		//page   = (page   < pageTotal)? page : pageTotal;
 		//offset = (page - 1) * pageSize;
 
 		const pageContents = await ModelSongInfo.findAll({
 			offset: offset,
-			limit:  pageSize,
+			limit: pageSize,
 			order: [[sortBy, sortOrder.toUpperCase()]],
-			where:  conditions,
-			raw:    true	//	Data only, model excluded
+			where: conditions,
+			raw: true	//	Data only, model excluded
 		});
 
 		// const choosemovies = await ModelMovies.findAll({raw: true});
@@ -108,13 +108,12 @@ async function createsong_page(req, res) {
  * @param {Request}  req Express Request handle
  * @param {Response} res Express Response handle
  */
-
 async function createsong_process(req, res) {
 	try {
 		const createsongs = await ModelSongInfo.create({
 			"song_uuid": req.body.song_uuid,
 			"admin_uuid": "00000000-0000-0000-0000-000000000000",
-			"user_uuid" : "00000000-0000-0000-0000-000000000000",
+			"user_uuid": "00000000-0000-0000-0000-000000000000",
 			"songimage": req.file.filename,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
@@ -123,15 +122,13 @@ async function createsong_process(req, res) {
 		});
 		createsongs.save()
 		console.log('Description created: $(createsongs.email)');
-		return res.redirect("/song/chooseeditsongstable"
-		// , { email: email }
-		);
+		return res.redirect("/song/chooseeditsongstable");
 	}
 	catch (error) {
 		console.error(`Credentials problem: ${req.body.email}`);
 		console.error(error);
-		return res.render('createsongs', 
-		// { errors: errors }
+		return res.render('createsongs',
+			// { errors: errors }
 		);
 	}
 }
@@ -147,8 +144,8 @@ async function updatesong_page(req, res) {
 	const tid = String(req.params.song_uuid);
 	const song = await ModelSongInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
-	return res.render('admin/songs/updatesong', 
-	{ song :song}
+	return res.render('admin/songs/updatesong',
+		{ song: song }
 	);
 };
 
@@ -157,34 +154,44 @@ async function updatesong_page(req, res) {
  * @param {import('express').Request} req 
  * @param {import('express').Response} res 
  */
- async function updatesong_process(req, res) {
+async function updatesong_process(req, res) {
 	try {
+		let update_songimage = {};
 		const tid = String(req.params.song_uuid);
 		const song = await ModelSongInfo.findByPk(tid);
 		const songimage = './public/uploads/' + song['songimage'];
+
+		if (req.file != null && typeof req.file == 'object') {
+			if (Object.keys(req.file).length != 0) { //select file
+				fs.unlink(songimage, function (err) {
+					if (err) {
+						throw err
+					} else {
+						console.log("Successfully deleted the file.")
+					}
+				})
+				update_songimage.image = req.file.filename;
+			}
+			else {
+				update_songimage.image = song.songimage; //select NO file
+			}
+		}
 		song.update({
-			"songimage": req.file.filename,
+			"songimage": update_songimage.image,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
 			"songduration": req.body.songduration,
 			"songgenre": req.body.songgenre
 		});
 		song.save();
-		fs.unlink(songimage, function(err) {
-			if (err) {
-			  throw err
-			} else {
-			  console.log("Successfully deleted the file.")
-			}
-		  })
 		console.log('Description created: $(movie.email)');
 		return res.redirect("/song/chooseeditsongstable");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.song_uuid}`);
-		console.error(error);
-		const song  = await ModelSongInfo.findByPk(tid);
-		return res.render("admin/songs/updatesong",{song:song});
+		// console.error(error);
+		// const song = await ModelSongInfo.findByPk(tid);
+		return res.render("admin/songs/updatesong");
 	}
 }
 
@@ -194,7 +201,7 @@ async function updatesong_page(req, res) {
  * @param {import('express').Response} res 
  * @param {import('express').NextFunction} next
  */
- async function deletesong(req, res, next) {
+async function deletesong(req, res, next) {
 	try {
 		const tid = String(req.params.song_uuid);
 		// if (tid == undefined)
