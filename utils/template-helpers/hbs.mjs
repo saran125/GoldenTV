@@ -6,7 +6,8 @@
  */
 
 export const Check = {
-	"radioCheck": radioCheck
+	"radioCheck": radioCheck,
+	"prevImage": prevImage
 }
 
 // formatDate: function(date, targetFormat){
@@ -19,4 +20,13 @@ function radioCheck(value, radioValue) {
 		return 'checked';
 	}
 	return '';
+}
+
+function prevImage(value, newValue) {
+	if (newValue === ""){
+		return value;
+	}
+	else {
+		return newValue;
+	}
 }

@@ -105,7 +105,6 @@ async function edithomedescription_process(req, res) {
 		});
 		homedes.update({
 			homedescription: req.body.homedescription
-			// req.body.homedescription
 		});
 		homedes.save();
 		console.log('Description created: $(homedes.email)');
@@ -159,7 +158,6 @@ async function edithomeimagepolicy_process(req, res, next) {
 		const homeimage = './public/uploads/' + homeimagepolicy['homeimage'];
 		const homepolicyimage = './public/uploads/' + homeimagepolicy['homepolicyimage'];
 		homeimagepolicy.update({
-			// req.body.homepolicy
 			homepolicy: req.body.homepolicy,
 			homeimage: homeimageFile.filename,
 			homepolicyimage: homepolicyimageFile.filename
@@ -187,20 +185,20 @@ async function edithomeimagepolicy_process(req, res, next) {
 		console.error(error);
 		const homeimage = './public/uploads/' + homeimagepolicy['homeimage'];
 		const homepolicyimage = './public/uploads/' + homeimagepolicy['homepolicyimage'];
-		// fs.unlink(homeimage, function(err) {
-		// 	if (err) {
-		// 	  throw err
-		// 	} else {
-		// 	  console.log("Successfully deleted the file.")
-		// 	}
-		//   })
-		// fs.unlink(homepolicyimage, function(err) {
-		// if (err) {
-		// 	throw err
-		// } else {
-		// 	console.log("Successfully deleted the file.")
-		// }
-		// })
+		fs.unlink(homeimage, function(err) {
+			if (err) {
+			  throw err
+			} else {
+			  console.log("Successfully deleted the file.")
+			}
+		  })
+		fs.unlink(homepolicyimage, function(err) {
+		if (err) {
+			throw err
+		} else {
+			console.log("Successfully deleted the file.")
+		}
+		})
 		return res.render('edithomeimagepolicy', {
 			hey: "Wrong Type of File."
 		});

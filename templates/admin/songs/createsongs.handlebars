@@ -1,48 +1,48 @@
 <style>
+  body {
+    background-color: black;
+  }
 
-body {
-  background-color: black;
-}
+  h1,
+  h5,
+  label {
+    color: gold;
+  }
 
-h1, h5, label {
-  color: gold;
-}
+  div.blackblock {
+    background-color: black;
+    height: 25px;
+  }
 
-div.blackblock {
-  background-color: black;
-  height: 25px;
-}
+  .btn#query {
+    background-color: black;
+    color: gold;
+    border: 1px solid white;
+  }
 
-.btn#query {
-  background-color: black;
-  color: gold;
-  border: 1px solid white;
-}
-
-.btn#query:hover {
-  background-color: grey;
-  color: white;
-}
+  .btn#query:hover {
+    background-color: grey;
+    color: white;
+  }
 </style>
 {{>navbar}}
 <h1 class="display-4">Create Songs</h1>
 
 <form method="POST" action="" name="" enctype="multipart/form-data">
-  
-  <div class="form-group">
-  <h5>Song Image</h5>
-  <input type="file" id="songimage" 
-  onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])" 
-  name="songimage" value="{{songimage}}" required>
 
-  <img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" 
-  alt="" class="border img-thumbnail img-fluid"
-  style="width: 110px; height: 160px; padding-bottom: 5px;">
+  <div class="form-group">
+    <h5>Song Image</h5>
+    <input type="file" id="songimage"
+      onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
+      name="songimage" value="{{songimage}}" required>
+
+    <img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" alt="" class="border img-thumbnail img-fluid"
+      style="width: 110px; height: 160px; padding-bottom: 5px;">
   </div>
 
   <div class="form-group">
-  <h5>Song Name</h5>
-  <input type="songname" name="songname" class="form-control" value="{{songname}}" required>
+    <h5>Song Name</h5>
+    <input type="songname" name="songname" class="form-control" value="{{songname}}" required>
   </div>
 
   <h5>Song Age Rating</h5>
@@ -75,54 +75,84 @@ div.blackblock {
   <div class="blackblock"></div>
 
   <div class="form-group">
-  <h5>Song Duration (Mins)</h5>
-  <input type="number" placeholder="120" step="any" style="width: 100px;" name="songduration" min="0" class="form-control" value="{{songduration}}" required>
+    <h5>Song Duration (Mins)</h5>
+    <input type="number" placeholder="120" step="any" style="width: 100px;" name="songduration" min="0"
+      class="form-control" value="{{songduration}}" required>
   </div>
 
 
   <div class="form-group">
     <h5>Song Genres</h5>
+
     <span>
-      <input type="radio" name="songgenre" value="Pop">
+      <input type="radio" id="Pop" name="songgenre" value="Pop" checked>
       <label for="Pop"> Pop </label><br>
     </span>
+
     <span>
-      <input type="radio" name="songgenre" value="Metal">
+      <input type="radio" id="Metal" name="songgenre" value="Metal">
       <label for="Metal"> Metal </label><br>
     </span>
+
     <span>
-      <input type="radio" name="songgenre" value="Rock">
-      <label for="Rock"> Rock </label>
+      <input type="radio" id="Rock" name="songgenre" value="Rock">
+      <label for="Rock"> Rock </label><br>
     </span>
+
+    <span>
+      <input type="radio" id="Country" name="songgenre" value="Country">
+      <label for="Country"> Country </label><br>
+    </span>
+
+    <span>
+      <input type="radio" id="Rap" name="songgenre" value="Rap">
+      <label for="Rap"> Rap </label><br>
+    </span>
+
+    <span>
+      <input type="radio" id="Electronic" name="songgenre" value="Electronic">
+      <label for="Electronic"> Electronic </label><br>
+    </span>
+
+    <span>
+      <input type="radio" id="Jazz" name="songgenre" value="Jazz">
+      <label for="Jazz"> Jazz </label><br>
+    </span>
+
+    <span>
+      <input type="radio" id="Folk" name="songgenre" value="Folk">
+      <label for="Folk"> Folk </label>
+    </span>
+
   </div>
 
-{{!-- 
+  {{!--
   <div class="form-group">
     <h5>Song Genres</h5>
-	<input type="checkbox" name="songPop" value="false">
-	<label class="form-check-label" for="Pop">Pop</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songRock" value="false">
-	<label class="form-check-label" for="Rock">Rock</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songMetal" value="false">
-	<label class="form-check-label" for="Metal">Metal</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songCountry" value="false">
-	<label class="form-check-label" for="Country">Country</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songRap" value="false">
-	<label class="form-check-label" for="Rap">Rap</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songElectronic" value="false">
-	<label class="form-check-label" for="Electronic">Electronic</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songJazz" value="false">
-	<label class="form-check-label" for="Jazz">Jazz</label>
-	<div class="blackbox"></div>
-	<input type="checkbox" name="songFolk" value="false">
-	<label class="form-check-label" for="Folk">Folk</label>
-	<div class="blackbox"></div>
+    <input type="checkbox" name="songPop" value="false">
+    <label class="form-check-label" for="Pop">Pop</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songRock" value="false">
+    <label class="form-check-label" for="Rock">Rock</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songMetal" value="false">
+    <label class="form-check-label" for="Metal">Metal</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songCountry" value="false">
+    <label class="form-check-label" for="Country">Country</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songRap" value="false">
+    <label class="form-check-label" for="Rap">Rap</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songElectronic" value="false">
+    <label class="form-check-label" for="Electronic">Electronic</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songJazz" value="false">
+    <label class="form-check-label" for="Jazz">Jazz</label>
+    <div class="blackbox"></div>
+    <input type="checkbox" name="songFolk" value="false">
+    <label class="form-check-label" for="Folk">Folk</label>
+    <div class="blackbox"></div>
   </div> --}}
 
   <div class="submit">

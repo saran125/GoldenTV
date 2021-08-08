@@ -120,22 +120,10 @@ async function createmovie_process(req, res, next) {
 			"movieagerating": req.body.movieagerating,
 			"movieduration": req.body.movieduration,
 			"moviegenre": req.body.moviegenre
-
-			// "movieHorror": Boolean(req.body.movieHorror),
-			// "movieComedy": Boolean(req.body.movieComedy),
-			// "movieScience": Boolean(req.body.movieScience),
-			// "movieRomance": Boolean(req.body.movieRomance),
-			// "movieAnimation": Boolean(req.body.movieAnimation),
-			// "movieAdventure": Boolean(req.body.movieAdventure),
-			// "movieEmotional": Boolean(req.body.movieEmotional),
-			// "movieMystery": Boolean(req.body.movieMystery),
-			// "movieAction": Boolean(req.body.movieAction)			
 		});
 		console.log('Description created: $(createmovies.email)');
 		createmovies.save();
-		return res.redirect("/movie/chooseeditmoviestable"
-			// , { email: email }
-		);
+		return res.redirect("/movie/chooseeditmoviestable");
 	}
 	catch (error) {
 		console.error(`Credentials problem: ${req.body.email}`);
@@ -158,10 +146,7 @@ async function updatemovie_page(req, res) {
 	const movie = await ModelMovieInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
 	return res.render('admin/movies/updatemovie',
-		{
-			movie: movie,
-			//   movieRomance: movie.movieRomance
-		}
+		{ movie: movie }
 	);
 };
 
@@ -172,30 +157,34 @@ async function updatemovie_page(req, res) {
  */
 async function updatemovie_process(req, res) {
 	try {
+		let update_image = {};
 		const tid = String(req.params.movie_uuid);
 		const movie = await ModelMovieInfo.findByPk(tid);
 		const movieimage = './public/uploads/' + movie['movieimage'];
-		// if (Object.keys(req.file).length != 0) {
-		// 	var storeimage = movieimage;
-		// }
-		// else {
-		// 	var storeimage = req.file.filename;
-		// }
+
+		if (req.file != null && typeof req.file == 'object') {
+			if (Object.keys(req.file).length != 0) { //select file
+				fs.unlink(movieimage, function (err) {
+					if (err) {
+						throw err
+					} else {
+						console.log("Successfully deleted the file.")
+					}
+				})
+				update_image.image = req.file.filename;
+			}
+			else {
+				update_image.image = movie.movieimage; //select NO file
+			}
+		}
 		movie.update({
-			"movieimage": req.file.filename,
+			"movieimage": update_image.image,
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
 			"movieduration": req.body.movieduration,
 			"moviegenre": req.body.moviegenre
 		});
 		movie.save();
-		fs.unlink(movieimage, function (err) {
-			if (err) {
-				throw err
-			} else {
-				console.log("Successfully deleted the file.")
-			}
-		})
 		return res.redirect("/movie/chooseeditmoviestable");
 	}
 	catch (error) {
@@ -227,9 +216,7 @@ async function deletemovie(req, res, next) {
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
 		const target = await ModelMovieInfo.findByPk(tid);
-
 		// movieimage = target.movieimage
-
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
 		target.destroy();
