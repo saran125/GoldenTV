@@ -3,7 +3,7 @@ import { ModelRoomInfo } from '../../data/roominfo.mjs';
 import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 import ORM from "sequelize";
-// const { Sequelize, DataTypes, Model, Op } = ORM;
+const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
 
@@ -47,6 +47,7 @@ async function chooseeditroomstable(req, res) {
 // ---------------- 
 //	TODO:	Common URL paths here
 async function chooseeditroomstable_data(req, res) {
+	console.log("hello you are chooseeditriimstable")
 	try {
 		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
 		let offset = parseInt(req.query.offset);   //page * pageSize;

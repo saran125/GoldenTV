@@ -28,7 +28,8 @@ router.get("/register", register_page);
 router.post("/register", register_process);
 router.get("/verify/:token", verify_process);
 router.get("/profile", profile_page);
-
+router.get('/add/user', user);
+router.post("/add/user", user_process);
 /**
  * Renders the login page
  * @param {Request}  req Express Request handle
@@ -48,7 +49,20 @@ async function register_page(req, res) {
 	console.log("Register page accessed");
 	return res.render('auth/register');
 }
-
+async function user (req, res){
+	console.log("new users");
+	return res.render("auth/add_users");
+}
+async function user_process(req, res){
+	console.log("adding new staff")
+		const user = await ModelUser.create({
+			email: req.body.email,
+			password: Hash.sha256().update(req.body.password).digest("hex"),
+			name: req.body.name,
+			role: req.body.role
+		});
+		return res.redirect("/counter/users");
+}
 async function login_process(req, res, next) {
 	console.log("login contents received");
 	console.log(req.body);
@@ -141,7 +155,7 @@ async function register_process(req, res) {
 			name: req.body.name,
 		});
 		await send_verification(user.uuid, user.email);
-		flashMessage(res, 'success', 'Successfully created an account. Please login', 'fas fa-sign-in-alt', true);
+		flashMessage(res, 'success', 'Successfully created an account. Please verify your email and login', 'fas fa-sign-in-alt', true);
 		return res.redirect("/auth/login");
 
 	}
@@ -181,7 +195,8 @@ async function send_verification(uid, email) {
 	const token = JWT.sign({
 		uuid: uid
 	}, 'the-key', {
-		expiresIn: '100000'
+		// expire in 5mins
+		expiresIn: '300000'
 	});
 
 	//	Send email using google
