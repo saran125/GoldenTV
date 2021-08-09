@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { Modelroomtype } from '../../data/roomtype.mjs';
+
 import { HttpError } from '../../utils/errors.mjs';
 import { ModelUser } from '../../data/user.mjs';
 import {ModelFaq} from '../../data/faq.mjs';

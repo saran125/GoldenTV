@@ -1,26 +1,17 @@
 import { Router } from 'express';
-import { nanoid } from 'nanoid';
 import { ModelRoomInfo } from '../../data/roominfo.mjs';
-import { Modelroomtype } from '../../data/roomtype.mjs';
+import { Modelticket } from '../../data/tickets.mjs';
 const router = Router();
 export default router;
-router.post("/booking/:choice", booking_process);
-router.get("/booking/:choice", booking_page);
+router.post("/booking/:choice/:id", booking_process);
+router.get("/booking/:choice/:id", booking_page);
 // booking page
-var random_ref = nanoid(8);
-export var room_details = { location: '', date: '', time: '', choice: '', uuid: '', roomtype: '', ref: random_ref, price: 0  };
 async function booking_process(req, res) {
-    console.log('Description created: $(booking.choice)');
     try {
-        room_details = { location: '', date: '', time: '', choice: '', uuid: '', ref: random_ref, price: 0 };
         console.log(req.body);
-        const roomtype = await Modelroomtype.findOne({ where: { time: req.body.time, location: req.body.location, date: req.body.date, roomtype: req.body.room, booked: 'No'  } });
-        roomtype.update({
-            choice: req.params.choice
-        });
-        roomtype.save();
-        console.log(roomtype);
-        return res.redirect("/payment/generate/"+ roomtype.roomtype_id);
+        const time = req.body.time;
+        const date = req.body.date;
+        return res.redirect("/payment/generate/" + req.params.choice + "/" + req.params.id + "/" + date + "/" +time);
     }
     catch (error) {
         console.error(error);
@@ -28,121 +19,62 @@ async function booking_process(req, res) {
 }
 async function booking_page(req, res) {
     console.log("booking page accessed");
-    room_details = { };
-    var choice = req.params.choice;
-    console.log(choice);
-    Modelroomtype.sync({ alert: true }).then(() => {
-        return Modelroomtype.findAll({ attributes: ['location'], where: { booked: 'No'} });
-    }).then((data) => {
-        let All_location = [];
-        data.forEach(element => {
-            
-            All_location.push(element.toJSON().location);
-            console.log(element.toJSON().location);
-        })
-        console.log(All_location);
-        var location = [];
-        for (let i = 0; i < All_location.length; i++) {
-            if (location.indexOf(All_location[i]) === -1) {
-                location.push(All_location[i]);
-            }
-        }
-        console.log(location);
+    console.log(req.params.id);
+    const room = await ModelRoomInfo.findOne({where:{
+        room_uuid: req.params.id
+    }});
+    console.log(room);
         return res.render('user/booking', {
-            location, Modelroomtype, choice
-        });
-    })
-        .catch((err) => {
-            console.log(err)
+             choice:req.params.choice, room
         });    
-}
+};
 
-router.post("/date", async function (req, res) {
-    console.log("Loooking for all the date");
-    console.log(req.body);
-    Modelroomtype.sync({ alert: true }).then(() => {
-        return Modelroomtype.findAll({ attributes: ['date'], where: { location: req.body.location, booked: 'No'  } });
-    }).then((data) => {
-        let date = [];
-        data.forEach(element => {
-            date.push(element.toJSON().date);
-            console.log(element.toJSON().date);
-        })
-        console.log(date);
-        var mydate = [];
-        for (let i = 0; i < date.length; i++) {
-            if (mydate.indexOf(date[i]) === -1) {
-                mydate.push(date[i]);
-            }
-        }
-        console.log(mydate);
-        return res.json({
-            date: mydate
-        })
-    })
-});
-router.post("/time", async function (req, res){
+router.post("/date", async function (req, res){
     console.log("Loooking for all the time");
     console.log(req.body);
-    Modelroomtype.sync({ alert: true }).then(() => {
-        return Modelroomtype.findAll({ attributes: ['time'], where: { booked: 'No' , location: req.body.location, date: req.body.date } });
-    }).then((data) => {
-        let time = [];
-        data.forEach(element => {
-            time.push(element.toJSON().time);
-            console.log(element.toJSON().time);
-        })
-        console.log(time);
-        var mytime = [];
-        for (let i = 0; i < time.length; i++) {
-            if (mytime.indexOf(time[i]) === -1) {
-                mytime.push(time[i]);
-            }
+    const date = await Modelticket.findOne({ where: {time: req.body.timeslot, room_id:req.body.room_id } });
+    console.log(date);
+    if (date === null) {
+        var today = new Date();
+        var dd = today.getDate()+1; // book from tmr!
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
         }
-        console.log(mytime);
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+        console.log(today);
+        console.log('Not found!');
         return res.json({
-            time: mytime
+            check: today
         })
-    })
+    } 
+    else {
+        Modelticket.sync({ alert: true }).then(() => {
+            return Modelticket.findAll({ attributes: ['date'], where: { time: req.body.timeslot, room_id: req.body.room_id } });
+        }).then((data) => {
+            let date = [];
+            data.forEach(element => {
+                date.push(element.toJSON().date);
+                console.log(element.toJSON().date);
+            })
+            console.log(date);
+            var block_date = [];
+            for (let i = 0; i < date.length; i++) {
+                if (block_date.indexOf(date[i]) === -1) {
+                    block_date.push(date[i]);
+                }
+            }
+            console.log(block_date);
+            return res.json({
+                block: block_date
+            })
+        })
+    }
+  
 });
-router.post("/roomtype", async function (req, res) {
-    console.log("Loooking for all the roomtype");
-    console.log(req.body);
-    const Small = await Modelroomtype.findAndCountAll({
-        where: {
-            time: req.body.time, date: req.body.date, location: req.body.location, roomtype: "Small", booked: 'No'
-        }
-    });
-    const check = await Modelroomtype.findOne({
-        where: {
-            time: req.body.time, date: req.body.date, location: req.body.location, roomtype: "Small", booked: 'No'
-        }
-    });
-    const Medium = await Modelroomtype.findAndCountAll({
-        where: {
-            time: req.body.time, date: req.body.date, location: req.body.location, roomtype: "Medium", booked: 'No'
-        }
-    });
-    const Large = await Modelroomtype.findAndCountAll({
-        where: {
-            time: req.body.time, date: req.body.date, location: req.body.location, roomtype: "Large", booked: 'No'
-        }
-    });
-    console.log("Small " + Small.count);
-    console.log(check);
-    console.log("Medium " + Medium.count);
-    console.log( "Large "+ Large.count);
-    if (Small.count <= 0) {
-        var small = false;
-    };
-    if (Medium.count <= 0) {
-       var medium = false;
-    };
-    if (Large.count <= 0) {
-       var large = false;
-    };
-    return res.json({
-        room: [small, medium, large]
-    })
-});
+
 // ---------------------------------------

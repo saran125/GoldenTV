@@ -38,7 +38,7 @@ async function prodlist_page(req, res) {
 	console.log('Prodlist Page accessed');
 	return res.render('prodlist', {
 		movie: "Movie",
-		song: "Song",
+		song: "Karaoke",
 		movieimage: req.body.movieimage,
 		moviename: req.body.moviename,
 		movieagerating: req.body.movieagerating,

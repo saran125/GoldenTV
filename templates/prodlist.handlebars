@@ -260,11 +260,11 @@
             {{#if (cmp_eq user.role "customer") }}
             <div class="col-12 col-lg-4">
               <small>Booking Room:</small>
-              <a id="movie"><button class="btn btn-outline-info btn-block" title="View Profile" style="width: auto;"> Movie</button></a>
+              <a href="/user/booking/{{movie}}/%id%"><button class="btn btn-outline-info btn-block" title="View Profile" style="width: auto;"> Movie</button></a>
             </div>
             <div class="col-12 col-lg-4">
               <small>Booking Room</small>
-              <a id="karaoke"><button type="button" class="btn btn-outline-primary btn-block" title="Options">Song</button></a>
+              <a href="/user/booking/{{song}}/%uuid%"><button type="button" class="btn btn-outline-primary btn-block" title="Options">Song</button></a>
                 {{else}}
               <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to book!</button></a></p>
               {{/if}}
@@ -369,12 +369,6 @@
     </div>
   </div>
   <script>
-    var value = "Movie";
-    document.getElementById("movie").href = "/user/booking/" + value;
-    var value = "Karaoke";
-    document.getElementById("karaoke").href = "/user/booking/" + value;
-  </script>
-  <script>
 
     function customViewFormatter(data) {
       var template = $('#profileTemplate').html()
@@ -385,7 +379,9 @@
           .replace('%roomtype%', row.roomsize)
           .replace('%price%', row.roomprice)
           .replace('%info%', row.roominfo)
-          .replace('%name%', row.roomname);
+          .replace('%name%', row.roomname)
+          .replace('%id%', row.room_uuid)
+          .replace('%uuid%', row.room_uuid);;
       })
 
       return `<div class="row mx-0">${view}</div>`

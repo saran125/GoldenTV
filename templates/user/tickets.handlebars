@@ -72,17 +72,14 @@
     <h1>My Tickets</h1>
     <table id="id" data-toggle="table" data-pagination="true" data-total-field="total"
         data-data-field="rows" data-side-pagination="server" data-height="460" data-silent-sort="false"
-        data-server-sort="true" data-search="true" data-show-refresh="true"
-        data-show-columns="true" data-show-columns-search="true" data-addrbar="true" data-page-list="[10, 25, 50, 100, all]"
+        data-server-sort="true" data-search="true" data-addrbar="true" data-page-list="[10, 25, 50, 100, all]"
         data-url="/ticket/tickettable-data">
         <thead>
             <tr>
                 <th data-field="choice">Choice</th>
-                <th data-field="location">Location</th>
                 <th data-field="date">Date</th>
                 <th data-field="time">Time</th>
-                <th data-field="roomtype">Roomtype</th>
-                <th data-formatter="table_row_edit">View</th>
+                <th data-formatter="table_row_edit">More Details</th>
             </tr>
         </thead>
         <tbody>
@@ -95,7 +92,7 @@
          **/
         function table_row_edit(value, row, index) {
             return `
-		<a href="/ticket/view/${row.roomtype_id}">
+		<a href="/ticket/view/${row.ticket_id}/${row.room_id}">
 			<i class="fa fa-eye"></i>
 		</a>
 		`;

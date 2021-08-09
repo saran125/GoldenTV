@@ -127,151 +127,86 @@ button:focus {
 <div class="container mt-5">
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-md-8">
-            <form id="regForm" action="/user/booking/{{choice}}" method="post" >
+            <form id="regForm" action="/user/booking/{{choice}}/{{room.room_uuid}}" method="post" >
                 <h1 id="register">Booking Room for {{choice}}</h1>
                 <div class="all-steps" id="all-steps"> <span class="step"><i class="fa fa-book"></i></span></div>
-                <div >
-                    <h5>Choose the <bold>location:</bold></h5>
-                    <p> 
-                        <select  class="details" id="venue" name="location"  onmousedown="myFunction()">
-                            {{#each location}}
-                        <option >{{this}}</option>
-                        {{/each}}
-                    </select></p>
+                <div>
+                <input type="text" id="room_id" value="{{room.room_uuid}}" style="display: none;">
+                    <h5> {{room.location}}</h5>
+                    <p>Chosen <bold>location</bold></p>
+                    <h5> {{room.roomsize}}</h5>
+                    <p>Chosen <bold>Room type</bold>
+                    </p>
+                <h5> {{room.roomname}}</h5>
+                    <p>Room Name
+                    </p>
+                    <h5> ${{room.roomprice}}</h5>
+                    <p>Price
+                    </p>
+                </div>
+                <div>
+                    <h5>Select the Time Slot</h5>
+                   <input type="radio" name="time" id="time" value="9am to 11.45am" oninput="mytime()">
+                    <label for="small">9am to 11.45am</label><br>
+                    <input type="radio" id="time" name="time" value="12pm to 2.45pm" oninput="mytime()">
+                    <label for="medium">12pm to 2.45pm</label><br>
+                    <input type="radio" id="time" name="time" value="3pm to 5.45pm" oninput="mytime()">
+                    <label for="large">3pm to 5.45pm</label><br>
+                    <input type="radio" id="time" name="time" value="6pm to 8.45pm" oninput="mytime()">
+                    <label for="large1">6pm to 8.45pm</label> <br>
+                    <input type="radio" id="time" name="time" value="9pm to 11.45pm" oninput="mytime()">
+                    <label for="large2">9pm to 11.45pm</label> 
                 </div>
                 <div >
+                    <div id="date">
                     <h5>Choose the <bold>Date:</bold></h5>
-                    <select name="date" class="details" onmousedown="mydate()" id="date">
-                    </select>
-                    <p></p>
-                </div>
-                <div >
-                    <h5>Choose the <bold>Timeslot:</bold></h5>
-                    <select name="time" class="details" onmousedown="mytime()" id="time">
-                    </select>
-                </div>
-                <div id="room">
-                    <h5>Choose the <bold>Room Size:</bold></h5>
-                    <span id="small"> <input type="radio" name="room" value="small">
-                    <label for="small">Small Room</label><br></span>
-                    <span id="medium"> <input type="radio" id="medium" name="room" value="medium">
-                    <label for="medium">Medium Room</label><br></span>
-                    <span id="large"> <input type="radio" id="large" name="room" value="large">
-                    <label for="large" >Large Room</label> </span>
+                    <input type="date" id="date_input" name="date" oninput="mydate()" >
+                    </div>
                     <input type='Submit' class='btn btn-primary pull-right' id='pay' value='Proceed to Pay'>
                 </div>
             </form>
         </div>
     </div>
-<script>
-        document.getElementById("date").style.display = "none";
-        document.getElementById("time").style.display = "none";
-        document.getElementById("room").style.display = "none";
-        async function myFunction() {
-            document.getElementById("date").style.display = "none";
-            document.getElementById("time").style.display = "none";
-            document.getElementById("room").style.display = "none";
-            var d = document.getElementById("date");
-            for(let n = 0; n < document.getElementById("date").options.length; n++){
-                console.log(d[n]);
-            d.remove(d[n]);
-            }
-            const response = await fetch("/user/date", {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                method: "POST",
-                body: JSON.stringify({
-                    location: document.getElementById("venue").value
-                })
-            });
-            if (response.ok) {
-                const content = await response.json();
-                showdate(content.date);
-            }
-        }
-        function showdate(date) {
-           console.log(date);
-            var x = document.getElementById("date");
-            document.getElementById("date").style.display = "inline";
-            for (let i = 0; i < date.length; i++) {
-                 var option = document.createElement("option");
-                option.text = date[i];
-                x.add(option)
-            }
-        }
-    </script>
-        <script>
-            async function mydate() {
-                document.getElementById("time").style.display = "none";
-                document.getElementById("room").style.display = "none";
-                 var t = document.getElementById("time");
-                for (let x = 0; x < document.getElementById("time").options.length; x++) {
-                    console.log(t[x]);
-                    t.remove(t[x]);
-                }
-                const response = await fetch("/user/time", {
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    method: "POST",
-                    body: JSON.stringify({
-                        location: document.getElementById("venue").value,
-                        date: document.getElementById("date").value
-                    })
-                });
-                if (response.ok) {
-                    const content = await response.json();
-                    showtime(content.time);
-                }
-            }
-            function showtime(time) {
-                var x = document.getElementById("time");
-                document.getElementById("time").style.display = "inline";
-                for (let i = 0; i < time.length; i++) {
-                    var option = document.createElement("option");
-                    option.text = time[i];
-                    x.add(option)
-                }
-            }
-        </script>
-        <script>
-            async function mytime() {
-               document.getElementById("room").style.display = "none";
-                const response = await fetch("/user/roomtype", {
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    method: "POST",
-                    body: JSON.stringify({
-                        location: document.getElementById("venue").value,
-                        date: document.getElementById("date").value,
-                        time: document.getElementById("time").value
-                    })
-                });
-                if (response.ok) {
-                    const content = await response.json();
-                    someroom(content.room);
-                }
-            }
-            function someroom(room) {
-                document.getElementById("room").style.display = "inline";
-                console.log(room);
-                if(room[0] == false){
-                document.getElementById("small").style.display = "none";}
-                if (room[1] == false) {
-                document.getElementById("medium").style.display = "none";}
-                if (room[2] == false) {
-                document.getElementById("large").style.display = "none";}
-            }
-        </script>
  <script>
-
-        function validateForm() {
-            var x, y, i, valid = true;
-            x = document.getElementsByClassName("tab");
-            y = x[currentTab].getElementsByTagName("input");
-            for (i = 0; i < y.length; i++) { if (y[i].value == "") { y[i].className += " invalid"; valid = false; } } if (valid) { document.getElementsByClassName("step")[currentTab].className += " finish"; } return valid;
-        } function fixStepIndicator(n) { var i, x = document.getElementsByClassName("step"); for (i = 0; i < x.length; i++) { x[i].className = x[i].className.replace(" active", ""); } x[n].className += " active"; }
-
+     const room_id = document.getElementById("room_id").value;
+   console.log(room_id);
+     document.getElementById("date").style.display = "none";
+    document.getElementById("pay").style.display = "none";
+    async function mytime(){
+        const response = await fetch("/user/date", {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify({
+                timeslot: document.getElementById("time").value,
+                room_id: room_id
+            })
+        });
+        if (response.ok) {
+            const content = await response.json();
+            showdate(content.block);
+        }
+          }
+            function showdate(date) {
+                console.log(date);
+                 var today = new Date();
+                var dd = today.getDate() +1 ; // book from tmr!
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd 
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                today = yyyy + '-' + mm + '-' + dd;
+                 document.getElementById("date_input").setAttribute("min", today);
+                 document.getElementById("date").style.display = "inline";
+                }
+     
+     function mydate(){
+         document.getElementById("pay").style.display = "inline";
+     }
+    
 </script>

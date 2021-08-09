@@ -121,7 +121,19 @@ a {
         Location
       </div>
       <div class="tdata">
-        {{ target.location }}
+        {{ room.location }}
+      </div>
+      <div class="tinfo">
+        Room Size
+      </div>
+      <div class="tdata">
+        {{ room.roomsize}}
+      </div>
+      <div class="tinfo">
+        Room Name
+      </div>
+      <div class="tdata">
+        {{ room.roomname}}
       </div>
       <div class="tinfo">
         time
@@ -141,9 +153,9 @@ a {
         <div class="right">
         </div>
       </div>
-
       <div class="link">
-        <a href="/">Back To Home</a>
+        <a href="/"><button class="btn btn-info"> To Home </button></a>
+        <a href="/ticket/ticketlist"><button class="btn btn-dark">To my ticket</button></a>
       </div>
     </div>
   </div>

@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { nanoid } from 'nanoid'
-import {Modelroomtype} from "../../data/roomtype.mjs"
 import ORM from "sequelize";
 import qr from 'qrcode';
 import { Modelticket } from '../../data/tickets.mjs';
+import { ModelRoomInfo } from '../../data/roominfo.mjs';
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
@@ -29,7 +29,6 @@ async function tickettable_data(req, res) {
     const conditions = search
         ? {
             [Op.or]: {
-                location: { [Op.substring]: search },
                 time: { [Op.substring]: search },
                 date: { [Op.substring]: search },
                 choice: { [Op.substring]: search },
@@ -37,11 +36,10 @@ async function tickettable_data(req, res) {
             },
         }
         : undefined;
-    const total = await Modelroomtype.count({
+    const total = await Modelticket.count({
         where: search
             ? {
                 [Op.or]: {
-                    location: { [Op.substring]: search },
                     time: { [Op.substring]: search },
                     date: { [Op.substring]: search },
                     choice: { [Op.substring]: search },
@@ -51,14 +49,13 @@ async function tickettable_data(req, res) {
         where: { "user_id": req.user.uuid }});
     const pageTotal = Math.ceil(total / pageSize);
 
-    const pageContents = await Modelroomtype.findAll({
+    const pageContents = await Modelticket.findAll({
         offset: offset,
         limit: pageSize,
         order: [[sortBy, sortOrder.toUpperCase()]],
         where: search
             ? {
                 [Op.or]: {
-                    location: { [Op.substring]: search },
                     time: { [Op.substring]: search },
                     date: { [Op.substring]: search },
                     choice: { [Op.substring]: search },
@@ -72,7 +69,7 @@ async function tickettable_data(req, res) {
         rows: pageContents,
     });
 }
-router.get("/view/:uuid", async function (req, res, next) {
+router.get("/view/:uuid/:room_id", async function (req, res, next) {
     const tid = req.params.uuid;
     console.log("ticket page accessed");
     try {
@@ -81,12 +78,17 @@ router.get("/view/:uuid", async function (req, res, next) {
         }
         const target_user = await Modelticket.findOne({
             where: {
-                roomtype_id: tid
+                ticket_id: tid
             }
         });
-         
-        const url = "roomtype id: "+ target_user.roomtype_id +"\
-        Location: "+ target_user.location+"\
+        const room = await ModelRoomInfo.findOne({
+            where: {
+                room_uuid: req.params.room_id
+            }
+        });
+
+        const url = "roomtype id: "+ target_user.room_id +"\
+        Location: "+ room.location+"\
         time: "+ target_user.time+"\
         date: "+ target_user.date +"\
         roomtype: "+ target_user.roomtype +"\
@@ -98,9 +100,8 @@ router.get("/view/:uuid", async function (req, res, next) {
         console.log(target_user);
         qr.toDataURL(url, (err, src) => {
             if (err) res.send("Error occured");
-            console.log(src);
            return res.render("user/view", {
-            target: target_user, src})
+            target: target_user, room:room, src})
         });
         
     }

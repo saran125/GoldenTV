@@ -9,7 +9,6 @@ import { ModelMovieInfo } from '../data/movieinfo.mjs';
 import { ModelSongInfo } from '../data/songinfo.mjs';
 import { ModelReview } from './review.mjs';
 import { ModelFaq } from './faq.mjs';
-import { Modelroomtype } from './roomtype.mjs';
 import { Modelticket } from './tickets.mjs';
 /**
  * @param database {ORM.Sequelize}

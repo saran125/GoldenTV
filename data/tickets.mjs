@@ -21,10 +21,10 @@ export class Modelticket extends Model {
             },
             "dateUpdated": { type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
             "date": { type: DataTypes.DATEONLY(), allowNull: true },
-            "time": { type: DataTypes.ENUM('9am to 11.45am', '12pm to 2.45pm', '3pm to 5.45pm', '6pm to 8.45pm', '9pm to 11.45pm'), allowNull: true },
+            "time": { type: DataTypes.ENUM('09am to 11.45am', '12pm to 02.45pm', '03pm to 05.45pm', '06pm to 08.45pm', '09pm to 11.45pm'), allowNull: true },
             "choice": { type: DataTypes.ENUM("Song", "Movie"), defaultValue: null },
             "user_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null },
-            "roomtype": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null }
+            "room_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null }
         }, {
             "sequelize": database,
             "modelName": "ticket",

@@ -3,19 +3,16 @@ import Axios from 'axios';
 import FileSys from 'fs';
 import Hash from 'hash.js';
 import Moment from 'moment';
-import { nanoid } from 'nanoid'
-var random_ref = nanoid(8);
 import { nets_api_key, nets_api_skey, nets_api_gateway } from './payment-config.mjs';
 import axios from 'axios';
 var Publishable_Key = 'pk_test_51JH64qCNftL7aDDGxbmRaLzvCWayIEyV27af9E3JXthLTjN9kQdPbtZNhPQM7Sp2eKsaQly6wunPsZL0wkwI8Qsu00RrfNYjBl'
 var Secret_Key = 'sk_test_51JH64qCNftL7aDDGaAmYV24FR9HK1Mmf7bPTCWP6bFBGPjU8v5pUsEq5CXcp1xpDM3A93kZitOMVtS923oMGZ7qG00FqSWb3S0'
 import st from 'stripe';
 const stripe = (st)(Secret_Key);
-import { Modelroomtype } from '../data/roomtype.mjs';
-import { room_details } from './user/user.js';
 const router = Router();
 export default router;
-router.get("/generate/:roomtype", page_generate);
+import { ModelRoomInfo } from '../data/roominfo.mjs';
+router.get("/generate/:choice/:room_id/:date/:time", page_generate);
 router.post("/generate", nets_generate);
 router.post("/query", nets_query);
 router.post("/void", nets_void);
@@ -33,10 +30,10 @@ let price = 0;
  * @param {import('express').Response} res 
  */
 async function page_generate(req, res) {
-	const details = await Modelroomtype.findByPk(req.params.roomtype);
+	const details = await ModelRoomInfo.findByPk(req.params.room_id);
 	// try {
-		let user = req.user.uuid;
-		return res.render('user/payment', { details })
+		// let user = req.user.uuid;
+		return res.render('user/payment', {choice:req.params.choice, details,time:req.params.time,date:req.params.date })
 	// catch(error){
 	// 	return res.render('404');
 	// };
@@ -257,16 +254,16 @@ async function nets_void(req, res) {
 		return res.sendStatus(500);
 	}
 }
-let paypal_price = 0;
-router.post('/paypal/:room_id', (req, res) => {
-	paypal_price +=  req.body.amount;
+router.post('/paypal/:choice/:room_id/:date/:time', (req, res) => {
+	const time = req.params.time;
+	console.log(time);
 	const create_payment_json = {
 		"intent": "sale",
 		"payer": {
 			"payment_method": "paypal"
 		},
 		"redirect_urls": {
-			"return_url": "http://localhost:3000/payment/paypal/success/"+ req.body.amount+"/"+req.params.room_id,
+			"return_url": "http://localhost:3000/payment/paypal/success/" + req.params.choice + "/" + req.body.amount + "/" + req.params.room_id + "/" + req.params.date +"/" +time.split(' ')  ,
 			"cancel_url": "http://localhost:3000/payment/cancel"
 		},
 		"transactions": [{
@@ -300,7 +297,7 @@ router.post('/paypal/:room_id', (req, res) => {
 
 });
 
-router.get('/paypal/success/:price/:room_id', (req, res) => {
+router.get('/paypal/success/:choice/:price/:room_id/:date/:time', (req, res) => {
 	const payerId = req.query.PayerID;
 	const paymentId = req.query.paymentId;
 
@@ -313,13 +310,17 @@ router.get('/paypal/success/:price/:room_id', (req, res) => {
 			}
 		}]
 	};
+	var x = req.params.time;
+	// const time = x.substring(0, 3) + " " + x.substring(3,6 ) + " " + x.substring(6, x.length);
+	const time = x.replaceAll(',', " ");
+	console.log(time);
 	paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
 		if (error) {
 			console.log(error.response);
 			throw error;
 		} else {
 			console.log(JSON.stringify(payment));
-			res.redirect('/payment/success/'+ req.params.room_id);
+			res.redirect('/payment/success/' + req.params.choice + "/" + req.params.room_id + "/" + req.params.date + "/" +time);
 		}
 	});
 });
@@ -327,6 +328,8 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 import { connect } from 'http2';
+import { time } from 'console';
+import { Modelticket } from '../data/tickets.mjs';
 const CLIENT_ID = '606882834321-g960n5vid466qrmtpcrvno3n8mm97ui0.apps.googleusercontent.com'
 const CLEINT_SECRET = 'ddcxoBS7eD1MK4iMlqSHItvq'
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
@@ -337,23 +340,23 @@ const oAuth2Client = new google.auth.OAuth2(
 	REDIRECT_URI
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-router.get("/success/:room_id",async function (req, res, next) {
-	const update = await Modelroomtype.update({
-		booked: "Yes",
-		user_id: req.user.uuid
-	}, {
-		where: {
-			roomtype_id: req.params.room_id
-		}
-	});
+router.get("/success/:choice/:room_id/:date/:time",async function (req, res, next) {
 	console.log("ticket page accessed");
-	const room = await Modelroomtype.findOne({
+	const room = await ModelRoomInfo.findOne({
 			where: {
-			roomtype_id: req.params.room_id
+			room_uuid: req.params.room_id
 			}
 		});
+		const string_date = req.params.date;
+		const ticket = await Modelticket.create({ 
+			user_id:req.user.uuid,
+			room_id: req.params.room_id,
+			choice: req.params.choice,
+			date: req.params.date,
+			time: req.params.time
+		});
+		console.log(ticket);
 	const accessToken = await oAuth2Client.getAccessToken();
-
 	const transport = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
@@ -372,12 +375,13 @@ router.get("/success/:room_id",async function (req, res, next) {
 		html: "<h1>Golden Tv Room Booking Confirmation</h1>"+
 		    "<h2>Hello "+req.user.name+"</h2>"+
 			"<h3>---Room details---</h3>"+
-			"<h4>Choice: " +room.choice+"</h4>"+
+			"<h4>Choice: " +req.params.choice+"</h4>"+
 			"<h4>Location: " + room.location + "</h4>" +
-			"<h4>Date: " + room.date + "</h4>" +
-			"<h4>Time Slot: " + room.time + "</h4>"+
-			"<h4>Room Size: " + room.roomtype + "</h4>" +
-			"<h4>Price: $" + room.price + "</h4>"+
+			"<h4>Date: " + req.params.date + "</h4>" +
+			"<h4>Time Slot: " + req.params.time + "</h4>"+
+			"<h4>Room Size: " + room.roomsize + "</h4>" +
+			"<h4>Room Name" + room.roomname + "</h4>" +
+			"<h4>Price: $" + room.roomprice + "</h4>"+
 			'<h3>Present this email or the ticket which you can access on our website during entry!</h3>' +
 			"<ul><li> Please note that all completed and confirmed transactions <bold> CANNOT BE CANCELLED OR REFUNDED</bold> under any circumstances.</li><li>Please arrive 15mins in advance to purchase pop-corn</li>"+
 			"<li>Please note that <bold>PROOF OF AGE is required for NC16, M18 & R21 films </bold> during entry into the cinema. Please produce valid identity document that displays your photograph and date of birth as proof of age when requested. The Management reserves the right to verify the age of any patron and/or deny any patron from purchasing and/or collecting tickets and/or entry into the cinema if they are not able to produce a proper or valid identity document as proof of age or do not meet the minimum qualifying age based on the relevant film rating. Tickets purchased in such cases are <bold>NOT EXCHANGEABLE OR REFUNDABLE </bold> under any circumstances.</li>"+
@@ -387,7 +391,7 @@ router.get("/success/:room_id",async function (req, res, next) {
 	const result = await transport.sendMail(mailOptions);
 	console.log('Sent email..');
 	console.log('Payment is succeed')
-	return res.render('success', { room
+	return res.render('success', { choice:req.params.choice, time:req.params.time, date:req.params.date,room
 	});
 });
 router.get("/cancel", (req, res) => {
@@ -400,7 +404,7 @@ router.get("/timeout", (req, res) => {
 	return res.render('timeout', {
 	});
 });
-router.post('/card/:room_id', (req, res) => {
+router.post('/card/:choice/:room_id/:date/:time', (req, res) => {
 	const amount = req.body.amount;
 	stripe.customers.create({
 		email: req.body.stripeEmail,
@@ -412,5 +416,5 @@ router.post('/card/:room_id', (req, res) => {
 			currency: 'SGD',
 			customer: customer.id
 		}))
-		.then(charge => res.redirect('/payment/success/'+ req.params.room_id));
+		.then(charge => res.redirect('/payment/success/' + req.params.choice + "/" + req.params.room_id + "/" + req.params.data + "/" +req.time));
 });
