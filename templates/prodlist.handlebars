@@ -14,8 +14,11 @@
 <script
   src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
 <style>
-  body,
-  button {
+  * {
+    color: gold;
+  }
+
+  body {
     background-color: black;
   }
 
@@ -62,7 +65,6 @@
 
   .List {
     position: relative;
-    padding-top: 5px;
     padding-right: 5px;
     padding-bottom: 10px;
     padding-left: 5px;
@@ -90,6 +92,19 @@
     float: left;
   }
 
+  .ListTable1 {
+    width: 820px;
+    height: 400px;
+    color: gold;
+  }
+
+  .ListTable2 {
+    width: 820px;
+    height: 400px;
+    float: left;
+    color: gold;
+  }
+
   .w3-container w3-white1 {
     width: 50%;
     float: left;
@@ -110,74 +125,6 @@
     padding-left: 10px;
     width: 50%;
     float: left;
-  }
-
-  .MoviesAdded,
-  .SongsAdded {
-    text-align: center;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    width: 50%;
-    height: 150px;
-    position: absolute;
-    top: 48px;
-    left: 155px;
-  }
-
-  .MovieName,
-  .SongName {
-    font-size: 10px;
-    width: 160px;
-    float: left;
-    border: 1px solid grey;
-  }
-
-  .MovieRating,
-  .SongRating {
-    font-size: 10px;
-    width: 160px;
-    float: left;
-    border: 1px solid grey;
-  }
-
-  .MovieDuration,
-  .SongDuration {
-    font-size: 10px;
-    width: 160px;
-    float: left;
-    border: 1px solid grey;
-  }
-
-  .GenreTags1,
-  .GenreTags2 {
-    font-size: 12px;
-    float: right;
-    width: 80px;
-    height: 90px;
-  }
-
-  .MovieTag,
-  .SongTag {
-    font-size: 12px;
-    width: 75px;
-    float: right;
-    background-color: purple;
-    border: 1px solid gold;
-  }
-
-  .MovieAdd1,
-  .SongAdd1 {
-    width: 175px;
-    height: 125px;
-  }
-
-  .MovieAdd2,
-  .SongAdd2 {
-    width: 165px;
-    height: 125px;
-    position: absolute;
-    top: 0px;
-    left: 200px;
   }
 
   .purchase {
@@ -210,35 +157,35 @@
     background-color: gold;
     color: black;
   }
+
+  th,
+  td {
+    font-size: 12.5px;
+  }
+
+  input.form-control.search-input {
+    width: 165px;
+  }
 </style>
 
 <title>Movie/Karaoke Selection</title>
 {{>navbar}}
 <div class="RoomsPricing">
   <h2>Location</h2>
-  <div class="w3-third w3-container w3-margin-bottom">
-  <table id="id" data-toggle="table" data-search="true" data-pagination="true"
-    data-total-field="total" data-data-field="rows" data-side-pagination="server"
-    data-sort-name="location" data-server-sort="true" data-search="true"
-    data-pagination="true" data-page-list="[3, 10, 25, 50, All]"
-    data-show-columns-search="true" data-addrbar="true" data-show-custom-view="true"
-    data-custom-view="customViewFormatter" data-url="/rooms/chooseeditroomstable-data">
-    <thead>
-      <tr>
-        <th data-field="dateCreated" data-sortable="true">Creation Date</th>
-        <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-        <th data-field="roomname" data-sortable="true">Name</th>
-        <th data-field="roomsize" data-sortable="true">Size</th>
-        <th data-field="roomprice" data-sortable="true">Price</th>
-        <th data-field="roominfo" data-sortable="true">Information</th>
-        <th data-field="location" data-sortable="true">Location</th>
-      </tr>
-    </thead>
-  </table>
   {{#if (cmp_eq user.role "staff") }}
-  <form action="../rooms/chooseeditroomstable">
-    <input type="submit" value="Edit" class="btn btn-outline-warning">
-  </form>
+  {{!-- <form action="../rooms/chooseeditroomstable">
+    <input type="submit" value="Edit Rooms" class="btn btn-outline-warning">
+  </form> --}}
+
+  <div style="float: left; padding-top: 10px;">
+    <div class="submit">
+      <form action="../rooms/chooseeditroomstable">
+        <input type="submit" value="Edit Rooms" class="btn btn-outline-warning">
+      </form>
+    </div>
+    <div class="blackblock1"></div>
+  </div>
+
   {{/if}}
   <template id="profileTemplate" style="color: black;">
     <div class="mt-2">
@@ -265,27 +212,122 @@
             <div class="col-12 col-lg-4">
               <small>Booking Room</small>
               <a href="/user/booking/{{song}}/%uuid%"><button type="button" class="btn btn-outline-primary btn-block" title="Options">Song</button></a>
+  <div class="w3-third w3-container w3-margin-bottom">
+    <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
+      data-data-field="rows" data-side-pagination="server" data-sort-name="location" data-server-sort="true"
+      data-search="true" data-pagination="true" data-page-list="[3, 10, 25, 50, All]" data-show-columns-search="true"
+      data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter"
+      data-url="/rooms/chooseeditroomstable-data">
+      <thead>
+        <tr>
+          <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+          <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+          <th data-field="roomname" data-sortable="true">Name</th>
+          <th data-field="roomsize" data-sortable="true">Size</th>
+          <th data-field="roomprice" data-sortable="true">Price</th>
+          <th data-field="roominfo" data-sortable="true">Information</th>
+          <th data-field="location" data-sortable="true">Location</th>
+        </tr>
+      </thead>
+    </table>
+    <template id="profileTemplate" style="color: black;">
+      <div class="mt-2">
+        <div class="card" style="border-color: white; background-color: black;">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-lg-4 col-md-6">
+                <img src="/public/uploads/%IMAGE%" style="width: 150px;" alt="">
+                <div>
+                  <p class="mb-0 text-truncated" style="width: 175px;px; font-size: 15px; padding-top:15px;">Name:
+                    %name%
+                  </p>
+                  <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Location: %location%</p>
+                  <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Size: %roomtype%</p>
+                  <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Price: $%price%</p>
+                  <p class="mb-0 text-truncated" style="width:240px; font-size: 15px;">Information: %info%</p>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-4">
+              </div>
+              {{#if (cmp_eq user.role "customer") }}
+              <div class="col-12 col-lg-4">
+                <small>Booking Room:</small>
+                <a id="movie"><button class="btn btn-outline-info btn-block" title="View Profile" style="width: auto;">
+                    Movie</button></a>
+              </div>
+              <div class="col-12 col-lg-4">
+                <small>Booking Room</small>
+                <a id="karaoke"><button type="button" class="btn btn-outline-primary btn-block"
+                    title="Options">Song</button></a>
                 {{else}}
-              <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to book!</button></a></p>
-              {{/if}}
+                {{!-- <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to
+                      book!</button></a>
+                </p> --}}
+                <div style="padding-top: 10px; padding-left: 15px;">
+                  <div class="submit">
+                    <form action="../auth/login">
+                      <input type="submit" value="Login to Book!" class="btn btn-outline-warning">
+                    </form>
+                  </div>
+                  <div class="blackblock1"></div>
+                </div>
+                {{/if}}
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </template>
+  </div>
+</div>
+
+<div class="List">
+</div>
+
+<div class="List" style="padding-left: 15px;">
+  {{!-- <h3>Book a room now for singing/watching movies!</h3> --}}
+  <div class="ListTable1">
+    <h1>Movie Data Table</h1>
+    <div style="float: left; padding-top: 10px;" class="CreateMoviesAndSongs">
+      <div class="submit">
+        <form action="../movie/createmovie">
+          <input type="submit" value="Add Movie" class="btn btn-outline-warning">
+        </form>
+      </div>
+      <div class="blackblock1"></div>
     </div>
-  </template>
-  
+    {{!-- <div id="toolbar" class="select">
+      <select class="form-control">
+        <option value="">Export Basic</option>
+        <option value="all">Export All</option>
+        <option value="selected">Export Selected</option>
+      </select>
+    </div> --}}
+    <table id="id" data-show-export="true" data-toggle="table" data-search="true" data-pagination="true"
+      data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true" data-side-pagination="server"
+      data-sort-name="dateCreated" data-height="600" data-silent-sort="false" data-server-sort="true" data-search="true"
+      {{!-- data-page-number="50" --}} data-pagination="true" {{!-- data-page-size="5" --}}
+      data-page-list="[10, 25, 50, 100, 200, All]" data-show-refresh="true" data-show-columns="true"
+      data-show-columns-search="true" data-addrbar="true" data-url="/movie/chooseeditmoviestable-data">
+      <thead>
+        <tr>
+          <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+          <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+          <th {{!-- data-field="movieimage" --}} data-formatter="table_row_image2">Movie Poster</th>
+          <th data-field="moviename" data-sortable="true">Name</th>
+          <th data-field="movieagerating" data-sortable="true">Age Rating</th>
+          <th data-field="movieduration" data-sortable="true">Duration</th>
+          <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
+          <th data-formatter="table_row_edit2">Edit</th>
+        </tr>
+      </thead>
+    </table>
   </div>
-</div>
 
-<div class="List">
-
-</div>
-<div class="List">
-  <h3>Book a room now for singing/watching movies!</h3>
-  <div class="List">
+  <div class="List" style="height: 35px;">
   </div>
-  {{#if (cmp_eq user.role "staff") }}
+  {{!-- {{#if (cmp_eq user.role "staff") }}
   <form action="../movie/chooseeditmoviestable">
     <input type="submit" value="Movies Information" class="btn btn-outline-warning">
   </form>
@@ -296,9 +338,112 @@
   <form action="../song/chooseeditsongstable">
     <input type="submit" value="Songs Information" class="btn btn-outline-warning">
   </form>
-  {{/if}}
-  
-  <div class="List">
+  {{/if}} --}}
+
+  <div class="ListTable2">
+    <h1>Song Data Table</h1>
+    <div style="float: left; padding-top: 10px;" class="CreateMoviesAndSongs">
+      <div class="submit">
+        <form action="../song/createsong">
+          <input type="submit" value="Add Song" class="btn btn-outline-warning">
+        </form>
+      </div>
+      <div class="blackblock1"></div>
+    </div>
+    <table width="100%" id="id" data-toolbar="#toolbar" data-show-export="true" data-toggle="table" data-search="true"
+      data-pagination="true" data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true"
+      data-side-pagination="server" data-sort-name="dateCreated" data-height="600" data-silent-sort="false"
+      data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}} data-pagination="true" {{!--
+      data-page-size="5" --}} data-page-list="[10, 25, 50, 100, 200, All]" data-show-refresh="true"
+      data-show-columns="true" data-show-columns-search="true" data-addrbar="true"
+      data-url="/song/chooseeditsongstable-data">
+      <thead>
+        <tr>
+          <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+          <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+          <th {{!-- data-field="movieimage" --}} data-formatter="table_row_image">Song Poster</th>
+          <th data-field="songname" data-sortable="true">Name</th>
+          <th data-field="songagerating" data-sortable="true">Age Rating</th>
+          <th data-field="songduration" data-sortable="true">Duration</th>
+          <th data-field="songgenre" data-sortable="true">Genre(s)</th>
+          <th data-formatter="table_row_edit">Edit</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
+  <script>
+    var value = "Movie";
+    document.getElementById("movie").href = "/user/booking/" + value;
+    var value = "Karaoke";
+    document.getElementById("karaoke").href = "/user/booking/" + value;
+  </script>
+  <script>
+
+    function customViewFormatter(data) {
+      var template = $('#profileTemplate').html()
+      var view = ''
+      $.each(data, function (i, row) {
+        view += template.replace('%location%', row.location)
+          .replace('%IMAGE%', row.roomimage)
+          .replace('%roomtype%', row.roomsize)
+          .replace('%price%', row.roomprice)
+          .replace('%info%', row.roominfo)
+          .replace('%name%', row.roomname);
+      })
+
+      return `<div class="row mx-0">${view}</div>`
+    }
+
+    function table_row_image(value, row, index) {
+      return `
+		<img src="/public/uploads/${row.songimage}" 
+        style="width: 85px; height: 130px; padding-bottom: 5px;"
+        alt="Norway" class="w3-hover-opacity">
+		`;
+    }
+
+    /**
+     * Formats the action column for each row of data
+     **/
+    function table_row_edit(value, row, index) {
+      return `
+		<a href="../song/updatesong/${row.song_uuid}">
+			<i class="fa fa-edit"></i>
+		</a>
+
+		<a href="../song/deletesong/${row.song_uuid}">
+			<i class="fa fa-trash"></i>
+		</a>
+		`;
+    }
+
+    function table_row_image2(value, row, index) {
+      return `
+		<img src="/public/uploads/${row.movieimage}" 
+        style="width: 85px; height: 130px; padding-bottom: 5px;"
+        alt="Norway" class="w3-hover-opacity">
+		`;
+    }
+
+    /**
+     * Formats the action column for each row of data
+     **/
+    function table_row_edit2(value, row, index) {
+      return `
+		<a href="../movie/updatemovie/${row.movie_uuid}">
+			<i class="fa fa-edit"></i>
+		</a>
+
+		<a href="../movie/deletemovie/${row.movie_uuid}">
+			<i class="fa fa-trash"></i>
+		</a>
+		`;
+    }
+  </script>
+
+
+  {{!-- <div class="List">
     <div class="w3-container w3-white1">
       <img src="/public/img/moviewatch.png" alt="Norway" class="w3-hover-opacity">
     </div>
@@ -387,3 +532,4 @@
       return `<div class="row mx-0">${view}</div>`
     }
   </script>
+  </div> --}}
