@@ -24,7 +24,6 @@ export function initialize_models(database) {
 		ModelSongInfo.initialize(database);
 		ModelReview.initialize(database);
 		ModelFaq.initialize(database);
-		Modelroomtype.initialize(database);
 		Modelticket.initialize(database);
 
 		console.log("Building ORM model relations and indices");

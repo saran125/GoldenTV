@@ -26,7 +26,7 @@ import SongInfo from '../routes/admin/songinfo.js';
 import RoomInfo from '../routes/admin/roominfo.js';
 import User from '../routes/user/user.js';
 import ticket from '../routes/user/ticket.mjs';
-import counter from './admin/counter.js'
+import counter from './admin/counter.js';
 
 // router.use("/sendemail", Email);
 router.use("/admin", Admin);
