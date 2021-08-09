@@ -166,6 +166,20 @@
   input.form-control.search-input {
     width: 165px;
   }
+
+  .dropdown-menu.show,
+  .dropdown-menu.dropdown-menu-right.show,
+  .dropdown-item {
+    color: gold;
+    background-color: black;
+    border-color: white;
+  }
+
+  label.dropdown-item.dropdown-item-marker:hover,
+  .dropdown-item:hover {
+    background-color: darkgrey;
+    border-color: white;
+  }
 </style>
 
 <title>Movie/Karaoke Selection</title>
@@ -187,31 +201,6 @@
   </div>
 
   {{/if}}
-  <template id="profileTemplate" style="color: black;">
-    <div class="mt-2">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12 col-lg-4 col-md-6">
-              <h5 class="mb-0 text-truncated" style="color: black;">%location%</4>
-              <h6 style="color: black;">%name%</h6>
-              <p>Size: %roomtype%</p>
-              <p class="lead">$%price%</p>
-              <p class="lead">%info%</p>
-            </div>
-            <div class="col-12 col-lg-4 col-md-6 text-center">
-              <img src="/public/uploads/%IMAGE%" alt="" class="mx-auto img-fluid">
-            </div>
-            <div class="col-12 col-lg-4">
-            </div>
-            {{#if (cmp_eq user.role "customer") }}
-            <div class="col-12 col-lg-4">
-              <small>Booking Room:</small>
-              <a href="/user/booking/{{movie}}/%id%"><button class="btn btn-outline-info btn-block" title="View Profile" style="width: auto;"> Movie</button></a>
-            </div>
-            <div class="col-12 col-lg-4">
-              <small>Booking Room</small>
-              <a href="/user/booking/{{song}}/%uuid%"><button type="button" class="btn btn-outline-primary btn-block" title="Options">Song</button></a>
   <div class="w3-third w3-container w3-margin-bottom">
     <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
       data-data-field="rows" data-side-pagination="server" data-sort-name="location" data-server-sort="true"
@@ -253,12 +242,12 @@
               {{#if (cmp_eq user.role "customer") }}
               <div class="col-12 col-lg-4">
                 <small>Booking Room:</small>
-                <a id="movie"><button class="btn btn-outline-info btn-block" title="View Profile" style="width: auto;">
-                    Movie</button></a>
+                <a href="/user/booking/{{movie}}/%id%"><button class="btn btn-outline-info btn-block"
+                    title="View Profile" style="width: auto;"> Movie</button></a>
               </div>
               <div class="col-12 col-lg-4">
                 <small>Booking Room</small>
-                <a id="karaoke"><button type="button" class="btn btn-outline-primary btn-block"
+                <a href="/user/booking/{{song}}/%uuid%"><button type="button" class="btn btn-outline-primary btn-block"
                     title="Options">Song</button></a>
                 {{else}}
                 {{!-- <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to
@@ -331,10 +320,8 @@
   <form action="../movie/chooseeditmoviestable">
     <input type="submit" value="Movies Information" class="btn btn-outline-warning">
   </form>
-
   <div class="List">
   </div>
-
   <form action="../song/chooseeditsongstable">
     <input type="submit" value="Songs Information" class="btn btn-outline-warning">
   </form>
@@ -373,13 +360,6 @@
   </div>
 
   <script>
-    var value = "Movie";
-    document.getElementById("movie").href = "/user/booking/" + value;
-    var value = "Karaoke";
-    document.getElementById("karaoke").href = "/user/booking/" + value;
-  </script>
-  <script>
-
     function customViewFormatter(data) {
       var template = $('#profileTemplate').html()
       var view = ''
@@ -389,12 +369,12 @@
           .replace('%roomtype%', row.roomsize)
           .replace('%price%', row.roomprice)
           .replace('%info%', row.roominfo)
-          .replace('%name%', row.roomname);
+          .replace('%name%', row.roomname)
+          .replace('%id%', row.room_uuid)
+          .replace('%uuid%', row.room_uuid);
       })
-
       return `<div class="row mx-0">${view}</div>`
     }
-
     function table_row_image(value, row, index) {
       return `
 		<img src="/public/uploads/${row.songimage}" 
@@ -402,7 +382,6 @@
         alt="Norway" class="w3-hover-opacity">
 		`;
     }
-
     /**
      * Formats the action column for each row of data
      **/
@@ -411,13 +390,11 @@
 		<a href="../song/updatesong/${row.song_uuid}">
 			<i class="fa fa-edit"></i>
 		</a>
-
 		<a href="../song/deletesong/${row.song_uuid}">
 			<i class="fa fa-trash"></i>
 		</a>
 		`;
     }
-
     function table_row_image2(value, row, index) {
       return `
 		<img src="/public/uploads/${row.movieimage}" 
@@ -425,7 +402,6 @@
         alt="Norway" class="w3-hover-opacity">
 		`;
     }
-
     /**
      * Formats the action column for each row of data
      **/
@@ -434,7 +410,6 @@
 		<a href="../movie/updatemovie/${row.movie_uuid}">
 			<i class="fa fa-edit"></i>
 		</a>
-
 		<a href="../movie/deletemovie/${row.movie_uuid}">
 			<i class="fa fa-trash"></i>
 		</a>
@@ -451,7 +426,6 @@
       <div class="Title">
         <h6>Movies Added:</h6>
       </div>
-
       <div class="MoviesAdded">
         <div class="MovieAdd1">
           <img style="width: 75px; height: 100px;" src="/public/img/img3722.webp" alt="Norway" class="w3-hover-opacity">
@@ -462,7 +436,6 @@
           <div class="MovieRating">{{ movieagerating }}</div>
           <div class="MovieDuration">{{ movieduration }}</div>
         </div>
-
         <div class="MovieAdd2">
           <img style="width: 75px; height: 100px;" src="/public/img/img3725.webp" alt="Norway" class="w3-hover-opacity">
           <div class="GenreTags2">
@@ -476,9 +449,7 @@
       </div>
       <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review!</button></a></p>
     </div>
-
   </div>
-
   <div class="List">
     <div class="w3-container w3-white1">
       <img src="/public/img/karaokesing.png" alt="Norway" class="w3-hover-opacity">
@@ -498,7 +469,6 @@
           <div class="SongRating">{{ songagerating }}</div>
           <div class="SongDuration">{{ songduration }}</div>
         </div>
-
         <div class="SongAdd2">
           <img style="width: 75px; height: 100px;" src="/public/img//XXXV.jpg" alt="Norway" class="w3-hover-opacity">
           <div class="GenreTags2">
@@ -512,24 +482,4 @@
       </div>
       <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
     </div>
-  </div>
-  <script>
-
-    function customViewFormatter(data) {
-      var template = $('#profileTemplate').html()
-      var view = ''
-      $.each(data, function (i, row) {
-        view += template.replace('%location%', row.location)
-          .replace('%IMAGE%', row.roomimage)
-          .replace('%roomtype%', row.roomsize)
-          .replace('%price%', row.roomprice)
-          .replace('%info%', row.roominfo)
-          .replace('%name%', row.roomname)
-          .replace('%id%', row.room_uuid)
-          .replace('%uuid%', row.room_uuid);;
-      })
-
-      return `<div class="row mx-0">${view}</div>`
-    }
-  </script>
   </div> --}}
