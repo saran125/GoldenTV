@@ -22,7 +22,7 @@ export class Modelticket extends Model {
             "dateUpdated": { type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
             "date": { type: DataTypes.DATEONLY(), allowNull: true },
             "time": { type: DataTypes.ENUM('09am to 11.45am', '12pm to 02.45pm', '03pm to 05.45pm', '06pm to 08.45pm', '09pm to 11.45pm'), allowNull: true },
-            "choice": { type: DataTypes.ENUM("Song", "Movie"), defaultValue: null },
+            "choice": { type: DataTypes.ENUM("Karaoke", "Movie"), defaultValue: null },
             "user_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null },
             "room_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null }
         }, {
