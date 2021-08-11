@@ -11,20 +11,28 @@
     .button {
         color: white;
     }
+
+    input#movieimage {
+        color: black;
+    }
 </style>
 <script>
     $(document).ready(function () {
         var i = 1;
+        var imagevalue = 2;
         $("#add_row").click(function () {
             $('#addr' + i).html("<td> " + (i + 1) + "</td>" +
-                "<td><input type='text' name='roomname' placeholder='BishanSmall' class='form-control' style='color: black;' required /></td>" +
-                "<td><select style='width: 100px;' name='roomsize' required class='form-control'><option style='color: black;'>Small</option><option style='color: black;'>Medium</option><option style='color: black;'>Large</option></select></td>" +
-                "<td><input type='number' name='roomprice' class='form-control' style='color: black;'/></td>" +
-                "<td><input type='text' name='roominfo' placeholder='...' class='form-control' style='color: black;' required /></td>" +
-                "<td><div style='width: 100px;'><img id='imagedisplay' src='/public/img/No-Image-PlaceHolder.png' alt='' class='border img-thumbnail img-fluid' style='width: 100px; height: 150px; padding-bottom: 5px; '><input type='file' id='roomimage' onchange='document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])' name='movieimage' value='{{ roomimage }}' required></div></td>" +
-                "<td><input type='text' name='location' placeholder='Bishan' class='form-control' style='color: black;' required /></td>");
+                '<td><input type="text" name="roomname" placeholder="BishanSmall" class="form-control" style="color: black;" required /></td>' +
+                '<td><select style="width: 100px;" name="roomsize" required class="form-control"><option style="color: black;">Small</option><option style="color: black;">Medium</option><option style="color: black;">Large</option></select></td>' +
+                '<td><input type="number" name="roomprice" class="form-control" style="color: black;"/></td>' +
+                '<td><input type="text" name="roominfo" placeholder="..." class="form-control" style="color: black;" required /></td>' +
+                '<td><div style="width: 100px;">' +
+                    '<img id="imagedisplay' + (imagevalue) + '"src="/public/img/No-Image-PlaceHolder.png" alt="" class="border img-thumbnail img-fluid" style="width: 100px; height: 150px; padding-bottom: 5px; ">' +
+                    '<input type="file" id="roomimage" onchange="document.getElementById(' + "'imagedisplay"+ (imagevalue) + "')" + '.src = window.URL.createObjectURL(this.files[0])" name="movieimage" value="{{ roomimage }}" required/></div></td>' +
+                '<td><input type="text" name="location" placeholder="Bishan" class="form-control" style="color: black;" required /></td>');
             $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
             i++;
+            imagevalue++;
         });
     });
     $("#delete_row").click(function () {
@@ -135,11 +143,11 @@
                                         </td>
                                         <td>
                                             <div style="width: 100px;">
-                                                <img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" alt=""
+                                                <img id="imagedisplay2" src="/public/img/No-Image-PlaceHolder.png" alt=""
                                                     class="border img-thumbnail img-fluid"
                                                     style="width: 100px; height: 150px; padding-bottom: 5px;">
                                                 <input type="file" id="roomimage"
-                                                    onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
+                                                    onchange="document.getElementById('imagedisplay2').src = window.URL.createObjectURL(this.files[0])"
                                                     name="movieimage" value="{{roomimage}}" required>
                                             </div>
                                         </td>
