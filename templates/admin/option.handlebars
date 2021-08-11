@@ -3,6 +3,7 @@
         margin-top: 20px;
         background-color: black;
     }
+
     a {
         color: whitesmoke;
     }
@@ -12,26 +13,19 @@
     }
 </style>
 <script>
-    {{!-- // Add , Dlelete row dynamically
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-    var yyyy = today.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd
-    }
-    if (mm < 10) {
-        mm = '0' + mm
-    }
-    today = yyyy + '-' + mm + '-' + dd; --}}
-
     $(document).ready(function () {
         var i = 1;
         $("#add_row").click(function () {
-            $('#addr' + i).html("<td style='color: gold;' > " + (i + 1) +
-                "</td><td><input type="text" name='roomname' placeholder='BishanSmall' class="form - control" style="color: black; " required /></td><td><select name = 'roomsize' required class= 'form-control' ><option style='color: black;'>Small </option><option style='color: black;'>Medium</option><option style='color: black;'>Large</option></select ></td><td><input type="number" name='roomprice' class="form - control" style="color: black; " /></td><td><input type="text" name='roominfo' placeholder='...' class="form - control" style="color: black; " required /></td><td><div style="width: 100px;"><img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" alt=""class="border img-thumbnail img-fluid"style="width: 100px; height: 150px; padding-bottom: 5px;"><input type="file" id="roomimage" onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"name="movieimage" value="{{roomimage}}" required></div></td><td><input type="text" name='location' placeholder='Bishan' class="form - control" style="color: black; " required /></td>");
-        $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-        i++;
+            $('#addr' + i).html("<td> " + (i + 1) + "</td>" +
+                "<td><input type='text' name='roomname' placeholder='BishanSmall' class='form-control' style='color: black;' required /></td>" +
+                "<td><select style='width: 100px;' name='roomsize' required class='form-control'><option style='color: black;'>Small</option><option style='color: black;'>Medium</option><option style='color: black;'>Large</option></select></td>" +
+                "<td><input type='number' name='roomprice' class='form-control' style='color: black;'/></td>" +
+                "<td><input type='text' name='roominfo' placeholder='...' class='form-control' style='color: black;' required /></td>" +
+                "<td><div style='width: 100px;'><img id='imagedisplay' src='/public/img/No-Image-PlaceHolder.png' alt='' class='border img-thumbnail img-fluid' style='width: 100px; height: 150px; padding-bottom: 5px; '><input type='file' id='roomimage' onchange='document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])' name='movieimage' value='{{ roomimage }}' required></div></td>" +
+                "<td><input type='text' name='location' placeholder='Bishan' class='form-control' style='color: black;' required /></td>");
+            $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+            i++;
+        });
     });
     $("#delete_row").click(function () {
         if (i > 1) {
@@ -39,10 +33,9 @@
             i--;
         }
     });
-    document.getElementById("date").setAttribute("min", today);
 
-    });
 </script>
+
 {{> navbar}}
 <form class="container" method="POST" action="/admin/option">
     <div class="row setup-content" id="step-1">
@@ -87,26 +80,13 @@
                                             <input type="text" name='roomname' placeholder='BishanSmall'
                                                 class="form-control" style="color: black;" required />
                                         </td>
-                                        {{!-- <td>
-                                            <input type="date" id="date1" class="form-control" name="date" min=""
-                                                style="color: black;">
-                                        </td> --}}
                                         <td>
                                             <select style="width: 100px;" name="roomsize" required class="form-control">
                                                 <option style="color: black;">Small</option>
                                                 <option style="color: black;">Medium</option>
                                                 <option style="color: black;">Large</option>
-                                                {{!-- <option style="color: black;">6pm to 8.45pm</option>
-                                                <option style="color: black;">9pm to 11.45pm</option> --}}
                                             </select>
                                         </td>
-                                        {{!-- <td>
-                                            <select name="roomtype" required class="form-control">
-                                                <option style="color: black;">Small </option>
-                                                <option style="color: black;">Medium</option>
-                                                <option style="color: black;">Large</option>
-                                            </select>
-                                        </td> --}}
                                         <td>
                                             <input type="number" name='roomprice' class="form-control"
                                                 style="color: black;" />
@@ -138,26 +118,13 @@
                                             <input type="text" name='roomname' placeholder='BishanSmall'
                                                 class="form-control" style="color: black;" required />
                                         </td>
-                                        {{!-- <td>
-                                            <input type="date" id="date1" class="form-control" name="date" min=""
-                                                style="color: black;">
-                                        </td> --}}
                                         <td>
                                             <select name="roomsize" required class="form-control">
                                                 <option style="color: black;">Small</option>
                                                 <option style="color: black;">Medium</option>
                                                 <option style="color: black;">Large</option>
-                                                {{!-- <option style="color: black;">6pm to 8.45pm</option>
-                                                <option style="color: black;">9pm to 11.45pm</option> --}}
                                             </select>
                                         </td>
-                                        {{!-- <td>
-                                            <select name="roomtype" required class="form-control">
-                                                <option style="color: black;">Small </option>
-                                                <option style="color: black;">Medium</option>
-                                                <option style="color: black;">Large</option>
-                                            </select>
-                                        </td> --}}
                                         <td>
                                             <input type="number" name='roomprice' class="form-control"
                                                 style="color: black;" />
@@ -196,19 +163,3 @@
         </div>
     </div>
 </form>
-<script>
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-    var yyyy = today.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd
-    }
-    if (mm < 10) {
-        mm = '0' + mm
-    }
-    today = yyyy + '-' + mm + '-' + dd;
-    document.getElementById("date1").setAttribute("min", today);
-    document.getElementById("date2").setAttribute("min", today);
-
-</script>
