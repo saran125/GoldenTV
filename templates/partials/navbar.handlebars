@@ -77,11 +77,19 @@ div.clock {
   background: #ea4c89;
   color: white;
 }
+nav a:hover {
+	border-top: 3px solid goldenrod;
+    border-bottom: 3px solid goldenrod;
+	border-radius: 10px;
+}
 </style>
 <body>
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
 	<a class="navbar-brand" href="/">
-	<img id="imgborder" class="logo" style="width: 85px;" src="/public/img/goldentvlogo.png"> Home</a>
+	<img id="imgborder" class="logo" style="width: 85px;" src="/public/img/goldentvlogo.png">
+	</a>
+	<div class="mouse">
+	<a class="navbar-brand" href="/"> Home</a></div>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
 				aria-expanded="false"
 				aria-label="Toggle navigation">
@@ -130,8 +138,7 @@ div.clock {
 				<li class="nav-item">
 					<a href="/auth/profile" class="nav-link">Profile</a>
 				</li>
-				{{/if}}
-			{{#if (cmp_eq user.role not "staff" and "customer") }}
+				{{else}}
 				<li class="nav-item">
 					{{!-- main.js router(/login)--}}
 					<a href="/auth/login" class="nav-link">Login</a>
