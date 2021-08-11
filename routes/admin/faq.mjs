@@ -7,7 +7,6 @@ const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
 
-router.use("/faq", Routerfaq);
 router.get("/retrievefaq", view_faqpage);
 
 router.get("/faq", function (req, res) {
@@ -33,7 +32,7 @@ router.post("/faq", async function (req, res) {
 	}
 	else {
 		flashMessage(res, 'success', 'Successfully created a faq!', 'fas fa-sign-in-alt', true);
-		return res.redirect("/retrievefaq");
+		return res.redirect("/faq/retrievefaq");
 	}
 
 });
@@ -65,7 +64,7 @@ router.get("/faq", async function faq(req, res) {
  async function view_faqpage(req, res) {
 	console.log("retrieve page accessed");
 	try {
-	  return res.render("retrievefaq", {
+	  return res.render("admin/retrievefaq", {
 	  });
 	} catch (error) {
 	  console.error("Failed to accesss retrieve faq page");
@@ -84,7 +83,7 @@ router.get("/table-data",async function(req, res){
 });
 router.get("/updatefaq/:questions",async function(req, res){
 	console.log("Update Faq rendered")
-	return res.render("updatefaq",{questions:req.params.questions})
+	return res.render("admin/updatefaq",{questions:req.params.questions})
 });
 router.post("/updatefaq/:questions", async function (req, res) {
 	console.log("update faq contents received");
@@ -109,7 +108,7 @@ router.post("/updatefaq/:questions", async function (req, res) {
 	}
 	else {
 		flashMessage(res, 'success', 'Successfully updated a faq!', 'fas fa-sign-in-alt', true);
-		return res.redirect("/retrievefaq");
+		return res.redirect("/faq/retrievefaq");
 	}
 });
 router.get("/deletefaq/:questions", async function (req, res){
@@ -127,8 +126,21 @@ router.get("/deletefaq/:questions", async function (req, res){
 			}
 			
 		})
-		return res.redirect("/retrievefaq");
+		return res.redirect("/faq/retrievefaq");
 	}
 	
 });
+});
+
+
+router.get("/cfaq", async function faq(req, res) {
+	// res.sendFile("dynamic/uploads/{{ }}");
+	const homedes = await ModelFaq.findAll({
+		raw:true
+	});
+	console.log("Home page accessed");
+	return res.render('cfaq', {
+		homedes
+	});
+
 });

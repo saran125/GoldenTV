@@ -1,7 +1,15 @@
 <link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
-
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 
+<style>
+  body {
+    background-color: black;
+  }
+  * {
+    color: gold;
+  }
+</style>
+{{> navbar}}
 <table
   id="table"
   data-addrbar="true"
@@ -10,8 +18,8 @@
   data-pagination="true"
   data-side-pagination="server"
   data-height="460"
-  {{!-- dont need to put / in front --}}
-  data-url="admin/retrievefaq-data"
+  
+  data-url="/admin/retrievefaq-data"
 >
 <h1>Faq List</h1>
   <thead>
@@ -37,8 +45,8 @@
         var html = [];
         $.each(row, function (key, value) {
             if (key == 'questions') {
-                html.push('<a class="update" href="/updatefaq/' + value + '" ><i class="fa fa-edit"></i>Update</a>')
-                html.push('<form method="GET" action="/deletefaq/' +value+'?_method=DELETE"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i>Delete</a>  </form>')
+                html.push('<a class="update" href="/faq/updatefaq/' + value + '" ><i class="fa fa-edit"></i>Update</a>')
+                html.push('<form method="GET" action="/faq/deletefaq/' +value+'?_method=DELETE"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i>Delete</a>  </form>')
             }
         })
         return html.join('')

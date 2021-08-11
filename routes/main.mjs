@@ -29,6 +29,8 @@ import ticket from '../routes/user/ticket.mjs';
 import counter from './admin/counter.js';
 
 // router.use("/sendemail", Email);
+
+router.use("/faq", Routerfaq);
 router.use("/admin", Admin);
 router.use("/", HomeInfo);
 router.use("/prod", Prodlist);
