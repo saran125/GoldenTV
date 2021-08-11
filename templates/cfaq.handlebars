@@ -1,4 +1,4 @@
-<h1 class="display-4"style="text-align:center; color: gold">FAQ</h1>
+
 
 <t class="display-4"></t>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +8,7 @@
   }
 
 .collapsible {
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   color:gold;
   cursor: pointer;
   padding: 18px;
@@ -31,32 +31,30 @@
   transition: max-height 0.3s ease-out;
   background-color:black;
   color:gold;
+  text-align:center;
 }
 </style>
 </head>
 <body>
-  
+
 {{> navbar}}
-<form action="/faq/updatefaq/{{questions}}" method="post">
-<button class="collapsible"style="color:gold">{{questions}}</button>
+
+<h1 class="display-4"style="text-align:center; color: gold">FAQ</h1>
+{{#each homedes}}
+<button class="collapsible"style="color:gold;">{{questions}}</button>
 <div class="content">
 
             <div class="form-group">
-                <label for="answers">Enter your answer</label>
-                <input type="string" name="answers" class="form-control" value="" required>
+                <label for="answers"style="color:gold">{{answers}}</label>
             </div>
 
 </div>
 
-				<button type="submit" class="btn btn-primary">Submit</button>
-</form>
 </div>
+{{/each}}
 <br>
 <br>
-<footer>Head over here for more information !
-<li class="nav-item">
-					<a class="nav-link" href="/contactus">Contact Us</a>
-				</li></footer>
+
 
 <script>
 var coll = document.getElementsByClassName("collapsible");
