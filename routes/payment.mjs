@@ -416,5 +416,5 @@ router.post('/card/:choice/:room_id/:date/:time', (req, res) => {
 			currency: 'SGD',
 			customer: customer.id
 		}))
-		.then(charge => res.redirect('/payment/success/' + req.params.choice + "/" + req.params.room_id + "/" + req.params.data + "/" +req.time));
+		.then(charge => res.redirect('/payment/success/' + req.params.choice + "/" + req.params.room_id + "/" + req.params.date + "/" +req.params.time));
 });
