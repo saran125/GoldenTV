@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
     body {
     background: rgb(0, 0, 0)
@@ -160,7 +163,7 @@ button:focus {
                 <div >
                     <div id="date">
                     <h5>Choose the <bold>Date:</bold></h5>
-                    <input type="date" id="date_input" name="date" oninput="mydate()" >
+                    <input type="text" id="datepicker" name="date" onclick="mydate()" >
                     </div>
                     <input type='Submit' class='btn btn-primary pull-right' id='pay' value='Proceed to Pay'>
                 </div>
@@ -185,26 +188,33 @@ button:focus {
         });
         if (response.ok) {
             const content = await response.json();
-            showdate(content.block);
-        }
-          }
-            function showdate(date) {
-                console.log(date);
-                 var today = new Date();
-                var dd = today.getDate() +1 ; // book from tmr!
-                var mm = today.getMonth() + 1; //January is 0!
-                var yyyy = today.getFullYear();
-                if (dd < 10) {
-                    dd = '0' + dd 
+            document.getElementById("date").style.display = "inline";
+            var disabledDays =  content.block;
+           
+                /* utility functions */
+                function nationalDays(date) {
+                    var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+                    //console.log('Checking (raw): ' + m + '-' + d + '-' + y);
+                    for (i = 0; i < disabledDays.length; i++) {
+                        if ($.inArray(y + '-' + (m + 1) + '-' + d, disabledDays) != -1 || new Date() >
+                            date) {
+                            //console.log('bad: ' + (m+1) + '-' + d + '-' + y + ' / ' + disabledDays[i]);
+                            return [false];
+                        }
+                    }
+                    //console.log('good: ' + (m+1) + '-' + d + '-' + y);
+                    return [true];
                 }
-                if (mm < 10) {
-                    mm = '0' + mm
+
+                function noHolidays(date) {
+                    return nationalDays(date);
                 }
-                today = yyyy + '-' + mm + '-' + dd;
-                 document.getElementById("date_input").setAttribute("min", today);
-                 document.getElementById("date").style.display = "inline";
-                }
-     
+                $(function () {
+                    $("#datepicker").datepicker({ dateFormat: 'yy-mm-dd', minDate: +2, beforeShowDay: noHolidays });
+                });
+               
+    }
+    }
      function mydate(){
          document.getElementById("pay").style.display = "inline";
      }

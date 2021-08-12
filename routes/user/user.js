@@ -35,21 +35,12 @@ router.post("/date", async function (req, res){
     const date = await Modelticket.findOne({ where: {time: req.body.timeslot, room_id:req.body.room_id } });
     console.log(date);
     if (date === null) {
-        var today = new Date();
-        var dd = today.getDate()+1; // book from tmr!
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        today = yyyy + '-' + mm + '-' + dd;
+        // sample 
+        var today = ['2021-2-12'];
         console.log(today);
         console.log('Not found!');
         return res.json({
-            check: today
+            block: today
         })
     } 
     else {
@@ -68,9 +59,22 @@ router.post("/date", async function (req, res){
                     block_date.push(date[i]);
                 }
             }
-            console.log(block_date);
+            let date_block = []
+            for(let i = 0; i <block_date.length; i++){
+                if(block_date[i].split('')[5] == '0'){
+                let str = block_date[i].split('');
+                str[5] = '';
+                str = str.join('');
+                date_block.push(str);
+                console.log(str);
+                }
+                else{
+                    date_block.push(block_date[i]);
+                }
+            }
+            console.log(date_block);
             return res.json({
-                block: block_date
+                block: date_block
             })
         })
     }
