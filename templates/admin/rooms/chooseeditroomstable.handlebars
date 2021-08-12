@@ -110,7 +110,9 @@
           <th data-field="roominfo" data-sortable="true">Information</th>
           <th data-field="location" data-sortable="true">Location</th>
           <th data-formatter="table_row_edit">Edit</th>
+            {{#if (cmp_eq user.role "manager") }}
           <th data-formatter="table_row_ticket">Ticket Detail</th>
+          {{/if}}
         </tr>
       </thead>
     </table>
