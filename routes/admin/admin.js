@@ -5,7 +5,7 @@ import { ModelUser } from '../../data/user.mjs';
 import {ModelFaq} from '../../data/faq.mjs';
 import {ModelReview} from '../../data/review.mjs';
 // import {ModelRoomReview} from '../data/roomreview.mjs';
-
+import {Modelticket} from '../../data/tickets.mjs';
 import ORM from "sequelize";
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
@@ -19,7 +19,7 @@ router.get("/option-data", option_data);
 
 router.get("/retrievereview-data", review_data);
 router.get("/retrievefaq-data", retrieve_data);
-
+router.get("/ticket-data", ticket_data);
 function option_page(req, res) {
     console.log("Option page accessed");
     return res.render('admin/option');
@@ -249,6 +249,52 @@ async function review_data(req, res) {
             where: conditions,
             raw: true, // Data only, model excluded
             
+        });
+        return res.json({
+            total: total,
+            rows: pageContents,
+        });
+    } catch (error) {
+        console.error("Failed to retrieve all Options");
+        console.error(error);
+        // internal server error
+        return res.status(500).end();
+    }
+}
+async function ticket_data(req, res) {
+    try {
+        console.log('retriving data');
+        let pageSize = parseInt(req.query.limit);
+        let offset = parseInt(req.query.offset);
+        let sortBy = req.query.sort ? req.query.sort : "dateCreated";
+        let sortOrder = req.query.order ? req.query.order : "desc";
+        let search = req.query.search;
+        if (pageSize < 0) {
+            throw new HttpError(400, "Invalid page size");
+        }
+        if (offset < 0) {
+            throw new HttpError(400, "Invalid offset index");
+        }
+        /** @type {import('sequelize/types').WhereOptions} */
+        const conditions = search
+            ? {
+                [Op.or]: {
+                    room_id: { [Op.substring]: search },
+                    time: { [Op.substring]: search },
+                    date: { [Op.substring]: search },
+                },
+            }
+            : undefined;
+        const total = await Modelticket.count({ where: conditions });
+        const pageTotal = Math.ceil(total / pageSize);
+
+        const pageContents = await Modelticket.findAll({
+            offset: offset,
+            limit: pageSize,
+            order: [[sortBy, sortOrder.toUpperCase()]],
+            where: conditions,
+            raw: true, // Data only, model excluded
+
         });
         return res.json({
             total: total,

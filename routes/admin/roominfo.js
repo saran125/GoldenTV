@@ -19,6 +19,7 @@ router.put("/updateroom/:room_uuid",
 	updateroom_process);
 
 router.get("/deleteroom/:room_uuid", deleteroom);
+router.get("/ticket/:room_id", ticket_detail);
 
 // router.get("/editroominfo", editrooms_page);
 // router.post("/editroominfo", 
@@ -299,5 +300,20 @@ async function updateroom_process(req, res) {
 		console.error(`Failed to delete`)
 		error.code = (error.code) ? error.code : 500;
 		return next(error);
+	}
+}
+async function ticket_detail(req, res) {
+	// console.log('Description created: $(booking.choice)');
+	try {
+		console.log(req.params);
+		const ticket = await ModelRoomInfo.findOne({
+			where:{
+				room_uuid: req.params.room_id
+			}
+		});
+		return res.render('admin/ticket',{ticket});
+	}
+	catch (error) {
+		console.error(error);
 	}
 }

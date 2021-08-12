@@ -11,7 +11,6 @@
   table#dtBasicExample th {
     color: gold;
   }
-
   body#bodybg,
   table#dtBasicExample td {
     background: black;
@@ -111,6 +110,7 @@
           <th data-field="roominfo" data-sortable="true">Information</th>
           <th data-field="location" data-sortable="true">Location</th>
           <th data-formatter="table_row_edit">Edit</th>
+          <th data-formatter="table_row_ticket">Ticket Detail</th>
         </tr>
       </thead>
     </table>
@@ -139,6 +139,13 @@
 		</a>
 		`;
       }
+        function table_row_ticket(value, row, index) {
+            return `
+		<a href="/rooms/ticket/${row.room_uuid}">
+			<i class="fas fa-ticket-alt"></i>
+		</a>
+		`;
+          }
 
     </script>
 
