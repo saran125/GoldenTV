@@ -40,7 +40,7 @@ router.use("/", HomeInfo);
 //Staff
 router.use("/prod", Prodlist);
 //Staff
-router.use("/rooms", RoomInfo);
+router.use("/room", RoomInfo);
 //Staff
 router.use("/movie", MovieInfo);
 //Staff

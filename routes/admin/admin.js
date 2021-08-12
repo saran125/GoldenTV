@@ -43,6 +43,7 @@ function option_page(req, res, next) {
     console.log("Option page accessed");
     return res.render('admin/option');
 }
+
 //  update choice page 
 /**
  * Renders the login page

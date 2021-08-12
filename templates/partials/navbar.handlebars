@@ -1,137 +1,147 @@
 <style>
+	body {
+		list-style: none;
+		background-color: #343a40 !;
+		color: gold;
+	}
 
-body {
-  list-style: none;
-  background-color: #343a40!;
-  color: gold;
-}
-img#imgborder {
-	border-style: solid;
-	border-color: gold;
-}
+	img#imgborder {
+		border-style: solid;
+		border-color: gold;
+	}
 
-p {
-  font-size: 13px;
-}
+	p {
+		font-size: 13px;
+	}
 
-.Profile1 {
-  width: 150px;
-}
+	.Profile1 {
+		width: 150px;
+	}
 
-div.navbar-nav {
-  padding-left: 390px;
-  width: 825px;
-  height: 105px;
-}
+	div.navbar-nav {
+		padding-left: 390px;
+		width: 825px;
+		height: 105px;
+	}
 
-div.contactus {
-  padding-left: 10px;
-  width: 200px;
-  height: 150px;
-  float: left;
-}
+	div.contactus {
+		padding-left: 10px;
+		width: 200px;
+		height: 150px;
+		float: left;
+	}
 
-div.clock {
-  padding-left: 10px;
-  text-align: center;
-  width: 190px;
-  height: 105x;
-  float: left;
-}
+	div.clock {
+		padding-left: 10px;
+		text-align: center;
+		width: 190px;
+		height: 105x;
+		float: left;
+	}
 
-#canvas {
-  width: 180px;
-  height: 90px;
-}
+	#canvas {
+		width: 180px;
+		height: 90px;
+	}
 
-#demo {
-  font-size: 12px;
-}
+	#demo {
+		font-size: 12px;
+	}
 
-.fa {
-  padding-top: 3px;
-  font-size: 20px;
-  width: 30px;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 50%;
-}
+	.fa {
+		padding-top: 3px;
+		font-size: 20px;
+		width: 30px;
+		text-align: center;
+		text-decoration: none;
+		border-radius: 50%;
+	}
 
-.fa-facebook {
-  height: 25px;
-  width: 25px;
-  background: #3B5998;
-  color: white;
-}
+	.fa-facebook {
+		height: 25px;
+		width: 25px;
+		background: #3B5998;
+		color: white;
+	}
 
-.fa-twitter {
-  height: 25px;
-  width: 25px;
-  background: #55ACEE;
-  color: white;
-}
+	.fa-twitter {
+		height: 25px;
+		width: 25px;
+		background: #55ACEE;
+		color: white;
+	}
 
-.fa-instagram {
-  height: 25px;
-  width: 25px;
-  background: #ea4c89;
-  color: white;
-}
-nav a:hover {
-	border-top: 3px solid goldenrod;
-    border-bottom: 3px solid goldenrod;
-	border-radius: 10px;
-}
+	.fa-instagram {
+		height: 25px;
+		width: 25px;
+		background: #ea4c89;
+		color: white;
+	}
+
+	nav a:hover {
+		border-top: 3px solid goldenrod;
+		border-bottom: 3px solid goldenrod;
+		border-radius: 10px;
+	}
 </style>
-<body>
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-	<a class="navbar-brand" href="/">
-	<img id="imgborder" class="logo" style="width: 85px;" src="/public/img/goldentvlogo.png">
-	</a>
-	<div class="mouse">
-	<a class="navbar-brand" href="/"> Home</a></div>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-				aria-expanded="false"
-				aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarNav">
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link" href="/prod/list">Booking</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/faq/faq">FAQ</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/contactus">About Us</a>
-			</li>
-			{{#if (cmp_eq user.role "staff") }}
-			<li class="nav-item">
-				<a class="nav-link" href="/businessstatistics">Statistics</a>
-			</li>
-			<a href="/admin/viewoption" class="nav-link">Manage all the Options</a>
-			{{/if}}	
-			{{#if (cmp_eq user.role "manager") }}
-			<li class="nav-item">
-				<a class="nav-link" href="/counter/users">Users</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/rooms/chooseeditroomstable">Rooms</a>
-			</li>
-			{{/if}}
-			{{#if (cmp_eq user.role "customer") }}
-			<li class="nav-item">
-				<a class="nav-link" href="/ticket/ticketlist">My Tickets</a>
-			</li>
-			{{/if}}
-			<li class="nav-item">
-				<a class="nav-link" href="/faq/cfaq">Faq customer</a>
-			</li>
-		</ul>
 
-		<ul class="navbar-nav ml-auto">
-			{{#if user }}
+<body>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+		<a class="navbar-brand" href="/">
+			<img id="imgborder" class="logo" style="width: 85px;" src="/public/img/goldentvlogo.png">
+		</a>
+		<div class="mouse">
+			<a class="navbar-brand" href="/"> Home</a>
+		</div>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="/prod/list">Booking</a>
+				</li>
+				{{#if (cmp_eq user.role "staff") }}
+				<li class="nav-item">
+					<a class="nav-link" href="/prod/list">Movies/Songs</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/room/chooseeditroomstable">Rooms</a>
+				</li>
+				{{/if}}
+				<li class="nav-item">
+					<a class="nav-link" href="/faq/faq">FAQ</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/contactus">About Us</a>
+				</li>
+				{{#if (cmp_eq user.role "staff") }}
+				<li class="nav-item">
+					<a class="nav-link" href="/businessstatistics">Statistics</a>
+				</li>
+				<a href="/admin/viewoption" class="nav-link">Manage all the Options</a>
+				{{/if}}
+				{{#if (cmp_eq user.role "manager") }}
+				<li class="nav-item">
+					<a class="nav-link" href="/counter/users">Users</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/rooms/chooseeditroomstable">Rooms</a>
+				</li>
+				{{/if}}
+				{{#if (cmp_eq user.role "customer") }}
+				<li class="nav-item">
+					<a class="nav-link" href="/ticket/ticketlist">My Tickets</a>
+				</li>
+				{{/if}}
+				<li class="nav-item">
+					<a class="nav-link" href="/faq/cfaq">Faq customer</a>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav ml-auto">
+				{{#if user }}
 				<li class="nav-item">
 					<a href="/auth/logout" class="nav-link">Logout</a>
 				</li>
@@ -147,7 +157,7 @@ nav a:hover {
 					<a href="/auth/register" class="nav-link">Register</a>
 				</li>
 				{{/if}}
-		</ul>
-	</div>
-</nav>
+			</ul>
+		</div>
+	</nav>
 </body>
