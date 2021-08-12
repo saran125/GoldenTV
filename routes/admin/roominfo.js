@@ -227,31 +227,31 @@ async function updateroom_process(req, res) {
 	}
 }
 
-/**
- * Deletes a specific user
- * @param {import('express').Request} req 
- * @param {import('express').Response} res 
- * @param {import('express').NextFunction} next
- */
- async function deleteroom(req, res, next) {
-	try {
-		const tid = String(req.params.room_uuid);
-		// if (tid == undefined)
-		// 	throw new HttpError(400, "Target not specified");
-		const target = await ModelRoomInfo.findByPk(tid);
-		// movieimage = target.movieimage
-		// if (target == null)
-		// 	throw new HttpError(410, "User doesn't exists");
-		target.destroy();
-		console.log(`Deleted movie: ${tid}`);
-		return res.redirect("/rooms/chooseeditroomstable");
-	}
-	catch (error) {
-		console.error(`Failed to delete`)
-		error.code = (error.code) ? error.code : 500;
-		return next(error);
-	}
-}
+// /**
+//  * Deletes a specific user
+//  * @param {import('express').Request} req 
+//  * @param {import('express').Response} res 
+//  * @param {import('express').NextFunction} next
+//  */
+//  async function deleteroom(req, res, next) {
+// 	try {
+// 		const tid = String(req.params.room_uuid);
+// 		// if (tid == undefined)
+// 		// 	throw new HttpError(400, "Target not specified");
+// 		const target = await ModelRoomInfo.findByPk(tid);
+// 		// movieimage = target.movieimage
+// 		// if (target == null)
+// 		// 	throw new HttpError(410, "User doesn't exists");
+// 		target.destroy();
+// 		console.log(`Deleted movie: ${tid}`);
+// 		return res.redirect("/rooms/chooseeditroomstable");
+// 	}
+// 	catch (error) {
+// 		console.error(`Failed to delete`)
+// 		error.code = (error.code) ? error.code : 500;
+// 		return next(error);
+// 	}
+// }
 
 // /**
 //  * Renders the edithomebestreleases page
