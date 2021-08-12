@@ -50,7 +50,7 @@
         bottom: .5em;
     }
 </style>
-
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -65,18 +65,14 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
-    {{!--
-    <script src="/public/js/businessstatistics.js"></script> --}}
-    {{!--
-    <link rel="stylesheet" href="/public/css/businessstatistics.css"> --}}
 </head>
 {{> navbar}}
 <input id="id" value="{{ticket.room_uuid}}" style="display: none;">
 <body id='bodybg'>
-    <h1>Tickets for {{ticket.roomname}}</h1>
+    <h1>Tickets for Room Name: {{ticket.roomname}}</h1>
     <table id="id" data-toggle="table" data-pagination="true" data-total-field="total" data-data-field="rows"
         data-side-pagination="server" data-height="460" data-silent-sort="false" data-server-sort="true"
-        data-search="true" data-addrbar="true"  data-query-params="queryParams" data-page-list="[10, 25, 50, 100, all]"
+         data-addrbar="true"  data-query-params="queryParams" data-page-list="[10, 25, 50, 100, all]"
         data-url="/admin/ticket-data">
         <thead>
             <tr>
@@ -89,6 +85,29 @@
         <tbody>
         </tbody>
     </table>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"  >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: black;">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"  style="color: black;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"  style="color: black;">
+                Name: 
+                </div>
+                <div class="modal-body" style="color: black;">
+                    Email:
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
 
         /**
@@ -96,14 +115,20 @@
          **/
         function table_row_edit(value, row, index) {
             return `
-		<a href="/ticket/view/${row.ticket_id}/${row.room_id}">
-			<i class="fa fa-eye"></i>
-		</a>
+           <a><i class='fas fa-user-alt' data-toggle="modal" data-target="#exampleModalCenter" onclick="myuser('${row.user_id}')"></i></a>
 		`;
-        }
-        function queryParams(params) {
+        };
+          function queryParams(params) {
                 params.search = document.getElementById("id").value
                 return params
             }
-    </script>
+</script>
+<script>
+  
+</script>
+<script>
+    function myuser(id){
+        alert(id);
+    }
+</script>
 </body>
