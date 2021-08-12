@@ -1,16 +1,23 @@
 import { Router } from 'express';
-import { ModelFaq } from '../../data/faq.mjs';
 import { flashMessage } from '../../utils/flashmsg.mjs'
+import {ModelReview} from '../../data/review.mjs';
+import ORM from 'sequelize';
+const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
+
+router.get("/retrievereview", view_reviewpage);
+router.get('/retrievecustomerreview', view_customerreview);
+
 router.get("/create", async function (req, res) {
     console.log("review page accessed");
-    return res.render('review/create');
+    return res.render('user/create');
 });
 router.post("/create", async function (req, res) {
     const roomlist = await ModelReview.create({
         "rating": req.body.Rating,
         "feedback": req.body.feedback,
+        "TypeReview": req.body.TypeReview,
     });
     console.log("review contents received");
     console.log(roomlist);
@@ -26,4 +33,80 @@ router.post("/create", async function (req, res) {
         flashMessage(res, 'success', 'Successfully created a review!', 'fas fa-sign-in-alt', true);
         return res.redirect("/home");
     }
+});
+
+async function view_reviewpage(req, res) {
+	console.log("retrieve review page accessed");
+	try {
+	  return res.render("admin/retrievereview", {
+	  });
+	} catch (error) {
+	  console.error("Failed to accesss retrieve review page");
+	  console.error(error);
+	  return res.status(500).end();
+	}
+  }
+
+router.get("/table",async function(req, res) {
+	console.log("table contents received")
+	console.log(req.body);
+});
+router.get("/table-data",async function(req, res){
+	console.log("table-data contents received")
+	console.log(req.body);
+});
+router.post("/deletereview/:uuid", async function (req, res){
+	console.log("contents deleted")
+	console.log(req.body);
+	ModelReview.findOne({
+		where: {
+			uuid : req.params.uuid
+		},
+	}).then((dreview)=>{
+		if (dreview != null){
+		ModelReview.destroy({
+			where:{
+				uuid:req.params.uuid
+			}
+			
+		})
+		return res.redirect("/review/retrievereview");
+	}
+	
+});
+});
+//retrieve and delete for customer review
+
+
+async function view_customerreview(req, res) {
+	console.log("retrieve review page accessed");
+	try {
+	  return res.render("user/retrievecustomerreview", {
+	  });
+	} catch (error) {
+	  console.error("Failed to accesss retrieve review page");
+	  console.error(error);
+	  return res.status(500).end();
+	}
+  }
+
+router.post("/deletereview/:uuid", async function (req, res){
+	console.log("contents deleted")
+	console.log(req.body);
+	ModelReview.findOne({
+		where: {
+			uuid : req.params.uuid
+		},
+	}).then((dreview)=>{
+		if (dreview != null){
+		ModelReview.destroy({
+			where:{
+				uuid:req.params.uuid
+			}
+			
+		})
+		return res.redirect("/review/retrievecustomerreview");
+	}
+	
+});
 });

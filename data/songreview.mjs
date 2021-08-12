@@ -14,7 +14,7 @@ export class UserRole {
  * This model is specifically designed for users
  * @see "https://sequelize.org/master/manual/model-basics.html#taking-advantage-of-models-being-classes"
 **/
-export class ModelReview extends Model {
+export class ModelSongReview extends Model {
 	/**
 	 * Initializer of the model
 	 * @see Model.init
@@ -22,18 +22,18 @@ export class ModelReview extends Model {
 	 * @param {Sequelize} database The configured Sequelize handle
 	**/
 	static initialize(database) {
-		ModelReview.init({
+		ModelSongReview.init({
 			"uuid"       : { type: DataTypes.CHAR(36),    primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false },
+			
+			
 			"rating"     : { type: DataTypes.STRING(5), allowNUll: false },
 			"feedback"   : {type: DataTypes.STRING(128), allowNull: false},
-			"TypeReview" : {type: DataTypes.STRING(128), allowNull: false},
 
 		}, {
 			"sequelize": database,
-			"modelName": "Review",
+			"modelName": "SongReview",
 			"hooks"    : {
 				"afterUpdate": ModelReview._auto_update_timestamp
 			}
@@ -44,7 +44,7 @@ export class ModelReview extends Model {
 	 * Emulates "TRIGGER" of "AFTER UPDATE" in most SQL databases.
 	 * This function simply assist to update the 'dateUpdated' timestamp.
 	 * @private
-	 * @param {ModelReview}     instance The entity model to be updated
+	 * @param {ModelSongReview}     instance The entity model to be updated
 	 * @param {UpdateOptions} options  Additional options of update propagated from the initial call
 	**/
 	static _auto_update_timestamp(instance, options) {

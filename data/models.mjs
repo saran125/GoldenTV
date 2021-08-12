@@ -10,6 +10,8 @@ import { ModelSongInfo } from '../data/songinfo.mjs';
 import { ModelReview } from './review.mjs';
 import { ModelFaq } from './faq.mjs';
 import { Modelticket } from './tickets.mjs';
+import {ModelRoomReview} from './roomreview.mjs';
+import {ModelSongReview} from './songreview.mjs';
 /**
  * @param database {ORM.Sequelize}
  */
@@ -301,5 +303,60 @@ async function generate_Faq(database, options) {
 	}
 }
 
+async function generate_roomreview(database, options) {
+	//	Remove this callback to ensure it runs only once
+	database.removeHook("afterBulkSync", generate_roomreview.name);
+	//	Create a root user if not exists otherwise update it
+	try {
+		console.log("Generating root administrator account");
+		const root_parameters = {	
+			uuid    : "00000000-0000-0000-0000-000000000000",
+			"rating"     :'5',
+			"feedback": "great"
+		};
+		//	Find for existing account with the same id, create or update
+		var account = await ModelRoomReview.findOne({where: { "uuid": root_parameters.uuid }});
+		
+		account = await ((account) ? account.update(root_parameters): ModelRoomReview.create(root_parameters));
+		
+		console.log("== Generated root account ==");
+		console.log(account.toJSON());
+		console.log("============================");
+		return Promise.resolve();
+	}
+	catch (error) {
+		console.error ("Failed to generate root administrator user account");
+		console.error (error);
+		return Promise.reject(error);
+	}
+}
+
+async function generate_songreview(database, options) {
+	//	Remove this callback to ensure it runs only once
+	database.removeHook("afterBulkSync", generate_songreview.name);
+	//	Create a root user if not exists otherwise update it
+	try {
+		console.log("Generating root administrator account");
+		const root_parameters = {	
+			uuid    : "00000000-0000-0000-0000-000000000000",
+			"rating"     :'3',
+			"feedback": "alright"
+		};
+		//	Find for existing account with the same id, create or update
+		var account = await ModelSongReview.findOne({where: { "uuid": root_parameters.uuid }});
+		
+		account = await ((account) ? account.update(root_parameters): ModelSongReview.create(root_parameters));
+		
+		console.log("== Generated root account ==");
+		console.log(account.toJSON());
+		console.log("============================");
+		return Promise.resolve();
+	}
+	catch (error) {
+		console.error ("Failed to generate root administrator user account");
+		console.error (error);
+		return Promise.reject(error);
+	}
+}
 
 

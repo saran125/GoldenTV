@@ -2,6 +2,16 @@
 
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 
+<style>
+  
+  body {
+    background-color: black;
+  }
+  * {
+    color: gold;
+  }
+</style>
+
 <table
   id="table"
   data-addrbar="true"
@@ -10,15 +20,20 @@
   data-pagination="true"
   data-side-pagination="server"
   data-height="460"
+  data-sort-order="desc"
+  data-show-columns="true"
   {{!-- dont need to put / in front --}}
-  data-url="admin/retrievereview-data"
+  data-url="/admin/retrievereview-data"
 >
-<h1>Reviews</h1>
+{{> navbar}}
+
+<h1 style="text-align:center">Reviews</h1>
   <thead>
       <tr>
-        <th data-field="rating">Rating:</th>
+        <th data-field="rating"data-sortable="true">Rating:</th>
         <th data-field="feedback">Feedback:</th>
-       <th data-field="action" data-formatter="actionFormatter">Update/Delete</th>
+        <th data-field="TypeReview">Review Type:</th>
+       <th data-field="action" data-formatter="actionFormatter">Delete:</th>
       </tr>
   </thead>
 </table>
@@ -43,8 +58,7 @@
         var html = [];
         $.each(row, function (key, value) {
             if (key == 'uuid') {
-                html.push('<a class="edit" href="/updatereview/' + value + '"><i class="fa fa-edit"></i> Update</a>')
-                html.push('<form method="POST" action="/deletereview/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i> Delete</a></form>')
+                html.push('<form method="POST" action="/review/deletereview/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i> Delete</a></form>')
             }
         })
         return html.join('')
