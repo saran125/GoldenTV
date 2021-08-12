@@ -13,6 +13,7 @@ router.get("/createmovie", createmovie_page);
 router.post("/createmovie",
 	upload.single('movieimage'),
 	createmovie_process);
+	
 router.get("/updatemovie/:movie_uuid", updatemovie_page);
 router.put("/updatemovie/:movie_uuid",
 	upload.single('movieimage'),

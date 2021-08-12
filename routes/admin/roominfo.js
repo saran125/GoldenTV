@@ -17,7 +17,6 @@ router.get("/updateroom/:room_uuid", updateroom_page);
 router.put("/updateroom/:room_uuid",
 	upload.single('roomimage'),
 	updateroom_process);
-
 router.get("/deleteroom/:room_uuid", deleteroom);
 
 // router.get("/editroominfo", editrooms_page);
@@ -126,7 +125,7 @@ async function createroom_process(req, res, next) {
 	try {
 		// const movieimageFile = req.file[0];
 		const createrooms = await ModelRoomInfo.create({
-			"roominfo_uuid": req.body.roominfo_uuid,
+			"room_uuid": req.body.room_uuid,
 			"admin_uuid": "00000000-0000-0000-0000-000000000000",
 			// "user_uuid": "00000000-0000-0000-0000-000000000000",
 			"roomimage": req.file.filename,
@@ -168,7 +167,7 @@ async function createroom_process(req, res, next) {
  */
 async function updateroom_page(req, res) {
     console.log("Option page accessed");
-    return res.render('admin/option');
+    return res.render('admin/update_option');
 }
 
 /**
@@ -177,26 +176,80 @@ async function updateroom_page(req, res) {
  * @param {Response} res Express Response handle
  */
 async function updateroom_process(req, res) {
-    // console.log('Description created: $(booking.choice)');
+    console.log("updated Option page accessed");
     try {
-        console.log(req.body);
-        for (let i = 0; i < req.body.location.length; i++) {
-            const option = await ModelRoomInfo.create({
-                roomname: req.body.roomname[i],
-                roomsize: req.body.roomsize[i],
-                roomprice: req.body.roomprice[i],
-                roominfo: req.body.roominfo[i],
-                roomimage: req.body.roomimage[i],
-                location: req.body.location[i].toUpperCase(),
-                admin_uuid: req.user.uuid
-            });
-            console.log(option);
-        }
-        return res.redirect("/admin/viewoption");
+        let update_image = {};
+        const tid = String(req.params.room_uuid);
+        const room = await ModelRoomInfo.findByPk(tid);
+        const roomimage = './public/uploads/' + room['roomimage'];
+
+		if (req.file != null && typeof req.file == 'object') {
+			if (Object.keys(req.file).length != 0) { //select file
+				fs.unlink(roomimage, function (err) {
+					if (err) {
+						throw err
+					} else {
+						console.log("Successfully deleted the file.")
+					}
+				})
+				update_image.image = req.file.filename;
+			}
+			else {
+				update_image.image = room.roomimage; //select NO file
+			}
+		}
+		room.update({
+            roomname: req.body.roomname,
+            roomsize: req.body.roomsize,
+            roomprice: req.body.roomprice,
+            roominfo: req.body.roominfo,
+            roomimage: update_image.image,
+            location: req.body.location.toUpperCase()
+		});
+        room.save();
+        return res.redirect('/admin/viewoption');
     }
-    catch (error) {
-        console.error(error);
-    }
+	catch (error) {
+		console.error(`Failed to update user ${req.body.room_uuid}`);
+		// console.error(error);
+		// const movieimage = './public/uploads/' + movie['movieimage'];
+		// fs.unlink(movieimage, function(err) {
+		// 	if (err) {
+		// 	  throw err
+		// 	} else {
+		// 	  console.log("Successfully deleted the file.")
+		// 	}
+		//   })
+		// const movie  = await ModelMovieInfo.findByPk(tid);
+		// const movie = await ModelMovieInfo.findByPk(tid);
+		return res.render('admin/update_option');
+	}
+}
+
+/**
+ * Deletes a specific user
+ * @param {import('express').Request} req 
+ * @param {import('express').Response} res 
+ * @param {import('express').NextFunction} next
+ */
+ async function deleteroom(req, res, next) {
+	try {
+		const tid = String(req.params.room_uuid);
+		// if (tid == undefined)
+		// 	throw new HttpError(400, "Target not specified");
+		const target = await ModelRoomInfo.findByPk(tid);
+		// movieimage = target.movieimage
+		// if (target == null)
+		// 	throw new HttpError(410, "User doesn't exists");
+		target.destroy();
+		console.log(`Deleted movie: ${tid}`);
+		return res.redirect("/rooms/chooseeditroomstable");
+	}
+	catch (error) {
+		console.error(`Failed to delete`)
+		error.code = (error.code) ? error.code : 500;
+		return next(error);
+	}
 }
 
 // /**
@@ -275,29 +328,3 @@ async function updateroom_process(req, res) {
 // 		return res.render('admin/rooms/editrooms');
 // 	}
 // }
-
-/**
- * Deletes a specific user
- * @param {import('express').Request} req 
- * @param {import('express').Response} res 
- * @param {import('express').NextFunction} next
- */
- async function deleteroom(req, res, next) {
-	try {
-		const tid = String(req.params.room_uuid);
-		// if (tid == undefined)
-		// 	throw new HttpError(400, "Target not specified");
-		const target = await ModelRoomInfo.findByPk(tid);
-		// movieimage = target.movieimage
-		// if (target == null)
-		// 	throw new HttpError(410, "User doesn't exists");
-		target.destroy();
-		console.log(`Deleted movie: ${tid}`);
-		return res.redirect("/rooms/chooseeditroomstable");
-	}
-	catch (error) {
-		console.error(`Failed to delete`)
-		error.code = (error.code) ? error.code : 500;
-		return next(error);
-	}
-}

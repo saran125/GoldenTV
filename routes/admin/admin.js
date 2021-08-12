@@ -2,17 +2,29 @@ import { Router } from 'express';
 import { ModelRoomInfo } from '../../data/roominfo.mjs';
 import { HttpError } from '../../utils/errors.mjs';
 import { ModelUser } from '../../data/user.mjs';
-import {ModelFaq} from '../../data/faq.mjs';
-import {ModelReview} from '../../data/review.mjs';
+import { ModelFaq } from '../../data/faq.mjs';
+import { ModelReview } from '../../data/review.mjs';
+import { upload } from '../../utils/multer.mjs';
+import fs from 'fs';
 // import {ModelRoomReview} from '../data/roomreview.mjs';
 
 import ORM from "sequelize";
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
-//Edit options
+
+//Create options
 router.get("/option", option_page);
-router.post("/option", option_process);
+router.post("/option",
+    upload.any(),
+    option_process);
+
+router.get("/updateoption/:room_uuid", updateoption_page);
+router.post("/updateoption/:room_uuid",
+    upload.any(),
+    updateoption_process);
+router.get("/deleteoption/:room_uuid", deleteoption);
+
 //View options
 router.get("/viewoption", viewoption);
 router.get("/option-data", option_data);
@@ -20,32 +32,41 @@ router.get("/option-data", option_data);
 router.get("/retrievereview-data", review_data);
 router.get("/retrievefaq-data", retrieve_data);
 
-function option_page(req, res) {
+/**
+ * Renders the login page
+ * @param {Request}  req Express Request handle
+ * @param {Response} res Express Response handle
+ */
+function option_page(req, res, next) {
     console.log("Option page accessed");
     return res.render('admin/option');
 }
 //  update choice page 
+/**
+ * Renders the login page
+ * @param {Request}  req Express Request handle
+ * @param {Response} res Express Response handle
+ */
 async function option_process(req, res) {
-    // console.log('Description created: $(booking.choice)');
     try {
-        console.log(req.body);
-        for (let i = 0; i < req.body.location.length; i++) {
+        var fileKeys = req.files;
+        let uploadedFiles = [];
+        for (let item of fileKeys) {
+            uploadedFiles.push(item.filename);
+        }
+
+        for (let i = 0; i < req.body.roomname.length; i++) {
             const option = await ModelRoomInfo.create({
-                // date: req.body.date[i],
-                // time: req.body.time[i],
-                // location: req.body.location[i].toUpperCase(),
-                // price: req.body.price[i],
-                // roomtype: req.body.roomtype[i],
-                // admin_uuid: req.user.uuid
                 roomname: req.body.roomname[i],
                 roomsize: req.body.roomsize[i],
                 roomprice: req.body.roomprice[i],
                 roominfo: req.body.roominfo[i],
-                roomimage: req.file.filename[i],
+                roomimage: uploadedFiles[i],
                 location: req.body.location[i].toUpperCase(),
-                admin_uuid: req.user.uuid
+                room_uuid: req.body.room_uuid
             });
             console.log(option);
+            option.save();
         }
         return res.redirect("/admin/viewoption");
     }
@@ -71,7 +92,7 @@ async function option_data(req, res) {
         console.log('finding data');
         let pageSize = parseInt(req.query.limit);
         let offset = parseInt(req.query.offset);
-        let sortBy = req.query.sort ? req.query.sort : "time";
+        let sortBy = req.query.sort ? req.query.sort : "location";
         let sortOrder = req.query.order ? req.query.order : "asc";
         let search = req.query.search;
         if (pageSize < 0) {
@@ -84,11 +105,13 @@ async function option_data(req, res) {
         const conditions = search
             ? {
                 [Op.or]: {
+                    roomname: { [Op.substring]: search },
+                    roomsize: { [Op.substring]: search },
+                    roomprice: { [Op.substring]: search },
+                    roominfo: { [Op.substring]: search },
+                    roomimage: { [Op.substring]: search },
                     location: { [Op.substring]: search },
-                    time: { [Op.substring]: search },
-                    date: { [Op.substring]: search },
-                    roomtype: { [Op.substring]: search },
-                    price: { [Op.substring]: search },
+                    "admin_id": { [Op.substring]: req.user.uuid }
 
                     // location: { [Op.substring]: search },
                     // time: { [Op.substring]: search },
@@ -98,10 +121,10 @@ async function option_data(req, res) {
                 },
             }
             : undefined;
-        const total = await Modelroomtype.count({ where: conditions });
+        const total = await ModelRoomInfo.count({ where: conditions });
         const pageTotal = Math.ceil(total / pageSize);
 
-        const pageContents = await Modelroomtype.findAll({
+        const pageContents = await ModelRoomInfo.findAll({
             offset: offset,
             limit: pageSize,
             order: [[sortBy, sortOrder.toUpperCase()]],
@@ -118,55 +141,114 @@ async function option_data(req, res) {
         return res.status(500).end();
     }
 }
-router.post("/delete_option/:uuid", async function (req, res) {
-    console.log("contents deleted")
-    console.log(req.body);
-    Modelroomtype.findOne({
-        where: {
-            uuid: req.params.uuid
-        },
-    }).then((option) => {
-        if (option != null) {
-            Modelroomtype.destroy({
-                where: {
-                    uuid: req.params.uuid
-                }
 
-            })
-            return res.redirect("/admin/viewoption");
-        }
-        
-    });
-});
-router.get("/update_option/:uuid", async function (req, res) {
+/**
+ * Deletes a specific user
+ * @param {import('express').Request} req 
+ * @param {import('express').Response} res 
+ * @param {import('express').NextFunction} next
+ */
+async function deleteoption(req, res, next) {
+    try {
+        const tid = String(req.params.room_uuid);
+        // if (tid == undefined)
+        // 	throw new HttpError(400, "Target not specified");
+        const target = await ModelRoomInfo.findByPk(tid);
+        // movieimage = target.movieimage
+        // if (target == null)
+        // 	throw new HttpError(410, "User doesn't exists");
+        target.destroy();
+        console.log(`Deleted movie: ${tid}`);
+        return res.redirect("/admin/viewoption");
+    }
+    catch (error) {
+        console.error(`Failed to delete`)
+        error.code = (error.code) ? error.code : 500;
+        return next(error);
+    }
+};
+
+    // console.log("contents deleted")
+    // console.log(req.body);
+    // ModelRoomInfo.findOne({
+    //     where: {
+    //         room_uuid: req.params.room_uuid
+    //     },
+    // }).then((option) => {
+    //     if (option != null) {
+    //         ModelRoomInfo.destroy({
+    //             where: {
+    //                 room_uuid: req.params.room_uuid
+    //             }
+
+    //         })
+    //         return res.redirect("/admin/viewoption");
+    //     }
+    // });
+
+
+async function updateoption_page(req, res) {
+    const tid = String(req.params.room_uuid);
+    const room = await ModelRoomInfo.findByPk(tid);
     console.log("update Option page accessed");
-    const option = await Modelroomtype.findOne({
-        where: {
-            roomtype_id: req.params.uuid
-        }
-    });
-    return res.render('admin/update_option', {
-        option
-    });
-});
-router.post("/update_option/:uuid", async function (req, res) {
+    // const option = await ModelRoomInfo.findOne({
+    //     where: {
+    //         roomtype_id: req.params.uuid
+    //     }
+    // });
+    return res.render('admin/update_option', { room: room });
+};
+
+async function updateoption_process(req, res) {
     console.log("updated Option page accessed");
-    const option = await Modelroomtype.update({
-        location: req.body.location,
-        date:req.body.date,
-        time: req.body.time,
-        small: req.body.small,
-        medium: req.body.medium,
-        large: req.body.large,
-        admin_uuid: req.user.uuid
-    }, {
-        where: {
-            roomtype_id: req.params.uuid
+    try {
+        let update_image = {};
+        const tid = String(req.params.room_uuid);
+        const room = await ModelRoomInfo.findByPk(tid);
+        const roomimage = './public/uploads/' + room['roomimage'];
+
+        if (req.file != null && typeof req.file == 'object') {
+            if (Object.keys(req.file).length != 0) { //select file
+                fs.unlink(roomimage, function (err) {
+                    if (err) {
+                        throw err
+                    } else {
+                        console.log("Successfully deleted the file.")
+                    }
+                })
+                update_image.image = req.file.filename;
+            }
+            else {
+                update_image.image = room.roomimage; //select NO file
+            }
         }
-    });
-    console.log("Updated Option")
-    return res.redirect('/admin/viewoption',);
-});
+        room.update({
+            roomname: req.body.roomname,
+            roomsize: req.body.roomsize,
+            roomprice: req.body.roomprice,
+            roominfo: req.body.roominfo,
+            roomimage: update_image.image,
+            location: req.body.location.toUpperCase()
+        });
+        room.save();
+        return res.redirect('/admin/viewoption');
+    }
+    catch (error) {
+        console.error(`Failed to update user ${req.body.room_uuid}`);
+        // console.error(error);
+        // const movieimage = './public/uploads/' + movie['movieimage'];
+        // fs.unlink(movieimage, function(err) {
+        // 	if (err) {
+        // 	  throw err
+        // 	} else {
+        // 	  console.log("Successfully deleted the file.")
+        // 	}
+        //   })
+        // const movie  = await ModelMovieInfo.findByPk(tid);
+        // const movie = await ModelMovieInfo.findByPk(tid);
+        return res.render('admin/update_option');
+    }
+}
 
 async function retrieve_data(req, res) {
     try {
@@ -188,7 +270,7 @@ async function retrieve_data(req, res) {
                 [Op.or]: {
                     questions: { [Op.substring]: search },
                     answers: { [Op.substring]: search },
-                    
+
                 },
             }
             : undefined;
@@ -201,7 +283,7 @@ async function retrieve_data(req, res) {
             order: [[sortBy, sortOrder.toUpperCase()]],
             where: conditions,
             raw: true, // Data only, model excluded
-            
+
         });
         return res.json({
             total: total,
@@ -235,7 +317,7 @@ async function review_data(req, res) {
                 [Op.or]: {
                     rating: { [Op.substring]: search },
                     feedback: { [Op.substring]: search },
-                    
+
                 },
             }
             : undefined;
@@ -248,7 +330,7 @@ async function review_data(req, res) {
             order: [[sortBy, sortOrder.toUpperCase()]],
             where: conditions,
             raw: true, // Data only, model excluded
-            
+
         });
         return res.json({
             total: total,

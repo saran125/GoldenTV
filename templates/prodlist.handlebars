@@ -22,6 +22,11 @@
     background-color: black;
   }
 
+  div.blackblock {
+      background-color: black;
+      height: 25px;
+  }
+
   h2,
   h3,
   h4,
@@ -68,7 +73,7 @@
     padding-right: 5px;
     padding-bottom: 10px;
     padding-left: 5px;
-    width: 600px;
+    width: 800px;
     float: left;
   }
 
@@ -93,13 +98,13 @@
   }
 
   .ListTable1 {
-    width: 820px;
+    width: 1050px;
     height: 400px;
     color: gold;
   }
 
   .ListTable2 {
-    width: 820px;
+    width: 1050px;
     height: 400px;
     float: left;
     color: gold;
@@ -180,13 +185,43 @@
     background-color: darkgrey;
     border-color: white;
   }
+
+  a.page-link {
+    color: gold;
+    background-color: black;
+    border-color: white;
+  }
+
+  li.page-item.active {
+    color: gold;
+    background-color: grey;
+    border-color: white;
+  }
+
+.collapsible {
+  background-color: rgb(0, 0, 0);
+  color:gold;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  text-align:center;
+}
+
+.active, .collapsible:hover {
+  background-color:rgb(197, 153, 8);
+}
+
 </style>
 
 <title>Movie/Karaoke Selection</title>
 {{>navbar}}
-<div class="RoomsPricing">
-  <h2>Location</h2>
+
   {{#if (cmp_eq user.role "staff") }}
+  <h2>Location</h2>
   {{!-- <form action="../rooms/chooseeditroomstable">
     <input type="submit" value="Edit Rooms" class="btn btn-outline-warning">
   </form> --}}
@@ -199,8 +234,9 @@
     </div>
     <div class="blackblock1"></div>
   </div>
-
   {{/if}}
+
+  {{#if (cmp_eq user.role "customer") }}
   <div class="w3-third w3-container w3-margin-bottom">
     <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
       data-data-field="rows" data-side-pagination="server" data-sort-name="location" data-server-sort="true"
@@ -219,6 +255,7 @@
         </tr>
       </thead>
     </table>
+    {{/if}}
     <template id="profileTemplate" style="color: black;">
       <div class="mt-2">
         <div class="card" style="border-color: white; background-color: black;">
@@ -269,14 +306,11 @@
       </div>
     </template>
   </div>
-</div>
 
-<div class="List">
-</div>
-
-<div class="List" style="padding-left: 15px;">
+<div class="List" style="padding-left: 85px;">
   {{!-- <h3>Book a room now for singing/watching movies!</h3> --}}
   <div class="ListTable1">
+    <div class="blackblock"></div>
     <h1>Movie Data Table</h1>
     <div style="float: left; padding-top: 10px;" class="CreateMoviesAndSongs">
       <div class="submit">
