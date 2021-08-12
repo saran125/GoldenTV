@@ -7,6 +7,7 @@ var storage = multer.diskStorage({
 		callback(null, './public/uploads/');
 	},
 	filename: (req, file, callback) => {
+		// req.body.file = filename
 		callback(null, Date.now() + file.originalname);
 	}
 });

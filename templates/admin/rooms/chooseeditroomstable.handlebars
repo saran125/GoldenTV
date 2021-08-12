@@ -103,7 +103,7 @@
         <tr>
           <th data-field="dateCreated" data-sortable="true">Creation Date</th>
           <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-          <th {{!-- data-field="movieimage" --}} data-formatter="table_row_image">Movie Poster</th>
+          <th {{!-- data-field="movieimage" --}} data-formatter="table_row_image">Poster</th>
           <th data-field="roomname" data-sortable="true">Name</th>
           <th data-field="roomsize" data-sortable="true">Size</th>
           <th data-field="roomprice" data-sortable="true">Price</th>
@@ -132,7 +132,7 @@
        **/
       function table_row_edit(value, row, index) {
         return `
-		<a href="../rooms/updatemovie/${row.room_uuid}">
+		<a href="../rooms/updateroom/${row.room_uuid}">
 			<i class="fa fa-edit"></i>
 		</a>
 

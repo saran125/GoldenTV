@@ -13,6 +13,7 @@ import { ModelReview } from '../data/review.mjs';
 import { ModelUser } from '../data/user.mjs';
 import RouterReview from './user/review.mjs';
 import Routerfaq from './admin/faq.mjs';
+import fileUpload from 'express-fileupload';
 // import RouterRoomReview from './roomreview.mjs';
 // const exphbs = require('express-handlebars');
 const router = Router();
@@ -27,15 +28,22 @@ import RoomInfo from '../routes/admin/roominfo.js';
 import User from '../routes/user/user.js';
 import ticket from '../routes/user/ticket.mjs';
 import counter from './admin/counter.js';
+import { upload } from '../utils/multer.mjs';
 
 // router.use("/sendemail", Email);
+// router.use(fileUpload());
 
 router.use("/faq", Routerfaq);
 router.use("/admin", Admin);
+//Staff
 router.use("/", HomeInfo);
+//Staff
 router.use("/prod", Prodlist);
+//Staff
 router.use("/rooms", RoomInfo);
+//Staff
 router.use("/movie", MovieInfo);
+//Staff
 router.use("/song", SongInfo);
 router.use('/user', User);
 router.use('/ticket', ticket);

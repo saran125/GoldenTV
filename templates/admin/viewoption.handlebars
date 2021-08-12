@@ -3,47 +3,77 @@
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/addrbar/bootstrap-table-addrbar.min.js"></script>
 <script
     src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+
 <style>
-    *{
+    * {
         color: gold;
     }
+
     body {
         background-color: black;
     }
 </style>
+
 <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
 {{>navbar}}
 <h1>Manage All Option</h1>
 <button><a class="nav-link" href="/admin/option">Add more Option</a></button>
-<table data-toggle="table" data-url="/admin/option-data" data-search="true" data-pagination="true" data-side-pagination="server"
-    data-server-sort="false" data-addrbar="true" data-show-export="false" data-filter-control="true"
-    data-show-columns="true" data-show-columns-toggle-all="true"  data-click-to-select="true"
-    data-minimum-count-columns="2" data-show-pagination-switch="true"
-    data-page-list="[10, 25, 50, 100, all]" data-show-footer="true"
-    data-show-fullscreen="true" data-show-refresh="true">
+<table data-toggle="table" data-url="/admin/option-data" data-search="true" data-pagination="true"
+    data-side-pagination="server" data-server-sort="false" data-addrbar="true" data-show-export="false"
+    data-filter-control="true" data-show-columns="true" data-show-columns-toggle-all="true" data-click-to-select="true"
+    data-minimum-count-columns="2" data-show-pagination-switch="true" data-page-list="[10, 25, 50, 100, all]"
+    data-show-footer="true" data-show-fullscreen="true" data-show-refresh="true">
 
     <thead>
         <tr>
+            <th data-field="roomname" data-sortable="true">Name</th>
+            <th data-field="roomsize" data-sortable="true">Size</th>
+            <th data-field="roomprice" data-sortable="true">Price</th>
+            <th data-field="roominfo" data-sortable="true">Information</th>
+            <th data-formatter="table_row_image" data-sortable="true">Image</th>
             <th data-field="location" data-sortable="true">Location</th>
-            <th data-field="date" data-sortable="true">date</th>
-            <th data-field="time" data-sortable="true">time</th>
-            <th data-field="roomtype" data-sortable="true">Room type</th>
-            <th data-field="price" data-sortable="true">Price</th>
-            <th data-field="booked" data-sortable="true">Booked</th>
-            <th data-field="action" data-formatter="actionFormatter">Action</th>
+            <th data-formatter="table_row_edit">Edit</th>
+            {{!-- <th data-field="action" data-formatter="actionFormatter">Action</th> --}}
         </tr>
     </thead>
 </table>
 <script>
-    function actionFormatter(index, row) {
-        var html = [];
-        $.each(row, function (key, value) {
-            if (key == 'roomtype_id') {
-                html.push('<a class="edit" href="/admin/update_option/' + value + '"><i class="fa fa-edit"></i> Edit</a>')
-                html.push('<form method="POST" action="/admin/delete_option/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i> Delete</a></form>')
-            }
-        })
-        return html.join('')
+
+
+    function table_row_image(value, row, index) {
+        return `
+		<img src="/public/uploads/${row.roomimage}" 
+        style="width: 110px; height: 160px; padding-bottom: 5px;"
+        alt="Norway" class="w3-hover-opacity">
+		`;
     }
+
+    /**
+     * Formats the action column for each row of data
+     **/
+    function table_row_edit(value, row, index) {
+        return `
+		<a href="../admin/updateoption/${row.room_uuid}">
+			<i class="fa fa-edit"></i>
+		</a>
+
+		<a href="../admin/deleteoption/${row.room_uuid}">
+			<i class="fa fa-trash"></i>
+		</a>
+		`;
+    }
+
 </script>
+{{!-- function actionFormatter(index, row) {
+var html = [];
+$.each(row, function (key, value) {
+if (key == 'roomtype_id') {
+html.push('<a class="edit" href="/admin/update_option/' + value + '"><i class="fa fa-edit"></i> Edit</a>')
+html.push('<form method="POST" action="/admin/delete_option/' + value + '?_method=Post"><a
+        onclick="parentNode.submit();" class="remove" href="javascript:;"><i class="fa fa-trash"></i> Delete</a></form>
+')
+}
+})
+return html.join('')
+} --}}
