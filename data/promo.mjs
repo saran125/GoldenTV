@@ -22,6 +22,7 @@ export class Modelpromo extends Model {
             "dateUpdated": { type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
             "discount": { type: DataTypes.INTEGER(), allowNull: true },
             "promo_code": { type: DataTypes.STRING(650), allowNull: true },
+            "roomsize": { type: DataTypes.ENUM('Small', 'Medium', 'Large'), allowNull: true },
         }, {
             "sequelize": database,
             "modelName": "promo",
