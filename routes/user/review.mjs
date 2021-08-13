@@ -18,6 +18,8 @@ router.post("/create", async function (req, res) {
         "rating": req.body.Rating,
         "feedback": req.body.feedback,
         "TypeReview": req.body.TypeReview,
+		//"user_id":req.user.uuid,
+		"user_id":"kumar",
     });
     console.log("review contents received");
     console.log(roomlist);

@@ -22,6 +22,7 @@
   data-height="460"
   data-sort-order="desc"
   data-show-columns="true"
+  data-show-footer="true"
   {{!-- dont need to put / in front --}}
   data-url="/admin/retrievereview-data"
 >
@@ -30,16 +31,32 @@
 <h1 style="text-align:center">Reviews</h1>
   <thead>
       <tr>
-        <th data-field="rating"data-sortable="true">Rating:</th>
-        <th data-field="feedback">Feedback:</th>
-        <th data-field="TypeReview">Review Type:</th>
-       <th data-field="action" data-formatter="actionFormatter">Delete:</th>
+        <th data-field="rating"data-sortable="true"data-footer-formatter="idFormatter">Rating:</th>
+        <th data-field="feedback"data-footer-formatter="idFormatter2">Feedback:</th>
+        <th data-field="TypeReview"data-footer-formatter="idFormatter3">Review Type:</th>
+       <th data-field="action" data-formatter="actionFormatter"data-footer-formatter="nameFormatter">Delete:</th>
       </tr>
   </thead>
 </table>
 
 
 <script> 
+  function idFormatter() {
+    return 'Total'
+  }
+
+  function idFormatter2() {
+    return 'Number'
+  }
+  function idFormatter3() {
+    return 'Reviews:'
+  }
+
+  function nameFormatter(data) {
+    return data.length
+  }
+
+
    function detailFormatter(index, row) {
         var html = []
         $.each(row, function (key, value) {
