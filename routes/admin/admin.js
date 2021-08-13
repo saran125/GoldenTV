@@ -28,11 +28,10 @@ router.get("/deleteoption/:room_uuid", deleteoption);
 //View options
 router.get("/viewoption", viewoption);
 router.get("/option-data", option_data);
-
 router.get("/retrievereview-data", review_data);
 router.get("/retrievefaq-data", retrieve_data);
 router.get("/ticket-data", ticket_data);
-router.get("/user-data", user_data);
+router.post("/user-data", user_data);
 
 /**
  * Renders the login page
@@ -393,7 +392,7 @@ async function ticket_data(req, res) {
     }
 }
 async function user_data(req, res) {
-    console.log("Loooking for all the time");
+    console.log("Loooking for the user data");
     console.log(req.body);
     const user = await ModelUser.findByPk(req.body.user_id);
     console.log(user);

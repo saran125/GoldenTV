@@ -27,8 +27,11 @@ export class ModelReview extends Model {
 			"dateCreated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false },
-			"rating"     : { type: DataTypes.STRING(5), allowNUll: false },
+			"rating"     : { type: DataTypes.FLOAT(5), allowNUll: false },
 			"feedback"   : {type: DataTypes.STRING(128), allowNull: false},
+
+			"TypeReview" : {type: DataTypes.STRING(128), allowNull: false},
+			"user_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null },
 
 		}, {
 			"sequelize": database,

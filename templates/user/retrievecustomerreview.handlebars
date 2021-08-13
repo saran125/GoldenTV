@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script
+  src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+<style>
+  
+  body {
+    background-color: black;
+  }
+  * {
+    color: gold;
+  }
+</style>
+{{> navbar}}
+<table
+ id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
+    data-data-field="rows" data-side-pagination="server" data-server-sort="true"
+    data-search="true" data-pagination="true" data-page-list="[3, 10, 25, 50, All]" data-show-columns-search="true"
+    data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter"
+    data-url="/admin/retrievereview-data">
+  <thead>
+    <tr>
+      <th data-field="rating">Rating:</th>
+      <th data-field="feedback">Feedback:</th>
+      <th data-field="TypeReview">Type of Review:</th>
+      <th data-field="user_id">Username:</th>
+    </tr>
+</thead>
+</table>
+
+<template id="profileTemplate" style="color: black;">
+  <div class="col-4 mt-3">
+    <div class="card" style="border-color: white; background-color: black;">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-lg-8 col-md-6">
+            <h3 class="mb-0 text-truncated">%NAME%</h3>
+          </div>
+          <div class="col-12 col-lg-4 col-md-6 text-center">
+            <br>
+            <ul class="list-inline ratings text-center" title="Ratings">
+              <li class="list-inline-item"><a href="#"><span class="fa fa-star"></span></a>
+              </li>
+              <li class="list-inline-item"><a href="#"><span class="fa fa-star"></span></a>
+              </li>
+              <li class="list-inline-item"><a href="#"><span class="fa fa-star"></span></a>
+              </li>
+              <li class="list-inline-item"><a href="#"><span class="fa fa-star"></span></a>
+              </li>
+              <li class="list-inline-item"><a href="#"><span class="fa fa-star"></span></a>
+              </li>
+            </ul>
+            <h5>%rating%</h5>
+          </div>
+          <div class="col-12 col-lg-4">
+            <small>%feedback%</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  function customViewFormatter(data) {
+    var template = $('#profileTemplate').html()
+    var view = ''
+    $.each(data, function (i, row) {
+      view += template.replace('%NAME%', row.TypeReview)
+        .replace('%rating%', row.rating)
+        .replace('%feedback%', row.feedback);
+    })
+
+    return `<div class="row mx-0">${view}</div>`
+  }
+</script>

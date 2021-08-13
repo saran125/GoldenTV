@@ -50,6 +50,7 @@ async function chooseeditroomstable(req, res) {
 //	TODO:	Common URL paths here
 async function chooseeditroomstable_data(req, res) {
 	try {
+		console.log('helo')
 		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
 		let offset = parseInt(req.query.offset);   //page * pageSize;
 		let sortBy = (req.query.sort) ? req.query.sort : "location";
@@ -251,7 +252,7 @@ async function ticket_detail(req, res) {
 		console.log(req.params);
 		const ticket = await ModelRoomInfo.findOne({
 			where: {
-				room_uuid: req.params.room_id
+				room_uuid: req.params.room_uuid
 			}
 		});
 		return res.render('admin/ticket', { ticket });

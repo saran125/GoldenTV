@@ -1,10 +1,14 @@
 import { Router } from 'express';
 import { ModelRoomInfo } from '../../data/roominfo.mjs';
 import { Modelticket } from '../../data/tickets.mjs';
+import {ModelReview} from '../../data/review.mjs';
 const router = Router();
+import ORM from "sequelize";
+const { Sequelize, DataTypes, Model, Op } = ORM;
 export default router;
 router.post("/booking/:choice/:id", booking_process);
 router.get("/booking/:choice/:id", booking_page);
+router.get("/retrievecustomerreview-data", creview_data);
 // booking page
 async function booking_process(req, res) {
     try {
@@ -80,5 +84,50 @@ router.post("/date", async function (req, res){
     }
   
 });
+async function creview_data(req, res) {
+    try {
+        console.log('retriving data');
+        let pageSize = parseInt(req.query.limit);
+        let offset = parseInt(req.query.offset);
+        let sortBy = req.query.sort ? req.query.sort : "rating";
+        let sortOrder = req.query.order ? req.query.order : "asc";
+        let search = req.query.search;
+        if (pageSize < 0) {
+            throw new HttpError(400, "Invalid page size");
+        }
+        if (offset < 0) {
+            throw new HttpError(400, "Invalid offset index");
+        }
+        /** @type {import('sequelize/types').WhereOptions} */
+        const conditions = search? {
+                [Op.or]: {
+                    rating: { [Op.substring]: search },
+                    feedback: { [Op.substring]: search },
+                    
+                },
+            }
+            : undefined;
+        const total = await ModelReview.count({ where: conditions });
+        const pageTotal = Math.ceil(total / pageSize);
+
+        const pageContents = await ModelReview.findAll({
+            offset: offset,
+            limit: pageSize,
+            order: [[sortBy, sortOrder.toUpperCase()]],
+            where: conditions,
+            raw: true, // Data only, model excluded
+            
+        });
+        return res.json({
+            total: total,
+            rows: pageContents,
+        });
+    } catch (error) {
+        console.error("Failed to retrieve all Options");
+        console.error(error);
+        // internal server error
+        return res.status(500).end();
+    }
+}
 
 // ---------------------------------------
