@@ -219,7 +219,6 @@ async function updateroom_process(req, res) {
 			"roomprice": req.body.roomprice,
 			"roominfo": req.body.roominfo,
 			"roomimage": update_roomimage.image,
-			"admin_uuid": req.user.uuid,
 			"location": req.body.location.toUpperCase()
 		});
 		room.save();
