@@ -73,7 +73,7 @@ async function chooseeditroomstable_data(req, res) {
 				"roomprice": { [Op.substring]: search },
 				"roomimage": { [Op.substring]: search },
 				"location": { [Op.substring]: search },
-				"admin_id": { [Op.substring]: req.user.uuid },
+				// "admin_id": { [Op.substring]: req.user.uuid },
 				"room_uuid": { [Op.substring]: req.body.room_uuid }
 			}
 		} : undefined;
