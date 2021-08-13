@@ -215,6 +215,7 @@
   .collapsible:hover {
     background-color: rgb(197, 153, 8);
   }
+  
 </style>
 
 <title>Movie/Karaoke Selection</title>
@@ -237,13 +238,13 @@
 </div>
 {{/if}} --}}
 
-{{#if (cmp_eq user.role "customer") }}
+{{#if (cmp_ne user.role "staff") }}
 <div class="w3-third w3-container w3-margin-bottom">
   <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
     data-data-field="rows" data-side-pagination="server" data-sort-name="location" data-server-sort="true"
     data-search="true" data-pagination="true" data-page-list="[3, 10, 25, 50, All]" data-show-columns-search="true"
     data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter"
-    data-url="/rooms/chooseeditroomstable-data">
+    data-url="/room/chooseeditroomstable-data">
     <thead>
       <tr>
         <th data-field="dateCreated" data-sortable="true">Creation Date</th>
@@ -256,27 +257,25 @@
       </tr>
     </thead>
   </table>
-  {{/if}}
-  <template id="profileTemplate" style="color: black;">
-    <div class="mt-2">
-      <div class="card" style="border-color: white; background-color: black;">
-        <div class="card-body">
+  <template id="profileTemplate" style="color: black;" >
+    <div class="mt-2" style="float:left; padding-right:10px;" >
+      <div class="card" style="border-color: gold; background-color: black; width:400px;">
+        <div class="card-body" style="padding-left:30px; box-sizing: border-box; position: relative;">
           <div class="row">
-            <div class="col-12 col-lg-4 col-md-6">
-              <img src="/public/uploads/%IMAGE%" style="width: 150px;" alt="">
-              <div>
-                <p class="mb-0 text-truncated" style="width: 175px;px; font-size: 15px; padding-top:15px;">Name:
+              <img src="/public/uploads/%IMAGE%" style="border-width: thin; border-style:solid; border-radius: 5px; width: 190px; height: 150px; float: left;" alt="">
+              <div style="float: left; padding-left: 10px;">
+                <p class="mb-0 text-truncated" style="width: 175px; font-size: 15px;">Name:
                   %name%
                 </p>
                 <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Location: %location%</p>
                 <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Size: %roomtype%</p>
                 <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Price: $%price%</p>
-                <p class="mb-0 text-truncated" style="width:240px; font-size: 15px;">Information: %info%</p>
               </div>
-            </div>
+              <p class="mb-0 text-truncated" style="padding-top: 10px; width:240px; font-size: 15px;">%info%</p>
 
             <div class="col-12 col-lg-4">
             </div>
+
             {{#if (cmp_eq user.role "customer") }}
             <div class="col-12 col-lg-4">
               <small>Booking Room:</small>
@@ -287,20 +286,20 @@
               <small>Booking Room</small>
               <a href="/user/booking/{{song}}/%uuid%"><button type="button" class="btn btn-outline-primary btn-block"
                   title="Options">Song</button></a>
-              {{else}}
-              {{!-- <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to
-                    book!</button></a>
-              </p> --}}
-              <div style="padding-top: 10px; padding-left: 15px;">
-                <div class="submit">
-                  <form action="../auth/login">
-                    <input type="submit" value="Login to Book!" class="btn btn-outline-warning">
-                  </form>
-                </div>
-                <div class="blackblock1"></div>
-              </div>
-              {{/if}}
             </div>
+            {{else}}
+            {{!-- <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to
+                  book!</button></a>
+            </p> --}}
+            <div style="position: absolute; bottom: 20px; right: 20px;">
+              <div class="submit">
+                <form action="../auth/login">
+                  <input type="submit" value="Login to Book!" class="btn btn-outline-warning">
+                </form>
+              </div>
+              <div class="blackblock1"></div>
+            </div>
+            {{/if}}
           </div>
         </div>
       </div>
@@ -308,7 +307,8 @@
   </template>
 </div>
 
-<div class="List" style="padding-left: 85px;">
+{{else}}
+<div class="List" style="padding-left: 35px;">
   {{!-- <h3>Book a room now for singing/watching movies!</h3> --}}
   <div class="ListTable1">
     <div class="blackblock"></div>
@@ -372,7 +372,7 @@
       </div>
       <div class="blackblock1"></div>
     </div>
-    <table width="100%" id="id" data-toolbar="#toolbar" data-show-export="true" data-toggle="table" data-search="true"
+    <table width="100%" data-cookie-id-table="saveId" id="id" data-toolbar="#toolbar" data-show-export="true" data-toggle="table" data-search="true"
       data-pagination="true" data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true"
       data-side-pagination="server" data-sort-name="dateCreated" data-height="600" data-silent-sort="false"
       data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}} data-pagination="true" {{!--
@@ -394,6 +394,7 @@
     </table>
   </div>
 </div>
+{{/if}}
 
 <script>
   function customViewFormatter(data) {
