@@ -67,9 +67,14 @@
                 '<td><select style="width: 100px;" name="roomsize" required class="form-control"><option style="color: black;">Small</option><option style="color: black;">Medium</option><option style="color: black;">Large</option></select></td>' +
                 '<td><input type="number" name="roomprice" class="form-control" style="color: black;"/></td>' +
                 '<td><input type="text" name="roominfo" placeholder="..." class="form-control" style="color: black;" required /></td>' +
-                '<td><div style="width: 100px;">' +
-                '<img id="imagedisplay' + (imagevalue) + '"src="/public/img/No-Image-PlaceHolder.png" alt="" class="border img-thumbnail img-fluid" style="width: 100px; height: 150px; padding-bottom: 5px; ">' +
-                '<input type="file" id="roomimage" onchange="document.getElementById(' + "'imagedisplay" + (imagevalue) + "')" + '.src = window.URL.createObjectURL(this.files[0])" name="roomimage" value="{{ roomimage }}" required/></div></td>' +
+                '<td>'+
+                    '<div style="width: 200px;">' +
+                    '<img id="imagedisplay' + (imagevalue) + '"src="/public/img/No-Image-PlaceHolder.png" alt="" class="border img-thumbnail img-fluid" style="width: 200px; height: 150px; padding-bottom: 5px;">' +
+                        '<div style="padding-left: 50px;">' +
+                            '<input type="file" id="roomimage" onchange="document.getElementById(' + "'imagedisplay" + (imagevalue) + "')" + '.src = window.URL.createObjectURL(this.files[0])" name="roomimage" value="{{ roomimage }}" required/>' +
+                        '</div>'+
+                    '</div>' + 
+                '</td>' +
                 '<td><input type="text" name="location" placeholder="Bishan" class="form-control" style="color: black;" required /></td>');
             $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
             i++;
@@ -92,7 +97,7 @@
     <div class="row setup-content" id="step-1">
         <div class="col-xs-12">
             <div class="col-md-12 well text-center">
-                <h1 style="color: gold;"> Add Options for customer</h1>
+                <h1 style="color: gold; padding:25px; ">Add Rooms</h1>
                 <div class="container col-xs-12">
                     <div class="row clearfix">
                         <div class="col-md-12 column">
@@ -147,18 +152,20 @@
                                                 style="color: black;" required />
                                         </td>
                                         <td>
-                                            <div style="width: 100px;">
+                                            <div style="width: 200px;">
                                                 <img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" alt=""
                                                     class="border img-thumbnail img-fluid"
-                                                    style="width: 100px; height: 150px; padding-bottom: 5px;">
-                                                <input type="file" id="roomimage"
-                                                    onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
-                                                    name="roomimage" value="{{roomimage}}" required>
+                                                    style="width: 200px; height: 150px; padding-bottom: 5px;">
+                                                <div style="padding-left: 50px;">
+                                                    <input type="file" id="roomimage"
+                                                        onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
+                                                        name="roomimage" value="{{roomimage}}" required>
+                                                </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="string" name='location' placeholder='Bishan' class="form-control"
-                                                style="color: black;" required />
+                                            <input type="string" name='location' placeholder='Bishan'
+                                                class="form-control" style="color: black;" required />
                                         </td>
                                     </tr>
                                 </tbody>
