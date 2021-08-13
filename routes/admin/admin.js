@@ -4,6 +4,7 @@ import { HttpError } from '../../utils/errors.mjs';
 import { ModelUser } from '../../data/user.mjs';
 import { ModelFaq } from '../../data/faq.mjs';
 import { ModelReview } from '../../data/review.mjs';
+import { Modelpromo} from '../../data/promo.mjs';
 import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 // import {ModelRoomReview} from '../data/roomreview.mjs';
@@ -418,6 +419,22 @@ async function promo_process(req, res){
     console.log('adding promo code to database');
     console.log(req.body);
     let array = Array.isArray(req.body.code);
+    if(array == false){
+        const promo = await Modelpromo.create({
+            promo_code:req.body.code,
+            roomsize: req.body.roomsize,
+            discount: req.body.discount
+        });
+    }
+    if (array == true){
+        for(let i = 0; i< req.body.code.length;i++){
+            const promo = await Modelpromo.create({
+                promo_code: req.body.code[i],
+                roomsize: req.body.roomsize[i],
+                discount: req.body.discount[i]
+            })
+        }
+    }
     console.log(array);
     return res.redirect('/admin/promo');
 }
