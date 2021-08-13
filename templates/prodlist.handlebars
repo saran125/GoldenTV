@@ -215,6 +215,26 @@
   .collapsible:hover {
     background-color: rgb(197, 153, 8);
   }
+
+  .w3-third.w3-container.w3-margin-bottom {
+    height: 450px;
+    width: 1135px;
+    overflow: auto;
+  }
+
+
+  div.blackblock {
+    background-color: black;
+    height: 7px;
+  }
+
+ input.form-control.search-input {
+   left: 10px;
+ }
+
+ div.fixed-table-toolbar {
+   width: 1100px;
+ }
 </style>
 
 <title>Movie/Karaoke Selection</title>
@@ -238,80 +258,63 @@
 {{/if}} --}}
 
 {{#if (cmp_ne user.role "staff") }}
-<div style="padding: 25px;">
-  <h1>Movie Data Table</h1>
+<div style="padding: 10px;">
+  <h1>Movies</h1>
 </div>
+
 <div class="w3-third w3-container w3-margin-bottom">
   <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
-    data-data-field="rows" data-side-pagination="server" data-sort-name="location" data-server-sort="true"
+    data-data-field="rows" data-side-pagination="server" data-sort-name="moviename" data-server-sort="true"
     data-search="true" data-pagination="true" data-page-list="[3, 10, 25, 50, All]" data-show-columns-search="true"
-    data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter"
-    data-url="/room/chooseeditroomstable-data">
+    data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter2"
+    data-url="/movie/chooseeditmoviestable-data">
     <thead>
       <tr>
         <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+        <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+        <th data-formatter="table_row_image2">Movie Poster</th>
+        <th data-field="moviename" data-sortable="true">Name</th>
+        <th data-field="movieagerating" data-sortable="true">Age Rating</th>
+        <th data-field="movieduration" data-sortable="true">Duration</th>
+        <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
+
+        {{!-- <th data-field="dateCreated" data-sortable="true">Creation Date</th>
         <th data-field="dateUpdated" data-sortable="true">Update Date</th>
         <th data-field="roomname" data-sortable="true">Name</th>
         <th data-field="roomsize" data-sortable="true">Size</th>
         <th data-field="roomprice" data-sortable="true">Price</th>
         <th data-field="roominfo" data-sortable="true">Information</th>
-        <th data-field="location" data-sortable="true">Location</th>
+        <th data-field="location" data-sortable="true">Location</th> --}}
       </tr>
     </thead>
   </table>
-  <template id="profileTemplate" style="color: black;">
+  <template id="profileTemplate2" style="color: black;">
     <div class="mt-2" style="float:left; padding-right:10px;">
-      <div class="card" style="border-color: gold; background-color: black; width:545px;">
+      <div class="card" style="border-color: gold; background-color: black; width:345px;">
         <div class="card-body" style="padding-left:30px; box-sizing: border-box; position: relative;">
           <div class="row">
-            <img src="/public/uploads/%IMAGE%"
-              style="border-width: thin; border-style:solid; border-radius: 5px; width: 215px; height: 150px; float: left;"
+            <img src="../public/uploads/%movieimage%"
+              style="border-width: thin; border-style:solid; border-radius: 5px; width: 120px; height: 150px; float: left;"
               alt="">
-            <div style="float: left; padding-left: 10px;">
-              <p class="mb-0 text-truncated" style="width: 175px; font-size: 15px;">Name:
-                %name%
-              </p>
-              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Location: %location%</p>
-              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Size: %roomtype%</p>
-              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Price: $%price%</p>
-              <div style="padding-top: 24px;">
+            <div style="float: left; padding:10px;">
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Name: %moviename% </p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Duration: %movieduration% Minutes </p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Genre: %moviegenre%</p>
+              <div style="padding-top: 14px;">
                 <div class="button">
-                  <a style="color: black" class="btn btn-warning">%info%</a>
+                  <a style="color: black" class="btn btn-warning">Age Rating: %movieagerating%</a>
                 </div>
               </div>
-
             </div>
 
-            {{#if (cmp_eq user.role "customer") }}
-            <div class="col-12 col-lg-4">
-              <small>Booking Room:</small>
-              <a href="/user/booking/{{movie}}/%id%"><button class="btn btn-outline-info btn-block" title="View Profile"
-                  style="width: auto;"> Movie</button></a>
-            </div>
-            <div class="col-12 col-lg-4">
-              <small>Booking Room</small>
-              <a href="/user/booking/{{song}}/%uuid%"><button type="button" class="btn btn-outline-primary btn-block"
-                  title="Options">Song</button></a>
-            </div>
-            {{else}}
-            {{!-- <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to
-                  book!</button></a>
-            </p> --}}
-            <div style="position: absolute; bottom: 20px; right: 20px;">
-              <div class="submit">
-                <form action="../auth/login">
-                  <input type="submit" value="Login to Book!" class="btn btn-outline-warning">
-                </form>
-              </div>
-              <div class="blackblock1"></div>
-            </div>
-            {{/if}}
           </div>
         </div>
       </div>
     </div>
   </template>
 </div>
+
+
 
 {{else}}
 <div class="List" style="padding-left: 35px;">
@@ -357,16 +360,6 @@
 
   <div class="List" style="height: 35px;">
   </div>
-  {{!-- {{#if (cmp_eq user.role "staff") }}
-  <form action="../movie/chooseeditmoviestable">
-    <input type="submit" value="Movies Information" class="btn btn-outline-warning">
-  </form>
-  <div class="List">
-  </div>
-  <form action="../song/chooseeditsongstable">
-    <input type="submit" value="Songs Information" class="btn btn-outline-warning">
-  </form>
-  {{/if}} --}}
 
   <div class="ListTable2">
     <h1>Song Data Table</h1>
@@ -403,21 +396,22 @@
 {{/if}}
 
 <script>
-  function customViewFormatter(data) {
-    var template = $('#profileTemplate').html()
+
+  function customViewFormatter2(data) {
+    var template = $('#profileTemplate2').html()
     var view = ''
     $.each(data, function (i, row) {
-      view += template.replace('%location%', row.location)
-        .replace('%IMAGE%', row.roomimage)
-        .replace('%roomtype%', row.roomsize)
-        .replace('%price%', row.roomprice)
-        .replace('%info%', row.roominfo)
-        .replace('%name%', row.roomname)
-        .replace('%id%', row.room_uuid)
-        .replace('%uuid%', row.room_uuid);
+      view += template
+        .replace('%moviename%', row.moviename)
+        .replace('%movieimage%', row.movieimage)
+        .replace('%movieagerating%', row.movieagerating)
+        .replace('%movieduration%', row.movieduration)
+        .replace('%moviegenre%', row.moviegenre)
+        .replace('%movieuuid%', row.movie_uuid);
     })
     return `<div class="row mx-0">${view}</div>`
   }
+
   function table_row_image(value, row, index) {
     return `
 		<img src="/public/uploads/${row.songimage}" 
@@ -459,70 +453,3 @@
 		`;
   }
 </script>
-
-
-{{!-- <div class="List">
-  <div class="w3-container w3-white1">
-    <img src="/public/img/moviewatch.png" alt="Norway" class="w3-hover-opacity">
-  </div>
-  <div class="w3-container w3-white2">
-    <div class="Title">
-      <h6>Movies Added:</h6>
-    </div>
-    <div class="MoviesAdded">
-      <div class="MovieAdd1">
-        <img style="width: 75px; height: 100px;" src="/public/img/img3722.webp" alt="Norway" class="w3-hover-opacity">
-        <div class="GenreTags1">
-          <div class="MovieTag"> Horror </div>
-        </div>
-        <div class="MovieName">{{ moviename }} </div>
-        <div class="MovieRating">{{ movieagerating }}</div>
-        <div class="MovieDuration">{{ movieduration }}</div>
-      </div>
-      <div class="MovieAdd2">
-        <img style="width: 75px; height: 100px;" src="/public/img/img3725.webp" alt="Norway" class="w3-hover-opacity">
-        <div class="GenreTags2">
-          <div class="MovieTag"> Comedy </div>
-          <div class="MovieTag"> Animation </div>
-        </div>
-        <div class="MovieName">{{ moviename }} </div>
-        <div class="MovieRating">{{ movieagerating }}</div>
-        <div class="MovieDuration">{{ movieduration }}</div>
-      </div>
-    </div>
-    <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review!</button></a></p>
-  </div>
-</div>
-<div class="List">
-  <div class="w3-container w3-white1">
-    <img src="/public/img/karaokesing.png" alt="Norway" class="w3-hover-opacity">
-  </div>
-  <div class="w3-container w3-white2">
-    <div class="Title">
-      <h6>Songs Added:</h6>
-    </div>
-    <div class="SongsAdded">
-      <div class="SongAdd1">
-        <img style="width: 75px; height: 100px;" src="/public/img/orangealbum.jpg" alt="Norway"
-          class="w3-hover-opacity">
-        <div class="GenreTags1">
-          <div class="SongTag"> Pop </div>
-        </div>
-        <div class="SongName">{{ songname }} </div>
-        <div class="SongRating">{{ songagerating }}</div>
-        <div class="SongDuration">{{ songduration }}</div>
-      </div>
-      <div class="SongAdd2">
-        <img style="width: 75px; height: 100px;" src="/public/img//XXXV.jpg" alt="Norway" class="w3-hover-opacity">
-        <div class="GenreTags2">
-          <div class="SongTag"> Rock </div>
-          <div class="SongTag"> Rap </div>
-        </div>
-        <div class="SongName">{{ songname }} </div>
-        <div class="SongRating">{{ songagerating }}</div>
-        <div class="SongDuration">{{ songduration }}</div>
-      </div>
-    </div>
-    <p><a href="/retrieveReview/{{ userid }}"><button class="Review1"> Review! </button></a></p>
-  </div>
-</div> --}}

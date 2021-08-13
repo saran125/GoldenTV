@@ -1,0 +1,344 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script
+  src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+<style>
+  * {
+    color: gold;
+  }
+
+  body {
+    background-color: black;
+  }
+
+  div.blackblock {
+    background-color: black;
+    height: 25px;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  .MovieName,
+  .MovieTag,
+  .MovieDuration,
+  .SongName,
+  .SongTag,
+  .SongDuration {
+    color: gold;
+  }
+
+  .RoomsPricing {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 25px;
+    padding-left: 5px;
+    width: 300px;
+    float: left;
+  }
+
+  .GVE {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    width: 60%;
+    float: left;
+    background-color: gold;
+    border: 1px solid grey;
+  }
+
+  .GVE h4,
+  .GVE h5 {
+    padding-left: 5px;
+    float: left;
+    color: black;
+    background-color: gold;
+  }
+
+  .List {
+    position: relative;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    width: 800px;
+    float: left;
+  }
+
+  .filter {
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    width: 33%;
+    float: right;
+    border: 1px solid grey;
+  }
+
+  .FilterOptions {
+    list-style-type: none;
+  }
+
+  .List img {
+    width: 150px;
+    height: 235px;
+    float: left;
+  }
+
+  .ListTable1 {
+    width: 1050px;
+    height: 400px;
+    color: gold;
+  }
+
+  .ListTable2 {
+    width: 1050px;
+    height: 400px;
+    float: left;
+    color: gold;
+  }
+
+  .w3-container w3-white1 {
+    width: 50%;
+    float: left;
+  }
+
+  .w3-container w3-white2 {
+    width: 35%;
+    float: left;
+  }
+
+  .w3-container w3-white3 {
+    width: 15%;
+    float: right;
+  }
+
+  .Title {
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 50%;
+    float: left;
+  }
+
+  .purchase {
+    float: right;
+    width: 95px;
+    height: 40px;
+    border: 1px solid;
+    border-color: gold;
+    color: gold;
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+  }
+
+  .Review1 {
+    float: right;
+    width: 95px;
+    height: 40px;
+    border: 1px solid;
+    border-color: gold;
+    color: gold;
+    position: absolute;
+    bottom: 8px;
+    right: 125px;
+  }
+
+  .purchase:hover,
+  .Review1:hover,
+  .filter:hover {
+    background-color: gold;
+    color: black;
+  }
+
+  th,
+  td {
+    font-size: 12.5px;
+  }
+
+  input.form-control.search-input {
+    width: 165px;
+  }
+
+  .dropdown-menu.show,
+  .dropdown-menu.dropdown-menu-right.show,
+  .dropdown-item {
+    color: gold;
+    background-color: black;
+    border-color: white;
+  }
+
+  label.dropdown-item.dropdown-item-marker:hover,
+  .dropdown-item:hover {
+    background-color: darkgrey;
+    border-color: white;
+  }
+
+  a.page-link {
+    color: gold;
+    background-color: black;
+    border-color: white;
+  }
+
+  li.page-item.active {
+    color: gold;
+    background-color: grey;
+    border-color: white;
+  }
+
+  .collapsible {
+    background-color: rgb(0, 0, 0);
+    color: gold;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .active,
+  .collapsible:hover {
+    background-color: rgb(197, 153, 8);
+  }
+
+  .w3-third.w3-container.w3-margin-bottom {
+    height: 450px;
+    width: 1135px;
+    overflow: auto;
+  }
+
+
+  div.blackblock {
+    background-color: black;
+    height: 7px;
+  }
+</style>
+
+<title>Movie/Karaoke Selection</title>
+{{>navbar}}
+
+<div style="padding: 10px;">
+  <h1>Rooms</h1>
+</div>
+
+<div class="w3-third w3-container w3-margin-bottom">
+  <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
+    data-data-field="rows" data-side-pagination="server" data-sort-name="location" data-server-sort="true"
+    data-search="true" data-pagination="true" data-page-list="[3, 10, 25, 50, All]" data-show-columns-search="true"
+    data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter"
+    data-url="/room/chooseeditroomstable-data">
+    <thead>
+      <tr>
+        <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+        <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+        <th data-field="roomname" data-sortable="true">Name</th>
+        <th data-field="roomsize" data-sortable="true">Size</th>
+        <th data-field="roomprice" data-sortable="true">Price</th>
+        <th data-field="roominfo" data-sortable="true">Information</th>
+        <th data-field="location" data-sortable="true">Location</th>
+      </tr>
+    </thead>
+  </table>
+  <template id="profileTemplate" style="color: black;">
+    <div class="mt-2" style="float:left; padding-right:10px;">
+      <div class="card" style="border-color: gold; background-color: black; width:545px;">
+        <div class="card-body" style="padding-left:30px; box-sizing: border-box; position: relative;">
+          <div class="row">
+            <img src="/public/uploads/%IMAGE%"
+              style="border-width: thin; border-style:solid; border-radius: 5px; width: 215px; height: 150px; float: left;"
+              alt="">
+            <div style="float: left; padding-left: 10px;">
+              <p class="mb-0 text-truncated" style="width: 175px; font-size: 15px;">Name:
+                %name%
+              </p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Location: %location%</p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Size: %roomtype%</p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Price: $%price%</p>
+              <div style="padding-top: 24px;">
+                <div class="button">
+                  <a style="color: black" class="btn btn-warning">%info%</a>
+                </div>
+              </div>
+
+            </div>
+
+            {{#if (cmp_eq user.role "customer") }}
+            <div style="position: absolute; bottom: 20px; right: 20px;">
+
+
+              <div class="submit">
+                <form action="../">
+                  <input style=" width:83px;" type="submit" value="Review" class="btn btn-outline-warning">
+                </form>
+              </div>
+
+              <div class="blackblock"></div>
+
+              <h6>Book For:</h6>
+              <div class="submit">
+                <form action="../user/booking/{{movie}}/%id%">
+                  <input style=" width:83px;" type="submit" value="Movie" class="btn btn-outline-warning">
+                </form>
+              </div>
+              <div class="blackblock"></div>
+
+              <div class="submit">
+                <form action="../user/booking/{{song}}/%uuid%">
+                  <input type="submit" value="Karaoke" class="btn btn-outline-warning">
+                </form>
+              </div>
+
+
+            </div>
+            {{else}}
+            {{!-- <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to
+                  book!</button></a>
+            </p> --}}
+            <div style="position: absolute; bottom: 20px; right: 20px;">
+              <div class="submit">
+                <form action="../auth/login">
+                  <input type="submit" value="Login to Book!" class="btn btn-outline-warning">
+                </form>
+              </div>
+              <div class="blackblock"></div>
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>
+
+<script>
+  function customViewFormatter(data) {
+    var template = $('#profileTemplate').html()
+    var view = ''
+    $.each(data, function (i, row) {
+      view += template.replace('%location%', row.location)
+        .replace('%IMAGE%', row.roomimage)
+        .replace('%roomtype%', row.roomsize)
+        .replace('%price%', row.roomprice)
+        .replace('%info%', row.roominfo)
+        .replace('%name%', row.roomname)
+        .replace('%id%', row.room_uuid)
+        .replace('%uuid%', row.room_uuid);
+    })
+    return `<div class="row mx-0">${view}</div>`
+  }
+</script>

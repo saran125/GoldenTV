@@ -7,6 +7,10 @@ const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
 
+//CUSTOMER
+router.get("/list", viewrooms);
+
+//ADMIN
 router.get("/chooseeditroomstable", chooseeditroomstable);
 router.get("/chooseeditroomstable-data", chooseeditroomstable_data);
 router.get("/createrooms", createroom_page);
@@ -28,6 +32,18 @@ router.get("/ticket/:room_uuid", ticket_detail);
 //     // { name: 'large_roomimage', maxCount: 1 }
 //   ]),
 // editrooms_process);
+
+/**
+ * Provide Bootstrap table with data
+ * @param {import('express').Request}  req 
+ * @param {import('express').Response} res 
+ */
+// ---------------- 
+//	TODO:	Common URL paths here
+async function viewrooms(req, res) {
+	console.log("Rooms Data Table accessed");
+	return res.render('roomlist');
+}
 
 /**
  * Provide Bootstrap table with data

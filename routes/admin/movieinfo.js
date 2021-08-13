@@ -87,7 +87,7 @@ async function chooseeditmoviestable_data(req, res) {
 	catch (error) {
 		console.error(`Request query errors`);
 		console.error(error);
-		return next(new HttpError(400, error.message));
+		// return next(new HttpError(400, error.message));
 	}
 }
 
