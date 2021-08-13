@@ -28,7 +28,6 @@ router.get("/deleteoption/:room_uuid", deleteoption);
 //View options
 router.get("/viewoption", viewoption);
 router.get("/option-data", option_data);
-
 router.get("/retrievereview-data", review_data);
 router.get("/retrievefaq-data", retrieve_data);
 router.get("/ticket-data", ticket_data);

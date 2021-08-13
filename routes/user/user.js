@@ -3,6 +3,8 @@ import { ModelRoomInfo } from '../../data/roominfo.mjs';
 import { Modelticket } from '../../data/tickets.mjs';
 import {ModelReview} from '../../data/review.mjs';
 const router = Router();
+import ORM from "sequelize";
+const { Sequelize, DataTypes, Model, Op } = ORM;
 export default router;
 router.post("/booking/:choice/:id", booking_process);
 router.get("/booking/:choice/:id", booking_page);
@@ -87,8 +89,8 @@ async function creview_data(req, res) {
         console.log('retriving data');
         let pageSize = parseInt(req.query.limit);
         let offset = parseInt(req.query.offset);
-        let sortBy = req.query.sort ? req.query.sort : "dateCreated";
-        let sortOrder = req.query.order ? req.query.order : "desc";
+        let sortBy = req.query.sort ? req.query.sort : "rating";
+        let sortOrder = req.query.order ? req.query.order : "asc";
         let search = req.query.search;
         if (pageSize < 0) {
             throw new HttpError(400, "Invalid page size");
@@ -97,8 +99,7 @@ async function creview_data(req, res) {
             throw new HttpError(400, "Invalid offset index");
         }
         /** @type {import('sequelize/types').WhereOptions} */
-        const conditions = search
-            ? {
+        const conditions = search? {
                 [Op.or]: {
                     rating: { [Op.substring]: search },
                     feedback: { [Op.substring]: search },
