@@ -2,7 +2,16 @@
 
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
-
+<style>
+  
+  body {
+    background-color: black;
+  }
+  * {
+    color: gold;
+  }
+</style>
+{{> navbar}}
 <table
   id="table"
   data-search="true"
@@ -11,13 +20,13 @@
   data-show-custom-view="true"
   data-custom-view="customViewFormatter"
   data-show-custom-view-button="true"
-  data-url="/user/retrievecustomerreview-data"
+  data-url="/user/retrievecustomerreview-data">
   <thead>
     <tr>
-      <th data-field="name">Name</th>
-      <th data-field="follower">Follower</th>
-      <th data-field="following">Following</th>
-      <th data-field="snippets">Snippets</th>
+      <th data-field="rating">Rating:</th>
+      <th data-field="feedback">Feedback:</th>
+      <th data-field="TypeReview">Type of Review:</th>
+      <th data-field="user_id">Username:</th>
     </tr>
 </thead>
 </table>
