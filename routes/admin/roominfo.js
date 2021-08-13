@@ -157,8 +157,12 @@ async function createroom_process(req, res, next) {
  * @param {Response} res Express Response handle
  */
 async function updateroom_page(req, res) {
-	const tid = String(req.params.room_uuid);
-	const room = await ModelRoomInfo.findByPk(tid);
+	// const tid = String(req.params.room_uuid);
+	const room = await ModelRoomInfo.findOne({
+        where: {
+            room_uuid: req.params.room_uuid
+        }
+    });
 	console.log("Update Rooms accessed");
 	return res.render('admin/rooms/updaterooms', { room: room });
 }
@@ -182,7 +186,7 @@ async function updateroom_process(req, res) {
                     if (err) {
                         throw err
                     } else {
-                        console.log("Successfully deleted the file.")
+                        console.log("Successfully deleted the file.");
                     }
                 })
                 update_roomimage.image = req.file.filename;
@@ -191,12 +195,14 @@ async function updateroom_process(req, res) {
                 update_roomimage.image = room.roomimage; //select NO file
             }
         }
+		// req.body.location = req.body.location.toUpperCase();
         room.update({
             "roomname": req.body.roomname,
             "roomsize": req.body.roomsize,
             "roomprice": req.body.roomprice,
 			"roominfo": req.body.roominfo,
             "roomimage": update_roomimage.image,
+			"admin_uuid": req.user.uuid,
             "location": req.body.location.toUpperCase()
         });
         room.save();
@@ -205,18 +211,10 @@ async function updateroom_process(req, res) {
     }
     catch (error) {
         console.error(`Failed to update user ${req.body.room_uuid}`);
-        // console.error(error);
-        // const movieimage = './public/uploads/' + movie['movieimage'];
-        // fs.unlink(movieimage, function(err) {
-        // 	if (err) {
-        // 	  throw err
-        // 	} else {
-        // 	  console.log("Successfully deleted the file.")
-        // 	}
-        //   })
-        // const movie  = await ModelMovieInfo.findByPk(tid);
-        // const movie = await ModelMovieInfo.findByPk(tid);
-        return res.render('admin/rooms/updaterooms');
+		console.log(error);
+		const tid = String(req.params.room_uuid);
+        const room = await ModelRoomInfo.findByPk(tid);
+        return res.render('admin/rooms/updaterooms', { room: room });
     }
 }
 

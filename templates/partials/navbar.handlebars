@@ -99,9 +99,11 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
+				{{#if (cmp_ne user.role "staff") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/prod/list">Booking</a>
 				</li>
+				{{/if}}
 				{{#if (cmp_eq user.role "staff") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/prod/list">Movies/Songs</a>
