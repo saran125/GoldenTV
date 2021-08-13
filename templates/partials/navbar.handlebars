@@ -112,7 +112,7 @@
 					<a class="nav-link" href="/room/chooseeditroomstable">Rooms</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/faq/faq">FAQ</a>
+					<a class="nav-link" href="/faq/faq">Create FAQ</a>
 				</li>
 				{{/if}}
 				
@@ -141,6 +141,16 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/faq/cfaq">FAQ</a>
 				</li>
+				{{#if (cmp_eq user.role "customer") }}
+				<li class="nav-item">
+					<a class="nav-link" href="/review/create">Create Review</a>
+				</li>
+				{{/if}}
+				{{#if (cmp_eq user.role "staff") }}
+				<li class="nav-item">
+					<a class="nav-link" href="/review/retrievereview">Reviews</a>
+				</li>
+				{{/if}}
 			</ul>
 
 			<ul class="navbar-nav ml-auto">

@@ -29,10 +29,10 @@ import User from '../routes/user/user.js';
 import ticket from '../routes/user/ticket.mjs';
 import counter from './admin/counter.js';
 import { upload } from '../utils/multer.mjs';
-
+import review from '../routes/user/review.mjs';
 // router.use("/sendemail", Email);
 // router.use(fileUpload());
-
+router.use("/review", review);
 router.use("/faq", Routerfaq);
 router.use("/admin", Admin);
 //Staff
