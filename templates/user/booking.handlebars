@@ -6,6 +6,46 @@
     background: rgb(0, 0, 0)
 }
 
+.card {
+    width: 350px;
+    padding: 10px;
+    border-radius: 20px;
+    background: orange;
+    border: none;
+    color: #fff;
+    height: 350px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center
+}
+
+.container {
+    height: 100vh
+}
+
+.card h1 {
+    font-size: 48px;
+    margin-bottom: 0px
+}
+
+.card span {
+    font-size: 28px
+}
+
+.image {
+    position: absolute;
+    opacity: .1;
+    left: 0;
+    top: 0
+}
+
+.image2 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: .1
+}
 #regForm {
     background-color: gold;
     margin: 0px auto;
@@ -167,7 +207,33 @@ button:focus {
                     </div>
                     <input type='Submit' class='btn btn-primary pull-right' id='pay' value='Proceed to Pay'>
                 </div>
+
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle" style="color: black;">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" style="color: black;">&times;</span>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center container">
+                                <div class="d-flex card text-center">
+                                    <div class="image"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+                                    <div class="image2"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+                                    <h1>50% OFF</h1><span class="d-block">On Everything</span><span class="d-block">Today</span>
+                                    <div class="mt-4"><small>With Code : bbbootstrap2020</small></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
+            <button class='fas fa-user-alt' data-toggle="modal" data-target="#exampleModalCenter"></button>
         </div>
     </div>
  <script>

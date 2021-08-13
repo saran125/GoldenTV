@@ -254,7 +254,9 @@ async function generate_review(database, options) {
 		const root_parameters = {
 			uuid: "00000000-0000-0000-0000-000000000000",
 			"rating": '3',
-			"feedback": "good"
+			"feedback": "good",
+			"TypeReview":"Movie",
+			"user_id":"iwbhb"
 		};
 		//	Find for existing account with the same id, create or update
 		var account = await ModelReview.findOne({ where: { "uuid": root_parameters.uuid } });
