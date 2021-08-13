@@ -25,15 +25,6 @@ export class ModelRoomInfo extends Model {
 			"roominfo": { type: DataTypes.STRING(650), allowNull: false },
 			"roomimage": { type: DataTypes.STRING(650), allowNull: false },
 			"location": { type: DataTypes.STRING(100), allowNull: false }
-			// "small_roominfo": { type: DataTypes.STRING(650), allowNull: false },
-			// "small_roomprice": { type: DataTypes.FLOAT(4) },
-			// "small_roomimage": { type: DataTypes.STRING(650), allowNull: false },
-			// "med_roominfo": { type: DataTypes.STRING(650), allowNull: false },
-			// "med_roomprice": { type: DataTypes.FLOAT(4) },
-			// "med_roomimage": { type: DataTypes.STRING(650), allowNull: false },
-			// "large_roominfo": { type: DataTypes.STRING(650), allowNull: false },
-			// "large_roomprice": { type: DataTypes.FLOAT(4) },
-			// "large_roomimage": { type: DataTypes.STRING(650), allowNull: false }
 		}, {
 			"sequelize": database,
 			"modelName": "RoomInfo",

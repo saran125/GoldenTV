@@ -2,16 +2,6 @@
 
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 
-<style>
-  
-  body {
-    background-color: black;
-  }
-  * {
-    color: gold;
-  }
-</style>
-
 <table
   id="table"
   data-addrbar="true"
@@ -20,21 +10,28 @@
   data-pagination="true"
   data-side-pagination="server"
   data-height="460"
+<<<<<<< HEAD:templates/admin/retrievereview.handlebars
   data-sort-order="desc"
   data-show-columns="true"
   data-show-footer="true"
+=======
+>>>>>>> 6a167cddb6b75251c11c45bc85afd21d968b3a25:templates/user/retrievereview.handlebars
   {{!-- dont need to put / in front --}}
-  data-url="/admin/retrievereview-data"
+  data-url="admin/retrievereview-data"
 >
-{{> navbar}}
-
-<h1 style="text-align:center">Reviews</h1>
+<h1>Reviews</h1>
   <thead>
       <tr>
+<<<<<<< HEAD:templates/admin/retrievereview.handlebars
         <th data-field="rating"data-sortable="true"data-footer-formatter="idFormatter">Rating:</th>
         <th data-field="feedback"data-footer-formatter="idFormatter2">Feedback:</th>
         <th data-field="TypeReview"data-footer-formatter="idFormatter3">Review Type:</th>
        <th data-field="action" data-formatter="actionFormatter"data-footer-formatter="nameFormatter">Delete:</th>
+=======
+        <th data-field="rating">Rating:</th>
+        <th data-field="feedback">Feedback:</th>
+       <th data-field="action" data-formatter="actionFormatter">Update/Delete</th>
+>>>>>>> 6a167cddb6b75251c11c45bc85afd21d968b3a25:templates/user/retrievereview.handlebars
       </tr>
   </thead>
 </table>
@@ -75,7 +72,8 @@
         var html = [];
         $.each(row, function (key, value) {
             if (key == 'uuid') {
-                html.push('<form method="POST" action="/review/deletereview/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i> Delete</a></form>')
+                html.push('<a class="edit" href="/updatereview/' + value + '"><i class="fa fa-edit"></i> Update</a>')
+                html.push('<form method="POST" action="/deletereview/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i> Delete</a></form>')
             }
         })
         return html.join('')

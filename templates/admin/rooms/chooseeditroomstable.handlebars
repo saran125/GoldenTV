@@ -1,145 +1,150 @@
-<style>
-  * {
-    color: gold;
-  }
-
-  #toolbar {
-    width: 175px;
-    margin: 0;
-  }
-
-  table#dtBasicExample th {
-    color: gold;
-  }
-
-  body#bodybg,
-  table#dtBasicExample td {
-    background: black;
-    color: gold;
-  }
-
-  #dtBasicExample {
-    width: min-content;
-  }
-
-  .List {
-    position: relative;
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-bottom: 10px;
-    padding-left: 5px;
-    width: 600px;
-    float: left;
-  }
-
-  div.blackblock1 {
-    background-color: black;
-    width: 800px;
-    height: 10px;
-  }
-
-  table#dtBasicExample.dataTable thead .sorting:after,
-  table#dtBasicExample.dataTable thead .sorting_asc:after,
-  table#dtBasicExample.dataTable thead .sorting_asc:before,
-  table#dtBasicExample.dataTable thead .sorting_asc_disabled:after,
-  table#dtBasicExample.dataTable thead .sorting_asc_disabled:before,
-  table#dtBasicExample.dataTable thead .sorting_desc:after,
-  table#dtBasicExample.dataTable thead .sorting_desc:before,
-  table#dtBasicExample.dataTable thead .sorting_desc_disabled:after,
-  table#dtBasicExample.dataTable thead .sorting_desc_disabled:before {
-    bottom: .5em;
-  }
-</style>
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
     integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
-  <script
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
+<script
     src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
-  <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
-  {{!--
-  <script src="/public/js/businessstatistics.js"></script> --}}
-  {{!--
-  <link rel="stylesheet" href="/public/css/businessstatistics.css"> --}}
-</head>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script
+    src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+<style>
+    * {
+        color: gold;
+    }
 
-<body id='bodybg'>
-  {{>navbar}}
-  <div class="CreateMoviesAndSongs">
-    <div class="submit">
-      <form action="../rooms/createrooms">
-        <input type="submit" value="Create Room" class="btn btn-outline-warning">
-      </form>
+    body {
+        background-color: black;
+    }
+
+    .List {
+        position: relative;
+        padding-right: 5px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        width: 800px;
+        float: left;
+    }
+
+    th,
+    td {
+        font-size: 14px;
+    }
+
+    .ListTable1 {
+        width: 1100px;
+        height: 400px;
+        color: gold;
+    }
+
+    input.form-control.search-input {
+        width: 165px;
+    }
+
+    .dropdown-menu.show,
+    .dropdown-menu.dropdown-menu-right.show,
+    .dropdown-item {
+        color: gold;
+        background-color: black;
+        border-color: white;
+    }
+
+    label.dropdown-item.dropdown-item-marker:hover,
+    .dropdown-item:hover {
+        background-color: darkgrey;
+        border-color: white;
+    }
+
+    div.blackblock {
+        background-color: black;
+        height: 25px;
+    }
+
+    i.fa.fa-edit:hover,
+    i.fa.fa-trash:hover {
+        background-color: darkgrey;
+    }
+</style>
+
+<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+{{>navbar}}
+
+<div class="List">
+    <div class="ListTable1">
+        <div class="blackblock"></div>
+        <h1>Rooms Data Table</h1>
+        {{!-- <button><a class="nav-link" href="/admin/option">Add more Option</a></button> --}}
+        <div class="submit">
+            <form action="../room/createrooms">
+                <input type="submit" value="Add Rooms" class="btn btn-outline-warning">
+            </form>
+        </div>
+        <table data-toggle="table" data-url="/admin/option-data" data-search="true" data-pagination="true"
+            data-height="600" data-total-field="total" data-silent-sort="false" data-data-field="rows"
+            data-side-pagination="server" data-sort-name="location" data-server-sort="true" data-addrbar="true"
+            data-show-export="false" data-filter-control="true" data-show-columns="true"
+            data-show-columns-toggle-all="true" data-click-to-select="true" data-show-columns-search="true"
+            data-minimum-count-columns="2" data-show-pagination-switch="true" data-page-list="[5, 10, 25, 50, all]"
+            data-show-custom-view="true" data-show-fullscreen="true" data-show-refresh="true">
+
+            <thead>
+                <tr>
+                    <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+                    <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+                    <th data-field="roomname" data-sortable="true">Name</th>
+                    <th data-field="roomsize" data-sortable="true">Size</th>
+                    <th data-field="roomprice" data-sortable="true">Price</th>
+                    <th data-field="roominfo" data-sortable="true">Information</th>
+                    <th data-formatter="table_row_image" data-sortable="true">Image</th>
+                    <th data-field="location" data-sortable="true">Location</th>
+                    <th data-formatter="table_row_edit">Edit</th>
+                    {{#if (cmp_eq user.role "manager") }}
+                    <th data-field="action" data-formatter="tickets">Ticket Details</th>
+                    {{/if}}
+                </tr>
+            </thead>
+        </table>
+        <div class="blackblock"></div>
     </div>
-    <div class="blackblock1"></div>
+</div>
+</div>
+<script>
 
-    <h1>Room Data Table</h1>
 
-    {{!-- <div id="toolbar" class="select">
-      <select class="form-control">
-        <option value="">Export Basic</option>
-        <option value="all">Export All</option>
-        <option value="selected">Export Selected</option>
-      </select>
-    </div> --}}
-
-    <table id="id" data-show-export="true" data-toggle="table" data-search="true" data-pagination="true"
-      data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true" data-side-pagination="server"
-      data-sort-name="dateCreated" data-height="600" data-silent-sort="false" data-server-sort="true" data-search="true"
-      {{!-- data-page-number="50" --}} data-pagination="true" {{!-- data-page-size="5" --}}
-      data-page-list="[10, 25, 50, 100, 200, All]" data-show-refresh="true" data-show-columns="true"
-      data-show-columns-search="true" data-addrbar="true" data-url="/rooms/chooseeditroomstable-data" > 
-      <thead>
-        <tr>
-          <th data-field="dateCreated" data-sortable="true">Creation Date</th>
-          <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-          <th {{!-- data-field="movieimage" --}} data-formatter="table_row_image">Movie Poster</th>
-          <th data-field="roomname" data-sortable="true">Name</th>
-          <th data-field="roomsize" data-sortable="true">Size</th>
-          <th data-field="roomprice" data-sortable="true">Price</th>
-          <th data-field="roominfo" data-sortable="true">Information</th>
-          <th data-field="location" data-sortable="true">Location</th>
-          <th data-formatter="table_row_edit">Edit</th>
-        </tr>
-      </thead>
-    </table>
-
-    <script>
-
-      function table_row_image(value, row, index) {
+    function table_row_image(value, row, index) {
         return `
 		<img src="/public/uploads/${row.roomimage}" 
-        style="width: 110px; height: 160px; padding-bottom: 5px;"
+        style="width: 160px; height: 120px; padding-bottom: 5px;"
         alt="Norway" class="w3-hover-opacity">
 		`;
-      }
+    }
 
-      /**
-       * Formats the action column for each row of data
-       **/
-      function table_row_edit(value, row, index) {
+    /**
+     * Formats the action column for each row of data
+     **/
+    function table_row_edit(value, row, index) {
         return `
-		<a href="../rooms/updatemovie/${row.room_uuid}">
+		<a href="../room/updateroom/${row.room_uuid}">
 			<i class="fa fa-edit"></i>
 		</a>
 
-		<a href="../rooms/deleteroom/${row.room_uuid}">
+		<a href="../room/deleteroom/${row.room_uuid}">
 			<i class="fa fa-trash"></i>
 		</a>
 		`;
-      }
-
-    </script>
-
-</body>
+    }
+      function tickets(value, row, index) {
+            return `
+		<a href="../room/ticket/${row.room_uuid}">
+			<i class="fas fa-ticket-alt"></i>
+		</a>
+		`;
+        }
+</script>

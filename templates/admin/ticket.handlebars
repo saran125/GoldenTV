@@ -1,0 +1,148 @@
+<style>
+    * {
+        color: gold;
+    }
+
+    #dtBasicExample th {
+        color: gold;
+    }
+
+    body#bodybg,
+    #dtBasicExample td {
+        background: black;
+        color: gold;
+    }
+
+    #dtBasicExample {
+        width: min-content;
+    }
+
+    .List {
+        position: relative;
+        padding-top: 5px;
+        padding-right: 5px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        width: 600px;
+        float: left;
+    }
+
+    .MovieTag {
+        font-size: 12px;
+        width: 75px;
+        background-color: purple;
+        border: 1px solid gold;
+    }
+
+    tr {
+        color: white;
+    }
+
+    table#dtBasicExample.dataTable thead .sorting:after,
+    table#dtBasicExample.dataTable thead .sorting_asc:after,
+    table#dtBasicExample.dataTable thead .sorting_asc:before,
+    table#dtBasicExample.dataTable thead .sorting_asc_disabled:after,
+    table#dtBasicExample.dataTable thead .sorting_asc_disabled:before,
+    table#dtBasicExample.dataTable thead .sorting_desc:after,
+    table#dtBasicExample.dataTable thead .sorting_desc:before,
+    table#dtBasicExample.dataTable thead .sorting_desc_disabled:after,
+    table#dtBasicExample.dataTable thead .sorting_desc_disabled:before {
+        bottom: .5em;
+    }
+</style>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+</head>
+{{> navbar}}
+<input id="id" value="{{ticket.room_uuid}}" style="display: none;">
+<body id='bodybg'>
+    <h1>Tickets for Room Name: {{ticket.roomname}}</h1>
+    <table id="id" data-toggle="table" data-pagination="true" data-total-field="total" data-data-field="rows"
+        data-side-pagination="server" data-height="460" data-silent-sort="false" data-server-sort="true"
+         data-addrbar="true"  data-query-params="queryParams" data-page-list="[10, 25, 50, 100, all]"
+        data-url="/admin/ticket-data">
+        <thead>
+            <tr>
+                <th data-field="choice">Choice</th>
+                <th data-field="date">Date</th>
+                <th data-field="time">Time</th>
+                <th data-formatter="table_row_edit">User Details</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"  >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: black;">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"  style="color: black;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"  style="color: black;">
+                Name: <span id="name" style="color: black;"></span>
+                </div>
+                <div class="modal-body" style="color: black;">
+                    Email: <span id="email" style="color: black;"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        /**
+         * Formats the action column for each row of data
+         **/
+        function table_row_edit(value, row, index) {
+            return `
+           <a><i class='fas fa-user-alt' data-toggle="modal" data-target="#exampleModalCenter" onclick="myuser('${row.user_id}')"></i></a>
+		`;
+        };
+          function queryParams(params) {
+                params.search = document.getElementById("id").value
+                return params
+            }
+</script>
+<script>
+  
+</script>
+<script>
+    async function myuser(id){
+        const response = await fetch("/admin/user-data", {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify({
+                user_id:id
+            })
+        });
+        if (response.ok) {
+            const content = await response.json();
+           document.getElementById("email").innerHTML = content.email;
+           document.getElementById("name").innerHTML = content.name;
+           
+            }
+    }
+</script>
+</body>

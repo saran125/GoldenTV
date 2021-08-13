@@ -1,0 +1,90 @@
+<style>
+    body {
+        background-color: black;
+    }
+
+    h1,
+    h5,
+    label {
+        color: gold;
+    }
+
+    div.blackblock {
+        background-color: black;
+        height: 25px;
+    }
+
+    .btn#query {
+        background-color: black;
+        color: gold;
+        border: 1px solid white;
+    }
+
+    .btn#query:hover {
+        background-color: grey;
+        color: white;
+    }
+</style>
+
+{{>navbar}}
+<h1 class="display-4">Update Room</h1>
+
+<form method="POST" action="/room/updateroom/{{room.room_uuid}}?_method=PUT" name="" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <h5>Room Name</h5>
+        <input type="text" name="roomname" class="form-control" value="{{room.roomname}}" required>
+    </div>
+
+    <div class="form-group">
+        <h5>Room Size</h5>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="Small" value="Small" name="roomsize" {{radioCheck
+                room.roomsize "Small" }}>
+            <label class="form-check-label" for="Small">Small</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="Medium" value="Medium" name="roomsize" {{radioCheck
+                room.roomsize "Medium" }}>
+            <label class="form-check-label" for="Medium">Medium</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="Large" value="Large" name="roomsize" {{radioCheck
+                room.roomsize "Large" }}>
+            <label class="form-check-label" for="Large">Large</label>
+        </div>
+    </div>
+
+    <div class="blackblock"></div>
+
+    <h5>Room Price</h5>
+    <div class="form-group">
+        <input type="number" placeholder="120" step="any" style="width: 100px;" name="roomprice" min="0"
+            class="form-control" value="{{room.roomprice}}" required>
+    </div>
+
+    <div class="form-group">
+        <h5>Room Information</h5>
+        <input type="text" name="roominfo" class="form-control" value="{{room.roominfo}}" required>
+    </div>
+
+    <div class="form-group">
+        <h5>Room Image</h5>
+        <input type="file" id="roomimage"
+            onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
+            name="roomimage" value="{{ room.roomimage }}">
+
+        <img id="imagedisplay" src="/public/uploads/{{room.roomimage}}" alt="" class="border img-thumbnail img-fluid"
+            style="width: 110px; height: 160px; padding-bottom: 5px;">
+    </div>
+
+    <div class="form-group">
+        <h5>Location</h5>
+        <input type="text" name="location" class="form-control" value="{{room.location}}" required>
+    </div>
+
+    <div class="submit">
+        <input class="btn" id="query" type="submit">
+    </div>
+
+</form>
