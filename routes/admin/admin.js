@@ -416,4 +416,8 @@ function add_promo(req, res){
 }
 async function promo_process(req, res){
     console.log('adding promo code to database');
+    console.log(req.body);
+    let array = Array.isArray(req.body.code);
+    console.log(array);
+    return res.redirect('/admin/promo');
 }
