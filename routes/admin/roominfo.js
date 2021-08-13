@@ -50,7 +50,6 @@ async function chooseeditroomstable(req, res) {
 //	TODO:	Common URL paths here
 async function chooseeditroomstable_data(req, res) {
 	try {
-		console.log('helo')
 		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
 		let offset = parseInt(req.query.offset);   //page * pageSize;
 		let sortBy = (req.query.sort) ? req.query.sort : "location";
@@ -74,7 +73,7 @@ async function chooseeditroomstable_data(req, res) {
 				"roomprice": { [Op.substring]: search },
 				"roomimage": { [Op.substring]: search },
 				"location": { [Op.substring]: search },
-				"admin_id": { [Op.substring]: req.user.uuid },
+				// "admin_id": { [Op.substring]: req.user.uuid },
 				"room_uuid": { [Op.substring]: req.body.room_uuid }
 			}
 		} : undefined;
@@ -124,31 +123,49 @@ async function createroom_page(req, res) {
  * @param {Response} res Express Response handle
  */
 async function createroom_process(req, res, next) {
-    try {
-        var fileKeys = req.files;
-        let uploadedFiles = [];
-        for (let item of fileKeys) {
-            uploadedFiles.push(item.filename);
-        }
+	try {
+		var fileKeys = req.files;
+		let uploadedFiles = [];
+		for (let item of fileKeys) {
+			console.log(item.filename);
+			uploadedFiles.push(item.filename);
+		}
+		console.log(uploadedFiles[0]);
+		// console.log(fileKeys.filename);
 
-        for (let i = 0; i < req.body.roomname.length; i++) {
-            const option = await ModelRoomInfo.create({
-                roomname: req.body.roomname[i],
-                roomsize: req.body.roomsize[i],
-                roomprice: req.body.roomprice[i],
-                roominfo: req.body.roominfo[i],
-                roomimage: uploadedFiles[i],
-                location: req.body.location[i].toUpperCase(),
-                room_uuid: req.body.room_uuid
-            });
-            console.log(option);
-            option.save();
-        }
-        return res.redirect("/room/chooseeditroomstable");
-    }
-    catch (error) {
-        console.error(error);
-    }
+		if (uploadedFiles.length == 1) {
+			const option = await ModelRoomInfo.create({
+				roomname: req.body.roomname,
+				roomsize: req.body.roomsize,
+				roomprice: req.body.roomprice,
+				roominfo: req.body.roominfo,
+				roomimage: String(uploadedFiles[0]),
+				location: req.body.location.toUpperCase(),
+				room_uuid: req.body.room_uuid
+			});
+			console.log(option);
+			option.save();
+		}
+		else {
+			for (let i = 0; i < uploadedFiles.length; i++) {
+				const option = await ModelRoomInfo.create({
+					roomname: req.body.roomname[i],
+					roomsize: req.body.roomsize[i],
+					roomprice: req.body.roomprice[i],
+					roominfo: req.body.roominfo[i],
+					roomimage: uploadedFiles[i],
+					location: req.body.location[i].toUpperCase(),
+					room_uuid: req.body.room_uuid
+				});
+				console.log(option);
+				option.save();
+			}
+		}
+		return res.redirect("/room/chooseeditroomstable");
+	}
+	catch (error) {
+		console.error(error);
+	}
 }
 
 /**
@@ -159,10 +176,10 @@ async function createroom_process(req, res, next) {
 async function updateroom_page(req, res) {
 	// const tid = String(req.params.room_uuid);
 	const room = await ModelRoomInfo.findOne({
-        where: {
-            room_uuid: req.params.room_uuid
-        }
-    });
+		where: {
+			room_uuid: req.params.room_uuid
+		}
+	});
 	console.log("Update Rooms accessed");
 	return res.render('admin/rooms/updaterooms', { room: room });
 }
@@ -173,49 +190,48 @@ async function updateroom_page(req, res) {
  * @param {import('express').Response} res 
  */
 async function updateroom_process(req, res) {
-    console.log("Update Room page accessed");
-    try {
-        let update_roomimage = {};
-        const tid = String(req.params.room_uuid);
-        const room = await ModelRoomInfo.findByPk(tid);
-        const roomimage = './public/uploads/' + room['roomimage'];
+	console.log("Update Room page accessed");
+	try {
+		let update_roomimage = {};
+		const tid = String(req.params.room_uuid);
+		const room = await ModelRoomInfo.findByPk(tid);
+		const roomimage = './public/uploads/' + room['roomimage'];
 
-        if (req.file != null && typeof req.file == 'object') {
-            if (Object.keys(req.file).length != 0) { //select file
-                fs.unlink(roomimage, function (err) {
-                    if (err) {
-                        throw err
-                    } else {
-                        console.log("Successfully deleted the file.");
-                    }
-                })
-                update_roomimage.image = req.file.filename;
-            }
-            else {
-                update_roomimage.image = room.roomimage; //select NO file
-            }
-        }
+		if (req.file != null && typeof req.file == 'object') {
+			if (Object.keys(req.file).length != 0) { //select file
+				fs.unlink(roomimage, function (err) {
+					if (err) {
+						throw err
+					} else {
+						console.log("Successfully deleted the file.");
+					}
+				})
+				update_roomimage.image = req.file.filename;
+			}
+			else {
+				update_roomimage.image = room.roomimage; //select NO file
+			}
+		}
 		// req.body.location = req.body.location.toUpperCase();
-        room.update({
-            "roomname": req.body.roomname,
-            "roomsize": req.body.roomsize,
-            "roomprice": req.body.roomprice,
+		room.update({
+			"roomname": req.body.roomname,
+			"roomsize": req.body.roomsize,
+			"roomprice": req.body.roomprice,
 			"roominfo": req.body.roominfo,
-            "roomimage": update_roomimage.image,
-			"admin_uuid": req.user.uuid,
-            "location": req.body.location.toUpperCase()
-        });
-        room.save();
+			"roomimage": update_roomimage.image,
+			"location": req.body.location.toUpperCase()
+		});
+		room.save();
 		console.log('Description created: $(room.roomname)');
-        return res.redirect("/room/chooseeditroomstable");
-    }
-    catch (error) {
-        console.error(`Failed to update user ${req.body.room_uuid}`);
+		return res.redirect("/room/chooseeditroomstable");
+	}
+	catch (error) {
+		console.error(`Failed to update user ${req.body.room_uuid}`);
 		console.log(error);
 		const tid = String(req.params.room_uuid);
-        const room = await ModelRoomInfo.findByPk(tid);
-        return res.render('admin/rooms/updaterooms', { room: room });
-    }
+		const room = await ModelRoomInfo.findByPk(tid);
+		return res.render('admin/rooms/updaterooms', { room: room });
+	}
 }
 
 
@@ -225,7 +241,7 @@ async function updateroom_process(req, res) {
  * @param {import('express').Response} res 
  * @param {import('express').NextFunction} next
  */
- async function deleteroom(req, res, next) {
+async function deleteroom(req, res, next) {
 	try {
 		const tid = String(req.params.room_uuid);
 		const target = await ModelRoomInfo.findByPk(tid);
@@ -244,7 +260,7 @@ async function ticket_detail(req, res) {
 		console.log(req.params);
 		const ticket = await ModelRoomInfo.findOne({
 			where: {
-				room_uuid: req.params.room_uuid
+				room_uuid: req.params.room_id
 			}
 		});
 		return res.render('admin/ticket', { ticket });

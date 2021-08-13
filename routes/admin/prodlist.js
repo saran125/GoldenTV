@@ -30,11 +30,11 @@ async function prodlist_page(req, res) {
 	// 		"movie_uuid": "test"
 	// 	}
 	// });
-	const songs = await ModelSongInfo.findOne({
-		where: {
-			"song_uuid": "test"
-		}
-	});
+	// const songs = await ModelSongInfo.findOne({
+	// 	where: {
+	// 		"song_uuid": "test"
+	// 	}
+	// });
 	console.log('Prodlist Page accessed');
 	return res.render('prodlist', {
 		movie: "Movie",
