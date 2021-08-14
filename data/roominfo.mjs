@@ -1,5 +1,9 @@
 import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model } = ORM;
+import date from 'date-and-time';
+
+const now = new Date();
+const DateNow = date.format(now, 'DD/MM/YYYY HH:mm:ss');
 
 /**
  * A database entity model that represents contents in the database.
@@ -16,8 +20,8 @@ export class ModelRoomInfo extends Model {
 	static initialize(database) {
 		ModelRoomInfo.init({
 			"room_uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
-			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
+			"dateCreated": { type: DataTypes.STRING(50), allowNull: false, defaultValue: DateNow },
+			"dateUpdated": { type: DataTypes.STRING(50), allowNull: false, defaultValue: DateNow },
 			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
 			"roomname": { type: DataTypes.STRING(100), allowNull: false },
 			"roomsize": { type: DataTypes.ENUM('Small', 'Medium', 'Large'), allowNull: false },

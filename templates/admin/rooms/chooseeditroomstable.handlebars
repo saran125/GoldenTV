@@ -14,6 +14,9 @@
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
 <script
     src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
 <style>
     * {
         color: gold;
@@ -71,9 +74,6 @@
         background-color: darkgrey;
     }
 </style>
-
-<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
 {{>navbar}}
 
 <div class="List">
@@ -86,25 +86,33 @@
                 <input type="submit" value="Add Rooms" class="btn btn-outline-warning">
             </form>
         </div>
-        <table data-toggle="table" data-url="/room/chooseeditroomstable-data" data-search="true" data-pagination="true"
-            data-height="600" data-total-field="total" data-silent-sort="false" data-data-field="rows"
-            data-side-pagination="server" data-sort-name="location" data-server-sort="true" data-addrbar="true"
-            data-show-export="false" data-filter-control="true" data-show-columns="true"
+        <div id="toolbar" class="select">
+            <select class="form-control" style="color: #000000;">
+                <option value="" style="color: #000000;">Export Basic</option>
+                <option value="all" style="color: #000000;">Export All</option>
+                <option value="selected" style="color: #000000;">Export Selected</option>
+            </select>
+        </div>
+        <table id="table" data-toggle="table" data-url="/room/chooseeditroomstable-data" data-search="true"
+            data-pagination="true" data-height="600" data-total-field="total" data-silent-sort="false"
+            data-data-field="rows" data-side-pagination="server" data-sort-name="location" data-server-sort="true"
+            data-addrbar="true" data-show-export="true" data-filter-control="true" data-show-columns="true"
             data-show-columns-toggle-all="true" data-click-to-select="true" data-show-columns-search="true"
             data-minimum-count-columns="2" data-show-pagination-switch="true" data-page-list="[5, 10, 25, 50, all]"
             data-show-custom-view="true" data-show-fullscreen="true" data-show-refresh="true">
 
             <thead>
                 <tr>
-                    <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+                    <th data-width="900" data-field="dateCreated" data-sortable="true">Creation Date</th>
                     <th data-field="dateUpdated" data-sortable="true">Update Date</th>
                     <th data-field="roomname" data-sortable="true">Name</th>
                     <th data-field="roomsize" data-sortable="true">Size</th>
-                    <th data-field="roomprice" data-sortable="true">Price</th>
+                    <th data-field="roomprice" data-sortable="true">Price($)</th>
                     <th data-field="roominfo" data-sortable="true">Information</th>
-                    <th data-formatter="table_row_image" data-sortable="true">Image</th>
                     <th data-field="location" data-sortable="true">Location</th>
+                    <th></th>
                     <th data-formatter="table_row_edit">Edit</th>
+                    <th data-formatter="table_row_image" data-sortable="true">Image</th>
                     {{#if (cmp_eq user.role "manager") }}
                     <th data-field="action" data-formatter="tickets">Ticket Details</th>
                     {{/if}}
@@ -116,7 +124,64 @@
 </div>
 </div>
 <script>
-
+    var $table = $('#table')
+    $(function () {
+        $('#toolbar').find('select').change(function () {
+            $table.bootstrapTable('destroy').bootstrapTable({
+                exportDataType: $(this).val(),
+                exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
+                exportOptions: {
+                    modifier: {
+                        page: 'current'
+                    }                
+                },
+                columns: [
+                    {
+                        field: 'state',
+                        checkbox: true,
+                        visible: $(this).val() === 'selected'
+                    },
+                    {
+                        field: 'dateCreated',
+                        title: 'Creation Date'
+                    },
+                    {
+                        field: 'dateUpdated',
+                        title: 'Updated Date'
+                    },
+                    {
+                        field: 'roomname',
+                        title: 'Name'
+                    },
+                    {
+                        field: 'roomsize',
+                        title: 'Size'
+                    },
+                    {
+                        field: 'roomprice',
+                        title: 'Price'
+                    },
+                    {
+                        field: 'roominfo',
+                        title: 'Information'
+                    },
+                    {
+                        field: 'location',
+                        title: 'Location'
+                    },
+                    {
+                        formatter: 'table_row_image',
+                        title: 'Image',
+                        height: 200
+                    },
+                    {
+                        formatter: 'table_row_edit',
+                        title: 'Edit'
+                    }
+                ]
+            })
+        }).trigger('change')
+    })
 
     function table_row_image(value, row, index) {
         return `
@@ -140,11 +205,11 @@
 		</a>
 		`;
     }
-      function tickets(value, row, index) {
-            return `
+    function tickets(value, row, index) {
+        return `
 		<a href="../room/ticket/${row.room_uuid}">
 			<i class="fas fa-ticket-alt"></i>
 		</a>
 		`;
-        }
+    }
 </script>

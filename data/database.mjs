@@ -44,6 +44,7 @@ export const Database = new Sequelize(
 	host:     Config.host,      // Name or IP address of MySQL server
 	dialect: 'mysql',           // Tells sequelize that MySQL is used
 	operatorsAliases: 0,
+	timezone: '+08:00',
 	define: {
 		timestamps: false       // Don't create timestamp fields in database
 	},
