@@ -123,15 +123,12 @@
                 params.search = document.getElementById("id").value
                 return params
             }
-              function actionFormatter(index, row) {
-                    var html = [];
-                    $.each(row, function (key, value) {
-                        if (key == 'uuid') {
-                            html.push('<form method="POST" action="/ticket/delete/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i> Delete Tickets</a></form>')
-                        }
-                    })
-                    return html.join('')
-                }
+                     function actionFormatter(value, row, index) {
+                            return `
+		<a href="/ticket/delete/${row.room_id}/${row.ticket_id}">
+			<i class="fa fa-trash"></i>
+		</a>
+		`;}
 
 </script>
 <script>
