@@ -112,3 +112,23 @@ router.get("/view/:uuid/:room_id", async function (req, res, next) {
         return next(error);
     }
 });
+router.post("/delete/:room_id/:uuid", async function (req, res) {
+    console.log("tickets deleted")
+    console.log(req.body);
+    Modelticket.findOne({
+        where: {
+            uuid: req.params.uuid
+        },
+    }).then((option) => {
+        if (option != null) {
+            Modelticket.destroy({
+                where: {
+                    uuid: req.params.uuid
+                }
+
+            })
+            return res.redirect("/room/ticket/"+req.params.room_id);
+        }
+
+    });
+});

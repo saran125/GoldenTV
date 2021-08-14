@@ -80,6 +80,7 @@
                 <th data-field="date">Date</th>
                 <th data-field="time">Time</th>
                 <th data-formatter="table_row_edit">User Details</th>
+                <th data-field="action" data-formatter="actionFormatter">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -122,9 +123,16 @@
                 params.search = document.getElementById("id").value
                 return params
             }
-</script>
-<script>
-  
+              function actionFormatter(index, row) {
+                    var html = [];
+                    $.each(row, function (key, value) {
+                        if (key == 'uuid') {
+                            html.push('<form method="POST" action="/ticket/delete/' + value + '?_method=Post"><a  onclick="parentNode.submit();"  class="remove"  href="javascript:;"><i class="fa fa-trash"></i> Delete Tickets</a></form>')
+                        }
+                    })
+                    return html.join('')
+                }
+
 </script>
 <script>
     async function myuser(id){

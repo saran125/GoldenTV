@@ -276,7 +276,7 @@ async function ticket_detail(req, res) {
 		console.log(req.params);
 		const ticket = await ModelRoomInfo.findOne({
 			where: {
-				room_uuid: req.params.room_id
+				room_uuid: req.params.room_uuid
 			}
 		});
 		return res.render('admin/ticket', { ticket });
