@@ -1,0 +1,80 @@
+<style>
+    body {
+        background-color: black;
+    }
+
+    h1,
+    h5,
+    label {
+        color: gold;
+    }
+
+    div.blackblock {
+        background-color: black;
+        height: 25px;
+    }
+
+    .btn#query {
+        background-color: black;
+        color: gold;
+        border: 1px solid white;
+    }
+
+    .btn#query:hover {
+        background-color: grey;
+        color: white;
+    }
+</style>
+
+{{>navbar}}
+<h1 class="display-4">Update Promo</h1>
+
+<form method="POST" action="/admin/update_promo/{{promo.promo_id}}">
+<div class="container col-xs-12">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="color: gold;">
+                            #
+                        </th>
+                        <th class="text-center" style="color: gold;">
+                            Code
+                        </th>
+                        <th class="text-center" style="color: gold;">
+                            Discount Percentage
+                        </th>
+                        <th class="text-center" style="color: gold;">
+                            Room Size
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id='addr0' style="color: gold;">
+                        <td style="color: gold;">
+                            #
+                        </td>
+                        <td>
+                            <input type="text" value="{{promo.promo_code}}" name='code' class="form-control" style="color: black;" required />
+                        </td>
+                        <td>
+                            <input type="number" name='discount' value="{{promo.discount}}" class="form-control" style="color: black;" />
+                        </td>
+                        <td>
+                            <select style="width: 100px;" name="roomsize" value="{{promo.roomsize}}" required class="form-control">
+                                <option style="color: black;">Small</option>
+                                <option style="color: black;">Medium</option>
+                                <option style="color: black;">Large</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="button2">
+    <input type="submit" class="btn btn-primary pull-right" value="Save">
+</div>
+</form>

@@ -37,7 +37,10 @@ router.post("/user-data", user_data);
 router.get("/promo", promo);
 router.get("/create/promo", add_promo);
 router.post("/create/promo", promo_process);
-
+router.get("/promo-data", promo_data);
+router.get("/delete_promo/:promo_id", deletepromo);
+router.get("/update_promo/:promo_id", update_promo);
+router.post("/update_promo/:promo_id", update_promo_process);
 /**
  * Renders the login page
  * @param {Request}  req Express Request handle
@@ -349,7 +352,7 @@ async function review_data(req, res) {
         // internal server error
         return res.status(500).end();
     }
-}
+};
 async function ticket_data(req, res) {
     try {
         console.log('retriving data');
@@ -411,10 +414,77 @@ function promo(req, res, next) {
     console.log("Option page accessed");
     return res.render('admin/promo_code');
 };
+
+async function promo_data(req, res) {
+    try {
+        console.log('retriving data');
+        let pageSize = parseInt(req.query.limit);
+        let offset = parseInt(req.query.offset);
+        let sortBy = req.query.sort ? req.query.sort : "dateCreated";
+        let sortOrder = req.query.order ? req.query.order : "desc";
+        let search = req.query.search;
+        if (pageSize < 0) {
+            throw new HttpError(400, "Invalid page size");
+        }
+        if (offset < 0) {
+            throw new HttpError(400, "Invalid offset index");
+        }
+        /** @type {import('sequelize/types').WhereOptions} */
+        const conditions = search
+            ? {
+                [Op.or]: {
+                    discount: { [Op.substring]: search },
+                    promo_code: { [Op.substring]: search },
+                    roomsize: { [Op.substring]: search },
+                },
+            }
+            : undefined;
+        const total = await Modelpromo.count({ where: conditions });
+        const pageTotal = Math.ceil(total / pageSize);
+
+        const pageContents = await Modelpromo.findAll({
+            offset: offset,
+            limit: pageSize,
+            order: [[sortBy, sortOrder.toUpperCase()]],
+            where: conditions,
+            raw: true, // Data only, model excluded
+
+        });
+        return res.json({
+            total: total,
+            rows: pageContents,
+        });
+    } catch (error) {
+        console.error("Failed to retrieve all Options");
+        console.error(error);
+        // internal server error
+        return res.status(500).end();
+    }
+}
+async function deletepromo(req, res, next) {
+    try {
+        const tid = String(req.params.promo_id);
+        // if (tid == undefined)
+        // 	throw new HttpError(400, "Target not specified");
+        const target = await Modelpromo.findByPk(tid);
+        // movieimage = target.movieimage
+        // if (target == null)
+        // 	throw new HttpError(410, "User doesn't exists");
+        target.destroy();
+        console.log(`Deleted promo code: ${tid}`);
+        return res.redirect("/admin/promo");
+    }
+    catch (error) {
+        console.error(`Failed to delete`)
+        error.code = (error.code) ? error.code : 500;
+        return next(error);
+    }
+};
 function add_promo(req, res){
     console.log('addin promo code');
     return res.render('admin/add_promo');
 }
+
 async function promo_process(req, res){
     console.log('adding promo code to database');
     console.log(req.body);
@@ -437,4 +507,28 @@ async function promo_process(req, res){
     }
     console.log(array);
     return res.redirect('/admin/promo');
+}
+async function update_promo(req, res) {
+    const tid = String(req.params.promo_id);
+    const promo = await Modelpromo.findByPk(tid);
+    console.log("update Promo Code page accessed");
+    return res.render('admin/update_promo', {promo});
+};
+async function update_promo_process(req, res) {
+    console.log("updated Option page accessed");
+    try {
+        const tid = String(req.params.promo_id);
+        const promo = await Modelpromo.findByPk(tid);
+        promo.update({
+            discount: req.body.discount,
+            roomsize:req.body.roomsize,
+            promo_code:req.body.code
+        });
+        promo.save();
+        return res.redirect('/admin/promo');
+    }
+    catch (error) {
+        console.error(`Failed to update user ${req.body.room_uuid}`);
+        return res.render('admin/update_promo');
+    }
 }

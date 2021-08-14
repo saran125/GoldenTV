@@ -87,13 +87,12 @@
             data-show-export="false" data-filter-control="true" data-show-columns="true"
             data-show-columns-toggle-all="true" data-click-to-select="true" data-show-columns-search="true"
             data-minimum-count-columns="2" data-show-pagination-switch="true"
-            data-show-custom-view="true" data-show-fullscreen="true" data-show-refresh="true">
-
+             data-show-refresh="true">
             <thead>
                 <tr>
                     <th data-field="roomsize" data-sortable="true">Room Size</th>
-                    <th data-field="roomname" data-sortable="true">Promo Code</th>
-                    <th data-field="roomprice" data-sortable="true">Discount Percentage</th>
+                    <th data-field="promo_code" data-sortable="true">Promo Code</th>
+                    <th data-field="discount" data-sortable="true">Discount Percentage</th>
                     <th data-formatter="table_row_edit">Edit</th>
                 </tr>
             </thead>
@@ -110,11 +109,10 @@
      **/
     function table_row_edit(value, row, index) {
         return `
-		<a href="../room/updateroom/${row.room_uuid}">
+		<a href="../admin/update_promo/${row.promo_id}">
 			<i class="fa fa-edit"></i>
 		</a>
-
-		<a href="../room/deleteroom/${row.room_uuid}">
+		<a href="../admin/delete_promo/${row.promo_id}">
 			<i class="fa fa-trash"></i>
 		</a>
 		`;
