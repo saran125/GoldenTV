@@ -1,0 +1,122 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script
+    src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+<style>
+    * {
+        color: gold;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    .List {
+        position: relative;
+        padding-right: 5px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        width: 800px;
+        float: left;
+    }
+
+    th,
+    td {
+        font-size: 14px;
+    }
+
+    .ListTable1 {
+        width: 1100px;
+        height: 400px;
+        color: gold;
+    }
+
+    input.form-control.search-input {
+        width: 165px;
+    }
+
+    .dropdown-menu.show,
+    .dropdown-menu.dropdown-menu-right.show,
+    .dropdown-item {
+        color: gold;
+        background-color: black;
+        border-color: white;
+    }
+
+    label.dropdown-item.dropdown-item-marker:hover,
+    .dropdown-item:hover {
+        background-color: darkgrey;
+        border-color: white;
+    }
+
+    div.blackblock {
+        background-color: black;
+        height: 25px;
+    }
+
+    i.fa.fa-edit:hover,
+    i.fa.fa-trash:hover {
+        background-color: darkgrey;
+    }
+</style>
+
+<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+{{>navbar}}
+
+<div class="List">
+    <div class="ListTable1">
+        <div class="blackblock"></div>
+        <h1>Promo Code Data Table</h1>
+                <a href="/admin/create/promo"><button class="btn btn-outline-warning">Add Coupon</button></a>
+        <table data-toggle="table" data-url="/admin/promo-data" data-search="true" data-pagination="true"
+            data-height="600" data-total-field="total" data-silent-sort="false" data-data-field="rows"
+            data-side-pagination="server" data-server-sort="true" data-addrbar="true"
+            data-show-export="false" data-filter-control="true" data-show-columns="true"
+            data-show-columns-toggle-all="true" data-click-to-select="true" data-show-columns-search="true"
+            data-minimum-count-columns="2" data-show-pagination-switch="true"
+            data-show-custom-view="true" data-show-fullscreen="true" data-show-refresh="true">
+
+            <thead>
+                <tr>
+                    <th data-field="roomsize" data-sortable="true">Room Size</th>
+                    <th data-field="roomname" data-sortable="true">Promo Code</th>
+                    <th data-field="roomprice" data-sortable="true">Discount Percentage</th>
+                    <th data-formatter="table_row_edit">Edit</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="blackblock"></div>
+    </div>
+</div>
+</div>
+<script>
+
+
+    /**
+     * Formats the action column for each row of data
+     **/
+    function table_row_edit(value, row, index) {
+        return `
+		<a href="../room/updateroom/${row.room_uuid}">
+			<i class="fa fa-edit"></i>
+		</a>
+
+		<a href="../room/deleteroom/${row.room_uuid}">
+			<i class="fa fa-trash"></i>
+		</a>
+		`;
+    }
+</script>

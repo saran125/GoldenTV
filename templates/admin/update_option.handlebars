@@ -25,12 +25,10 @@
         color: white;
     }
 </style>
-
 {{>navbar}}
 <h1 class="display-4">Update Room</h1>
 
 <form method="POST" action="/admin/update_option/{{room.room_uuid}}?_method=PUT" name="" enctype="multipart/form-data">
-
     <div class="form-group">
         <h5>Room Name</h5>
         <input type="string" name="roomname" class="form-control" value="{{room.roomname}}" required>

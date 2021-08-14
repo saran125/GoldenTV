@@ -7,6 +7,10 @@ const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
 
+//CUSTOMER
+router.get("/list", viewrooms);
+
+//ADMIN
 router.get("/chooseeditroomstable", chooseeditroomstable);
 router.get("/chooseeditroomstable-data", chooseeditroomstable_data);
 router.get("/createrooms", createroom_page);
@@ -36,6 +40,18 @@ router.get("/ticket/:room_uuid", ticket_detail);
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+async function viewrooms(req, res) {
+	console.log("Rooms Data Table accessed");
+	return res.render('roomlist');
+}
+
+/**
+ * Provide Bootstrap table with data
+ * @param {import('express').Request}  req 
+ * @param {import('express').Response} res 
+ */
+// ---------------- 
+//	TODO:	Common URL paths here
 async function chooseeditroomstable(req, res) {
 	console.log("Rooms Data Table accessed");
 	return res.render('admin/rooms/chooseeditroomstable');
@@ -50,7 +66,6 @@ async function chooseeditroomstable(req, res) {
 //	TODO:	Common URL paths here
 async function chooseeditroomstable_data(req, res) {
 	try {
-		console.log('helo')
 		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
 		let offset = parseInt(req.query.offset);   //page * pageSize;
 		let sortBy = (req.query.sort) ? req.query.sort : "location";
@@ -74,7 +89,7 @@ async function chooseeditroomstable_data(req, res) {
 				"roomprice": { [Op.substring]: search },
 				"roomimage": { [Op.substring]: search },
 				"location": { [Op.substring]: search },
-				"admin_id": { [Op.substring]: req.user.uuid },
+				// "admin_id": { [Op.substring]: req.user.uuid },
 				"room_uuid": { [Op.substring]: req.body.room_uuid }
 			}
 		} : undefined;
@@ -125,36 +140,47 @@ async function createroom_page(req, res) {
  */
 async function createroom_process(req, res, next) {
 	try {
+		var fileKeys = req.files;
 		let uploadedFiles = [];
-		if (req.files) {
-			var fileKeys = req.files;
-			for (let item of fileKeys) {
-				uploadedFiles.push(item.filename);
-			}
+		for (let item of fileKeys) {
+			console.log(item.filename);
+			uploadedFiles.push(item.filename);
 		}
-		else {
-			uploadedFiles.push(req.file.filename);
-		}
+		console.log(uploadedFiles[0]);
+		// console.log(fileKeys.filename);
 
-		for (let i = 0; i < req.body.roomname.length; i++) {
+		if (uploadedFiles.length == 1) {
 			const option = await ModelRoomInfo.create({
-				roomname: req.body.roomname[i],
-				roomsize: req.body.roomsize[i],
-				roomprice: req.body.roomprice[i],
-				roominfo: req.body.roominfo[i],
-				roomimage: uploadedFiles[i],
-				location: req.body.location[i],
+				roomname: req.body.roomname,
+				roomsize: req.body.roomsize,
+				roomprice: req.body.roomprice,
+				roominfo: req.body.roominfo,
+				roomimage: String(uploadedFiles[0]),
+				location: req.body.location.toUpperCase(),
 				room_uuid: req.body.room_uuid
 			});
 			console.log(option);
 			option.save();
 		}
+		else {
+			for (let i = 0; i < uploadedFiles.length; i++) {
+				const option = await ModelRoomInfo.create({
+					roomname: req.body.roomname[i],
+					roomsize: req.body.roomsize[i],
+					roomprice: req.body.roomprice[i],
+					roominfo: req.body.roominfo[i],
+					roomimage: uploadedFiles[i],
+					location: req.body.location[i].toUpperCase(),
+					room_uuid: req.body.room_uuid
+				});
+				console.log(option);
+				option.save();
+			}
+		}
 		return res.redirect("/room/chooseeditroomstable");
 	}
 	catch (error) {
-		console.error(`Credentials problem: ${req.body.roomname}`);
-		console.log(error);
-		return res.render('admin/rooms/createrooms');
+		console.error(error);
 	}
 }
 
@@ -209,7 +235,6 @@ async function updateroom_process(req, res) {
 			"roomprice": req.body.roomprice,
 			"roominfo": req.body.roominfo,
 			"roomimage": update_roomimage.image,
-			"admin_uuid": req.user.uuid,
 			"location": req.body.location.toUpperCase()
 		});
 		room.save();
@@ -236,7 +261,6 @@ async function deleteroom(req, res, next) {
 	try {
 		const tid = String(req.params.room_uuid);
 		const target = await ModelRoomInfo.findByPk(tid);
-		target.destroy();
 		console.log(`Deleted movie: ${tid}`);
 		return res.redirect("/room/chooseeditroomstable");
 	}
@@ -252,7 +276,7 @@ async function ticket_detail(req, res) {
 		console.log(req.params);
 		const ticket = await ModelRoomInfo.findOne({
 			where: {
-				room_uuid: req.params.room_uuid
+				room_uuid: req.params.room_id
 			}
 		});
 		return res.render('admin/ticket', { ticket });

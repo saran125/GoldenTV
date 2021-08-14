@@ -20,48 +20,6 @@ router.get("/list", prodlist_page);
 // ---------------- 
 //	TODO:	Common URL paths here
 async function prodlist_page(req, res) {
-	// const roomlist = await ModelRoomInfo.findOne({
-	// 	where: {
-	// 		"roominfo_uuid": "test"
-	// 	}
-	// });
-	// const movies = await ModelMovieInfo.findOne({
-	// 	where: {
-	// 		"movie_uuid": "test"
-	// 	}
-	// });
-	const songs = await ModelSongInfo.findOne({
-		where: {
-			"song_uuid": "test"
-		}
-	});
 	console.log('Prodlist Page accessed');
-	return res.render('prodlist', {
-		movie: "Movie",
-		song: "Karaoke",
-		movieimage: req.body.movieimage,
-		moviename: req.body.moviename,
-		movieagerating: req.body.movieagerating,
-		movieduration: req.body.movieduration,
-		movieHorror: req.body.movieHorror,
-		movieComedy: req.body.movieComedy,
-		movieScience: req.body.movieScience,
-		movieRomance: req.body.movieRomance,
-		movieAnimation: req.body.movieAnimation,
-		movieAdventure: req.body.movieAdventure,
-		movieEmotional: req.body.movieEmotional,
-		movieMystery: req.body.movieMystery,
-		movieAction: req.body.movieAction,
-		songimage: req.body.songimage,
-		songname: "songname",
-		songagerating: "songagerating",
-		songduration: "songduration",
-		songPop: req.body.songPop,
-		songRock: req.body.songRock,
-		songMetal: req.body.songMetal,
-		songCountry: req.body.songCountry,
-		songRap: req.body.songRap,
-		songJazz: req.body.songJazz,
-		songFolk: req.body.songFolk
-	});
+	return res.render('prodlist');
 }

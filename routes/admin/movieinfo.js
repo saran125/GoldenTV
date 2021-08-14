@@ -3,7 +3,7 @@ import { ModelMovieInfo } from '../../data/movieinfo.mjs';
 import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 import ORM from "sequelize";
-// const { Sequelize, DataTypes, Model, Op } = ORM;
+const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
 
@@ -42,8 +42,8 @@ async function chooseeditmoviestable_data(req, res) {
 	try {
 		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
 		let offset = parseInt(req.query.offset);   //page * pageSize;
-		let sortBy = (req.query.sort) ? req.query.sort : "dateCreated";
-		let sortOrder = (req.query.order) ? req.query.order : "desc";
+		let sortBy = (req.query.sort) ? req.query.sort : "moviename";
+		let sortOrder = (req.query.order) ? req.query.order : "asc";
 		let search = req.query.search;
 
 		//if (page < 0)     throw new HttpError(400, "Invalid page number");
@@ -59,7 +59,8 @@ async function chooseeditmoviestable_data(req, res) {
 				"moviename": { [Op.substring]: search },
 				"movieagerating": { [Op.substring]: search },
 				"movieduration": { [Op.substring]: search },
-				"moviegenre": { [Op.substring]: search }
+				"moviegenre": { [Op.substring]: search },
+				"movie_uuid": { [Op.substring]: req.body.movie_uuid }
 			}
 		} : undefined;
 
@@ -86,7 +87,7 @@ async function chooseeditmoviestable_data(req, res) {
 	catch (error) {
 		console.error(`Request query errors`);
 		console.error(error);
-		return next(new HttpError(400, error.message));
+		// return next(new HttpError(400, error.message));
 	}
 }
 

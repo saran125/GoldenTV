@@ -3,7 +3,7 @@ import { ModelSongInfo } from '../../data/songinfo.mjs';
 import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 import ORM from "sequelize";
-// const { Sequelize, DataTypes, Model, Op } = ORM;
+const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
 
@@ -41,8 +41,8 @@ async function chooseeditsongstable_data(req, res) {
 	try {
 		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
 		let offset = parseInt(req.query.offset);   //page * pageSize;
-		let sortBy = (req.query.sort) ? req.query.sort : "dateCreated";
-		let sortOrder = (req.query.order) ? req.query.order : "desc";
+		let sortBy = (req.query.sort) ? req.query.sort : "songname";
+		let sortOrder = (req.query.order) ? req.query.order : "asc";
 		let search = req.query.search;
 
 		//if (page < 0)     throw new HttpError(400, "Invalid page number");
@@ -58,7 +58,8 @@ async function chooseeditsongstable_data(req, res) {
 				"songname": { [Op.substring]: search },
 				"songagerating": { [Op.substring]: search },
 				"songduration": { [Op.substring]: search },
-				"songgenre": { [Op.substring]: search }
+				"songgenre": { [Op.substring]: search },
+				"song_uuid": { [Op.substring]: req.body.song_uuid }
 			}
 		} : undefined;
 

@@ -4,11 +4,13 @@ import { HttpError } from '../../utils/errors.mjs';
 import { ModelUser } from '../../data/user.mjs';
 import { ModelFaq } from '../../data/faq.mjs';
 import { ModelReview } from '../../data/review.mjs';
+import { Modelpromo} from '../../data/promo.mjs';
 import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 // import {ModelRoomReview} from '../data/roomreview.mjs';
 import {Modelticket} from '../../data/tickets.mjs';
 import ORM from "sequelize";
+import { runInContext } from 'vm';
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
@@ -32,6 +34,9 @@ router.get("/retrievereview-data", review_data);
 router.get("/retrievefaq-data", retrieve_data);
 router.get("/ticket-data", ticket_data);
 router.post("/user-data", user_data);
+router.get("/promo", promo);
+router.get("/create/promo", add_promo);
+router.post("/create/promo", promo_process);
 
 /**
  * Renders the login page
@@ -402,3 +407,34 @@ async function user_data(req, res) {
         })
 
 };
+function promo(req, res, next) {
+    console.log("Option page accessed");
+    return res.render('admin/promo_code');
+};
+function add_promo(req, res){
+    console.log('addin promo code');
+    return res.render('admin/add_promo');
+}
+async function promo_process(req, res){
+    console.log('adding promo code to database');
+    console.log(req.body);
+    let array = Array.isArray(req.body.code);
+    if(array == false){
+        const promo = await Modelpromo.create({
+            promo_code:req.body.code,
+            roomsize: req.body.roomsize,
+            discount: req.body.discount
+        });
+    }
+    if (array == true){
+        for(let i = 0; i< req.body.code.length;i++){
+            const promo = await Modelpromo.create({
+                promo_code: req.body.code[i],
+                roomsize: req.body.roomsize[i],
+                discount: req.body.discount[i]
+            })
+        }
+    }
+    console.log(array);
+    return res.redirect('/admin/promo');
+}

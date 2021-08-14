@@ -101,7 +101,10 @@
 			<ul class="navbar-nav">
 				{{#if (cmp_ne user.role "staff") }}
 				<li class="nav-item">
-					<a class="nav-link" href="/prod/list">Booking</a>
+					<a class="nav-link" href="/room/list">Booking</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/prod/list">Movies/Songs</a>
 				</li>
 				{{/if}}
 				{{#if (cmp_eq user.role "staff") }}
@@ -115,7 +118,7 @@
 					<a class="nav-link" href="/faq/faq">Create FAQ</a>
 				</li>
 				{{/if}}
-				
+
 				{{#if (cmp_eq user.role "staff") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/businessstatistics">Statistics</a>
