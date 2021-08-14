@@ -3,7 +3,7 @@ const { Sequelize, DataTypes, Model } = ORM;
 import date from 'date-and-time';
 
 const now = new Date();
-const DateNow = date.format(now, 'DD/MM/YYYY HH:mm:ss');
+const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
 
 /**
  * A database entity model that represents contents in the database.
@@ -22,7 +22,7 @@ export class ModelRoomInfo extends Model {
 			"room_uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
 			"dateCreated": { type: DataTypes.STRING(50), allowNull: false, defaultValue: DateNow },
 			"dateUpdated": { type: DataTypes.STRING(50), allowNull: false, defaultValue: DateNow },
-			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
+			"admin_uuid": { type: DataTypes.CHAR(36), allowNull: false },
 			"roomname": { type: DataTypes.STRING(100), allowNull: false },
 			"roomsize": { type: DataTypes.ENUM('Small', 'Medium', 'Large'), allowNull: false },
 			"roomprice": { type: DataTypes.FLOAT(6) },
@@ -51,13 +51,4 @@ export class ModelRoomInfo extends Model {
 	}
 
 	get room_title() { return String(this.getDataValue("room_title")); }
-	get small_roominfo() { return String(this.getDataValue("small_roominfo")); }
-	get small_roomprice() { return String(this.getDataValue("small_roomprice")); }
-	get small_roomimage() { return String(this.getDataValue("small_roomimage")); }
-	get med_roominfo() { return String(this.getDataValue("med_roominfo")); }
-	get med_roomprice() { return String(this.getDataValue("med_roomprice")); }
-	get med_roomimage() { return String(this.getDataValue("med_roomimage")); }
-	get large_roominfo() { return String(this.getDataValue("large_roominfo")); }
-	get large_roomprice() { return String(this.getDataValue("large_roomprice")); }
-	get large_roomimage() { return String(this.getDataValue("large_roomimage")); }
 }

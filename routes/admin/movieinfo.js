@@ -6,6 +6,7 @@ import ORM from "sequelize";
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
+import date from 'date-and-time';
 
 router.get("/chooseeditmoviestable", chooseeditmoviestable);
 router.get("/chooseeditmoviestable-data", chooseeditmoviestable_data);
@@ -13,7 +14,7 @@ router.get("/createmovie", createmovie_page);
 router.post("/createmovie",
 	upload.single('movieimage'),
 	createmovie_process);
-	
+
 router.get("/updatemovie/:movie_uuid", updatemovie_page);
 router.put("/updatemovie/:movie_uuid",
 	upload.single('movieimage'),
@@ -112,11 +113,14 @@ async function createmovie_page(req, res) {
  */
 async function createmovie_process(req, res, next) {
 	try {
+
+		const now = new Date(req.body.moviecountdown);
+		const DateNow = date.format(now, 'MMM DD, YYYY HH:mm:ss');
 		// const movieimageFile = req.file[0];
 		const createmovies = await ModelMovieInfo.create({
 			"movie_uuid": req.body.movie_uuid,
-			"admin_uuid": "00000000-0000-0000-0000-000000000000",
-			"user_uuid": "00000000-0000-0000-0000-000000000000",
+			"admin_uuid": req.user.uuid,
+			"moviecountdown": DateNow,
 			"movieimage": req.file.filename,
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
@@ -180,6 +184,8 @@ async function updatemovie_process(req, res) {
 			}
 		}
 		movie.update({
+			"admin_uuid": req.user.uuid,
+			"moviecountdown": req.body.moviecountdown,
 			"movieimage": update_image.image,
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,

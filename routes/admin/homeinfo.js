@@ -6,7 +6,7 @@ import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 import ORM from "sequelize";
 import { Console } from 'console';
-// const { Sequelize, DataTypes, Model, Op } = ORM;
+const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
 
@@ -51,6 +51,41 @@ async function home_page(req, res) {
 			"homeinfo_uuid": "test"
 		}
 	});
+
+	const movieinfo = await ModelMovieInfo.findAll({
+		where: {
+			"admin_uuid": '4ea99629-8760-44b6-95f8-762a4b1f8a87'
+		}
+	});
+
+	const findlatestname = [];
+	const findcountdown = [];
+	const Length = movieinfo.length;
+
+	for (let i = 0; i < Length; i++) {
+		findlatestname.push(movieinfo[i].moviename);
+	}
+
+	for (let i = 0; i < Length; i++) {
+		findcountdown.push(movieinfo[i].moviecountdown);
+	}
+
+	
+	var Largest = 0;
+	if (Length == 1) {
+		Largest = findlatestname[0];
+	}
+	else {
+		Largest = findlatestname[0];
+		for (let i = 0; i < Length; i++) {
+			if ( Largest < findlatestname[i] ) {
+				Largest = findlatestname[i];
+			}
+		}
+	}
+
+	console.log(findcountdown[0]);
+
 	// const movieinfo = await ModelMovieInfo.findOne({
 	// 	where: {
 	// 		"movieinfo_uuid": "test"
@@ -67,7 +102,7 @@ async function home_page(req, res) {
 		homepolicy: homeinfo.homepolicy,
 		homeimage: homeinfo.homeimage,
 		homepolicyimage: homeinfo.homepolicyimage,
-		release_name1: "Ending in 2 days!",
+		release_name1: Largest,
 		release_name2: "Coming Soon!",
 		release_name3: "Out Now!",
 		release_name4: "Out Now!"
@@ -88,7 +123,11 @@ async function edithomedescription_page(req, res) {
 			"homeinfo_uuid": "test"
 		}
 	});
-	return res.render('admin/home/edithomedescription', { homedes: homedes });
+
+	return res.render('admin/home/edithomedescription',
+		{
+			homedes: homedes
+		});
 };
 
 /**
@@ -185,19 +224,19 @@ async function edithomeimagepolicy_process(req, res, next) {
 		console.error(error);
 		const homeimage = './public/uploads/' + homeimagepolicy['homeimage'];
 		const homepolicyimage = './public/uploads/' + homeimagepolicy['homepolicyimage'];
-		fs.unlink(homeimage, function(err) {
+		fs.unlink(homeimage, function (err) {
 			if (err) {
-			  throw err
+				throw err
 			} else {
-			  console.log("Successfully deleted the file.")
+				console.log("Successfully deleted the file.")
 			}
-		  })
-		fs.unlink(homepolicyimage, function(err) {
-		if (err) {
-			throw err
-		} else {
-			console.log("Successfully deleted the file.")
-		}
+		})
+		fs.unlink(homepolicyimage, function (err) {
+			if (err) {
+				throw err
+			} else {
+				console.log("Successfully deleted the file.")
+			}
 		})
 		return res.render('edithomeimagepolicy', {
 			hey: "Wrong Type of File."

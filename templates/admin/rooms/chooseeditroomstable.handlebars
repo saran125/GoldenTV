@@ -73,6 +73,11 @@
     i.fa.fa-trash:hover {
         background-color: darkgrey;
     }
+    
+    td {
+        width: 150px;
+    }
+
 </style>
 {{>navbar}}
 
@@ -103,8 +108,8 @@
 
             <thead>
                 <tr>
-                    <th data-width="900" data-field="dateCreated" data-sortable="true">Creation Date</th>
-                    <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+                    <th data-formatter="table_row_dates" data-sortable="true">Dates</th>
+                    {{!-- <th data-field="dateUpdated" data-sortable="true">Update Date</th> --}}
                     <th data-field="roomname" data-sortable="true">Name</th>
                     <th data-field="roomsize" data-sortable="true">Size</th>
                     <th data-field="roomprice" data-sortable="true">Price($)</th>
@@ -133,7 +138,7 @@
                 exportOptions: {
                     modifier: {
                         page: 'current'
-                    }                
+                    }
                 },
                 columns: [
                     {
@@ -142,12 +147,8 @@
                         visible: $(this).val() === 'selected'
                     },
                     {
-                        field: 'dateCreated',
-                        title: 'Creation Date'
-                    },
-                    {
-                        field: 'dateUpdated',
-                        title: 'Updated Date'
+                        formatter: 'table_row_dates',
+                        title: 'Dates'
                     },
                     {
                         field: 'roomname',
@@ -191,6 +192,13 @@
 		`;
     }
 
+    function table_row_dates(value, row, index) {
+        return `
+        Created At:
+        <p style="font-size: 14px; width:200px; ">${row.dateCreated}</p>
+        Updated At:
+        <p style="font-size: 14px; width:200px; ">${row.dateUpdated}</p>`;
+    }
     /**
      * Formats the action column for each row of data
      **/

@@ -81,6 +81,12 @@
   </div>
 
   <div class="form-group">
+    <h5>End Date for Movie Release</h5>
+    <input style="border-radius: 5px; width: 250px; height: 50px;" type="datetime-local" id="meeting-time" name="moviecountdown"
+      value={{ moviecountdown }} placeholder="2021-08-16T19:30">
+  </div>
+
+  <div class="form-group">
     <h5>Movie Genres</h5>
     <span>
       <input type="radio" name="moviegenre" value="Horror" checked>
@@ -115,36 +121,6 @@
       <label for="Action"> Action </label><br>
     </span>
   </div>
-
-  {{!-- <div class="form-group">
-    <h5>Movie Genres</h5>
-    <input type="checkbox" name="movieHorror" value="false">
-    <label class="form-check-label" for="Horror">Horror</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="movieComedy" value="false">
-    <label class="form-check-label" for="Comedy">Comedy</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="movieScience" value="false">
-    <label class="form-check-label" for="Science">Science</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="movieRomance" value="false">
-    <label class="form-check-label" for="Romance">Romance</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="movieAnimation" value="false">
-    <label class="form-check-label" for="Animation">Animation</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="movieAdventure" value="false">
-    <label class="form-check-label" for="Adventure">Adventure</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="movieEmotional" value="false">
-    <label class="form-check-label" for="Emotional">Emotional</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="movieMystery" value="false">
-    <label class="form-check-label" for="Mystery">Mystery</label>
-    <div class="blackbox"></div>
-    <input type="checkbox" name="movieAction" value="false">
-    <label class="form-check-label" for="Action">Action</label>
-  </div> --}}
 
   <div class="submit">
     <input class="btn" id="query" type="submit">

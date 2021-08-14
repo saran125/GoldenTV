@@ -1,6 +1,9 @@
 import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model, Op } = ORM;
+import date from 'date-and-time';
 
+const now = new Date();
+const DateNow = date.format(now, 'MMM DD, YYYY HH:mm:ss');
 /**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
@@ -16,13 +19,14 @@ export class ModelMovieInfo extends Model {
 	static initialize(database) {
 		ModelMovieInfo.init({
 			"movie_uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
-			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
-			"user_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
+			"dateCreated": { type: DataTypes.STRING(50), allowNull: false, defaultValue: DateNow },
+			"dateUpdated": { type: DataTypes.STRING(50), allowNull: false, defaultValue: DateNow },
+			"admin_uuid": { type: DataTypes.CHAR(36), allowNull: false },
+			"user_uuid": { type: DataTypes.CHAR(36) },
 			"movieimage": { type: DataTypes.STRING(650), allowNull: false },
 			"moviename": { type: DataTypes.STRING(650), allowNull: false },
 			"movieagerating": { type: DataTypes.STRING(650), allowNull: false },
+			"moviecountdown": { type: DataTypes.STRING(20), allowNull: false },
 			"movieduration": { type: DataTypes.FLOAT(4), allowNull: false },
 			"moviegenre": {
 				type: DataTypes.ENUM('Horror', 'Comedy', 'Science', 'Romance', 'Animation', 'Adventure', 'Emotional', 'Action')
