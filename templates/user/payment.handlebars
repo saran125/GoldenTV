@@ -163,7 +163,7 @@
 					<h1>Nets QR</h1>
 				</div>
 				<div>
-					<input type="number" name="amount" id="price" value="{{details.roomprice}}" style="display: none;">
+					<input type="number" name="amount" id="price" value="{{price}}" style="display: none;">
 					<h3> Room Details</h3>
 										<input type="text" id="choice" value="{{choice}}" style="display: none;">
 					<input type="text" id="room_id" value="{{details.room_uuid}}" style="display: none;" >
@@ -174,7 +174,7 @@
 										<h5> Date: {{date}}</h5>
 										<h5> Room type: {{details.roomsize}}</h5>
 										<h5>Room Name: {{details.roomname}}</h5>
-										<h5> Price: ${{details.roomprice}}</h5>
+										<h5> Price: ${{price}}</h5>
 						
 						<p>  ***Pay in 10mins***</p>
 						<div class="qr">
@@ -194,10 +194,10 @@
 					<h5> Date: {{date}}</h5>
 					<h5> Room type: {{details.roomsize}}</h5>
 					<h5>Room Name: {{details.roomname}}</h5>
-					<h5> Price: ${{details.roomprice}}</h5>
+					<h5> Price: ${{price}}</h5>
 					<p> ***Pay in 10mins***</p>
 					<form method="POST" action="/payment/paypal/{{choice}}/{{details.room_uuid}}/{{date}}/{{time}}">
-					<input type="number" name="amount" id="price" value="{{details.roomprice}}" style="display: none;">
+					<input type="number" name="amount" id="price" value="{{price}}" style="display: none;">
 					 <button id="paypal-button" type="submit">
 							Pay by
 							<i>Pay</i><i>Pal</i>
@@ -216,21 +216,19 @@
 					<h5> Date: {{date}}</h5>
 					<h5> Room type: {{details.roomsize}}</h5>
 					<h5>Room Name: {{details.roomname}}</h5>
-					<h5> Price: ${{details.roomprice}}</h5>
+					<h5> Price: ${{price}}</h5>
 					<p> ***Pay in 10mins***</p>
-					<form action="/payment/card/{{choice}}/{{details.room_uuid}}/{{date}}/{{time}}" method="POST">
+					<form action="/payment/card/{{choice}}/{{price}}/{{details.room_uuid}}/{{date}}/{{time}}" method="POST">
 						<script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_51JH64qCNftL7aDDGxbmRaLzvCWayIEyV27af9E3JXthLTjN9kQdPbtZNhPQM7Sp2eKsaQly6wunPsZL0wkwI8Qsu00RrfNYjBl"
-							data-amount="{{details.roomprice}}00" data-name="Golden TV" data-description="Booking {{details.roomsize}} Room"
+							data-amount='{{cents}}' data-name="Golden TV" data-description="Booking {{details.roomsize}} Room"
 							data-image="../../public/img/goldentvlogo.png" data-locale="auto">
 							</script>
-						
-							<input type="number" name="amount" id="price" value="{{details.roomprice}}00" style="display: none;">
+							<input type="number" name="amount" value="{{cents}}" style="display: none;">
 						<script>
 							document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
 						</script>
 						<button type="submit" id="paypal-button">Pay with
 						<i>Card</i></button>
-					
 					</form>
 				</div>
 			</div>
@@ -305,7 +303,7 @@
 					console.log(`Payment succeeded`);
 
 					document.getElementById("payment").style.display = "none";
-					window.location.href = "/payment/success/"+document.getElementById("choice").value +"/" +document.getElementById("room_id").value + "/" +document.getElementById("date").value + "/" +document.getElementById("time").value;
+					window.location.href = "/payment/success/"+document.getElementById("choice").value +"/"+ document.getElementById("price").value+"/"+document.getElementById("room_id").value + "/" +document.getElementById("date").value + "/" +document.getElementById("time").value;
 				break;
 				case -1:
 					console.log(`Payment cancelled`);
