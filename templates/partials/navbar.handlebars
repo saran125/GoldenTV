@@ -114,17 +114,27 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/room/chooseeditroomstable">Rooms</a>
 				</li>
+				{{/if}}
+				{{#if (cmp_eq user.role "staff") }}
+				<li class="nav-item">
+					<a class="nav-link" href="/faq/retrievefaq">FAQ</a>
+				</li>
+				{{else}}
+				<li class="nav-item">
+					<a class="nav-link" href="/faq/cfaq">FAQ</a>
+				</li>
+				{{/if}}
+				{{#if (cmp_eq user.role "manager") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/faq/faq">Create FAQ</a>
 				</li>
 				{{/if}}
-
-				{{#if (cmp_eq user.role "staff") }}
+				{{!-- {{#if (cmp_eq user.role "staff") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/businessstatistics">Statistics</a>
 				</li>
 				<a href="/admin/viewoption" class="nav-link">Manage all the Options</a>
-				{{/if}}
+				{{/if}} --}}
 				{{#if (cmp_eq user.role "manager") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/counter/users">Users</a>
@@ -141,9 +151,6 @@
 					<a class="nav-link" href="/ticket/ticketlist">My Tickets</a>
 				</li>
 				{{/if}}
-				<li class="nav-item">
-					<a class="nav-link" href="/faq/cfaq">FAQ</a>
-				</li>
 				{{#if (cmp_eq user.role "customer") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/review/create">Create Review</a>

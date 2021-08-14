@@ -8,8 +8,64 @@
   * {
     color: gold;
   }
+
+
+    .List {
+        position: relative;
+        padding-right: 5px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        width: 800px;
+        float: left;
+    }
+
+    th,
+    td {
+        font-size: 14px;
+    }
+
+    .ListTable1 {
+        width: 1100px;
+        height: 400px;
+        color: gold;
+    }
+
+    input.form-control.search-input {
+        width: 165px;
+    }
+
+    .dropdown-menu.show,
+    .dropdown-menu.dropdown-menu-right.show,
+    .dropdown-item {
+        color: gold;
+        background-color: black;
+        border-color: white;
+    }
+
+    label.dropdown-item.dropdown-item-marker:hover,
+    .dropdown-item:hover {
+        background-color: darkgrey;
+        border-color: white;
+    }
+
+    div.blackblock {
+        background-color: black;
+        height: 25px;
+    }
+
+    i.fa.fa-edit:hover,
+    i.fa.fa-trash:hover {
+        background-color: darkgrey;
+    }
 </style>
 {{> navbar}}
+
+<h1>FAQ List</h1>
+        <div class="submit">
+          <form action="../faq/faq">
+            <input type="submit" value="Add FAQ" class="btn btn-outline-warning">
+          </form>
+        </div>
 <table
   id="table"
   data-addrbar="true"
@@ -21,7 +77,7 @@
   data-show-columns="true"
   data-url="/admin/retrievefaq-data"
 >
-<h1>Faq List</h1>
+
   <thead>
       <tr>
         <th data-field="questions">Question:</th>
