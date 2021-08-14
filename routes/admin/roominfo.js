@@ -152,6 +152,7 @@ async function createroom_process(req, res, next) {
 
 		if (uploadedFiles.length == 1) {
 			const option = await ModelRoomInfo.create({
+				admin_uuid: req.user.uuid,
 				roomname: req.body.roomname,
 				roomsize: req.body.roomsize,
 				roomprice: req.body.roomprice,
@@ -229,12 +230,24 @@ async function updateroom_process(req, res) {
 				update_roomimage.image = room.roomimage; //select NO file
 			}
 		}
-		// var Singapore = moment.tz(Sequelize.literal('CURRENT_TIMESTAMP'), 'Asia/Singapore').format();
-		// req.body.location = req.body.location.toUpperCase();
+		// const now = new Date("Jan 5, 2022 15:37:25").getTime();
+
+		// const now = new Date("Jan 5, 2022 15:37:25");
+
 		const now = new Date();
-		const DateNow = date.format(now, 'DD/MM/YYYY HH:mm:ss');
+		const DateNow = date.format(now, 'MMM DD, YYYY HH:mm:ss');
+		// const DateAgain = new Date(DateNow);
+		// const Prev = new Date(room.dateUpdated);
+
+		// const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
+		// const DateAgain = new Date(DateNow);
+		// const Prev = new Date(room.dateUpdated);
+		// const DateNow = date.format(now, 'DD/MM/YYYY HH:mm:ss');
+		// "dateUpdated": String(date.subtract(DateNow, Date.parse(room.dateCreated)).toHours()),
+		// new Date(room.dateCreated)
 		room.update({
 			"dateUpdated": DateNow,
+			"admin_uuid": req.user.uuid,
 			"roomname": req.body.roomname,
 			"roomsize": req.body.roomsize,
 			"roomprice": req.body.roomprice,
@@ -244,6 +257,25 @@ async function updateroom_process(req, res) {
 		});
 		room.save();
 		console.log('Description created: $(room.roomname)');
+
+		// const MonthPrev = parseInt(String(DatePrev[5] + DatePrev[6]));
+		// const DayPrev = parseInt(String(DatePrev[8] + DatePrev[9]));
+		// const HoursPrev = parseInt(String(DatePrev[11] + DatePrev[12]));
+		// const MinutesPrev = parseInt(String(DatePrev[14] + DatePrev[15]));
+		// const SecondsPrev = parseInt(String(DatePrev[17] + DatePrev[18]));
+
+		// const MonthNow = parseInt(String(DateNow[5] + DateNow[6]));
+		// const DayNow = parseInt(String(DateNow[8] + DateNow[9]));
+		// const HoursNow = parseInt(String(DateNow[11] + DateNow[12]));
+		// const MinutesNow = parseInt(String(DateNow[14] + DateNow[15]));
+		// const SecondsNow = parseInt(String(DateNow[17] + DateNow[18]));
+
+		// console.log(MonthNow - MonthPrev);
+		// console.log(Day - DayPrev);
+		// console.log(Hours - HoursPrev);
+		// console.log(Minutes - MinutesPrev);
+		// console.log(60 - Seconds);
+
 		return res.redirect("/room/chooseeditroomstable");
 	}
 	catch (error) {
