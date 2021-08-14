@@ -4,6 +4,7 @@
   integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
 <script
@@ -31,8 +32,17 @@
   * {
     color: gold;
   }
+
+  }
 </style>
 {{> navbar}}
+
+{{#if (cmp_eq user.role "customer") }}
+				<button class="buttonman">
+					<a class="nav-link" href="/review/create">Create Review</a>
+				</button>
+				{{/if}}
+
 <table
  id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
     data-data-field="rows" data-side-pagination="server" data-server-sort="true"
@@ -49,6 +59,9 @@
 </thead>
 </table>
 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+
 <template id="profileTemplate" style="color: black;">
   <div class="col-4 mt-3">
     <div class="card" style="border-color: white; background-color: black;">
@@ -60,14 +73,19 @@
           <div class="col-12 col-lg-4 col-md-6 text-center">
             <br>
             <ul class="list-inline ratings text-center" title="Ratings">
-              <li class="list-inline-item"><a href="#"><span class="fa fa-star"></span></a>
-             
+              <li class="list-inline-item"><a href="#"><span ></span></a>
+               <b>Rating: <span id=stars></span></b>
+                <i class="fa fa-star" aria-hidden="true"></i>
+  <i class="fa fa-star" aria-hidden="true"></i> 
+  <i class="fa fa-star" aria-hidden="true"></i> 
+  <i class="fa fa-star-half-alt" aria-hidden="true"></i> 
+  <i class="far fa-star" aria-hidden="true"></i>
               </li>
 
              
               
             </ul>
-            <h5>%rating%</h5>
+            <h5>%rating%/5</h5>
           </div>
           <div class="col-12 col-lg-4">
             <big>%NAME%</big>
@@ -94,5 +112,27 @@
   function myFunction(x) {
   x.classList.toggle("fa-thumbs-down");
 }
+$_GET["rating"]
+document.getElementById("stars").innerHTML = getStars(rating);
 
+function getStars(rating) {
+
+  // Round to nearest half
+  rating = Math.round(rating * 2) / 2;
+  let output = [];
+
+  // Append all the filled whole stars
+  for (var i = rating; i >= 1; i--)
+    output.push('<i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>&nbsp;');
+
+  // If there is a half a star, append it
+  if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: gold;"></i>&nbsp;');
+
+  // Fill the empty stars
+  for (let i = (5 - rating); i >= 1; i--)
+    output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: gold;"></i>&nbsp;');
+
+  return output.join('');
+
+}
 </script>
