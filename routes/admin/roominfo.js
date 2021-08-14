@@ -3,6 +3,7 @@ import { ModelRoomInfo } from '../../data/roominfo.mjs';
 import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 import ORM from "sequelize";
+import date from 'date-and-time';
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
@@ -228,8 +229,12 @@ async function updateroom_process(req, res) {
 				update_roomimage.image = room.roomimage; //select NO file
 			}
 		}
+		// var Singapore = moment.tz(Sequelize.literal('CURRENT_TIMESTAMP'), 'Asia/Singapore').format();
 		// req.body.location = req.body.location.toUpperCase();
+		const now = new Date();
+		const DateNow = date.format(now, 'DD/MM/YYYY HH:mm:ss');
 		room.update({
+			"dateUpdated": DateNow,
 			"roomname": req.body.roomname,
 			"roomsize": req.body.roomsize,
 			"roomprice": req.body.roomprice,
@@ -261,6 +266,7 @@ async function deleteroom(req, res, next) {
 	try {
 		const tid = String(req.params.room_uuid);
 		const target = await ModelRoomInfo.findByPk(tid);
+		target.destroy();
 		console.log(`Deleted movie: ${tid}`);
 		return res.redirect("/room/chooseeditroomstable");
 	}
