@@ -1,76 +1,72 @@
 <title>Home</title>
-<link rel="stylesheet" type="text/css" href="public/css/home.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="public/css/home.css" media="screen" />
 
 <body>
   {{>navbar}}
-<div class="homedescription">
+  <div class="homedescription">
     <div class="homecontent">
-        {{ homedescription }}
+      {{ homedescription }}
     </div>
-{{#if (cmp_eq user.role "staff") }}
+    {{#if (cmp_eq user.role "staff") }}
     <div class="homecontentedit1">
-        <form action="../edithomedes">
-            <input type="submit" value="Edit" class="btn btn-outline-warning">
-        </form>
+      <form action="../edithomedes">
+        <input type="submit" value="Edit" class="btn btn-outline-warning">
+      </form>
     </div>
-{{/if}}	
-</div>
+    {{/if}}
+  </div>
 
 
-<div class="homeimageandpolicy">
+  <div class="homeimageandpolicy">
     <div class="homeimage">
-		<img style="width:500px; " src="public/uploads/{{ homeimage }}">
+      <img id="homeimage" style="width:500px; " src="public/uploads/{{ homeimage }}">
     </div>
     <div class="homeimagedes">
-        {{ homepolicy }}
-        {{#if (cmp_eq user.role "staff") }}
-        <div class="homecontentedit2">
-            <form action="../edithomeimagepolicy">
-                <input type="submit" value="Edit" class="btn btn-outline-warning">
-            </form>
-        </div>
-        {{/if}}	
+      {{ homepolicy }}
+      {{#if (cmp_eq user.role "staff") }}
+      <div class="homecontentedit2">
+        <form action="../edithomeimagepolicy">
+          <input type="submit" value="Edit" class="btn btn-outline-warning">
+        </form>
+      </div>
+      {{/if}}
     </div>
     <div class="homepolicy">
-	<img style="width:500px; height: 70px;" src="public/uploads/{{ homepolicyimage }}">
-    <div class="footer">© 2020 Teo Heng. All rights reserved.</div>
-    <div class="footer">© 2020 Golden Village. All rights reserved.</div>
+      <img style="width:500px; height: 70px;" src="public/uploads/{{ homepolicyimage }}">
+      <div class="footer">© 2020 Teo Heng. All rights reserved.</div>
+      <div class="footer">© 2020 Golden Village. All rights reserved.</div>
     </div>
-</div>
+  </div>
 
-<div class="moviescomingsoon">
+  <div class="moviescomingsoon">
     <div class="comingsoontitle">BEST RELEASES!</div>
     <div class="comingsoon1">
-		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="/public/img/img3722.webp"
-         alt="Norway" class="w3-hover-opacity">
-    <div class="comingsoon1des">
+      <img style="width: 85px; height: 160px; padding-bottom: 5px;" src="/public/img/img3722.webp" alt="Norway"
+        class="w3-hover-opacity">
+      <div class="comingsoon1des">
         {{ release_name1 }}
-    </div>
+      </div>
     </div>
     <div class="comingsoon2">
-		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="/public/img/img3725.webp"
-         alt="Norway" class="w3-hover-opacity">
-    <div class="comingsoon2des">
+      <img style="width: 85px; height: 160px; padding-bottom: 5px;" src="/public/img/img3725.webp" alt="Norway"
+        class="w3-hover-opacity">
+      <div class="comingsoon2des">
         {{ release_name2 }}
-    </div>
+      </div>
     </div>
     <div class="comingsoon3">
-		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="/public/img/orangealbum.jpg"
-         alt="Norway" class="w3-hover-opacity">
-    <div class="comingsoon3des">
+      <img style="width: 85px; height: 160px; padding-bottom: 5px;" src="/public/img/orangealbum.jpg" alt="Norway"
+        class="w3-hover-opacity">
+      <div class="comingsoon3des">
         {{ release_name3 }}
-    </div>
+      </div>
     </div>
     <div class="comingsoon4">
-		<img style="width: 110px; height: 160px; padding-bottom: 5px;" 
-        src="/public/img/XXXV.jpg"
-         alt="Norway" class="w3-hover-opacity">
-    <div class="comingsoon4des">
+      <img style="width: 85px; height: 160px; padding-bottom: 5px;" src="/public/img/XXXV.jpg" alt="Norway"
+        class="w3-hover-opacity">
+      <div class="comingsoon4des">
         {{ release_name4 }}
-    </div>
+      </div>
     </div>
 
     <!-- <div class="homecontentedit3">
@@ -80,36 +76,43 @@
     <div class="blackblock">
     </div>
 
-</div>
+  </div>
 
 </body>
 {{> footer}}
 <style>
-    body{
+  body {
     background-color: black;
   }
 
-    .homecontent, .homeimagedes, .footer
-    , .comingsoon1des , .comingsoon2des
-    , .comingsoon3des , .comingsoon4des
-    , .comingsoontitle
-     {
-    color:gold;
+  .homecontent,
+  .homeimagedes,
+  .footer,
+  .comingsoon1des,
+  .comingsoon2des,
+  .comingsoon3des,
+  .comingsoon4des,
+  .comingsoontitle {
+    color: gold;
   }
-  
+
   div.footer {
-      font-size: 10px;
+    font-size: 10px;
   }
-  
+
   div.homedescription {
     position: absolute;
+    padding: 10px;
     top: 115px;
-    left: 25px;
+    left: 75px;
     height: 450px;
     width: 275px;
-    border: 1px solid white;
+    border-color: white;
+    border-width: thin;
+    border-style: solid;
+    border-radius: 5px;
   }
-  
+
   div.homeimageandpolicy {
     position: absolute;
     top: 115px;
@@ -117,62 +120,75 @@
     height: 475px;
     width: 750px;
   }
-  
+
   div.moviescomingsoon {
+    border-color: white;
+    border-width: thin;
+    border-style: solid;
+    border-radius: 5px;
     position: absolute;
     padding-left: 25px;
     padding-top: 10px;
     top: 115px;
-    left: 900px;
+    left: 885px;
     height: 450px;
-    width: 350px;
-    border: 1px solid white;
+    width: 300px;
   }
-  
+
+  #homeimage {
+    border-color: white;
+    border-width: thin;
+    border-style: solid;
+    border-radius: 5px;
+  }
+
   div.homeimage {
     padding-left: 50px;
     height: 300px;
+    width: 350px;
   }
-  
+
   div.homeimagedes {
     font-size: 10px;
     padding-left: 50px;
     width: 550px;
     height: 35px;
   }
-  
+
   div.homepolicy {
     padding-top: 10px;
-    padding-left: 50px; 
+    padding-left: 50px;
     width: 500px;
     height: 125px;
   }
-  
+
   div.comingsoontitle {
     text-align: center;
     padding: 5px;
   }
-  
-  div.comingsoon1, div.comingsoon2,
-  div.comingsoon3, div.comingsoon4 {
+
+  div.comingsoon1,
+  div.comingsoon2,
+  div.comingsoon3,
+  div.comingsoon4 {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 5px;
     float: left;
-    width: 150px;
+    width: 120px;
     height: 183px;
   }
-  
+
   div.homecontentedit1 {
     padding-top: 260px;
     padding-left: 215px;
   }
-  
+
   div.homecontentedit2 {
     padding-right: 5px;
     float: right;
   }
-  
+
   div.homecontentedit3 {
     padding-left: 270px;
   }
