@@ -36,8 +36,6 @@ router.post("/faq", async function (req, res) {
 	}
 
 });
-
-
 router.get("/faq", async function faq(req, res) {
 	// res.sendFile("dynamic/uploads/{{ }}");
 	const homedes = await ModelFaq.findOne({

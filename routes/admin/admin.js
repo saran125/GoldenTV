@@ -410,8 +410,8 @@ async function user_data(req, res) {
         })
 
 };
-function promo(req, res, next) {
-    console.log("Option page accessed");
+function promo(req, res) {
+    console.log("promo code page accessed");
     return res.render('admin/promo_code');
 };
 
@@ -464,12 +464,7 @@ async function promo_data(req, res) {
 async function deletepromo(req, res, next) {
     try {
         const tid = String(req.params.promo_id);
-        // if (tid == undefined)
-        // 	throw new HttpError(400, "Target not specified");
         const target = await Modelpromo.findByPk(tid);
-        // movieimage = target.movieimage
-        // if (target == null)
-        // 	throw new HttpError(410, "User doesn't exists");
         target.destroy();
         console.log(`Deleted promo code: ${tid}`);
         return res.redirect("/admin/promo");
@@ -514,6 +509,7 @@ async function update_promo(req, res) {
     console.log("update Promo Code page accessed");
     return res.render('admin/update_promo', {promo});
 };
+
 async function update_promo_process(req, res) {
     console.log("updated Option page accessed");
     try {
