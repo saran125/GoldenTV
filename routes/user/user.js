@@ -16,7 +16,13 @@ async function booking_process(req, res) {
         console.log(req.body);
         const time = req.body.time;
         const date = req.body.date;
-        return res.redirect("/payment/generate/" + req.params.choice + "/" + req.params.id + "/" + date + "/" +time);
+        let promo = req.body.promo;
+        console.log(promo);
+        if(promo == ''){
+            console.log('Promo is null');
+            promo +='No_promo';
+        }
+        return res.redirect("/payment/generate/" + req.params.choice + "/" + req.params.id + "/" + date + "/" +time+'/'+promo);
     }
     catch (error) {
         console.error(error);

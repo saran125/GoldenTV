@@ -19,20 +19,8 @@
     align-items: center;
     justify-content: center
 }
-.copiedtext {
-  position: absolute;
-  left: 0; top: 0; right: 0;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(-1em);
-  color: rgb(0, 0, 0);
-  transition: all .500s;
-}
-.copied .copiedtext {
-  opacity: 3;
-  transform: translateY(-3em);
-}
-#save button {
+
+#save {
   font-size: 0.3em;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
@@ -41,7 +29,7 @@
   margin-top: 4em;
 }
 
-#save button {
+#save{
   position: relative;
   border-radius: 10px;
   padding: 8px 10px;
@@ -53,12 +41,6 @@
   color: #000;
   background: #fff;
   transition: background .275s;
-}
-#save button:hover,
-#save button:focus {
-  background: gold;
-  color: rgb(0, 0, 0);
-  cursor: pointer;
 }
 .container {
     height: 100vh
@@ -265,11 +247,10 @@ button:focus {
                                     <h1>{{small.discount}}% OFF</h1><span class="d-block">On Small Size Rooms</span>
                                     <div class="mt-4">
                                         <h3>With Code :
-                                            <div id="save"><button  title="Copy promo code" id="copy"
-                                                onClick="CopyToClipboard('to-copy')">
-                                                <div id="to-copy">{{small.promo_code}}</div><span class="copiedtext"
-                                                    aria-hidden="true" style="font-size: 0.9em;">Copied!</span>
-                                            </button></div> </h3>
+                                            <div id="save">
+                                                <div id="to-copy">{{small.promo_code}}</div>
+                           
+                                            </div> </h3>
                                     </div>
                                 </div>
                             </div>
@@ -283,10 +264,9 @@ button:focus {
                                 <h1>{{medium.discount}}% OFF</h1><span class="d-block">On Medium Size Rooms</span><span
                                     class="d-block">Today</span>
                                 <div class="mt-4">
-                                    <h3>With Code : <div id="save"><button title="Copy promo code" id="copy" onClick="CopyToClipboard('to-copy')">
-                                            <div id="to-copy">{{medium.promo_code}}</div><span class="copiedtext" aria-hidden="true"
-                                                style="font-size: 0.9em;">Copied!</span>
-                                        </button></div></h3>
+                                    <h3>With Code : <div id="save">
+                                            <div id="to-copy">{{medium.promo_code}}</div>
+                                            </div></h3>
                                 </div>
                             </div>
                         </div>
@@ -299,10 +279,9 @@ button:focus {
                                 <h1>{{large.discount}}% OFF</h1><span class="d-block">On Large Size Rooms</span><span
                                     class="d-block">Today</span>
                                 <div class="mt-4">
-                                    <h3>With Code : <div id="save"><button title="Copy promo code" id="copy" onClick="CopyToClipboard('to-copy')">
-                                            <div id="to-copy">{{medium.promo_code}}</div><span class="copiedtext" aria-hidden="true"
-                                                style="font-size: 0.9em;">Copied!</span>
-                                        </button></div></h3>
+                                    <h3>With Code : <div id="save">
+                                            <div id="to-copy">{{large.promo_code}}</div>
+                                            </h3>
                                 </div>
                             </div>
                         </div>
@@ -366,37 +345,4 @@ button:focus {
          document.getElementById("pay").style.display = "inline";
          document.getElementById("promo").style.display = "inline";
      }
-    function CopyToClipboard(containerid) {
-            var btnCopy = document.getElementById("copy");
-            var main = document.getElementById("maincontent");
-            // Create a new textarea element and give it id='temp_element'
-            var textarea = document.createElement("textarea");
-            textarea.id = "temp_element";
-            // Optional step to make less noise on the page, if any!
-            textarea.style.height = 0;
-            // Now append it to your page somewhere, I chose <body>
-            document.body.appendChild(textarea);
-            // Give our textarea a value of whatever inside the div of id=containerid
-            textarea.value = document.getElementById(containerid).innerText;
-            // Now copy whatever inside the textarea to clipboard
-            var selector = document.querySelector("#temp_element");
-            selector.select();
-            document.execCommand("copy");
-            // Remove the textarea
-            document.body.removeChild(textarea);
-            // Add copied text after click
-            if (document.execCommand("copy")) {
-                btnCopy.classList.add("copied");
-
-                var temp = setInterval(function () {
-                    btnCopy.classList.remove("copied");
-                    clearInterval(temp);
-                }, 600);
-
-            } else {
-                console.info("document.execCommand went wrong…");
-            }
-
-        }
-
 </script>
