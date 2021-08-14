@@ -228,13 +228,13 @@
     height: 7px;
   }
 
- input.form-control.search-input {
-   left: 10px;
- }
+  input.form-control.search-input {
+    left: 10px;
+  }
 
- div.fixed-table-toolbar {
-   width: 1100px;
- }
+  div.fixed-table-toolbar {
+    width: 1100px;
+  }
 </style>
 
 <title>Movie/Karaoke Selection</title>
@@ -290,20 +290,82 @@
   </table>
   <template id="profileTemplate2" style="color: black;">
     <div class="mt-2" style="float:left; padding-right:10px;">
-      <div class="card" style="border-color: gold; background-color: black; width:345px;">
+      <div class="card" style="border-color: gold; background-color: black; width:350px;">
         <div class="card-body" style="padding-left:30px; box-sizing: border-box; position: relative;">
           <div class="row">
             <img src="../public/uploads/%movieimage%"
               style="border-width: thin; border-style:solid; border-radius: 5px; width: 120px; height: 150px; float: left;"
               alt="">
-            <div style="float: left; padding:10px;">
-              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Name: %moviename% </p>
-              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Duration: %movieduration% Minutes </p>
-              <p class="mb-0 text-truncated" style="width:175px; font-size: 15px;">Genre: %moviegenre%</p>
-              <div style="padding-top: 14px;">
+            <div style="float: left; padding-left:10px;">
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Name: %moviename% </p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Duration: %movieduration% Minutes
+              </p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Genre: %moviegenre%</p>
+              <div style="padding-top: 10px;">
                 <div class="button">
-                  <a style="color: black" class="btn btn-warning">Age Rating: %movieagerating%</a>
+                  <a style="font-size: 12px; color: black" class="btn btn-warning">Age Rating: %movieagerating%</a>
                 </div>
+              </div>
+              <div style="padding-top: 14px; padding-left: 112px;">
+                <form action="../">
+                  <input style="font-size: 15px;" type="submit" value="Review" class="btn btn-outline-warning">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>
+
+<div class="blackbox" style="height: 25px;"></div>
+
+<div style="padding: 10px;">
+  <h1>Karaoke</h1>
+</div>
+
+<div class="w3-third w3-container w3-margin-bottom">
+  <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
+    data-data-field="rows" data-side-pagination="server" data-sort-name="songname" data-server-sort="true"
+    data-search="true" data-pagination="true" data-page-list="[6, 12, 24, 50, All]" data-show-columns-search="true"
+    data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter3"
+    data-url="/song/chooseeditsongstable-data">
+    <thead>
+      <tr>
+        <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+        <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+        <th data-formatter="table_row_image3">Song Poster</th>
+        <th data-field="songname" data-sortable="true">Name</th>
+        <th data-field="songagerating" data-sortable="true">Age Rating</th>
+        <th data-field="songduration" data-sortable="true">Duration</th>
+        <th data-field="songgenre" data-sortable="true">Genre(s)</th>
+
+      </tr>
+    </thead>
+  </table>
+  <template id="profileTemplate3" style="color: black;">
+    <div class="mt-2" style="float:left; padding-right:10px;">
+      <div class="card" style="border-color: gold; background-color: black; width:350px;">
+        <div class="card-body" style="padding-left:30px; box-sizing: border-box; position: relative;">
+          <div class="row">
+            <img src="../public/uploads/%songimage%"
+              style="border-width: thin; border-style:solid; border-radius: 5px; width: 120px; height: 150px; float: left;"
+              alt="">
+            <div style="float: left; padding-left:10px;">
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Name: %songname% </p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Duration: %songduration% Minutes
+              </p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Genre: %songgenre%</p>
+              <div style="padding-top: 10px;">
+                <div class="button">
+                  <a style="font-size: 12px; color: black" class="btn btn-warning">Age Rating: %songagerating%</a>
+                </div>
+              </div>
+              <div style="padding-top: 14px; padding-left: 112px;">
+                <form action="../">
+                  <input style="font-size: 15px;" type="submit" value="Review" class="btn btn-outline-warning">
+                </form>
               </div>
             </div>
 
@@ -314,7 +376,7 @@
   </template>
 </div>
 
-
+<div class="blackbox" style="height: 100px;"></div>
 
 {{else}}
 <div class="List" style="padding-left: 35px;">
@@ -328,7 +390,7 @@
           <input type="submit" value="Add Movie" class="btn btn-outline-warning">
         </form>
       </div>
-      <div class="blackblock1"></div>
+      <div class="blackblock"></div>
     </div>
     {{!-- <div id="toolbar" class="select">
       <select class="form-control">
@@ -339,7 +401,7 @@
     </div> --}}
     <table id="id" data-show-export="true" data-toggle="table" data-search="true" data-pagination="true"
       data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true" data-side-pagination="server"
-      data-sort-name="dateCreated" data-height="600" data-silent-sort="false" data-server-sort="true" data-search="true"
+      data-sort-name="moviename" data-height="600" data-silent-sort="false" data-server-sort="true" data-search="true"
       {{!-- data-page-number="50" --}} data-pagination="true" {{!-- data-page-size="5" --}}
       data-page-list="[5, 10, 25, 50, 100, All]" data-show-refresh="true" data-show-columns="true"
       data-show-columns-search="true" ata-addrbar="true" data-url="/movie/chooseeditmoviestable-data">
@@ -373,7 +435,7 @@
     </div>
     <table width="100%" data-cookie-id-table="saveId" id="id" data-toolbar="#toolbar" data-show-export="true"
       data-toggle="table" data-search="true" data-pagination="true" data-total-field="total" data-data-field="rows"
-      data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="dateCreated" data-height="600"
+      data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="songname" data-height="600"
       data-silent-sort="false" data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}}
       data-pagination="true" {{!-- data-page-size="5" --}} data-page-list="[10, 25, 50, 100, 200, All]"
       data-show-refresh="true" data-show-columns="true" data-show-columns-search="true" data-addrbar="true"
@@ -412,7 +474,22 @@
     return `<div class="row mx-0">${view}</div>`
   }
 
-  function table_row_image(value, row, index) {
+  function customViewFormatter3(data) {
+    var template = $('#profileTemplate3').html()
+    var view = ''
+    $.each(data, function (i, row) {
+      view += template
+        .replace('%songname%', row.songname)
+        .replace('%songimage%', row.songimage)
+        .replace('%songagerating%', row.songagerating)
+        .replace('%songduration%', row.songduration)
+        .replace('%songgenre%', row.songgenre)
+        .replace('%songuuid%', row.song_uuid);
+    })
+    return `<div class="row mx-0">${view}</div>`
+  }
+
+  function table_row_image3(value, row, index) {
     return `
 		<img src="/public/uploads/${row.songimage}" 
         style="width: 85px; height: 130px; padding-bottom: 5px;"
@@ -422,7 +499,7 @@
   /**
    * Formats the action column for each row of data
    **/
-  function table_row_edit(value, row, index) {
+  function table_row_edit3(value, row, index) {
     return `
 		<a href="../song/updatesong/${row.song_uuid}">
 			<i class="fa fa-edit"></i>
