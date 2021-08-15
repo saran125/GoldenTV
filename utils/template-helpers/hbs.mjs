@@ -7,6 +7,7 @@
 
 export const Check = {
 	"radioCheck": radioCheck,
+	"Countdown": Countdown
 }
 
 // formatDate: function(date, targetFormat){
@@ -15,8 +16,24 @@ export const Check = {
 
 /** Check Radio Value */
 function radioCheck(value, radioValue) {
-	if (value === radioValue){
+	if (value === radioValue) {
 		return 'checked';
 	}
 	return '';
 }
+
+function Countdown(value) {
+	// Time calculations for days, hours, minutes and seconds
+	var days = Math.floor(value / (1000 * 60 * 60 * 24));
+	var hours = Math.floor((value % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	var minutes = Math.floor((value % (1000 * 60 * 60)) / (1000 * 60));
+
+	if (value > 0) {
+		return days + "d " + hours + "h " + minutes + "m Left";
+	}
+	else {
+		// Display the result in the element with id="demo"
+		return 'Out Now!';
+	}
+}
+
