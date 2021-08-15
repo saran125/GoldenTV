@@ -1,12 +1,37 @@
 <style>
   body {
+    margin-top: 20px;
     background-color: black;
   }
 
-  h1,
-  h5,
-  label {
+  a {
+    color: whitesmoke;
+  }
+
+  .button {
+    color: white;
+    float: left;
+  }
+
+  .button2 {
+    float: right;
+    padding-right: 30px;
+  }
+
+  input#movieimage {
+    color: black;
+  }
+
+  th.text-center {
+    width: 200px;
+  }
+
+  td {
     color: gold;
+  }
+
+  label {
+    font-size: 13px;
   }
 
   div.blackblock {
@@ -14,122 +39,233 @@
     height: 25px;
   }
 
-  .btn#query {
+  div.form-check.form-check-inline,
+  span {
+    width: 50px;
+  }
+
+  a#add_row.btn.btn-success.pull-left {
+    background-color: green;
+    color: white;
+    border: 1px solid white;
+  }
+
+  a#delete_row.btn.btn-danger.pull-centre {
+    background-color: crimson;
+    color: white;
+    border: 1px solid white;
+  }
+
+  input.btn.btn-primary.pull-right {
     background-color: black;
     color: gold;
     border: 1px solid white;
   }
 
-  .btn#query:hover {
+  a#add_row.btn.btn-success.pull-left:hover,
+  a#delete_row.btn.btn-danger.pull-centre:hover,
+  input.btn.btn-primary.pull-right:hover {
     background-color: grey;
     color: white;
+    border: 1px solid white;
   }
 </style>
-{{>navbar}}
-<h1 class="display-4">Create Movies</h1>
+<script>
+  $(document).ready(function () {
+    var i = 0;
+    var imagevalue = 1;
+    $("#add_row").click(function () {
+      $('#addr' + i).html("<td> " + (i + 1) + "</td>" +
+        '<td><div style="width: 110px;"><img id="imagedisplay' + (imagevalue) + '"src="/public/img/No-Image-PlaceHolder.png" alt="" class="border img-thumbnail img-fluid" style="width: 100px; height: 150px; padding-bottom: 5px;"><div style="padding-left: 5px;">' +
+        '<input type="file" id="movieimage" onchange="document.getElementById(' + "'imagedisplay" + (imagevalue) + "')" + '.src = window.URL.createObjectURL(this.files[0])" name="movieimage" value="{{movieimage}}" required> </div></div></td>' +
 
-<form method="POST" action="" name="" enctype="multipart/form-data">
+        '<td><input type="string" name="moviename" placeholder="Inside Out" class="form-control" style="color: black; width: 110px;" value="{{moviename}}" required /></td>' +
 
-  <div class="form-group">
-    <h5>Movie Image</h5>
-    <input type="file" id="movieimage"
-      onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
-      name="movieimage" value="{{movieimage}}" required>
+        '<td><div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="G" value="G" name="movieagerating" checked><label class="form-check-label" for="G">G</label></div>' +
+        '<div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="PG" value="PG" name="movieagerating"><label class="form-check-label" for="PG">PG</label></div>' +
+        '<div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="PG13" value="PG13" name="movieagerating"><label class="form-check-label" for="PG13">PG13</label>' +
+        '</div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="NC13" value="NC13" name="movieagerating"><label class="form-check-label" for="NC13">NC13</label>' +
+        '</div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="M18" value="M18" name="movieagerating"><label class="form-check-label" for="M18">M18</label></div>' +
+        '<div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="R21" value="R21" name="movieagerating"><label class="form-check-label" for="R21">R21</label></div></td>' +
 
-    <img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" alt="" class="border img-thumbnail img-fluid"
-      style="width: 110px; height: 160px; padding-bottom: 5px;">
-  </div>
+        '<td><input type="number" min="0" placeholder="120" step="any" name="movieduration" value="{{movieduration}}" class="form-control" style="color: black;" required></td>' +
 
-  <div class="form-group">
-    <h5>Movie Name</h5>
-    <input type="moviename" style="width: 410px;" name="moviename" class="form-control" value="{{movie_name}}" required>
-  </div>
+        '<td>Start:<input style="border-radius: 5px; width: 175px;" type="datetime-local" id="meeting-time" name="moviereleasedate" value={{ moviereleasedate }} placeholder="2021-08-16T19:30" required>' +
+        'End:<input style="border-radius: 5px; width: 175px;" type="datetime-local" id="meeting-time" name="movieenddate" value={{ movieenddate }} placeholder="2021-08-16T19:30" required></td>' +
 
-  <h5>Movie Age Rating</h5>
-  <br>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="G" value="G" name="movieagerating" checked>
-    <label class="form-check-label" for="G">G</label>
-  </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="PG" value="PG" name="movieagerating">
-    <label class="form-check-label" for="PG">PG</label>
-  </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="PG13" value="PG13" name="movieagerating">
-    <label class="form-check-label" for="PG13">PG13</label>
-  </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="NC13" value="NC13" name="movieagerating">
-    <label class="form-check-label" for="NC13">NC13</label>
-  </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="M18" value="M18" name="movieagerating">
-    <label class="form-check-label" for="M18">M18</label>
-  </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="R21" value="R21" name="movieagerating">
-    <label class="form-check-label" for="R21">R21</label>
-  </div>
+        '<td><div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Horror" checked><label for="Horror">Horror </label><br></div>' +
+        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Comedy"><label for="Comedy"> Comedy </label><br></div>' +
+        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Animation"><label for="Animation"> Animation </label><br></div>' +
+        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Science"><label for="Science"> Science </label><br></div>' +
+        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Romance"><label for="Romance"> Romance </label><br></div>' +
+        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Adventure"><label for="Adventure"> Adventure </label><br></div>' +
+        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Emotional"><label for="Emotional"> Emotional </label><br></div>' +
+        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Action"><label for="Action"> Action </label><br></div></td>');
+      $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+      i++;
+      imagevalue++;
+    });
 
-  <div class="blackblock"></div>
+    $("#delete_row").click(function () {
+      if (i > 1) {
+        $("#addr" + (i - 1)).html('');
+        i--;
+      }
+    });
+  });
 
-  <h5>Movie Duration (Mins)</h5>
-  <div class="form-group">
-    <input type="number" placeholder="120" step="any" style="width: 100px;" name="movieduration" min="0"
-      class="form-control" value="{{movieduration}}" required>
+
+</script>
+
+{{> navbar}}
+<form class="container" method="POST" action="/movie/createmovie" name="" enctype="multipart/form-data">
+  <div class="row setup-content" id="step-1">
+    <div class="col-xs-12">
+      <div class="col-md-12 well text-center">
+        <h1 style="color: gold; padding:25px; ">Add Movies</h1>
+        <div class="container col-xs-12">
+          <div class="row clearfix">
+            <div class="col-md-12 column">
+              <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                  <tr>
+                    <th class="text-center" style="color: gold;">
+                      #
+                    </th>
+                    <th class="text-center" style="color: gold;">
+                      Movie Image
+                    </th>
+                    <th class="text-center" style="color: gold;">
+                      Movie Name
+                    </th>
+                    <th class="text-center" style="color: gold;">
+                      Movie Age Rating
+                    </th>
+                    <th class="text-center" style="color: gold;">
+                      Movie Duration (Mins)
+                    </th>
+                    <th class="text-center" style="color: gold; width: 50px;">
+                      Start Date for Movie Release/
+                      End Date for Movie
+                    </th>
+                    <th class="text-center" style="color: gold;">
+                      Movie Genres
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id='addr0' style="color: gold;">
+                    <td style="color: gold;">
+                      1
+                    </td>
+                    <td>
+                      <div style="width: 110px;">
+                        <img id="imagedisplay" src="/public/img/No-Image-PlaceHolder.png" alt=""
+                          class="border img-thumbnail img-fluid"
+                          style="width: 100px; height: 150px; padding-bottom: 5px;">
+                        <div style="padding-left: 5px;">
+                          <input type="file" id="movieimage"
+                            onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
+                            name="movieimage" value="{{movieimage}}" required>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="string" name='moviename' placeholder='Inside Out' class="form-control"
+                        style="color: black; width: 110px;" value="{{moviename}}" required />
+                    </td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="G" value="G" name="movieagerating" checked>
+                        <label class="form-check-label" for="G">G</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="PG" value="PG" name="movieagerating">
+                        <label class="form-check-label" for="PG">PG</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="PG13" value="PG13" name="movieagerating">
+                        <label class="form-check-label" for="PG13">PG13</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="NC13" value="NC13" name="movieagerating">
+                        <label class="form-check-label" for="NC13">NC13</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="M18" value="M18" name="movieagerating">
+                        <label class="form-check-label" for="M18">M18</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="R21" value="R21" name="movieagerating">
+                        <label class="form-check-label" for="R21">R21</label>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" min="0" placeholder="120" step="any" name='movieduration'
+                        value="{{movieduration}}" class="form-control" style="color: black;" required>
+                    </td>
+
+                    <td>
+                      Start:
+                      <input style="border-radius: 5px; width: 175px;" type="datetime-local" id="meeting-time"
+                        name="moviereleasedate" value={{ moviereleasedate }} placeholder="2021-08-16T19:30" required>
+                      End:
+                      <input style="border-radius: 5px; width: 175px;" type="datetime-local" id="meeting-time"
+                        name="movieenddate" value={{ movieenddate }} placeholder="2021-08-16T19:30" required>
+                    </td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" name="moviegenre" value="Horror" checked>
+                        <label for="Horror">Horror </label><br>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" name="moviegenre" value="Comedy">
+                        <label for="Comedy"> Comedy </label><br>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" name="moviegenre" value="Animation">
+                        <label for="Animation"> Animation </label><br>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" name="moviegenre" value="Science">
+                        <label for="Science"> Science </label><br>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" name="moviegenre" value="Romance">
+                        <label for="Romance"> Romance </label><br>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" name="moviegenre" value="Adventure">
+                        <label for="Adventure"> Adventure </label><br>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" name="moviegenre" value="Emotional">
+                        <label for="Emotional"> Emotional </label><br>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" name="moviegenre" value="Action">
+                        <label for="Action"> Action </label><br>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="button">
+            <a id="add_row" class="btn btn-success pull-left">Add Row</a>
+            <div style="width: 10px; float:left; "></div>
+            <a id='delete_row' class="btn btn-danger pull-centre">Delete Row</a>
+            <div class="blackblock"></div>
+          </div>
+        </div>
+      </div>
+      <div class="button2">
+        <input type="submit" class="btn btn-primary pull-right" value="Submit">
+      </div>
+    </div>
+    <div class="blackblock"></div>
   </div>
-
-  <div class="blackblock"></div>
-  <div class="form-group">
-    <h5>Start Date for Movie Release</h5>
-    <input style="border-radius: 5px; width: 250px; height: 50px;" type="datetime-local" id="meeting-time"
-      name="moviereleasedate" value={{ moviereleasedate }} placeholder="2021-08-16T19:30">
-
-  <div class="blackblock"></div>
-    <h5>End Date for Movie</h5>
-    <input style="border-radius: 5px; width: 250px; height: 50px;" type="datetime-local" id="meeting-time"
-      name="movieenddate" value={{ movieenddate }} placeholder="2021-08-16T19:30">
   </div>
-
-  <div class="blackblock"></div>
-  <div class="form-group">
-    <h5>Movie Genres</h5>
-    <span>
-      <input type="radio" name="moviegenre" value="Horror" checked>
-      <label for="Horror"> Horror </label><br>
-    </span>
-    <span>
-      <input type="radio" name="moviegenre" value="Comedy">
-      <label for="Comedy"> Comedy </label><br>
-    </span>
-    <span>
-      <input type="radio" name="moviegenre" value="Animation">
-      <label for="Animation"> Animation </label><br>
-    </span>
-    <span>
-      <input type="radio" name="moviegenre" value="Science">
-      <label for="Science"> Science </label><br>
-    </span>
-    <span>
-      <input type="radio" name="moviegenre" value="Romance">
-      <label for="Romance"> Romance </label><br>
-    </span>
-    <span>
-      <input type="radio" name="moviegenre" value="Adventure">
-      <label for="Adventure"> Adventure </label><br>
-    </span>
-    <span>
-      <input type="radio" name="moviegenre" value="Emotional">
-      <label for="Emotional"> Emotional </label><br>
-    </span>
-    <span>
-      <input type="radio" name="moviegenre" value="Action">
-      <label for="Action"> Action </label><br>
-    </span>
-  </div>
-
-  <div class="submit">
-    <input class="btn" id="query" type="submit">
   </div>
 </form>

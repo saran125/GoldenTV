@@ -87,7 +87,7 @@
               </div>
             </div>
             <div class="card-body">
-              <form method="POST" action="">
+              <form method="POST" action="/auth/updateprofile/{{ user.uuid }}?_method=PUT">
                 <h6 class="heading-small text-muted mb-4">User information</h6>
                 <div class="pl-lg-4">
                   <div class="row">
@@ -95,8 +95,7 @@
                     <div class="col-lg-6">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-username">Username</label>
-                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ user.name }}" readonly>
-                        <div data-formatter="name_edit">Edit</div>
+                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ user.name }}" required >
                       </div>
                     </div>
                   </div>
@@ -104,32 +103,23 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email">Email address</label>
-                        <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="{{ user.email }}" readonly>
-                        <div data-formatter="email_edit">Edit</div>
+                        <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="{{ user.email }}" required>
                       </div>
                     </div>
                    
-                    <div class="delete">
-
-                    </div>
+                
                   </div>
               </form>
                 </div>
+
+                
 
             </div>
           </div>
         </div>
       </div>
     </div>
-    <script>
-      function name_edit(user){
-        return `
-		<a href="../movie/updatemovie/${user.uuid}">
-			<i class="fa fa-edit"></i>
-		</a>
-		`;
-      }
-    </script>
+    
   <footer class="footer">
     <div class="row align-items-center justify-content-xl-between">
       <div class="col-xl-6 m-auto text-center">
