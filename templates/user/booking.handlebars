@@ -12,7 +12,7 @@
     border-radius: 20px;
     background: orange;
     border: none;
-    color: #fff;
+    color: rgb(0, 0, 0);
     height: 350px;
     display: flex;
     position: relative;
@@ -20,6 +20,28 @@
     justify-content: center
 }
 
+#save {
+  font-size: 0.3em;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+[id="cleared"] {
+  margin-top: 4em;
+}
+
+#save{
+  position: relative;
+  border-radius: 10px;
+  padding: 8px 10px;
+  border: 2px dotted black;
+  font-size: 0.835em;
+  text-transform: uppercase;
+  letter-spacing: 0.125em;
+  font-weight: bold;
+  color: #000;
+  background: #fff;
+  transition: background .275s;
+}
 .container {
     height: 100vh
 }
@@ -75,15 +97,6 @@ h1 {
     width: 20%
 }
 
-.tab input:focus {
-    border: 1px solid #6a1b9a !important;
-    outline: none
-}
-
-input.invalid {
-    border: 1px solid #e03a0666
-}
-
 .tab {
     display: none
 }
@@ -119,7 +132,19 @@ button:focus {
     display: inline-flex;
     justify-content: center
 }
-
+#promo_code{
+    position: fixed;
+    bottom: 100px;
+    right: 0px; 
+    background-color: rgb(0, 0, 0);
+    color: gold;
+    border: 2px solid gold;
+    border-radius: 10px;
+}
+#promo_code:hover{
+    color: black;
+    background-color: gold;
+}
 .step {
     height: 40px;
     width: 40px;
@@ -154,17 +179,7 @@ button:focus {
 .thanks-message {
     display: none
 }
-</style>
-<style>
-    table,
-    td,
-    th {
-        border: 1px solid black;
-    }
 
-    table {
-        border-collapse: collapse;
-    }
 </style>
 {{> navbar}}
 <div class="container mt-5">
@@ -205,60 +220,87 @@ button:focus {
                     <h5>Choose the <bold>Date:</bold></h5>
                     <input type="text" id="datepicker" name="date" onclick="mydate()" >
                     </div>
+                    <div id="promo">
+                    <h5>Enter the Promo Code:</h5>
+                    <input type="text" name="promo">
+                    </div>
                     <input type='Submit' class='btn btn-primary pull-right' id='pay' value='Proceed to Pay'>
                 </div>
 
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle" style="color: black;">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true" style="color: black;">&times;</span>
-                                </button>
-                            </div>
-                            <div style="display: none;">
-                            <div class="d-flex justify-content-center align-items-center container" >
-                                <div class="d-flex card text-center">
-                                    <div class="image"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
-                                    <div class="image2"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
-                                    <h1>50% OFF</h1><span class="d-block">On Small Size Rooms</span>
-                                    <div class="mt-4"><small>With Code : {{small.promo_code}}</small></div>
-                                    </div>
-                                </div>
-                            </div>
+            </form>
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle" style="color: black;">Availble Promo Codes</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" style="color: black;">&times;</span>
+                            </button>
+                        </div>
+                        <div>
+                            {{#if s}}
                             <div class="d-flex justify-content-center align-items-center container">
                                 <div class="d-flex card text-center">
                                     <div class="image"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
                                     <div class="image2"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
-                                    <h1>50% OFF</h1><span class="d-block">On Medium Size Rooms</span><span class="d-block">Today</span>
-                                    <div class="mt-4"><small>With Code : bbbootstrap2020</small></div>
-                                </div>
-                            </div>
-                                <div class="d-flex justify-content-center align-items-center container">
-                                    <div class="d-flex card text-center">
-                                        <div class="image"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
-                                        <div class="image2"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
-                                        <h1>50% OFF</h1><span class="d-block">On Large Size Rooms</span><span class="d-block">Today</span>
-                                        <div class="mt-4"><small>With Code : bbbootstrap2020</small></div>
+                                    <h1>{{small.discount}}% OFF</h1><span class="d-block">On Small Size Rooms</span>
+                                    <div class="mt-4">
+                                        <h3>With Code :
+                                            <div id="save">
+                                                <div id="to-copy">{{small.promo_code}}</div>
+                           
+                                            </div> </h3>
                                     </div>
                                 </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
+                        </div>
+                        {{/if}}
+                        {{#if m}}
+                        <div class="d-flex justify-content-center align-items-center container">
+                            <div class="d-flex card text-center">
+                                <div class="image"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+                                <div class="image2"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+                                <h1>{{medium.discount}}% OFF</h1><span class="d-block">On Medium Size Rooms</span><span
+                                    class="d-block">Today</span>
+                                <div class="mt-4">
+                                    <h3>With Code : <div id="save">
+                                            <div id="to-copy">{{medium.promo_code}}</div>
+                                            </div></h3>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                        {{#if l}}
+                        <div class="d-flex justify-content-center align-items-center container">
+                            <div class="d-flex card text-center">
+                                <div class="image"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+                                <div class="image2"><img src="https://i.imgur.com/DC94rZe.png" width="150"></div>
+                                <h1>{{large.discount}}% OFF</h1><span class="d-block">On Large Size Rooms</span><span
+                                    class="d-block">Today</span>
+                                <div class="mt-4">
+                                    <h3>With Code : <div id="save">
+                                            <div id="to-copy">{{large.promo_code}}</div>
+                                            </h3>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
-            </form>
-            <button class='fas fa-user-alt' data-toggle="modal" data-target="#exampleModalCenter"></button>
+            </div>
+            <button id="promo_code"  data-toggle="modal" data-target="#exampleModalCenter">Promo Code</button>
         </div>
     </div>
  <script>
      const room_id = document.getElementById("room_id").value;
    console.log(room_id);
-     document.getElementById("date").style.display = "none";
+    document.getElementById("date").style.display = "none";
     document.getElementById("pay").style.display = "none";
+    document.getElementById("promo").style.display = "none";
     async function mytime(){
         const response = await fetch("/user/date", {
             headers: {
@@ -301,6 +343,6 @@ button:focus {
     }
      function mydate(){
          document.getElementById("pay").style.display = "inline";
+         document.getElementById("promo").style.display = "inline";
      }
-    
 </script>

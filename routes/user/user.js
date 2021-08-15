@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { ModelRoomInfo } from '../../data/roominfo.mjs';
 import { Modelticket } from '../../data/tickets.mjs';
 import {ModelReview} from '../../data/review.mjs';
+import{Modelpromo} from '../../data/promo.mjs';
 const router = Router();
 import ORM from "sequelize";
 const { Sequelize, DataTypes, Model, Op } = ORM;
@@ -15,7 +16,13 @@ async function booking_process(req, res) {
         console.log(req.body);
         const time = req.body.time;
         const date = req.body.date;
-        return res.redirect("/payment/generate/" + req.params.choice + "/" + req.params.id + "/" + date + "/" +time);
+        let promo = req.body.promo;
+        console.log(promo);
+        if(promo == ''){
+            console.log('Promo is null');
+            promo +='No_promo';
+        }
+        return res.redirect("/payment/generate/" + req.params.choice + "/" + req.params.id + "/" + date + "/" +time+'/'+promo);
     }
     catch (error) {
         console.error(error);
@@ -27,9 +34,39 @@ async function booking_page(req, res) {
     const room = await ModelRoomInfo.findOne({where:{
         room_uuid: req.params.id
     }});
+    const small = await Modelpromo.findOne({
+        where: {
+            roomsize: 'Small'
+        }
+    });
+    const medium = await Modelpromo.findOne({
+        where: {
+            roomsize: 'Medium'
+        }
+    });
+    const large = await Modelpromo.findOne({
+        where: {
+            roomsize: 'Large'
+        }
+    });
+    var s = true;
+    var m = true;
+    var l = true;
+    if(small === null){
+        s = false
+        console.log('small promo not found!')
+    }
+    if (large === null) {
+        l = false
+        console.log('large promo not found!')
+    }
+    if (medium === null) {
+        m = false
+        console.log('medium promo not found!')
+    }
     console.log(room);
         return res.render('user/booking', {
-             choice:req.params.choice, room
+             choice:req.params.choice, room, small, medium, large,s,m,l
         });    
 };
 

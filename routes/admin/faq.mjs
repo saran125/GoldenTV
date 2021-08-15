@@ -9,19 +9,34 @@ export default router;
 
 router.get("/retrievefaq", view_faqpage);
 
-router.get("/faq", function (req, res) {
-	console.log("faq page accessed");
+router.get("/faq", function(req, res){
+	console.log('faq adding is accessed');
 	return res.render('admin/createfaq');
-});
+})
+
 router.post("/faq", async function (req, res) {
 	console.log("faq contents received");
 	console.log(req.body);
-	const Faq = await ModelFaq.create({
-		"questions"  			: req.body.questions,
-		"answers"		: req.body.answers,
-	});
+	let array = Array.isArray(req.body.questions);
+	if (array == false) {
+		const Faq = await ModelFaq.create({
+			"questions": req.body.questions,
+			"answers": req.body.answers,
+		});
+		console.log(Faq);
+	}
+	if (array == true) {
+		for (let i = 0; i < req.body.questions.length; i++) {
+			const Faq = await ModelFaq.create({
+				"questions": req.body.questions[i],
+				"answers": req.body.answers[i],
+			})
+			console.log(Faq);
+		}
+	}
+	console.log(array);
 	console.log("Faq contents received");
-	console.log(Faq);
+	
 	let errors = [];
 	//	Check your Form contents
 	//	Basic IF ELSE STUFF no excuse not to be able to do this alone
@@ -36,25 +51,23 @@ router.post("/faq", async function (req, res) {
 	}
 
 });
-
-
-router.get("/faq", async function faq(req, res) {
-	// res.sendFile("dynamic/uploads/{{ }}");
-	const homedes = await ModelFaq.findOne({
-		where: {
-			"questions": "Is this good?"
-		}
-	});
-	console.log("Home page accessed");
-	return res.render('home', {
-		homedescription: homedes.homedescription,
+// router.get("/faq", async function faq(req, res) {
+// 	// res.sendFile("dynamic/uploads/{{ }}");
+// 	const homedes = await ModelFaq.findOne({
+// 		where: {
+// 			"questions": "Is this good?"
+// 		}
+// 	});
+// 	console.log("Home page accessed");
+// 	return res.render('home', {
+// 		homedescription: homedes.homedescription,
 	                   
-		questions: "Ending in 2 days!",
-		answers: "Coming Soon!",
+// 		questions: "Ending in 2 days!",
+// 		answers: "Coming Soon!",
 	
-	});
+// 	});
 
-});
+// });
 
 /**
  * Renders the retrieve page
@@ -131,8 +144,6 @@ router.get("/deletefaq/:questions", async function (req, res){
 	
 });
 });
-
-
 router.get("/cfaq", async function faq(req, res) {
 	// res.sendFile("dynamic/uploads/{{ }}");
 	const homedes = await ModelFaq.findAll({

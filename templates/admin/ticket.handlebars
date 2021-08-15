@@ -80,6 +80,7 @@
                 <th data-field="date">Date</th>
                 <th data-field="time">Time</th>
                 <th data-formatter="table_row_edit">User Details</th>
+                <th data-field="action" data-formatter="actionFormatter">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -122,9 +123,13 @@
                 params.search = document.getElementById("id").value
                 return params
             }
-</script>
-<script>
-  
+                     function actionFormatter(value, row, index) {
+                            return `
+		<a href="/ticket/delete/${row.room_id}/${row.ticket_id}">
+			<i class="fa fa-trash"></i>
+		</a>
+		`;}
+
 </script>
 <script>
     async function myuser(id){
