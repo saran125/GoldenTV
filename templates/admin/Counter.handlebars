@@ -84,36 +84,7 @@
 }
 </style>
 {{> navbar}}
-
-<div class="add">
-    <a href="/auth/add/user">
-<button type="button" class="btn btn-info" id="user">Add Users</button>
-</a>
-</div>
-<div id="toolbar" class="select">
-    <select class="form-control" style="color: #000000;">
-        <option value="" style="color: #000000;">Export Basic</option>
-        <option value="all" style="color: #000000;">Export All</option>
-        <option value="selected" style="color: #000000;">Export Selected</option>
-    </select>
-</div>
-<div class="table">
-<table id="table"    data-toggle="table" data-url="/counter/users-data"
- data-height="600" data-pagination="true" data-side-pagination="server" 
-  data-search="true" data-page-list="[10, 25, 50, 100, all]" data-show-export="true" data-click-to-select="true"
-  data-toolbar="#toolbar">
-    <thead>
-        <tr>
-            <th data-field="name" >Name</th>
-            <th data-field="email">Email Address</th>
-            <th data-field="verified">Email Verification</th>
-            <th data-field="role">User Role</th>
-            <th data-field="action" data-formatter="actionFormatter">Action</th>
-        </tr>
-    </thead>
-</table>
-</div>
-<div class="container" id="toolbar">
+<div class="container">
     <div class="row">
         <div class="col-md-3 col-sm-6" id="users">
             <div class="counter">
@@ -154,6 +125,35 @@
         </div>
     </div>
 </div>
+<div class="add">
+    <a href="/auth/add/user">
+<button type="button" class="btn btn-info" id="user">Add Users</button>
+</a>
+</div>
+<div id="toolbar" class="select">
+    <select class="form-control" style="color: #000000;">
+        <option value="" style="color: #000000;">Export Basic</option>
+        <option value="all" style="color: #000000;">Export All</option>
+        <option value="selected" style="color: #000000;">Export Selected</option>
+    </select>
+</div>
+<div class="table">
+<table id="table"    data-toggle="table" data-url="/counter/users-data"
+ data-height="600" data-pagination="true" data-side-pagination="server" 
+  data-search="true" data-page-list="[10, 25, 50, 100, all]" data-show-export="true" data-click-to-select="true"
+  data-toolbar="#toolbar">
+    <thead>
+        <tr>
+            <th data-field="name" >Name</th>
+            <th data-field="email">Email Address</th>
+            <th data-field="verified">Email Verification</th>
+            <th data-field="role">User Role</th>
+            <th data-field="action" data-formatter="actionFormatter">Action</th>
+        </tr>
+    </thead>
+</table>
+</div>
+
 <script>
     var $table = $('#table')
       function actionFormatter(index, row) {
