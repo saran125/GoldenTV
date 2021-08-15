@@ -39,7 +39,6 @@
 {{> navbar}}
 <input id="TypeReview" value="{{TypeReview}}" style="display: none;">
 <br>
-
       {{#if (cmp_eq user.role "customer") }}
 <div class="submit">
   <form action="/review/create/{{TypeReview}}">
@@ -85,7 +84,6 @@
                <b>Rating: <span id=stars></span></b>
                
               </li>
-              
             </ul>
             <h5>%rating%/5</h5>
           </div>
