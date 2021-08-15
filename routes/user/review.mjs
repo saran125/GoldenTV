@@ -8,21 +8,22 @@ export default router;
 
 router.get("/retrievereview", view_reviewpage);
 
+
+
 router.get("/retrievecustomerreview/:TypeReview",async function(req, res){
 	console.log("Retrieve customer rendered")
 	return res.render("user/retrievecustomerreview",{TypeReview:req.params.TypeReview})
 });
 
-router.get("/create", async function (req, res) {
+router.get("/create/:type", async function (req, res) {
     console.log("review page accessed");
-    return res.render('user/create');
+    return res.render('user/create',{detail:req.params.type});
 });
-router.post("/create", async function (req, res) {
+router.post("/create/:type", async function (req, res) {
     const roomlist = await ModelReview.create({
         "rating": req.body.Rating,
         "feedback": req.body.feedback,
-        "TypeReview": req.body.TypeReview,
-		//"user_id":req.user.uuid,
+        "TypeReview": req.params.type,
 		"user_id":"kumar",
     });
     console.log("review contents received");
@@ -115,4 +116,42 @@ router.post("/deletereview/:uuid", async function (req, res){
 	}
 	
 });
+});
+router.get("/replyreview/:feedback",async function(req, res){
+	console.log("Reply reviewrendered")
+	const Reply= await ModelReview.findOne(	
+	{
+		where:{
+			uuid : req.params.feedback
+		}
+	});
+
+	return res.render("admin/replyreview",{feedback:Reply})
+});
+router.post("/replyreview/:feedback", async function (req, res) {
+	console.log("Reply reviewrendered");
+	console.log(req.body);
+	const Reply= await ModelReview.update({
+		"reply"		: req.body.reply,
+	},{
+		where:{
+			uuid : req.params.feedback
+		}
+	});
+	
+
+	console.log("Reply contents received");
+	console.log(Reply);
+	let errors = [];
+	//	Check your Form contents
+	//	Basic IF ELSE STUFF no excuse not to be able to do this alone
+	//	Common Sense
+	if (errors.length > 0) {
+		flashMessage(res, 'error', 'Invalid faq!', 'fas fa-sign-in-alt', true);
+		return res.redirect(req.originalUrl);
+	}
+	else {
+		
+		return res.redirect("/review/retrievereview");
+	}
 });

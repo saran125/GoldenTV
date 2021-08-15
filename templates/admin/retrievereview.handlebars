@@ -31,10 +31,12 @@
 <h1 style="text-align:center">Reviews</h1>
   <thead>
       <tr>
-        <th data-field="user_id">Username:</th>
-        <th data-field="rating"data-sortable="true"data-footer-formatter="idFormatter">Rating:</th>
-        <th data-field="feedback"data-footer-formatter="idFormatter2">Feedback:</th>
-        <th data-field="TypeReview"data-footer-formatter="idFormatter3">Review Type:</th>
+        <th data-field="user_id"data-footer-formatter="nameFormatter">Username:</th>
+        <th data-field="rating"data-sortable="true"data-footer-formatter="nameFormatter">Rating:</th>
+        <th data-field="feedback"data-footer-formatter="nameFormatter">Feedback:</th>
+        <th data-field="TypeReview"data-footer-formatter="nameFormatter">Review Type:</th>
+        <th data-field="reply"data-footer-formatter="nameFormatter">Replies:</th>
+        <th data-field="action" data-formatter="replyFormatter"data-footer-formatter="nameFormatter">Reply:</th>
        <th data-field="action" data-formatter="actionFormatter"data-footer-formatter="nameFormatter">Delete:</th>
       </tr>
   </thead>
@@ -42,16 +44,8 @@
 
 
 <script> 
-  function idFormatter() {
-    return 'Total'
-  }
 
-  function idFormatter2() {
-    return 'Number'
-  }
-  function idFormatter3() {
-    return 'Reviews:'
-  }
+
 
   function nameFormatter(data) {
     return data.length
@@ -72,6 +66,15 @@
         })
         return res
     };
+    function replyFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+            if (key == 'uuid') {
+                html.push('<a class="update" href="/review/replyreview/' + value + '" ><i class="fa fa-reply"></i>Reply</a>')
+            }
+        })
+        return html.join('')
+      };
     function actionFormatter(index, row) {
         var html = [];
         $.each(row, function (key, value) {
