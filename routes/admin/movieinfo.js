@@ -199,7 +199,7 @@ async function updatemovie_process(req, res) {
 			"moviegenre": req.body.moviegenre
 		});
 		movie.save();
-		return res.redirect("/movie/chooseeditmoviestable");
+		return res.redirect("/movies/chooseeditmoviestable");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.movie_uuid}`);

@@ -1,3 +1,4 @@
+import { truncateSync } from 'fs';
 import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model } = ORM;
 
@@ -31,7 +32,9 @@ export class ModelReview extends Model {
 			"feedback"   : {type: DataTypes.STRING(128), allowNull: false},
 
 			"TypeReview" : {type: DataTypes.STRING(128), allowNull: false},
+			"reply" : {type: DataTypes.STRING(128), allowNull: true},
 			"user_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null },
+			
 
 		}, {
 			"sequelize": database,

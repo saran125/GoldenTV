@@ -8,6 +8,8 @@ export default router;
 
 router.get("/retrievereview", view_reviewpage);
 
+
+
 router.get("/retrievecustomerreview/:TypeReview",async function(req, res){
 	console.log("Retrieve customer rendered")
 	return res.render("user/retrievecustomerreview",{TypeReview:req.params.TypeReview})
@@ -114,4 +116,42 @@ router.post("/deletereview/:uuid", async function (req, res){
 	}
 	
 });
+});
+router.get("/replyreview/:feedback",async function(req, res){
+	console.log("Reply reviewrendered")
+	const Reply= await ModelReview.findOne(	
+	{
+		where:{
+			uuid : req.params.feedback
+		}
+	});
+
+	return res.render("admin/replyreview",{feedback:Reply})
+});
+router.post("/replyreview/:feedback", async function (req, res) {
+	console.log("Reply reviewrendered");
+	console.log(req.body);
+	const Reply= await ModelReview.update({
+		"reply"		: req.body.reply,
+	},{
+		where:{
+			uuid : req.params.feedback
+		}
+	});
+	
+
+	console.log("Reply contents received");
+	console.log(Reply);
+	let errors = [];
+	//	Check your Form contents
+	//	Basic IF ELSE STUFF no excuse not to be able to do this alone
+	//	Common Sense
+	if (errors.length > 0) {
+		flashMessage(res, 'error', 'Invalid faq!', 'fas fa-sign-in-alt', true);
+		return res.redirect(req.originalUrl);
+	}
+	else {
+		
+		return res.redirect("/review/retrievereview");
+	}
 });
