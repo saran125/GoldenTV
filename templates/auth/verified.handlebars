@@ -3,7 +3,7 @@
         background-color: black;
         color: gold;
     }
-        	#hello:hover {
+    #hello:hover {
   letter-spacing: 0.8em;
   background-color: gold;
   color: #000000;
@@ -21,7 +21,7 @@
     margin-left: 6em;
     left: 10px;
     background-color: #000000;
-    border: none;
+    border: 3px solid gold;
     border-radius: 15px;
     text-transform: uppercase;
     letter-spacing: 0.5em;
@@ -30,7 +30,8 @@
 </style>
 {{> navbar}}
 <div>
-    <h1>Thank you {{name}} for choosing our services, your email has been verified.</h1>
+    <h1 style="color: gold;">Thank you {{name}} for choosing our services, your email has been verified.</h1>
+    <h2 style="color: gold;">Please proceed to login page to login!</h2>
     <a href="/"><button id="hello" class="button">Home</button></a>
     <a href="/auth/login"><button id="hello" class="button">Login</button></a>
 </div>
