@@ -1,20 +1,4 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
-<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF/jspdf.min.js"></script>
-<script
-  src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
-<script
-  src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
 <title>Home</title>
-{{!-- <link rel="stylesheet" type="text/css" href="public/css/home.css" media="screen" /> --}}
 
 <body>
   {{>navbar}}
@@ -54,55 +38,69 @@
   </div>
 
   <div class="moviescomingsoon">
-    <div class="comingsoontitle">LATEST RELEASES!</div>
-
-    <div class="w3-third w3-container w3-margin-bottom">
-      <table id="id" data-toggle="table" data-pagination="true" data-total-field="total" data-data-field="rows"
-        data-side-pagination="server" data-sort-name="dateCreated" data-server-sort="true" data-pagination="true"
-        data-page-list="[6, 12, 24, 50, All]" data-show-columns-search="true" data-addrbar="true"
-        data-show-custom-view="true" data-custom-view="customViewFormatter4" data-url="/movie/chooseeditmoviestable_data">
-        <thead>
-          <tr>
-            <th data-field="dateCreated" data-sortable="true">Creation Date</th>
-            <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-            <th data-formatter="table_row_image2">Movie Poster</th>
-            <th data-field="moviename" data-sortable="true">Name</th>
-            <th data-field="movieagerating" data-sortable="true">Age Rating</th>
-            <th data-field="movieduration" data-sortable="true">Duration</th>
-            <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
-          </tr>
-        </thead>
-      </table>
-      <template id="profileTemplate2" style="color: black;">
-        <div class="mt-2" style="float:left; padding-right:10px;">
-          <div class="card" style="border-color: gold; background-color: black; width:350px;">
-            <div class="card-body" style="padding-left:30px; box-sizing: border-box; position: relative;">
-              <div class="row">
-                <img src="../public/uploads/%movieimage%"
-                  style="border-width: thin; border-style:solid; border-radius: 5px; width: 120px; height: 150px; float: left;"
-                  alt="">
-                <div style="float: left; padding-left:10px;">
-                  <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Name: %moviename% </p>
-                  <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Duration: %movieduration% Minutes
-                  </p>
-                  <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Genre: %moviegenre%</p>
-                  <div style="padding-top: 10px;">
-                    <div class="button">
-                      <a style="font-size: 12px; color: black" class="btn btn-warning">Age Rating: %movieagerating%</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </template>
+    <div class="comingsoontitle">INCOMING MOVIES!</div>
+    <div class="comingsoon1">
+      <img style="width: 90px; 
+      height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img1 }}" alt="Norway"
+        class="w3-hover-opacity">
+      <div class="comingsoon1des">
+        {{ Countdown countdown1 }}
+      </div>
+    </div>
+    <div class="comingsoon2">
+      <img style="width: 90px; 
+      height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img2 }}" alt="Norway"
+        class="w3-hover-opacity">
+      <div class="comingsoon2des">
+        {{ Countdown countdown2 }}
+      </div>
+    </div>
+    <div class="comingsoon3">
+      <img style="width: 90px; 
+      height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img3 }}" alt="Norway"
+        class="w3-hover-opacity">
+      <div class="comingsoon3des">
+        {{ Countdown countdown3 }}
+      </div>
+    </div>
+    <div class="comingsoon4">
+      <img style="width: 90px; 
+      height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img4 }}" alt="Norway"
+        class="w3-hover-opacity">
+      <div class="comingsoon4des">
+        {{ Countdown countdown4 }}
+      </div>
     </div>
   </div>
-
 </body>
 {{> footer}}
+
+<script>
+
+  function table_row_image4(value, row, index) {
+    return `
+		<img src="/public/uploads/${row.movieimage}" 
+        style="width: 85px; height: 130px; padding-bottom: 5px;"
+        alt="Norway" class="w3-hover-opacity">
+		`;
+  }
+
+</script>
+
 <style>
+  span.pagination-info,
+  button.btn.btn-secondary.dropdown-toggle,
+  div.page-list {
+    display: none;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  * {
+    color: gold;
+  }
+
   body {
     background-color: black;
   }
@@ -110,12 +108,18 @@
   .homecontent,
   .homeimagedes,
   .footer,
+  .comingsoontitle {
+    color: gold;
+    font-size: 13px;
+  }
+
   .comingsoon1des,
   .comingsoon2des,
   .comingsoon3des,
-  .comingsoon4des,
-  .comingsoontitle {
+  .comingsoon4des {
     color: gold;
+    font-size: 13px;
+    padding-top: 5px;
   }
 
   div.footer {
@@ -194,10 +198,10 @@
   div.comingsoon3,
   div.comingsoon4 {
     text-align: center;
-    padding-top: 10px;
+    padding-top: 15px;
     padding-bottom: 5px;
     float: left;
-    width: 120px;
+    width: 125px;
     height: 183px;
   }
 
@@ -215,29 +219,3 @@
     padding-left: 270px;
   }
 </style>
-
-<script>
-
-  function table_row_image4(value, row, index) {
-    return `
-		<img src="/public/uploads/${row.movieimage}" 
-        style="width: 85px; height: 130px; padding-bottom: 5px;"
-        alt="Norway" class="w3-hover-opacity">
-		`;
-  }
-
-  function customViewFormatter4(data) {
-    var template = $('#profileTemplate4').html()
-    var view = ''
-    $.each(data, function (i, row) {
-      view += template
-        .replace('%moviename%', row.moviename)
-        .replace('%movieimage%', row.movieimage)
-        .replace('%movieagerating%', row.movieagerating)
-        .replace('%movieduration%', row.movieduration)
-        .replace('%moviegenre%', row.moviegenre)
-        .replace('%movieuuid%', row.movie_uuid);
-    })
-    return `<div class="row mx-0">${view}</div>`
-  }
-</script>
