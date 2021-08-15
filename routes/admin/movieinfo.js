@@ -120,7 +120,6 @@ async function createmovie_process(req, res, next) {
 			uploadedFiles.push(item.filename);
 		}
 		console.log(uploadedFiles[0]);
-		// console.log(fileKeys.filename);
 
 		const start = new Date(req.body.moviereleasedate);
 		const end = new Date(req.body.movieenddate);
@@ -147,10 +146,10 @@ async function createmovie_process(req, res, next) {
 		else {
 			for (let i = 0; i < uploadedFiles.length; i++) {
 				const createmovies = await ModelMovieInfo.create({
-					"movie_uuid": req.body.movie_uuid[i],
-					"admin_uuid": req.user.uuid[i],
-					"moviereleasedate": startDate[i],
-					"movieenddate": endDate[i],
+					"movie_uuid": req.body.movie_uuid,
+					"admin_uuid": req.user.uuid,
+					"moviereleasedate": date.format(new Date(req.body.moviereleasedate[i]), 'MMM DD, YYYY HH:mm:ss'),
+					"movieenddate": date.format(new Date(req.body.movieenddate[i]), 'MMM DD, YYYY HH:mm:ss'),
 					"movieimage": uploadedFiles[i],
 					"moviename": req.body.moviename[i],
 					"movieagerating": req.body.movieagerating[i],
@@ -181,8 +180,18 @@ async function updatemovie_page(req, res) {
 	const tid = String(req.params.movie_uuid);
 	const movie = await ModelMovieInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
+	// "2021-08-29T02:09"
+	const start = new Date(movie.moviereleasedate);
+	const end = new Date(movie.movieenddate);
+
+	const startDate = date.format(start, 'YYYY-MM-DDTHH:mm');
+	const endDate = date.format(end, 'YYYY-MM-DDTHH:mm');
+
 	return res.render('admin/movies/updatemovie',
-		{ movie: movie }
+		{ movie: movie,
+		  moviestartdate: startDate,
+		  movieenddate: endDate
+		}
 	);
 };
 
@@ -197,6 +206,12 @@ async function updatemovie_process(req, res) {
 		const tid = String(req.params.movie_uuid);
 		const movie = await ModelMovieInfo.findByPk(tid);
 		const movieimage = './public/uploads/' + movie['movieimage'];
+		
+		// const start = new Date(req.body.moviereleasedate);
+		const end = new Date(req.body.movieenddate);
+
+		// const startDate = date.format(start, 'MMM DD, YYYY HH:mm:ss');
+		const endDate = date.format(end, 'MMM DD, YYYY HH:mm:ss');
 
 		if (req.file != null && typeof req.file == 'object') {
 			if (Object.keys(req.file).length != 0) { //select file
@@ -213,9 +228,10 @@ async function updatemovie_process(req, res) {
 				update_image.image = movie.movieimage; //select NO file
 			}
 		}
-		movie.update({
+		movie.update({			
 			"admin_uuid": req.user.uuid,
-			"moviecountdown": req.body.moviecountdown,
+			"moviereleasedate": req.body.moviereleasedate,
+			"movieenddate": endDate,
 			"movieimage": update_image.image,
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
