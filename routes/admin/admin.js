@@ -14,7 +14,9 @@ import { runInContext } from 'vm';
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
-
+import date from 'date-and-time';
+const now = new Date();
+const DateNow = date.format(now, 'MM DD, YYYY HH:mm:ss');
 //Create options
 router.get("/option", option_page);
 router.post("/option",
@@ -455,7 +457,7 @@ async function promo_data(req, res) {
             rows: pageContents,
         });
     } catch (error) {
-        console.error("Failed to retrieve all Options");
+        console.error("Failed to retrieve all promo codes");
         console.error(error);
         // internal server error
         return res.status(500).end();
@@ -516,6 +518,7 @@ async function update_promo_process(req, res) {
         const tid = String(req.params.promo_id);
         const promo = await Modelpromo.findByPk(tid);
         promo.update({
+            dateUpdated:DateNow,
             discount: req.body.discount,
             roomsize:req.body.roomsize,
             promo_code:req.body.code
@@ -524,7 +527,7 @@ async function update_promo_process(req, res) {
         return res.redirect('/admin/promo');
     }
     catch (error) {
-        console.error(`Failed to update user ${req.body.room_uuid}`);
+        console.error(`Failed to update promo code ${req.body.room_uuid}`);
         return res.render('admin/update_promo');
     }
 }

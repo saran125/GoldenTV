@@ -5,7 +5,9 @@ const { Sequelize, DataTypes, Model } = ORM;
  * This model is specifically designed for users
  * @see "https://sequelize.org/master/manual/model-basics.html#taking-advantage-of-models-being-classes"
 **/
-
+import date from 'date-and-time';
+const now = new Date();
+const DateNow = date.format(now, 'MM DD, YYYY HH:mm:ss');
 export class Modelticket extends Model {
     /**
      * Initializer of the model
@@ -17,9 +19,9 @@ export class Modelticket extends Model {
         Modelticket.init({
             "ticket_id": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
             "dateCreated": {
-                type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+                type: DataTypes.DATE(), allowNull: true, defaultValue: DateNow
             },
-            "dateUpdated": { type: DataTypes.DATE(), allowNull: true, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
+            "dateUpdated": { type: DataTypes.DATE(), allowNull: true, defaultValue: DateNow },
             "date": { type: DataTypes.DATEONLY(), allowNull: true },
             "time": { type: DataTypes.ENUM('09am to 11.45am', '12pm to 02.45pm', '03pm to 05.45pm', '06pm to 08.45pm', '09pm to 11.45pm'), allowNull: true },
             "choice": { type: DataTypes.ENUM("Karaoke", "Movie"), defaultValue: null },
