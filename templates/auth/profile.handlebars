@@ -14,9 +14,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
-                <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard/assets/img/theme/team-4.jpg">
-                </span>
+                
                 <div class="media-body ml-2 d-none d-lg-block">
                   
                 </div>
@@ -37,7 +35,7 @@
         <div class="row">
           <div class="col-lg-7 col-md-10">
             
-            <h1 class="display-2 text-white">Hello {{ username }}</h1>
+            <h1 class="display-2 text-white">Hello {{ user.name }}</h1>
             <a href="/update"  class="btn btn-info">Edit profile</a>
           </div>
         </div>
@@ -97,7 +95,7 @@
                     <div class="col-lg-6">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-username">Username</label>
-                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ username }}" readonly>
+                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ user.name }}" readonly>
                       </div>
                     </div>
                   </div>
@@ -105,7 +103,7 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email">Email address</label>
-                        <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="{{ email }}" readonly>
+                        <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="{{ user.email }}" readonly>
                       </div>
                     </div>
                    

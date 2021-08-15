@@ -28,6 +28,7 @@ router.get("/register", register_page);
 router.post("/register", register_process);
 router.get("/verify/:token", verify_process);
 router.get("/profile", profile_page);
+router.post("/profile", profile_process);
 router.get('/add/user', user);
 router.post("/add/user", user_process);
 /**
@@ -261,32 +262,39 @@ async function verify_process(req, res) {
 	}
 }
 
+/**
+ * Renders the edithomebestreleases page
+ * @param {Request}  req Express Request handle
+ * @param {Response} res Express Response handle
+ */
 
 async function profile_page(req, res) {
-	if (req.sessionID) {
+		const tid = String(req.user.uuid);
+		const user = await ModelUser.findByPk(tid);
 		console.log("Profile page accessed");
-		return res.render('auth/profile', {
-			username: con.connect(function (err) {
-				if (err) throw err;
-				con.query("SELECT name FROM users WHERE uuid == '6360b1b5-1abf-489d-85f1-9312c319081f'", function (err, result) {
-					if (err) throw err;
-					return result;
-				});
-			}),
-			email: con.connect(function (err) {
-				if (err) throw err;
-				con.query("SELECT email FROM users WHERE uuid == '6360b1b5-1abf-489d-85f1-9312c319081f'", function (err, result) {
-					if (err) throw err;
-					return result;
-				});
-			})
-		})
+		return res.render('auth/profile',
+			{ user: user }
+		);
+	};
+
+async function profile_process(req, res){
+	try{
+		const tid = String(req.user.uuid);
+		const user = await ModelUser.findByPk(tid);
+		user.update({
+			"name":req.user.name,
+			"email":req.user.email
+		});
+		user.save();
+		return res.redirect("/auth/profile");
 	}
-	else {
-		console.log("Please login first.")
-		return res.render('auth/login');
+	catch(error){
+		console.error(`Failed to update user ${req.body.user.name}`);
 	}
-};
+
+
+}
+
 router.get("/logout", async function (req, res) {
 	req.session.destroy((err) => {
 		if (err) {
