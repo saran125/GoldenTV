@@ -7,7 +7,7 @@ import mysql from 'mysql';
 import Passport from 'passport';
 import ExpressHBS from 'express-handlebars';
 const hbsRender = ExpressHBS.create({});
-import jwt from 'jsonwebtoken';
+import JWT from 'jsonwebtoken';
 const router = Router();
 export default router;
 
