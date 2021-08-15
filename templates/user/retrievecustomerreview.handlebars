@@ -16,6 +16,7 @@
 <script
   src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
 <style>
+  
   .fa {
   font-size: 50px;
   cursor: pointer;
@@ -36,19 +37,21 @@
   }
 </style>
 {{> navbar}}
+<input id="TypeReview" value="{{TypeReview}}" style="display: none;">
+<br>
 
-{{#if (cmp_eq user.role "customer") }}
-				<button class="buttonman">
-					<a class="nav-link" href="/review/create">Create Review</a>
-				</button>
-				{{/if}}
-
+      {{#if (cmp_eq user.role "customer") }}
+ <form action="/review/create">
+                  <input style=" width:130px;" type="submit" value="Create Review" style="color:gold" class="btn btn-outline-warning">
+                </form>
+                {{/if}}
 <table
  id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
     data-data-field="rows" data-side-pagination="server" data-server-sort="true"
     data-search="true" data-pagination="true" data-page-list="[3, 10, 25, 50, All]" data-show-columns-search="true"
-    data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter"
+    data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter"data-show-footer="true"data-query-params="queryParams"
     data-url="/user/retrievecustomerreview-data">
+    
   <thead>
     <tr>
       <th data-field="rating">Rating:</th>
@@ -77,15 +80,13 @@
                <b>Rating: <span id=stars></span></b>
                
               </li>
-
-             
               
             </ul>
             <h5>%rating%/5</h5>
           </div>
           <div class="col-12 col-lg-4">
             <big>%NAME%</big>
-             <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+             
           </div>
         </div>
       </div>
@@ -105,8 +106,9 @@
 
     return `<div class="row mx-0">${view}</div>`
   }
-  function myFunction(x) {
-  x.classList.toggle("fa-thumbs-down");
-}
+   function queryParams(params) {
+                params.search = document.getElementById("TypeReview").value
+                return params
+            }
 
 </script>

@@ -7,7 +7,11 @@ const router = Router();
 export default router;
 
 router.get("/retrievereview", view_reviewpage);
-router.get('/retrievecustomerreview', view_customerreview);
+
+router.get("/retrievecustomerreview/:TypeReview",async function(req, res){
+	console.log("Retrieve customer rendered")
+	return res.render("user/retrievecustomerreview",{TypeReview:req.params.TypeReview})
+});
 
 router.get("/create", async function (req, res) {
     console.log("review page accessed");
