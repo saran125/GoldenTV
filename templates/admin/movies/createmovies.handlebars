@@ -81,26 +81,26 @@
 
         '<td><input type="string" name="moviename" placeholder="Inside Out" class="form-control" style="color: black; width: 110px;" value="{{moviename}}" required /></td>' +
 
-        '<td><div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="G" value="G" name="movieagerating" checked><label class="form-check-label" for="G">G</label></div>' +
-        '<div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="PG" value="PG" name="movieagerating"><label class="form-check-label" for="PG">PG</label></div>' +
-        '<div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="PG13" value="PG13" name="movieagerating"><label class="form-check-label" for="PG13">PG13</label>' +
-        '</div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="NC13" value="NC13" name="movieagerating"><label class="form-check-label" for="NC13">NC13</label>' +
-        '</div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="M18" value="M18" name="movieagerating"><label class="form-check-label" for="M18">M18</label></div>' +
-        '<div class="form-check form-check-inline"><input class="form-check-input" type="radio" id="R21" value="R21" name="movieagerating"><label class="form-check-label" for="R21">R21</label></div></td>' +
+        '<td><select style="width: 100px;" name="movieagerating" required class="form-control">' +
+        '<option style="color: black;">PG</option>' +
+        '<option style="color: black;">PG13</option>' +
+        '<option style="color: black;">NC16</option>' +
+        '<option style="color: black;">M18</option>' +
+        '<option style="color: black;">R21</option></select></td>' +
 
         '<td><input type="number" min="0" placeholder="120" step="any" name="movieduration" value="{{movieduration}}" class="form-control" style="color: black;" required></td>' +
 
         '<td>Start:<input style="border-radius: 5px; width: 175px;" type="datetime-local" id="meeting-time" name="moviereleasedate" value={{ moviereleasedate }} placeholder="2021-08-16T19:30" required>' +
         'End:<input style="border-radius: 5px; width: 175px;" type="datetime-local" id="meeting-time" name="movieenddate" value={{ movieenddate }} placeholder="2021-08-16T19:30" required></td>' +
 
-        '<td><div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Horror" checked><label for="Horror">Horror </label><br></div>' +
-        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Comedy"><label for="Comedy"> Comedy </label><br></div>' +
-        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Animation"><label for="Animation"> Animation </label><br></div>' +
-        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Science"><label for="Science"> Science </label><br></div>' +
-        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Romance"><label for="Romance"> Romance </label><br></div>' +
-        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Adventure"><label for="Adventure"> Adventure </label><br></div>' +
-        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Emotional"><label for="Emotional"> Emotional </label><br></div>' +
-        '<div class="form-check form-check-inline"><input type="radio" name="moviegenre" value="Action"><label for="Action"> Action </label><br></div></td>');
+        '<td><select style="width: 100px;" name="moviegenre" required class="form-control">' +
+        '<option style="color: black;">Horror</option>' +
+        '<option style="color: black;">Comedy</option>' +
+        '<option style="color: black;">Animation</option>' +
+        '<option style="color: black;">Romance</option>' +
+        '<option style="color: black;">Adventure</option>' +
+        '<option style="color: black;">Emotional</option>' +
+        '<option style="color: black;">Action</option></select></td>');
       $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
       i++;
       imagevalue++;
@@ -175,30 +175,13 @@
                         style="color: black; width: 110px;" value="{{moviename}}" required />
                     </td>
                     <td>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="G" value="G" name="movieagerating" checked>
-                        <label class="form-check-label" for="G">G</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="PG" value="PG" name="movieagerating">
-                        <label class="form-check-label" for="PG">PG</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="PG13" value="PG13" name="movieagerating">
-                        <label class="form-check-label" for="PG13">PG13</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="NC13" value="NC13" name="movieagerating">
-                        <label class="form-check-label" for="NC13">NC13</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="M18" value="M18" name="movieagerating">
-                        <label class="form-check-label" for="M18">M18</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="R21" value="R21" name="movieagerating">
-                        <label class="form-check-label" for="R21">R21</label>
-                      </div>
+                      <select style="width: 100px;" name="movieagerating" required class="form-control">
+                        <option style="color: black;">PG</option>
+                        <option style="color: black;">PG13</option>
+                        <option style="color: black;">NC16</option>
+                        <option style="color: black;">M18</option>
+                        <option style="color: black;">R21</option>
+                      </select>
                     </td>
                     <td>
                       <input type="number" min="0" placeholder="120" step="any" name='movieduration'
@@ -214,38 +197,15 @@
                         name="movieenddate" value={{ movieenddate }} placeholder="2021-08-16T19:30" required>
                     </td>
                     <td>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" name="moviegenre" value="Horror" checked>
-                        <label for="Horror">Horror </label><br>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" name="moviegenre" value="Comedy">
-                        <label for="Comedy"> Comedy </label><br>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" name="moviegenre" value="Animation">
-                        <label for="Animation"> Animation </label><br>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" name="moviegenre" value="Science">
-                        <label for="Science"> Science </label><br>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" name="moviegenre" value="Romance">
-                        <label for="Romance"> Romance </label><br>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" name="moviegenre" value="Adventure">
-                        <label for="Adventure"> Adventure </label><br>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" name="moviegenre" value="Emotional">
-                        <label for="Emotional"> Emotional </label><br>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" name="moviegenre" value="Action">
-                        <label for="Action"> Action </label><br>
-                      </div>
+                      <select style="width: 100px;" name="moviegenre" required class="form-control">
+                        <option style="color: black;">Horror</option>
+                        <option style="color: black;">Comedy</option>
+                        <option style="color: black;">Animation</option>
+                        <option style="color: black;">Romance</option>
+                        <option style="color: black;">Adventure</option>
+                        <option style="color: black;">Emotional</option>
+                        <option style="color: black;">Action</option>
+                      </select>
                     </td>
                   </tr>
                 </tbody>
