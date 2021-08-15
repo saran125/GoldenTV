@@ -154,7 +154,7 @@ async function register_process(req, res) {
 			password: Hash.sha256().update(req.body.password).digest("hex"),
 			name: req.body.name,
 		});
-		await send_verification(user.uuid, user.email);
+		await send_verification(user.uuid, user.email, user.name);
 		flashMessage(res, 'success', 'Successfully created an account. Please verify your email and login', 'fas fa-sign-in-alt', true);
 		return res.redirect("/auth/login");
 
@@ -179,7 +179,7 @@ import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-async function send_verification(uid, email) {
+async function send_verification(uid, email, name) {
 	const accessToken = await oAuth2Client.getAccessToken();
 	const transport = nodemailer.createTransport({
 		service: 'gmail',
@@ -204,9 +204,26 @@ async function send_verification(uid, email) {
 		to: email,
 		from: 'Golden Tv',
 		subject: `Verify your email`,
-		html: await hbsRender.render(`${process.cwd()}/templates/layouts/email-verify.handlebars`, {
-			token: token
-		})
+		html: `<img id="imgborder" class="logo" style="width: 85px;" src="https://micdn-13a1c.kxcdn.com/images/sg/content-images/movie_cinemaxx_rebands_to_cinepolis.jpg">
+		<hr>
+		 <h1>Hello, ${name}</h1>
+        <h5 class="text-muted mb-2">
+		Thank you for
+        choosing Golden Tv, to make
+        full use of our
+        features,
+        verify your email address.
+        Please verify in 5min!
+        </h5>
+        <a href="http://localhost:3000/auth/verify/${token}"><button type="button" class="btn btn-dark">Verify Your Email</button></a>
+		<br>
+		<br>
+		Or, copy and paste the following URL into your browser:
+		<a href="http://localhost:3000/auth/verify/${token}">http://localhost:3000/auth/verify/${token}</a>
+		`
+		// await hbsRender.render(`${process.cwd()}/templates/layouts/email-verify.handlebars`, {
+		// 	token: token
+		// })
 	});
 }
 async function verify_process(req, res) {
