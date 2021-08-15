@@ -1,92 +1,5 @@
 <title>Home</title>
 
-<body>
-  {{>navbar}}
-  <div class="homedescription">
-    <div class="homecontent">
-      {{ homedescription }}
-    </div>
-    {{#if (cmp_eq user.role "staff") }}
-    <div class="homecontentedit1">
-      <form action="../edithomedes">
-        <input type="submit" value="Edit" class="btn btn-outline-warning">
-      </form>
-    </div>
-    {{/if}}
-  </div>
-
-
-  <div class="homeimageandpolicy">
-    <div class="homeimage">
-      <img id="homeimage" style="width:500px; " src="public/uploads/{{ homeimage }}">
-    </div>
-    <div class="homeimagedes">
-      {{ homepolicy }}
-      {{#if (cmp_eq user.role "staff") }}
-      <div class="homecontentedit2">
-        <form action="../edithomeimagepolicy">
-          <input type="submit" value="Edit" class="btn btn-outline-warning">
-        </form>
-      </div>
-      {{/if}}
-    </div>
-    <div class="homepolicy">
-      <img style="width:500px; height: 70px;" src="public/uploads/{{ homepolicyimage }}">
-      <div class="footer">© 2020 Teo Heng. All rights reserved.</div>
-      <div class="footer">© 2020 Golden Village. All rights reserved.</div>
-    </div>
-  </div>
-
-  <div class="moviescomingsoon">
-    <div class="comingsoontitle">INCOMING MOVIES!</div>
-    <div class="comingsoon1">
-      <img style="width: 90px; 
-      height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img1 }}" alt="Norway"
-        class="w3-hover-opacity">
-      <div class="comingsoon1des">
-        {{ Countdown countdown1 }}
-      </div>
-    </div>
-    <div class="comingsoon2">
-      <img style="width: 90px; 
-      height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img2 }}" alt="Norway"
-        class="w3-hover-opacity">
-      <div class="comingsoon2des">
-        {{ Countdown countdown2 }}
-      </div>
-    </div>
-    <div class="comingsoon3">
-      <img style="width: 90px; 
-      height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img3 }}" alt="Norway"
-        class="w3-hover-opacity">
-      <div class="comingsoon3des">
-        {{ Countdown countdown3 }}
-      </div>
-    </div>
-    <div class="comingsoon4">
-      <img style="width: 90px; 
-      height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img4 }}" alt="Norway"
-        class="w3-hover-opacity">
-      <div class="comingsoon4des">
-        {{ Countdown countdown4 }}
-      </div>
-    </div>
-  </div>
-</body>
-{{> footer}}
-
-<script>
-
-  function table_row_image4(value, row, index) {
-    return `
-		<img src="/public/uploads/${row.movieimage}" 
-        style="width: 85px; height: 130px; padding-bottom: 5px;"
-        alt="Norway" class="w3-hover-opacity">
-		`;
-  }
-
-</script>
-
 <style>
   span.pagination-info,
   button.btn.btn-secondary.dropdown-toggle,
@@ -133,7 +46,7 @@
     left: 75px;
     height: 450px;
     width: 275px;
-    border-color: white;
+    border-color: gold;
     border-width: thin;
     border-style: solid;
     border-radius: 5px;
@@ -148,7 +61,7 @@
   }
 
   div.moviescomingsoon {
-    border-color: white;
+    border-color: gold;
     border-width: thin;
     border-style: solid;
     border-radius: 5px;
@@ -161,8 +74,9 @@
     width: 300px;
   }
 
-  #homeimage {
-    border-color: white;
+  #homeimage,
+  .releaseimage {
+    border-color: gold;
     border-width: thin;
     border-style: solid;
     border-radius: 5px;
@@ -206,7 +120,7 @@
   }
 
   div.homecontentedit1 {
-    padding-top: 365px;
+    padding-top: 275px;
     padding-left: 200px;
   }
 
@@ -219,3 +133,73 @@
     padding-left: 270px;
   }
 </style>
+
+<body>
+  {{>navbar}}
+  <div class="homedescription">
+    <div class="homecontent">
+      {{ homedescription }}
+    </div>
+    {{#if (cmp_eq user.role "staff") }}
+    <div class="homecontentedit1">
+      <form action="../edithomedes">
+        <input type="submit" value="Edit" class="btn btn-outline-warning">
+      </form>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="homeimageandpolicy">
+    <div class="homeimage">
+      <img id="homeimage" style="width:500px; " src="public/uploads/{{ homeimage }}">
+    </div>
+    <div class="homeimagedes">
+      {{ homepolicy }}
+      {{#if (cmp_eq user.role "staff") }}
+      <div class="homecontentedit2">
+        <form action="../edithomeimagepolicy">
+          <input type="submit" value="Edit" class="btn btn-outline-warning">
+        </form>
+      </div>
+      {{/if}}
+    </div>
+    <div class="homepolicy">
+      <img style="width:500px; height: 70px;" src="public/uploads/{{ homepolicyimage }}">
+      <div class="footer">© 2020 Teo Heng. All rights reserved.</div>
+      <div class="footer">© 2020 Golden Village. All rights reserved.</div>
+    </div>
+  </div>
+
+  <div class="moviescomingsoon">
+    <div class="comingsoontitle">INCOMING MOVIES!</div>
+    <div class="comingsoon1">
+      <img class="releaseimage" style="width: 90px; height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img1 }}"
+        alt="Norway" class="w3-hover-opacity">
+      <div class="comingsoon1des">
+        {{ Countdown countdown1 }}
+      </div>
+    </div>
+    <div class="comingsoon2">
+      <img class="releaseimage" style="width: 90px; height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img2 }}"
+        alt="Norway" class="w3-hover-opacity">
+      <div class="comingsoon2des">
+        {{ Countdown countdown2 }}
+      </div>
+    </div>
+    <div class="comingsoon3">
+      <img class="releaseimage" style="width: 90px; height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img3 }}"
+        alt="Norway" class="w3-hover-opacity">
+      <div class="comingsoon3des">
+        {{ Countdown countdown3 }}
+      </div>
+    </div>
+    <div class="comingsoon4">
+      <img class="releaseimage" style="width: 90px; height: 140px; padding-bottom: 5px;" src="../public/uploads/{{ release_img4 }}"
+        alt="Norway" class="w3-hover-opacity">
+      <div class="comingsoon4des">
+        {{ Countdown countdown4 }}
+      </div>
+    </div>
+  </div>
+</body>
+{{> footer}}
