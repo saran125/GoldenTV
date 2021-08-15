@@ -3,21 +3,22 @@ import { ModelMovieInfo } from '../../data/movieinfo.mjs';
 import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 import ORM from "sequelize";
-const { Sequelize, DataTypes, Model, Op } = ORM;
+const { Op } = ORM;
 const router = Router();
 export default router;
 import date from 'date-and-time';
 
+//STAFF
 router.get("/chooseeditmoviestable", chooseeditmoviestable);
 router.get("/chooseeditmoviestable-data", chooseeditmoviestable_data);
 router.get("/createmovie", createmovie_page);
 router.post("/createmovie",
-	upload.single('movieimage'),
+	upload.any(),
 	createmovie_process);
 
 router.get("/updatemovie/:movie_uuid", updatemovie_page);
 router.put("/updatemovie/:movie_uuid",
-	upload.single('movieimage'),
+	upload.any(),
 	updatemovie_process);
 router.get("/deletemovie/:movie_uuid", deletemovie);
 
@@ -101,9 +102,7 @@ async function chooseeditmoviestable_data(req, res) {
 //	TODO:	Common URL paths here
 async function createmovie_page(req, res) {
 	console.log("Prod List Choose Edit Movie page accessed");
-	return res.render('admin/movies/createmovies', {
-
-	});
+	return res.render('admin/movies/createmovies');
 };
 
 /**
@@ -113,36 +112,61 @@ async function createmovie_page(req, res) {
  */
 async function createmovie_process(req, res, next) {
 	try {
+
+		var fileKeys = req.files;
+		let uploadedFiles = [];
+		for (let item of fileKeys) {
+			console.log(item.filename);
+			uploadedFiles.push(item.filename);
+		}
+		console.log(uploadedFiles[0]);
+		// console.log(fileKeys.filename);
+
 		const start = new Date(req.body.moviereleasedate);
 		const end = new Date(req.body.movieenddate);
-		
+
 		const startDate = date.format(start, 'MMM DD, YYYY HH:mm:ss');
 		const endDate = date.format(end, 'MMM DD, YYYY HH:mm:ss');
 
-		// const movieimageFile = req.file[0];
-		const createmovies = await ModelMovieInfo.create({
-			"movie_uuid": req.body.movie_uuid,
-			"admin_uuid": req.user.uuid,
-
-			"moviereleasedate": startDate,
-			"movieenddate": endDate,
-
-			"movieimage": req.file.filename,
-			"moviename": req.body.moviename,
-			"movieagerating": req.body.movieagerating,
-			"movieduration": req.body.movieduration,
-			"moviegenre": req.body.moviegenre
-		});
-		console.log('Description created: $(createmovies.email)');
-		createmovies.save();
-		return res.redirect("/movie/chooseeditmoviestable");
+		if (uploadedFiles.length == 1) {
+			// const movieimageFile = req.file[0];
+			const createmovies = await ModelMovieInfo.create({
+				"movie_uuid": req.body.movie_uuid,
+				"admin_uuid": req.user.uuid,
+				"moviereleasedate": startDate,
+				"movieenddate": endDate,
+				"movieimage": String(uploadedFiles[0]),
+				"moviename": req.body.moviename,
+				"movieagerating": req.body.movieagerating,
+				"movieduration": req.body.movieduration,
+				"moviegenre": req.body.moviegenre
+			});
+			console.log('Description created: $(createmovies.email)');
+			createmovies.save();
+		}
+		else {
+			for (let i = 0; i < uploadedFiles.length; i++) {
+				const createmovies = await ModelMovieInfo.create({
+					"movie_uuid": req.body.movie_uuid[i],
+					"admin_uuid": req.user.uuid[i],
+					"moviereleasedate": startDate[i],
+					"movieenddate": endDate[i],
+					"movieimage": uploadedFiles[i],
+					"moviename": req.body.moviename[i],
+					"movieagerating": req.body.movieagerating[i],
+					"movieduration": req.body.movieduration[i],
+					"moviegenre": req.body.moviegenre[i]
+				});
+				console.log(createmovies);
+				createmovies.save();
+			}
+		}
+		return res.redirect("/prod/list");
 	}
 	catch (error) {
 		console.error(`Credentials problem: ${req.body.email}`);
 		console.error(error);
-		return res.render('admin/movies/createmovies',
-			// { errors: errors }
-		);
+		return res.render('admin/movies/createmovies');
 	}
 }
 
@@ -199,7 +223,7 @@ async function updatemovie_process(req, res) {
 			"moviegenre": req.body.moviegenre
 		});
 		movie.save();
-		return res.redirect("/movies/chooseeditmoviestable");
+		return res.redirect("/prod/list");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.movie_uuid}`);
@@ -235,7 +259,7 @@ async function deletemovie(req, res, next) {
 		// 	throw new HttpError(410, "User doesn't exists");
 		target.destroy();
 		console.log(`Deleted movie: ${tid}`);
-		return res.redirect("/movie/chooseeditmoviestable");
+		return res.redirect("/prod/list");
 	}
 	catch (error) {
 		console.error(`Failed to delete`)

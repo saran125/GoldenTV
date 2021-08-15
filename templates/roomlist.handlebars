@@ -240,7 +240,7 @@
   <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
     data-data-field="rows" data-side-pagination="server" data-sort-name="location" data-server-sort="true"
     data-search="true" data-pagination="true" data-page-list="[3, 10, 25, 50, All]" data-show-columns-search="true"
-    data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter" data-show-export="true"
+    data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter"
     data-url="/room/chooseeditroomstable-data" data-click-to-select="true" data-toolbar="#toolbar">
     <thead>
       <tr>
@@ -276,9 +276,9 @@
               </div>
 
             </div>
-            <div class="submit">
+            <div style="padding-left: 24px;" class="submit">
               <form action="../review/retrievecustomerreview/room">
-                <input style=" width:83px;" type="submit" value="Review" class="btn btn-outline-warning">
+                <input style="height: 33px; width:83px;" type="submit" value="Review" class="btn btn-outline-warning">
               </form>
             </div>
             {{#if (cmp_eq user.role "customer") }}
@@ -289,7 +289,7 @@
               <h6>Book For:</h6>
               <div class="submit">
                 <form action="/user/booking/Movie/%id%">
-                  <input style=" width:83px;" type="submit" value="Movie" class="btn btn-outline-warning">
+                  <input style=" padding-top: 2px; width:83px;" type="submit" value="Movie" class="btn btn-outline-warning">
                 </form>
               </div>
               <div class="blackblock"></div>
@@ -299,20 +299,14 @@
                   <input type="submit" value="Karaoke" class="btn btn-outline-warning">
                 </form>
               </div>
-
-
             </div>
             {{else}}
-            {{!-- <p><a href="/auth/login"><button class="btn btn-outline-primary btn-block">login to
-                  book!</button></a>
-            </p> --}}
             <div style="position: absolute; bottom: 20px; right: 20px;">
               <div class="submit">
                 <form action="../auth/login">
                   <input type="submit" value="Login to Book!" class="btn btn-outline-warning">
                 </form>
               </div>
-              <div class="blackblock"></div>
             </div>
             {{/if}}
           </div>

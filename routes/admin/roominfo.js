@@ -4,14 +4,14 @@ import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 import ORM from "sequelize";
 import date from 'date-and-time';
-const { Sequelize, DataTypes, Model, Op } = ORM;
+const { Op } = ORM;
 const router = Router();
 export default router;
 
 //CUSTOMER
 router.get("/list", viewrooms);
 
-//ADMIN
+//STAFF
 router.get("/chooseeditroomstable", chooseeditroomstable);
 router.get("/chooseeditroomstable-data", chooseeditroomstable_data);
 router.get("/createrooms", createroom_page);
@@ -294,108 +294,3 @@ async function ticket_detail(req, res) {
 		console.error(error);
 	}
 }
-// }
-
-
-// /**
-//  * Deletes a specific user
-//  * @param {import('express').Request} req 
-//  * @param {import('express').Response} res 
-//  * @param {import('express').NextFunction} next
-//  */
-//  async function deleteroom(req, res, next) {
-// 	try {
-// 		const tid = String(req.params.room_uuid);
-// 		// if (tid == undefined)
-// 		// 	throw new HttpError(400, "Target not specified");
-// 		const target = await ModelRoomInfo.findByPk(tid);
-// 		// movieimage = target.movieimage
-// 		// if (target == null)
-// 		// 	throw new HttpError(410, "User doesn't exists");
-// 		target.destroy();
-// 		console.log(`Deleted movie: ${tid}`);
-// 		return res.redirect("/rooms/chooseeditroomstable");
-// 	}
-// 	catch (error) {
-// 		console.error(`Failed to delete`)
-// 		error.code = (error.code) ? error.code : 500;
-// 		return next(error);
-// 	}
-// }
-
-// /**
-//  * Renders the edithomebestreleases page
-//  * @param {Request}  req Express Request handle
-//  * @param {Response} res Express Response handle
-//  */
-// // ---------------- 
-// //	TODO:	Common URL paths here
-// async function editrooms_page(req, res) {
-// 	const roomlist = await ModelRoomInfo.findOne({
-// 		where: {
-// 			"roominfo_uuid": "test"
-// 		}
-// 	});
-// 	console.log("Prod List RoomsInfo page accessed");
-// 	return res.render('admin/rooms/editrooms', { roomlist: roomlist	});
-// };
-
-// /**
-//  * Renders the login page
-//  * @param {Request}  req Express Request handle
-//  * @param {Response} res Express Response handle
-//  */
-// async function editrooms_process(req, res, next) {
-// 	try {
-// 		const roomimageFile = req.files.roomimage[0];
-// 		// const med_roomimageFile   = req.files.med_roomimage[0];
-// 		// const large_roomimageFile = req.files.large_roomimage[0];
-
-// 		const roomlist = await ModelRoomInfo.findOne({
-// 			where: {
-// 				"roominfo_uuid": "test"
-// 			}
-// 		});
-// 		const roomimage = './public/uploads/' + roomlist['roomimage'];
-// 		// const med_roomimage = './public/uploads/' + roomlist['med_roomimage'];
-// 		// const large_roomimage = './public/uploads/' + roomlist['large_roomimage'];
-
-// 		roomlist.update({
-// 			// "room_title": req.body.room_title,
-// 			"roominfo": req.body.roominfo,
-// 			"roomprice": req.body.roomprice,
-// 			"roomimage": roomimageFile.filename,
-// 			// "med_roominfo": req.body.med_roominfo,
-// 			// "med_roomprice": req.body.med_roomprice,
-// 			// "med_roomimage": med_roomimageFile.filename,
-// 			// "large_roominfo": req.body.large_roominfo,
-// 			// "large_roomprice": req.body.large_roomprice,
-// 			// "large_roomimage": large_roomimageFile.filename,
-// 		})
-// 		roomlist.save();
-// 		fs.unlink(roomimage, function(err) {
-// 			if (err) { throw err } 
-// 			else {
-// 				console.log("Successfully deleted the file.")
-// 				// fs.unlink(med_roomimage, function(err) {
-// 				// 	if (err) { throw err } 
-// 				// 	else {
-// 				// 		console.log("Successfully deleted the file.")
-// 				// 		fs.unlink(large_roomimage, function(err) {
-// 				// 			if (err) { throw err } 
-// 				// 			else { console.log("Successfully deleted the file.") }
-// 				// 			})
-// 				// 		}
-// 				// 	})
-
-// 				}
-// 		})
-// 		console.log('Description created: $(roomlist.email)');
-// 		return res.redirect("/prod/list");
-// 	}
-// 	catch (error) {
-// 		console.error(`Credentials problem: ${req.body.email}`);
-// 		console.error(error);
-// 		return res.render('admin/rooms/editrooms');
-// 	}
-// }
