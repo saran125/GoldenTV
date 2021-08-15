@@ -14,6 +14,8 @@ router.get("/", home_page);
 router.get("/home", async function (req, res) {
 	return res.redirect("/");
 });
+router.get("/choosereleasetable-data", choosereleasetable_data);
+
 router.get("/edithomedes", edithomedescription_page);
 router.post("/edithomedes", edithomedescription_process);
 router.get("/edithomeimagepolicy", edithomeimagepolicy_page);
@@ -23,8 +25,75 @@ router.post("/edithomeimagepolicy",
 		{ name: 'homepolicyimage', maxCount: 1 },
 	]),
 	edithomeimagepolicy_process);
-// router.get("/edithomebestreleases", edithomebestreleases_page);
-// router.post("/edithomebestreleases", edithomebestreleases_process);
+
+
+
+
+
+
+/**
+ * Provide Bootstrap table with data
+ * @param {import('express').Request}  req 
+ * @param {import('express').Response} res 
+ */
+// ---------------- 
+//	TODO:	Common URL paths here
+async function choosereleasetable_data(req, res) {
+	try {
+		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
+		let offset = parseInt(req.query.offset);   //page * pageSize;
+		let sortBy = (req.query.sort) ? req.query.sort : "dateCreated";
+		let sortOrder = (req.query.order) ? req.query.order : "asc";
+		let search = req.query.search;
+
+		//if (page < 0)     throw new HttpError(400, "Invalid page number");
+		if (pageSize < 0) throw new HttpError(400, "Invalid page size");
+		if (offset < 0) throw new HttpError(400, "Invalid offset index");
+
+		// TODO: Do your search filter with this
+		/** @type {import('sequelize/types').WhereOptions} */
+		const conditions = (search) ? {
+			[Op.or]: {
+				"dateCreated": { [Op.substring]: search },
+				"dateUpdated": { [Op.substring]: search },
+				"moviereleasedate": { [Op.substring]: search },
+				"movieenddate": { [Op.substring]: search },
+				"moviename": { [Op.substring]: search },
+				"movieagerating": { [Op.substring]: search },
+				"movieduration": { [Op.substring]: search },
+				"moviegenre": { [Op.substring]: search },
+				"movie_uuid": { [Op.substring]: req.body.movie_uuid }
+			}
+		} : undefined;
+
+		const total = await ModelMovieInfo.count({ where: conditions });
+		const pageTotal = Math.ceil(total / pageSize);
+
+		const pageContents = await ModelMovieInfo.findAll({
+			offset: offset,
+			limit: pageSize,
+			order: [[sortBy, sortOrder.toUpperCase()]],
+			where: conditions,
+			raw: true	//	Data only, model excluded
+		});
+
+		// const choosemovies = await ModelMovies.findAll({raw: true});
+		return res.json({
+			"total": total,
+			"rows": pageContents
+		});
+	}
+	catch (error) {
+		console.error(`Request query errors`);
+		console.error(error);
+		// return next(new HttpError(400, error.message));
+	}
+}
+
+
+
+
+
 
 /**
  * Renders the home page
@@ -34,17 +103,6 @@ router.post("/edithomeimagepolicy",
 // ---------------- 
 //	TODO:	Common URL paths here
 async function home_page(req, res) {
-	// console.log("Home page accessed");
-	// let CurrentDate = new Date();
-	// console.log(CurrentDate);
-	// let DateDiff = [];
-	// const movieinfo = await ModelMovieInfo.findAll();
-	// // for (var elements in homeinfo) {
-	// console.log(movieinfo);
-	// // let movieupdate = movieinfo['dateUpdated'];
-	// DateDiff.push(CurrentDate - movieinfo['dateUpdated']);
-	// // };
-	// console.log(DateDiff);
 
 	const homeinfo = await ModelHomeInfo.findOne({
 		where: {
@@ -52,48 +110,55 @@ async function home_page(req, res) {
 		}
 	});
 
-	const movieinfo = await ModelMovieInfo.findAll({
-		where: {
-			"admin_uuid": '4ea99629-8760-44b6-95f8-762a4b1f8a87'
-		}
-	});
-
-	const findlatestname = [];
-	const findcountdown = [];
-	const Length = movieinfo.length;
-
-	for (let i = 0; i < Length; i++) {
-		findlatestname.push(movieinfo[i].moviename);
-	}
-
-	for (let i = 0; i < Length; i++) {
-		findcountdown.push(movieinfo[i].moviecountdown);
-	}
-
-	
-	var Largest = 0;
-	if (Length == 1) {
-		Largest = findlatestname[0];
-	}
-	else {
-		Largest = findlatestname[0];
-		for (let i = 0; i < Length; i++) {
-			if ( Largest < findlatestname[i] ) {
-				Largest = findlatestname[i];
-			}
-		}
-	}
-
-	console.log(findcountdown[0]);
-
-	// const movieinfo = await ModelMovieInfo.findOne({
-	// 	where: {
-	// 		"movieinfo_uuid": "test"
-	// 	}
+	// const movieinfo = await ModelMovieInfo.findAll({
+	// 	// where: {
+	// 	// 	"admin_uuid": '4ea99629-8760-44b6-95f8-762a4b1f8a87'
+	// 	// }
 	// });
-	// console.log(role);
-	// var role = roleResult(req.user.role);
-	// console.log(role);
+
+	// const diff = {};
+
+	// const Newest = [];
+	// const Length = movieinfo.length;
+
+	// // for (let i = 0; i < Length; i++) {
+	// // 	findnewestimage.push(movieinfo[i].movieimage);
+	// // }
+
+	// for (let i = 0; i < Length; i++) {
+	// 	const countDownDate = new Date(movieinfo[i].dateCreated).getTime();
+	// 	var now = new Date().getTime();
+	// 	var distance = countDownDate - now;
+
+	// 	// Newest.push(distance);
+	// 	diff[distance] = movieinfo[i].movieimage;
+	// }
+
+	// for (var key in diff) {
+	// 	Newest.push(key);
+	// }
+	
+	// const ComingSoon = "Comgin "
+	// const NewestSorted = Newest.sort(); //Milliseconds ASC
+	
+	// if (NewestSorted.length == 0) {
+	// 	NewestSorted.push("Coming Soon!")
+	// }
+	// if (NewestSorted.length == 1) {
+	// 	NewestSorted.push("Coming Soon!")
+	// }
+	// if (NewestSorted.length == 2) {
+	// 	NewestSorted.push("Coming Soon!")
+	// }
+	// if (NewestSorted.length == 3) {
+	// 	NewestSorted.push("Coming Soon!")
+	// }
+
+	// for (var key in diff) {
+	// 	if (key == Newest[-1]) {
+	// 		One = diff[0];
+	// 	}
+	// }	
 
 	// logout, just render index.handlebars
 
@@ -101,11 +166,11 @@ async function home_page(req, res) {
 		homedescription: homeinfo.homedescription,
 		homepolicy: homeinfo.homepolicy,
 		homeimage: homeinfo.homeimage,
-		homepolicyimage: homeinfo.homepolicyimage,
-		release_name1: Largest,
-		release_name2: "Coming Soon!",
-		release_name3: "Out Now!",
-		release_name4: "Out Now!"
+		homepolicyimage: homeinfo.homepolicyimage
+		// release_name1: NewestSorted[0],
+		// release_name2: NewestSorted[-2],
+		// release_name3: NewestSorted[-3],
+		// release_name4: NewestSorted[-4]
 	});
 }
 

@@ -22,11 +22,14 @@ export class ModelMovieInfo extends Model {
 			"dateCreated": { type: DataTypes.STRING(50), allowNull: false, defaultValue: DateNow },
 			"dateUpdated": { type: DataTypes.STRING(50), allowNull: false, defaultValue: DateNow },
 			"admin_uuid": { type: DataTypes.CHAR(36), allowNull: false },
-			"user_uuid": { type: DataTypes.CHAR(36) },
+			// "user_uuid": { type: DataTypes.CHAR(36) },
 			"movieimage": { type: DataTypes.STRING(650), allowNull: false },
 			"moviename": { type: DataTypes.STRING(650), allowNull: false },
 			"movieagerating": { type: DataTypes.STRING(650), allowNull: false },
-			"moviecountdown": { type: DataTypes.STRING(20), allowNull: false },
+			
+			"moviereleasedate": { type: DataTypes.STRING(20), allowNull: false },
+			"movieenddate": { type: DataTypes.STRING(20), allowNull: false },
+			
 			"movieduration": { type: DataTypes.FLOAT(4), allowNull: false },
 			"moviegenre": {
 				type: DataTypes.ENUM('Horror', 'Comedy', 'Science', 'Romance', 'Animation', 'Adventure', 'Emotional', 'Action')

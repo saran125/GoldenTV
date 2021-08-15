@@ -113,14 +113,20 @@ async function createmovie_page(req, res) {
  */
 async function createmovie_process(req, res, next) {
 	try {
+		const start = new Date(req.body.moviereleasedate);
+		const end = new Date(req.body.movieenddate);
+		
+		const startDate = date.format(start, 'MMM DD, YYYY HH:mm:ss');
+		const endDate = date.format(end, 'MMM DD, YYYY HH:mm:ss');
 
-		const now = new Date(req.body.moviecountdown);
-		const DateNow = date.format(now, 'MMM DD, YYYY HH:mm:ss');
 		// const movieimageFile = req.file[0];
 		const createmovies = await ModelMovieInfo.create({
 			"movie_uuid": req.body.movie_uuid,
 			"admin_uuid": req.user.uuid,
-			"moviecountdown": DateNow,
+
+			"moviereleasedate": startDate,
+			"movieenddate": endDate,
+
 			"movieimage": req.file.filename,
 			"moviename": req.body.moviename,
 			"movieagerating": req.body.movieagerating,
