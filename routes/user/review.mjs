@@ -13,16 +13,15 @@ router.get("/retrievecustomerreview/:TypeReview",async function(req, res){
 	return res.render("user/retrievecustomerreview",{TypeReview:req.params.TypeReview})
 });
 
-router.get("/create", async function (req, res) {
+router.get("/create/:type", async function (req, res) {
     console.log("review page accessed");
-    return res.render('user/create');
+    return res.render('user/create',{detail:req.params.type});
 });
-router.post("/create", async function (req, res) {
+router.post("/create/:type", async function (req, res) {
     const roomlist = await ModelReview.create({
         "rating": req.body.Rating,
         "feedback": req.body.feedback,
-        "TypeReview": req.body.TypeReview,
-		//"user_id":req.user.uuid,
+        "TypeReview": req.params.type,
 		"user_id":"kumar",
     });
     console.log("review contents received");
