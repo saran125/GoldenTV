@@ -126,7 +126,7 @@
 				{{/if}}
 				{{#if (cmp_eq user.role "manager") }}
 				<li class="nav-item">
-					<a class="nav-link" href="/faq/faq">Create FAQ</a>
+					<a class="nav-link" href="/faq/faq">FAQ</a>
 				</li>
 				{{/if}}
 				{{!-- {{#if (cmp_eq user.role "staff") }}
@@ -156,7 +156,9 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/chatbot">Chatbot</a>
 				</li>
-				
+				<li class="nav-item">
+					<a class="nav-link" href="/live/chat">Let's Chat</a>
+				</li>
 				{{#if (cmp_eq user.role "staff") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/review/retrievereview">Reviews</a>
