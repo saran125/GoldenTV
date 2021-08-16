@@ -3,19 +3,20 @@ import { ModelSongInfo } from '../../data/songinfo.mjs';
 import { upload } from '../../utils/multer.mjs';
 import fs from 'fs';
 import ORM from "sequelize";
-const { Sequelize, DataTypes, Model, Op } = ORM;
+const { Op } = ORM;
 const router = Router();
 export default router;
 
+//STAFF
 router.get("/chooseeditsongstable", chooseeditsongstable);
 router.get("/chooseeditsongstable-data", chooseeditsongstable_data);
 router.get("/createsong", createsong_page);
 router.post("/createsong",
-	upload.single('songimage'),
+	upload.any(),
 	createsong_process);
 router.get("/updatesong/:song_uuid", updatesong_page);
 router.put("/updatesong/:song_uuid",
-	upload.single('songimage'),
+	upload.any(),
 	updatesong_process);
 router.get("/deletesong/:song_uuid", deletesong);
 
@@ -111,26 +112,48 @@ async function createsong_page(req, res) {
  */
 async function createsong_process(req, res) {
 	try {
-		const createsongs = await ModelSongInfo.create({
-			"song_uuid": req.body.song_uuid,
-			"admin_uuid": "00000000-0000-0000-0000-000000000000",
-			"user_uuid": "00000000-0000-0000-0000-000000000000",
-			"songimage": req.file.filename,
-			"songname": req.body.songname,
-			"songagerating": req.body.songagerating,
-			"songduration": req.body.songduration,
-			"songgenre": req.body.songgenre
-		});
-		createsongs.save()
-		console.log('Description created: $(createsongs.email)');
-		return res.redirect("/song/chooseeditsongstable");
+		var fileKeys = req.files;
+		let uploadedFiles = [];
+		for (let item of fileKeys) {
+			console.log(item.filename);
+			uploadedFiles.push(item.filename);
+		}
+		console.log(uploadedFiles[0]);
+
+		if (uploadedFiles.length == 1) {
+			const createsongs = await ModelSongInfo.create({
+				"song_uuid": req.body.song_uuid,
+				"admin_uuid": req.user.uuid,
+				"songimage": String(uploadedFiles[0]),
+				"songname": req.body.songname,
+				"songagerating": req.body.songagerating,
+				"songduration": req.body.songduration,
+				"songgenre": req.body.songgenre
+			});
+			createsongs.save()
+			console.log('Description created: $(createsongs.email)');
+		}
+		else {
+			for (let i = 0; i < uploadedFiles.length; i++) {
+				const createsongs = await ModelSongInfo.create({
+					"song_uuid": req.body.song_uuid,
+					"admin_uuid": req.user.uuid,
+					"songimage": uploadedFiles[i],
+					"songname": req.body.songname[i],
+					"songagerating": req.body.songagerating[i],
+					"songduration": req.body.songduration[i],
+					"songgenre": req.body.songgenre[i]
+				});
+				console.log(createsongs);
+				createsongs.save();
+			}
+		}
+		return res.redirect("/prod/list");
 	}
 	catch (error) {
 		console.error(`Credentials problem: ${req.body.email}`);
 		console.error(error);
-		return res.render('createsongs',
-			// { errors: errors }
-		);
+		return res.render('admin/songs/createsongs');
 	}
 }
 
@@ -145,9 +168,7 @@ async function updatesong_page(req, res) {
 	const tid = String(req.params.song_uuid);
 	const song = await ModelSongInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
-	return res.render('admin/songs/updatesong',
-		{ song: song }
-	);
+	return res.render('admin/songs/updatesong', { song: song });
 };
 
 /**

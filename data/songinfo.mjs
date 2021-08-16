@@ -19,7 +19,6 @@ export class ModelSongInfo extends Model {
 			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
-			"user_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
 			"songimage": { type: DataTypes.STRING(650), allowNull: false },
 			"songname": { type: DataTypes.STRING(650), allowNull: false },
 			"songagerating": { type: DataTypes.STRING(650), allowNull: false },
@@ -49,6 +48,10 @@ export class ModelSongInfo extends Model {
 		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
 	}
 
+	get song_uuid() { return this.getDataValue("song_uuid"); }
+	get admin_uuid() { return this.getDataValue("admin_uuid"); }
+	get dateUpdated() { return this.getDataValue("dateUpdated") };
+	get dateCreated() { return this.getDataValue("dateCreated") };
 	get songimage() { return this.getDataValue("songimage"); }
 	get songname() { return this.getDataValue("songname"); }
 	get songagerating() { return this.getDataValue("songagerating"); }

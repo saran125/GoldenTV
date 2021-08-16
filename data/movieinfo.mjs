@@ -56,10 +56,15 @@ export class ModelMovieInfo extends Model {
 		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
 	}
 
+	get movie_uuid() { return this.getDataValue("movie_uuid"); }
+	get admin_uuid() { return this.getDataValue("admin_uuid"); }
+	get dateUpdated() { return this.getDataValue("dateUpdated") };
+	get dateCreated() { return this.getDataValue("dateCreated") };
 	get movieimage() { return this.getDataValue("movieimage"); }
 	get moviename() { return this.getDataValue("moviename"); }
 	get movieagerating() { return this.getDataValue("movieagerating"); }
+	get moviereleasedate() { return this.getDataValue("moviereleasedate") };
+	get movieenddate() { return this.getDataValue("movieenddate") };
 	get movieduration() { return this.getDataValue("movieduration"); }
-	get dateUpdated() { return this.getDataValue("dateUpdated") };
 	get moviegenre() { return this.getDataValue("moviegenre") };
 }
