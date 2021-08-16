@@ -152,15 +152,11 @@
 				</li>
 				{{/if}}
 				{{#if (cmp_eq user.role "customer") }}
-				<li class="nav-item">
-					<a class="nav-link" href="/review/create">Create Review</a>
-				</li>
 				{{/if}}
-				{{#if (cmp_eq user.role "customer") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/chatbot">Chatbot</a>
 				</li>
-				{{/if}}
+				
 				{{#if (cmp_eq user.role "staff") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/review/retrievereview">Reviews</a>
