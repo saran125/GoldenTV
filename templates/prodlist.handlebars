@@ -240,24 +240,8 @@
 <title>Movie/Karaoke Selection</title>
 {{>navbar}}
 
-{{!-- {{#if (cmp_eq user.role "staff") }}
-<h2>Location</h2>
-
-<form action="../rooms/chooseeditroomstable">
-  <input type="submit" value="Edit Rooms" class="btn btn-outline-warning">
-</form> --}}
-
-{{!-- <div style="float: left; padding-top: 10px;">
-  <div class="submit">
-    <form action="../rooms/chooseeditroomstable">
-      <input type="submit" value="Edit Rooms" class="btn btn-outline-warning">
-    </form>
-  </div>
-  <div class="blackblock1"></div>
-</div>
-{{/if}} --}}
-
 {{#if (cmp_ne user.role "staff") }}
+
 <div style="padding: 10px;">
   <h1>Movies</h1>
 </div>
@@ -277,14 +261,6 @@
         <th data-field="movieagerating" data-sortable="true">Age Rating</th>
         <th data-field="movieduration" data-sortable="true">Duration</th>
         <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
-
-        {{!-- <th data-field="dateCreated" data-sortable="true">Creation Date</th>
-        <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-        <th data-field="roomname" data-sortable="true">Name</th>
-        <th data-field="roomsize" data-sortable="true">Size</th>
-        <th data-field="roomprice" data-sortable="true">Price</th>
-        <th data-field="roominfo" data-sortable="true">Information</th>
-        <th data-field="location" data-sortable="true">Location</th> --}}
       </tr>
     </thead>
   </table>

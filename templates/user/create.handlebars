@@ -1,5 +1,4 @@
 {{> navbar}}
-
 <script>
     $(document).ready(function(){
 
@@ -144,52 +143,31 @@ h4 {
 }
 </style>
 
-<h1 class="display-4"style="text-align:center;color:gold">Reviews</h1>
-
-<form action="/review/create" method="post">
-
+<h1 class="display-4"style="text-align:center;color:gold">Reviews for {{detail}}</h1>
+<form action="/review/create/{{detail}}" method="post">
             <div class="container d-flex justify-content-center mt-100">
     <div class="row">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body text-center"> <span class="myratings">4.5</span>
-                    <h4 class="mt-1"style="text-align:center;color:gold">Rate us</h4>
+                    <h4 class="mt-1"style="text-align:center;color:black;" >Rate us</h4>
                     <fieldset class="Rating"> <input type="radio" id="star5" name="Rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label> <input type="radio" id="star4half" name="Rating" value="4.5" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label> <input type="radio" id="star4" name="Rating" value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label> <input type="radio" id="star3half" name="Rating" value="3.5" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label> <input type="radio" id="star3" name="Rating" value="3" /><label class="full" for="star3" title="Meh - 3 stars"></label> <input type="radio" id="star2half" name="Rating" value="2.5" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label> <input type="radio" id="star2" name="Rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label> <input type="radio" id="star1half" name="Rating" value="1.5" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label> <input type="radio" id="star1" name="Rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label> <input type="radio" id="starhalf" name="Rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label> <input type="radio" class="reset-option" name="Rating" value="reset" /> </fieldset>
                 </div>
             </div>
         </div>
     </div>
 </div>
- 
 				<div class="form-group">
 					<label for="password"style="text-align:center;color:gold">Feedback</label>
 					<input type="string" name="feedback" class="form-control" value="" required>
 				</div>
 
-                 <div class="form-group">
-					<label for=""style="text-align:center;color:gold">Type of review</label>
-                    <br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="Rooms" value="Rooms" name="TypeReview" checked>
-                    <label class="form-check-label" for="Rooms"style="text-align:center;color:gold">Room</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="Movie" value="Movie" name="TypeReview">
-                    <label class="form-check-label" for="Movie"style="text-align:center;color:gold">Movie</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="Song" value="Song" name="TypeReview">
-                    <label class="form-check-label" for="Song"style="text-align:center;color:gold">Song</label>
-                </div>
-
-
-
             </div>
-				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="submit" class="btn btn-primary" style="background-color: gold; color:black">Submit</button>
 </form>
 <br>
 <br>
-<p>Head over here for more information !</p>
+<p style="color: gold;">Head over here for more information!</p>
 <footer class="nav-item">
 					<a class="nav-link" href="/contactus">Contact Us</a>
 				</footer>

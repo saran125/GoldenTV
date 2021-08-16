@@ -39,19 +39,25 @@
 {{> navbar}}
 <input id="TypeReview" value="{{TypeReview}}" style="display: none;">
 <br>
-
       {{#if (cmp_eq user.role "customer") }}
- <form action="/review/create">
-                  <input style=" width:130px;" type="submit" value="Create Review" style="color:gold" class="btn btn-outline-warning">
-                </form>
-                {{/if}}
+<div class="submit">
+  <form action="/review/create/{{TypeReview}}">
+    <input type="submit" value="Give Review!" class="btn btn-outline-warning">
+  </form>
+</div>
+{{else}}
+                        <div class="submit">
+                          <form action="../auth/login">
+                            <input type="submit" value="Login to give review!" class="btn btn-outline-warning">
+                          </form>
+                        </div>
+                      {{/if}}
 <table
  id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
     data-data-field="rows" data-side-pagination="server" data-server-sort="true"
     data-search="true" data-pagination="true" data-page-list="[3, 10, 25, 50, All]" data-show-columns-search="true"
     data-addrbar="true" data-show-custom-view="true" data-custom-view="customViewFormatter"data-show-footer="true"data-query-params="queryParams"
     data-url="/user/retrievecustomerreview-data">
-    
   <thead>
     <tr>
       <th data-field="rating">Rating:</th>
@@ -63,8 +69,6 @@
 </table>
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-
-
 <template id="profileTemplate" style="color: black;">
   <div class="col-4 mt-3">
     <div class="card" style="border-color: white; background-color: black;">
@@ -80,21 +84,17 @@
                <b>Rating: <span id=stars></span></b>
                
               </li>
-              
             </ul>
             <h5>%rating%/5</h5>
           </div>
           <div class="col-12 col-lg-4">
             <big>%NAME%</big>
-           
-             
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
   function customViewFormatter(data) {
     var template = $('#profileTemplate').html()
@@ -104,7 +104,6 @@
         .replace('%rating%', row.rating)
         .replace('%feedback%', row.feedback);
     })
-
     return `<div class="row mx-0">${view}</div>`
   }
    function queryParams(params) {

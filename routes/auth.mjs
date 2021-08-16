@@ -20,7 +20,7 @@ const regexName = /^[a-zA-Z][a-zA-Z]{2,}$/;
 //	Min 8 character, 1 upper, 1 lower, 1 number, 1 symbol
 const regexPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-
+const JWT_SECRET = "Super_Secret";
 
 router.get("/login", login_page);
 router.post("/login", login_process);
@@ -31,6 +31,69 @@ router.get("/profile", profile_page);
 router.post("/profile", profile_process);
 router.get('/add/user', user);
 router.post("/add/user", user_process);
+/**
+ * 
+ * @param {Request}  req Express Request handle
+ * @param {Response} res Express Response handle
+ */
+router.get("/forgot-password", (req, res, next)=> {
+	console.log("Forgot password page accessed.");
+	return res.render('auth/forgot-password');
+})
+router.post("/forgot-password", (req, res, next)=> {
+	const email = req.body;
+	const user = ModelUser.findByPk(email)
+	const secret = JWT_SECRET + user.password;
+	if (!user){
+		res.send("Invalid");
+		return;
+	}
+	const payload = {
+		email: user.email,
+		id: user.uuid
+	}
+	const token = jwt.sign(payload, secret, {expiresIn:'15m'})
+	const link = `http://localhost:3000/auth/reset-password/${user.id}/${token}`
+	console.log(link);
+	send_resetlink(user.uuid, user.name, user.email, link);
+	res.send('Password reset link has been sent to your email.')
+});
+router.get("/reset-password/:id/:token", (req, res, next)=> {
+	const {id, token} = req.params;
+	const user = ModelUser.findByPk(user.uuid);
+	const secret = JWT_SECRET + user.password;
+	if (!user){
+		res.send("Invalid");
+		return;
+	}
+	try{
+		const payload = jwt.verify(token, secret);
+		res.render('/auth/reset-password', {email: user.email})
+	}catch(error){
+		console.log(error);
+	}
+});
+router.post("/reset-password/:id/:token", (req, res, next)=> {
+	const {id, token} = req.params;
+	const {password, password2} = req.body;
+	const user = ModelUser.findByPk(user.uuid);
+	const secret = JWT_SECRET + user.password;
+	if (!user){
+		res.send("Invalid");
+		return;
+	}
+	try{
+		const payload = jwt.verify(token, secret);
+		// update user password
+		if (password === password2){
+			Hash.sha256().update(password).digest("hex");
+			user.password = password;
+		}
+		res.render('/auth/reset-password', {email: user.email})
+	}catch(error){
+		console.log(error);
+	}
+});
 /**
  * Renders the login page
  * @param {Request}  req Express Request handle
@@ -179,6 +242,46 @@ const oAuth2Client = new google.auth.OAuth2(
 import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+async function send_resetlink(uid, email, name, link){
+	const accessToken = await oAuth2Client.getAccessToken();
+	const transport = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			type: 'OAuth2',
+			user: 'nypgoldentv@gmail.com',
+			clientId: CLIENT_ID,
+			clientSecret: CLEINT_SECRET,
+			refreshToken: REFRESH_TOKEN,
+			accessToken: accessToken,
+		},
+	});
+	return transport.sendMail({
+		to: email,
+		from: 'Golden Tv',
+		subject: `Verify your email`,
+		html: `<img id="imgborder" class="logo" style="width: 85px;" src="https://micdn-13a1c.kxcdn.com/images/sg/content-images/movie_cinemaxx_rebands_to_cinepolis.jpg">
+		<hr>
+		 <h1>Hello, ${name}</h1>
+        <h5 class="text-muted mb-2">
+		Thank you for
+        choosing Golden Tv, to make
+        full use of our
+        features,
+        verify your email address.
+        Please verify in 5min!
+        </h5>
+        <a href="${link}"><button type="button" class="btn btn-dark">Reset your password</button></a>
+		<br>
+		<br>
+		Or, copy and paste the following URL into your browser:
+		<a href="${link}">${link}</a>
+		`
+		// await hbsRender.render(`${process.cwd()}/templates/layouts/email-verify.handlebars`, {
+		// 	token: token
+		// })
+	});
+}
 
 async function send_verification(uid, email, name) {
 	const accessToken = await oAuth2Client.getAccessToken();
