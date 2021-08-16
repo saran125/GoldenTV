@@ -157,15 +157,36 @@ router.post("/deletereview/:uuid", async function (req, res){
 });
 router.get("/replyreview/:feedback",async function(req, res){
 	console.log("Reply reviewrendered")
-	const Reply= await ModelReview.findOne(	
+	const feedback= await ModelReview.findOne(	
 	{
 		where:{
 			uuid : req.params.feedback
 		}
 	});
-	const user = await ModelUser.findByPk(Reply.user_id);
+	
+	const user = await ModelUser.findByPk(feedback.user_id);
 	console.log(user);
-	return res.render("admin/replyreview",{feedback:Reply, user})
+	let movie = false;
+	let song = false;
+	let room = false;
+	if (feedback.TypeReview == 'Movie') {
+		movie = true
+		const detail = await ModelMovieInfo.findByPk(feedback.type_id);
+		console.log('feedback for movie')
+		return res.render("admin/replyreview", { feedback, user,movie,detail })
+	}
+	if (feedback.TypeReview == 'Karaoke') {
+		song = true
+		const detail = await ModelSongInfo.findByPk(feedback.type_id);
+		console.log('feedback for songs')
+		return res.render("admin/replyreview", { feedback, user, song, detail })
+	}
+	if (feedback.TypeReview == 'Room') {
+		room = true
+		const detail = await ModelRoomInfo.findByPk(feedback.type_id);
+		console.log('feedback for songs')
+		return res.render("admin/replyreview", { feedback, user, room, detail })
+	}
 });
 router.post("/replyreview/:feedback", async function (req, res) {
 	console.log("Reply reviewrendered");
