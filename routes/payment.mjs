@@ -400,9 +400,9 @@ router.get("/success/:choice/:price/:room_id/:date/:time",async function (req, r
 		},
 	}); 
 		const mailOptions = { 
-		from: 'Golden TV <no-reply>',
+		from: 'Golden TV ',
 		to: req.user.email,
-		subject: 'Booking Confirmation',
+		subject: 'Booking Details',
 			html: `<style>
     /* -------------------------------------
     GLOBAL
