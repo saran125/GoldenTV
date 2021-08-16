@@ -120,7 +120,7 @@ router.post("/updatefaq/:questions", async function (req, res) {
 		return res.redirect(req.originalUrl);
 	}
 	else {
-		flashMessage(res, 'success', 'Successfully updated a faq!', 'fas fa-sign-in-alt', true);
+		
 		return res.redirect("/faq/retrievefaq");
 	}
 });
