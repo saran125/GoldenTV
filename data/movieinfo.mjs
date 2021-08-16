@@ -53,7 +53,7 @@ export class ModelMovieInfo extends Model {
 	**/
 	static _auto_update_timestamp(instance, options) {
 		// @ts-ignore
-		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
+		instance.dateUpdated = DateNow;
 	}
 
 	get movie_uuid() { return this.getDataValue("movie_uuid"); }

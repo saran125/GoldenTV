@@ -240,8 +240,6 @@
 <title>Movie/Karaoke Selection</title>
 {{>navbar}}
 
-{{#if (cmp_ne user.role "staff") }}
-
 <div style="padding: 10px;">
   <h1>Movies</h1>
 </div>
@@ -354,7 +352,6 @@
 
 <div class="blackbox" style="height: 100px;"></div>
 
-{{else}}
 <div class="List" style="padding-left: 35px;">
   {{!-- <h3>Book a room now for singing/watching movies!</h3> --}}
   <div class="ListTable1">
@@ -434,7 +431,6 @@
     </table>
   </div>
 </div>
-{{/if}}
 
 <script>
 
@@ -505,7 +501,7 @@
 		</a>
 		<a href="../movie/deletemovie/${row.movie_uuid}">
 			<i class="fa fa-trash"></i>
-		</a>
-		`;
+		</a>`;
   }
+
 </script>

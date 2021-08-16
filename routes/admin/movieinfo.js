@@ -121,15 +121,20 @@ async function createmovie_process(req, res, next) {
 		}
 		console.log(uploadedFiles[0]);
 
+		const now = new Date();
+		const DateNow = date.format(now, "YYYY/MM/DD HH:mm:ss");
+
 		const start = new Date(req.body.moviereleasedate);
 		const end = new Date(req.body.movieenddate);
 
-		const startDate = date.format(start, 'MMM DD, YYYY HH:mm:ss');
-		const endDate = date.format(end, 'MMM DD, YYYY HH:mm:ss');
+		const startDate = date.format(start, "YYYY/MM/DD HH:mm:ss");
+		const endDate = date.format(end, "YYYY/MM/DD HH:mm:ss");
 
 		if (uploadedFiles.length == 1) {
 			// const movieimageFile = req.file[0];
 			const createmovies = await ModelMovieInfo.create({
+				"dateCreated": req.body.dateCreated,
+				"dateUpdated": DateNow,
 				"movie_uuid": req.body.movie_uuid,
 				"admin_uuid": req.user.uuid,
 				"moviereleasedate": startDate,
@@ -230,9 +235,9 @@ async function updatemovie_process(req, res) {
 			}
 		}
 		const now = new Date();
-		const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
+		const DateNow = date.format(now, "YYYY/MM/DD HH:mm:ss");
 		movie.update({
-			"DateUpdated": DateNow,
+			"dateUpdated": DateNow,
 			"admin_uuid": req.user.uuid,
 			"moviereleasedate": startDate,
 			"movieenddate": endDate,
@@ -246,6 +251,15 @@ async function updatemovie_process(req, res) {
 		return res.redirect("/prod/list");
 	}
 	catch (error) {
+		const tid = String(req.params.movie_uuid);
+		const movie = await ModelMovieInfo.findByPk(tid);
+		console.log("Prod List RoomsInfo page accessed");
+		// "2021-08-29T02:09"
+		const start = new Date(movie.moviereleasedate);
+		const end = new Date(movie.movieenddate);
+	
+		const startDate = date.format(start, 'YYYY-MM-DDTHH:mm');
+		const endDate = date.format(end, 'YYYY-MM-DDTHH:mm');
 		console.error(`Failed to update user ${req.body.movie_uuid}`);
 		// console.error(error);
 		// const movieimage = './public/uploads/' + movie['movieimage'];
@@ -257,7 +271,12 @@ async function updatemovie_process(req, res) {
 		// 	}
 		//   })
 		// const movie  = await ModelMovieInfo.findByPk(tid);
-		return res.render("admin/movies/updatemovie");
+		return res.render("admin/movies/updatemovie",
+		{
+			movie: movie,
+			moviestartdate: startDate,
+			movieenddate: endDate
+		});
 	}
 }
 
