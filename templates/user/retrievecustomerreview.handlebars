@@ -37,11 +37,11 @@
   }
 </style>
 {{> navbar}}
-<input id="TypeReview" value="{{TypeReview}}" style="display: none;">
+<input id="TypeReview" value="{{id}}" style="display: none;">
 <br>
       {{#if (cmp_eq user.role "customer") }}
 <div class="submit">
-  <form action="/review/create/{{TypeReview}}">
+  <form action="/review/create/{{type}}/{{id}}">
     <input type="submit" value="Give Review!" class="btn btn-outline-warning">
   </form>
 </div>
@@ -52,6 +52,8 @@
                           </form>
                         </div>
                       {{/if}}
+
+<h1>Reviews for {{type}}: {{#if movie}}{{detail.moviename}}{{/if}}{{#if room}}{{detail.roomname}}{{/if}}{{#if song}}{{detail.songname}}{{/if}}</h1>
 <table
  id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
     data-data-field="rows" data-side-pagination="server" data-server-sort="true"

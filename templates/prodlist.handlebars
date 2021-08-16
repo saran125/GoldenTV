@@ -283,7 +283,7 @@
                 </div>
               </div>
               <div style="padding-top: 14px; padding-left: 112px;">
-                <form action="../review/retrievecustomerreview/movie">
+                <form action="../review/retrievecustomerreview/%type%/%id%">
                   <input style="font-size: 15px;" type="submit" value="Review" class="btn btn-outline-warning">
                 </form>
               </div>
@@ -339,7 +339,7 @@
                 </div>
               </div>
               <div style="padding-top: 14px; padding-left: 112px;">
-                <form action="../review/retrievecustomerreview/song">
+                <form action="../review/retrievecustomerreview/%type%/%id%">
                   <input style="font-size: 15px;" type="submit" value="Review" class="btn btn-outline-warning">
                 </form>
               </div>
@@ -448,7 +448,10 @@
         .replace('%movieagerating%', row.movieagerating)
         .replace('%movieduration%', row.movieduration)
         .replace('%moviegenre%', row.moviegenre)
-        .replace('%movieuuid%', row.movie_uuid);
+        .replace('%movieuuid%', row.movie_uuid)
+        .replace('%id%', row.movie_uuid)
+        .replace('%type%', 'Movie')
+        ;
     })
     return `<div class="row mx-0">${view}</div>`
   }
@@ -463,7 +466,9 @@
         .replace('%songagerating%', row.songagerating)
         .replace('%songduration%', row.songduration)
         .replace('%songgenre%', row.songgenre)
-        .replace('%songuuid%', row.song_uuid);
+        .replace('%songuuid%', row.song_uuid)
+        .replace('%type%', 'Karaoke')
+        .replace('%id%', row.song_uuid);
     })
     return `<div class="row mx-0">${view}</div>`
   }
