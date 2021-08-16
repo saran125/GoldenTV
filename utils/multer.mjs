@@ -21,7 +21,6 @@ export function fileFilter (req, file, cb) {
     // Check mime
     const mimetype = filetypes.test(file.mimetype);
 
-  
    if(mimetype && extname){
 	   return cb(null,true);
    } else {

@@ -48,7 +48,7 @@ export class ModelSongInfo extends Model {
 	**/
 	static _auto_update_timestamp(instance, options) {
 		// @ts-ignore
-		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
+		instance.dateUpdated = DateNow;
 	}
 
 	get song_uuid() { return this.getDataValue("song_uuid"); }
