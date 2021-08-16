@@ -265,6 +265,7 @@ async function register_process(req, res) {
 		return res.status(500).end();
 	}
 };
+// google api
 const CLIENT_ID = '606882834321-g960n5vid466qrmtpcrvno3n8mm97ui0.apps.googleusercontent.com'
 const CLEINT_SECRET = 'ddcxoBS7eD1MK4iMlqSHItvq'
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
@@ -292,6 +293,10 @@ async function send_resetlink(name,email,id){
 			accessToken: accessToken,
 		},
 	});
+
+
+
+
 	const token = JWT.sign({
 		uuid: id
 	}, 'the-key', {
