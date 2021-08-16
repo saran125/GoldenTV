@@ -167,6 +167,7 @@ async function createroom_process(req, res, next) {
 		else {
 			for (let i = 0; i < uploadedFiles.length; i++) {
 				const option = await ModelRoomInfo.create({
+					admin_uuid: req.user.uuid,
 					roomname: req.body.roomname[i],
 					roomsize: req.body.roomsize[i],
 					roomprice: req.body.roomprice[i],

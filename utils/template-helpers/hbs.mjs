@@ -29,7 +29,7 @@ function Countdown(value) {
 	var minutes = Math.floor((value % (1000 * 60 * 60)) / (1000 * 60));
 
 	if (value > 0) {
-		return days + "d " + hours + "h " + minutes + "m Left";
+		return "Out in " + days + " d " + hours + "h " + minutes + "m";
 	}
 	else {
 		// Display the result in the element with id="demo"

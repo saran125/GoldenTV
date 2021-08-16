@@ -50,5 +50,14 @@ export class ModelRoomInfo extends Model {
 		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
 	}
 
-	get room_title() { return String(this.getDataValue("room_title")); }
+	get room_uuid() { return this.getDataValue("room_uuid"); }
+	get admin_uuid() { return this.getDataValue("admin_uuid"); }
+	get dateUpdated() { return this.getDataValue("dateUpdated") };
+	get dateCreated() { return this.getDataValue("dateCreated") };
+	get roomname() { return this.getDataValue("roomname"); }
+	get roomsize() { return this.getDataValue("roomsize"); }
+	get roomprice() { return this.getDataValue("roomprice"); }
+	get roominfo() { return this.getDataValue("roominfo"); }
+	get roomimage() { return this.getDataValue("roomimage"); }
+	get location() { return this.getDataValue("location"); }
 }

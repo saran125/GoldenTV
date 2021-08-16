@@ -188,9 +188,10 @@ async function updatemovie_page(req, res) {
 	const endDate = date.format(end, 'YYYY-MM-DDTHH:mm');
 
 	return res.render('admin/movies/updatemovie',
-		{ movie: movie,
-		  moviestartdate: startDate,
-		  movieenddate: endDate
+		{
+			movie: movie,
+			moviestartdate: startDate,
+			movieenddate: endDate
 		}
 	);
 };
@@ -206,11 +207,11 @@ async function updatemovie_process(req, res) {
 		const tid = String(req.params.movie_uuid);
 		const movie = await ModelMovieInfo.findByPk(tid);
 		const movieimage = './public/uploads/' + movie['movieimage'];
-		
-		// const start = new Date(req.body.moviereleasedate);
+
+		const start = new Date(req.body.moviereleasedate);
 		const end = new Date(req.body.movieenddate);
 
-		// const startDate = date.format(start, 'MMM DD, YYYY HH:mm:ss');
+		const startDate = date.format(start, 'MMM DD, YYYY HH:mm:ss');
 		const endDate = date.format(end, 'MMM DD, YYYY HH:mm:ss');
 
 		if (req.file != null && typeof req.file == 'object') {
@@ -228,9 +229,9 @@ async function updatemovie_process(req, res) {
 				update_image.image = movie.movieimage; //select NO file
 			}
 		}
-		movie.update({			
+		movie.update({
 			"admin_uuid": req.user.uuid,
-			"moviereleasedate": req.body.moviereleasedate,
+			"moviereleasedate": startDate,
 			"movieenddate": endDate,
 			"movieimage": update_image.image,
 			"moviename": req.body.moviename,
@@ -253,7 +254,6 @@ async function updatemovie_process(req, res) {
 		// 	}
 		//   })
 		// const movie  = await ModelMovieInfo.findByPk(tid);
-		// const movie = await ModelMovieInfo.findByPk(tid);
 		return res.render("admin/movies/updatemovie");
 	}
 }
