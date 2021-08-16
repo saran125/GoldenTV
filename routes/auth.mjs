@@ -79,6 +79,7 @@ router.get("/reset-password/:token", async function (req, res, next){
 	const token = req.params.token;
 	console.log('password reseting page accesed')
 	let uuid = null;
+	let errors = [];
 	try {
 		const payload = JWT.verify(token, 'the-key');
 		uuid = payload.uuid;

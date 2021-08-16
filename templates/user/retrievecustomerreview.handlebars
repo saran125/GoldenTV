@@ -37,11 +37,11 @@
   }
 </style>
 {{> navbar}}
-<input id="TypeReview" value="{{TypeReview}}" style="display: none;">
+<input id="TypeReview" value="{{id}}" style="display: none;">
 <br>
       {{#if (cmp_eq user.role "customer") }}
 <div class="submit">
-  <form action="/review/create/{{TypeReview}}">
+  <form action="/review/create/{{type}}/{{id}}">
     <input type="submit" value="Give Review!" class="btn btn-outline-warning">
   </form>
 </div>
@@ -52,6 +52,8 @@
                           </form>
                         </div>
                       {{/if}}
+
+<h1>Reviews for {{type}}: {{#if movie}}{{detail.moviename}}{{/if}}{{#if room}}{{detail.roomname}}{{/if}}{{#if song}}{{detail.songname}}{{/if}}</h1>
 <table
  id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
     data-data-field="rows" data-side-pagination="server" data-server-sort="true"
@@ -82,10 +84,12 @@
             <ul class="list-inline ratings text-center" title="Ratings">
               <li class="list-inline-item"><a href="#"><span ></span></a>
                <b>Rating: <span id=stars></span></b>
-               
               </li>
             </ul>
             <h5>%rating%/5</h5>
+            <form action="/review/replyreview/%id%">
+              <input style="font-size: 15px;" type="submit" value="Reply" class="btn btn-outline-warning">
+            </form>
           </div>
           <div class="col-12 col-lg-4">
             <big>%NAME%</big>
@@ -102,7 +106,8 @@
     $.each(data, function (i, row) {
       view += template.replace('%NAME%', row.TypeReview)
         .replace('%rating%', row.rating)
-        .replace('%feedback%', row.feedback);
+        .replace('%feedback%', row.feedback)
+        .replace('%id%', row.uuid);
     })
     return `<div class="row mx-0">${view}</div>`
   }
