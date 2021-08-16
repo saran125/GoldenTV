@@ -14,6 +14,7 @@ import { ModelUser } from '../data/user.mjs';
 import RouterReview from './user/review.mjs';
 import Routerfaq from './admin/faq.mjs';
 import fileUpload from 'express-fileupload';
+import Routerchatbot from './user/chatbot.js';
 // import RouterRoomReview from './roomreview.mjs';
 // const exphbs = require('express-handlebars');
 const router = Router();
