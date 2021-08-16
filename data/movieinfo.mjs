@@ -3,7 +3,7 @@ const { Sequelize, DataTypes, Model, Op } = ORM;
 import date from 'date-and-time';
 
 const now = new Date();
-const DateNow = date.format(now, 'MMM DD, YYYY HH:mm:ss');
+const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
 /**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
