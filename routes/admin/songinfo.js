@@ -125,7 +125,7 @@ async function createsong_process(req, res) {
 
 		if (uploadedFiles.length == 1) {
 			const createsongs = await ModelSongInfo.create({
-				"dateCreated": req.body.dateCreated,
+				"dateCreated": DateNow,
 				"dateUpdated": DateNow,
 				"song_uuid": req.body.song_uuid,
 				"admin_uuid": req.user.uuid,

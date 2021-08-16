@@ -133,7 +133,7 @@ async function createmovie_process(req, res, next) {
 		if (uploadedFiles.length == 1) {
 			// const movieimageFile = req.file[0];
 			const createmovies = await ModelMovieInfo.create({
-				"dateCreated": req.body.dateCreated,
+				"dateCreated": DateNow,
 				"dateUpdated": DateNow,
 				"movie_uuid": req.body.movie_uuid,
 				"admin_uuid": req.user.uuid,

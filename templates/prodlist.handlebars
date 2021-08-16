@@ -235,7 +235,6 @@
   div.fixed-table-toolbar {
     width: 1000px;
   }
-  
 </style>
 
 <title>Movie/Karaoke Selection</title>
@@ -376,15 +375,16 @@
         <option value="selected">Export Selected</option>
       </select>
     </div> --}}
-    <table id="id" data-show-export="true" data-toggle="table" data-search="true" data-pagination="true"
-      data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true" data-side-pagination="server"
-      data-sort-name="moviename" data-height="600" data-silent-sort="false" data-server-sort="true" data-search="true"
-      {{!-- data-page-number="50" --}} data-pagination="true" {{!-- data-page-size="5" --}}
-      data-page-list="[5, 10, 25, 50, 100, All]" data-show-refresh="true" data-show-columns="true"
-      data-show-columns-search="true" ata-addrbar="true" data-url="/prod/movie/chooseeditmoviestable-data">
+    <table id="id" data-show-footer="true" data-show-export="true" data-toggle="table" data-search="true"
+      data-pagination="true" data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true"
+      data-side-pagination="server" data-sort-name="moviename" data-height="600" data-silent-sort="false"
+      data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}} data-pagination="true" {{!--
+      data-page-size="5" --}} data-page-list="[5, 10, 25, 50, 100, All]" data-show-refresh="true"
+      data-show-columns="true" data-show-columns-search="true" ata-addrbar="true"
+      data-url="/prod/movie/chooseeditmoviestable-data">
       <thead>
         <tr>
-          <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+          <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter1">Creation Date</th>
           <th data-field="dateUpdated" data-sortable="true">Update Date</th>
           <th data-formatter="table_row_image2">Movie Poster</th>
           <th data-field="moviename" data-sortable="true">Name</th>
@@ -413,18 +413,18 @@
       </div>
       <div class="blackblock1"></div>
     </div>
-    <table width="100%" data-cookie-id-table="saveId" id="id" data-toolbar="#toolbar" data-show-export="true"
-      data-toggle="table" data-search="true" data-pagination="true" data-total-field="total" data-data-field="rows"
-      data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="songname" data-height="600"
-      data-silent-sort="false" data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}}
-      data-pagination="true" {{!-- data-page-size="5" --}} data-page-list="[10, 25, 50, 100, 200, All]"
-      data-show-refresh="true" data-show-columns="true" data-show-columns-search="true" data-addrbar="true"
-      data-url="/prod/song/chooseeditsongstable-data">
+    <table width="100%" data-show-footer="true" data-cookie-id-table="saveId" id="id" data-toolbar="#toolbar"
+      data-footer-formatter="nameFormatter2" data-show-export="true" data-toggle="table" data-search="true"
+      data-pagination="true" data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true"
+      data-side-pagination="server" data-sort-name="songname" data-height="600" data-silent-sort="false"
+      data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}} data-pagination="true"
+      data-page-list="[10, 25, 50, 100, 200, All]" data-show-refresh="true" data-show-columns="true"
+      data-show-columns-search="true" data-addrbar="true" data-url="/prod/song/chooseeditsongstable-data">
       <thead>
         <tr>
-          <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+          <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter2">Creation Date</th>
           <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-          <th {{!-- data-field="movieimage" --}} data-formatter="table_row_image3">Song Poster</th>
+          <th data-formatter="table_row_image3">Song Poster</th>
           <th data-field="songname" data-sortable="true">Name</th>
           <th data-field="songagerating" data-sortable="true">Age Rating</th>
           <th data-field="songduration" data-sortable="true">Duration</th>
@@ -458,15 +458,16 @@
         <option value="selected">Export Selected</option>
       </select>
     </div> --}}
-    <table id="id" data-show-export="true" data-toggle="table" data-search="true" data-pagination="true"
-      data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true" data-side-pagination="server"
-      data-sort-name="moviename" data-height="600" data-silent-sort="false" data-server-sort="true" data-search="true"
-      {{!-- data-page-number="50" --}} data-pagination="true" {{!-- data-page-size="5" --}}
-      data-page-list="[5, 10, 25, 50, 100, All]" data-show-refresh="true" data-show-columns="true"
-      data-show-columns-search="true" ata-addrbar="true" data-url="/prod/movie/chooseeditmoviestable-data">
+    <table id="id" data-show-footer="true" data-show-export="true" data-toggle="table" data-search="true"
+      data-pagination="true" data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true"
+      data-side-pagination="server" data-sort-name="moviename" data-height="600" data-silent-sort="false"
+      data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}} data-pagination="true" {{!--
+      data-page-size="5" --}} data-page-list="[5, 10, 25, 50, 100, All]" data-show-refresh="true"
+      data-show-columns="true" data-show-columns-search="true" ata-addrbar="true"
+      data-url="/prod/movie/chooseeditmoviestable-data">
       <thead>
         <tr>
-          <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+          <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter1">Creation Date</th>
           <th data-field="dateUpdated" data-sortable="true">Update Date</th>
           <th data-formatter="table_row_image2">Movie Poster</th>
           <th data-field="moviename" data-sortable="true">Name</th>
@@ -495,16 +496,16 @@
       </div>
       <div class="blackblock1"></div>
     </div>
-    <table width="100%" data-cookie-id-table="saveId" id="id" data-toolbar="#toolbar" data-show-export="true"
-      data-toggle="table" data-search="true" data-pagination="true" data-total-field="total" data-data-field="rows"
-      data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="songname" data-height="600"
-      data-silent-sort="false" data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}}
-      data-pagination="true" {{!-- data-page-size="5" --}} data-page-list="[10, 25, 50, 100, 200, All]"
+    <table width="100%" data-show-footer="true" data-cookie-id-table="saveId" id="id" data-toolbar="#toolbar"
+      data-show-export="true" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
+      data-data-field="rows" data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="songname"
+      data-height="600" data-silent-sort="false" data-server-sort="true" data-search="true" {{!-- data-page-number="50"
+      --}} data-pagination="true" {{!-- data-page-size="5" --}} data-page-list="[10, 25, 50, 100, 200, All]"
       data-show-refresh="true" data-show-columns="true" data-show-columns-search="true" data-addrbar="true"
       data-url="/prod/song/chooseeditsongstable-data">
       <thead>
         <tr>
-          <th data-field="dateCreated" data-sortable="true">Creation Date</th>
+          <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter1">Creation Date</th>
           <th data-field="dateUpdated" data-sortable="true">Update Date</th>
           <th {{!-- data-field="movieimage" --}} data-formatter="table_row_image3">Song Poster</th>
           <th data-field="songname" data-sortable="true">Name</th>
@@ -520,6 +521,13 @@
 {{/if}}
 
 <script>
+  function nameFormatter1(data) {
+    return data.length + " Movies in Total";
+  }
+
+  function nameFormatter2(data) {
+    return data.length + " Songs in Total";
+  }
 
   function customViewFormatter2(data) {
     var template = $('#profileTemplate2').html()
