@@ -193,12 +193,8 @@ async function createroom_process(req, res, next) {
  * @param {Response} res Express Response handle
  */
 async function updateroom_page(req, res) {
-	// const tid = String(req.params.room_uuid);
-	const room = await ModelRoomInfo.findOne({
-		where: {
-			room_uuid: req.params.room_uuid
-		}
-	});
+	const tid = String(req.params.room_uuid);
+	const room = await ModelRoomInfo.findByPk(tid);
 	console.log("Update Rooms accessed");
 	return res.render('admin/rooms/updaterooms', { room: room });
 }
@@ -233,7 +229,7 @@ async function updateroom_process(req, res) {
 		}
 
 		const now = new Date();
-		const DateNow = date.format(now, 'MMM DD, YYYY HH:mm:ss');
+		const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
 
 		room.update({
 			"dateUpdated": DateNow,
@@ -247,7 +243,6 @@ async function updateroom_process(req, res) {
 		});
 		room.save();
 		console.log('Description created: $(room.roomname)');
-
 		return res.redirect("/room/chooseeditroomstable");
 	}
 	catch (error) {
@@ -280,6 +275,7 @@ async function deleteroom(req, res, next) {
 		return next(error);
 	}
 }
+
 async function ticket_detail(req, res) {
 	// console.log('Description created: $(booking.choice)');
 	try {

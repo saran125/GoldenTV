@@ -6,6 +6,7 @@ import ORM from "sequelize";
 const { Op } = ORM;
 const router = Router();
 export default router;
+import date from 'date-and-time';
 
 //STAFF
 router.get("/chooseeditsongstable", chooseeditsongstable);
@@ -198,7 +199,10 @@ async function updatesong_process(req, res) {
 				update_songimage.image = song.songimage; //select NO file
 			}
 		}
+		const now = new Date();
+		const DateNow = date.format(now, "YYYY/MM/DD HH:mm:ss");
 		song.update({
+			"dateUpdated": DateNow,
 			"songimage": update_songimage.image,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
@@ -206,14 +210,14 @@ async function updatesong_process(req, res) {
 			"songgenre": req.body.songgenre
 		});
 		song.save();
-		console.log('Description created: $(movie.email)');
+		console.log(`Description created: $(movie.email)`);
 		return res.redirect("/song/chooseeditsongstable");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.song_uuid}`);
-		// console.error(error);
-		// const song = await ModelSongInfo.findByPk(tid);
-		return res.render("admin/songs/updatesong");
+		const tid = String(req.params.song_uuid);
+		const song = await ModelSongInfo.findByPk(tid);
+		return res.render("admin/songs/updatesong", { song: song });
 	}
 }
 
@@ -228,7 +232,6 @@ async function deletesong(req, res, next) {
 		const tid = String(req.params.song_uuid);
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
-
 		const target = await ModelSongInfo.findByPk(tid);
 		// if (target == null)
 		// 	throw new HttpError(410, "User doesn't exists");
