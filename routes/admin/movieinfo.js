@@ -260,17 +260,7 @@ async function updatemovie_process(req, res) {
 	
 		const startDate = date.format(start, 'YYYY-MM-DDTHH:mm');
 		const endDate = date.format(end, 'YYYY-MM-DDTHH:mm');
-		console.error(`Failed to update user ${req.body.movie_uuid}`);
-		// console.error(error);
-		// const movieimage = './public/uploads/' + movie['movieimage'];
-		// fs.unlink(movieimage, function(err) {
-		// 	if (err) {
-		// 	  throw err
-		// 	} else {
-		// 	  console.log("Successfully deleted the file.")
-		// 	}
-		//   })
-		// const movie  = await ModelMovieInfo.findByPk(tid);
+		console.log(error);
 		return res.render("admin/movies/updatemovie",
 		{
 			movie: movie,

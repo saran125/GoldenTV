@@ -243,7 +243,7 @@
 <div style="padding: 10px;">
   <h1>Movies</h1>
 </div>
-
+{{#if (cmp_eq user.role "customer") }}
 <div class="w3-third w3-container w3-margin-bottom">
   <table id="id" data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
     data-data-field="rows" data-side-pagination="server" data-sort-name="moviename" data-server-sort="true"
@@ -349,7 +349,7 @@
     </div>
   </template>
 </div>
-
+{{else }}
 <div class="blackbox" style="height: 100px;"></div>
 
 <div class="List" style="padding-left: 35px;">
@@ -431,7 +431,7 @@
     </table>
   </div>
 </div>
-
+{{/if }}
 <script>
 
   function customViewFormatter2(data) {
