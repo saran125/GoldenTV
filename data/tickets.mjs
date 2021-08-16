@@ -7,7 +7,7 @@ const { Sequelize, DataTypes, Model } = ORM;
 **/
 import date from 'date-and-time';
 const now = new Date();
-const DateNow = date.format(now, 'MM DD, YYYY HH:mm:ss');
+const DateNow = date.format(now, 'MMM DD, YYYY HH:mm:ss');
 export class Modelticket extends Model {
     /**
      * Initializer of the model
@@ -26,7 +26,8 @@ export class Modelticket extends Model {
             "time": { type: DataTypes.ENUM('09am to 11.45am', '12pm to 02.45pm', '03pm to 05.45pm', '06pm to 08.45pm', '09pm to 11.45pm'), allowNull: true },
             "choice": { type: DataTypes.ENUM("Karaoke", "Movie"), defaultValue: null },
             "user_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null },
-            "room_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null }
+            "room_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null },
+            "price": { type: DataTypes.INTEGER(), allowNull: true, defaultValue: null }
         }, {
             "sequelize": database,
             "modelName": "ticket",
