@@ -1,0 +1,168 @@
+<head>
+    <title>ChatBot</title>
+    <style>
+      * { padding: 0; box-sizing: border-box; }
+      body {
+        font: 19px Helvetica, Arial;
+        padding-left:20%;
+        padding-right:20%;
+        
+      }
+      #f { background: #000; position: fixed; bottom: 1%; left:20%; right:20%; border:1px solid black; }
+      #f input { border: 2px solid black; width:80%; font-size:120%; }
+      #f button { background: rgb(130, 224, 255); border:2px solid black; margin-right:0; width:20%;font-size:120%;}
+      #messages { list-style-type: none; padding: 0; padding-bottom: 3%;}
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; text-align:right; }
+      a:link {
+        color: red;
+      }
+
+      /* visited link */
+      a:visited {
+        color: green;
+      }
+
+      /* mouse over link */
+      a:hover {
+        color: hotpink;
+      }
+
+      /* selected link */
+      a:active {
+        color: blue;
+      }
+    </style>
+
+  </head>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+      $(function () {
+        var socket = io();
+        $('form').submit(function(e){
+          e.preventDefault(); // prevents page reloading
+          socket.emit('chat message', $('#m').val());
+          $('#m').val('');
+          return false;
+        });
+        socket.on('chat message', function(msg){
+          $('#messages').append($('<li>'+msg+'</li>'));
+        });
+
+      });
+      const express = require('express');
+
+var app = express();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);      //chat application
+
+app.use( express.static(__dirname) );
+
+async function botstr(findStr){
+      var { NlpManager } = require('node-nlp');       //natural language processing for chatbot
+      const manager = new NlpManager({ languages: ['en'], nlu: { useNoneFeature: false }});
+      //train the chatbot
+      manager.addDocument('en', 'goodbye for now', 'greetings.bye');
+      manager.addDocument('en', 'bye bye take care', 'greetings.bye');
+      manager.addDocument('en', 'okay see you later', 'greetings.bye');
+      manager.addDocument('en', 'bye for now', 'greetings.bye');
+      manager.addDocument('en', 'i must go', 'greetings.bye');
+
+      manager.addDocument('en', 'hello', 'greetings.hello');
+      manager.addDocument('en', 'hi there', 'greetings.hello');
+      manager.addDocument('en', 'hello', 'greetings.hello');
+      manager.addDocument('en', 'howdy', 'greetings.hello');
+      manager.addDocument('en', 'hiya', 'greetings.hello');
+      manager.addDocument('en', 'hi-ya', 'greetings.hello');
+      manager.addDocument('en', 'howdy-do', 'greetings.hello');
+      manager.addDocument('en', 'aloha', 'greetings.hello');
+      manager.addDocument('en', 'hey', 'greetings.hello');
+
+      manager.addDocument('en', 'good day', 'greetings.goodDay');
+      manager.addDocument('en', 'good night', 'greetings.goodNight');
+      manager.addDocument('en', 'good morning', 'greetings.goodMorning');
+      manager.addDocument('en', 'good evening', 'greetings.goodevening');
+      manager.addDocument('en', 'good afternoon', 'greetings.goodafternoon');
+
+      manager.addDocument('en', "my name is ", 'user.details');
+
+      manager.addDocument('en', "What is your you name details ?", 'my.name');
+      manager.addDocument('en', "How shall I call you ?", 'my.name');
+      manager.addDocument('en', "Where do you live ?", 'my.address');
+      manager.addDocument('en', "Who are you", 'my.me');
+
+      manager.addDocument('en', "Movies watch cinema", 'movies');
+
+      //***********************************************************************************//
+      //************************************************************************************//
+      //************************************************************************************//
+      //************************************************************************************//
+      //************************************************************************************//
+      //************************************************************************************//
+      //************************************************************************************//
+      // Train also the NLG..........Train it to answer
+
+      manager.addAnswer('en', 'movies', '<a href="/prod/list" target="_blanck">Here</a> view our selection of movies.');
+      manager.addAnswer('en', 'movies', 'No matter what. <a href="/prod/list" target="_blanck">Head over here</a> and take a look at our wide variety of movies.');
+
+      manager.addAnswer('en', 'greetings.bye', 'Till next time :)');
+      manager.addAnswer('en', 'greetings.bye', 'see you soon!');
+      manager.addAnswer('en', 'greetings.hello', 'Hey there!');
+      manager.addAnswer('en', 'greetings.hello', 'Greetings!');
+
+      manager.addAnswer('en', 'user.details', 'Nice to know that!');
+
+      manager.addAnswer('en', 'my.name', 'I prefer to be called kumar:)');
+      manager.addAnswer('en', 'my.address', 'I live in this beautiful world created by nature');
+      manager.addAnswer('en', 'my.me', 'I am a friend of yours.');
+
+      manager.addAnswer('en', 'songs.list', '<a href="/prod/list" target="_blanck">Here</a> is a list of songs available.');
+      manager.addAnswer('en', 'songs.list', '<a href="/prod/list" target="_blanck">This</a> are songs that you are able to choose from.<br>I personally like all of them :)');
+
+      await manager.train();
+      manager.save();
+      var response = await manager.process('en', findStr);
+      console.log(response);
+      //console.log(typeof(response.answer));
+      return response.answer;
+}
+
+//serve the static html files
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
+});
+
+//events emitters
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+      console.log('user disconnected');
+  });
+  socket.on('chat message', function(msg){
+    console.log('message: ' + msg);
+    io.emit('chat message', msg);
+    botstr(msg)
+        .then(result => {
+            if(result == null){
+              io.emit('chat message', "Sorry :( Donno.<br>1. Search Songs<br>2. Try searching facts<br>3.TED talks will grow you");
+            }
+            else{
+              io.emit('chat message', result);
+            }
+        });
+
+  });
+});
+  </script>
+
+  <body>
+          <ul id="messages">
+            <li>I am a chatbot.</li><br>
+          </ul>
+          <form action="" id="f">
+            <input id="m" autocomplete="off" /><button type="submit">Send</button>
+          </form>
+  </body>
+

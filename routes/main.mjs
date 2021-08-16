@@ -224,3 +224,9 @@ router.get("/contactus", function (req, res) {
 
 	});
 });
+router.get("/chatbot", function (req, res) {
+	console.log("Chatbot page accessed");
+	return res.render("user/chatbot", {
+
+	});
+});
