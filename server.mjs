@@ -15,7 +15,7 @@ import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access
 
 const Server = Express();
 const Port   = process.env.PORT || 3000;
-
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 /**
  * Template Engine
  * You may choose to use Nunjucks if you want to recycle everything from your old project.
