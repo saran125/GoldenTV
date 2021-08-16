@@ -123,53 +123,6 @@ router.use(methodOverride('_method'));
     }
 }
 
-// router.get ("/axios-test",  example_axios);
-
-// /**
-//  * Example of making a http request
-//  * Request (External) -> Data (IN Server) -> Post Processing -> Data (OUT Server, aka response) -> Used somewhere else (Your button, 3rd party RSS???)
-//  * Store limited access tokens without exposing credentials.
-//  * @param {import('express').Request}  req 
-//  * @param {import('express').Response} res 
-//  */
-//  async function example_axios(req, res) {
-// 	axios({
-// 		url:    "https://developers.onemap.sg/privateapi/auth/post/getToken",
-// 		method: "POST",
-// 		data:   {
-// 			"email":    "root@mail.com",
-// 			"password": ""
-// 		}
-// 	}).then(function (response) {
-// 		console.log(response.data);
-// 		return res.json(response.data);
-// 	});
-// }
-
-// const expressJson = express.json(); 
-// const bodyParser  = express.urlencoded({extended: true}); 
-// router.use([expressJson, bodyParser]);
-
-
-// router.get("/about", async function (req, res) {
-// 	console.log("About page accessed");
-// 	return res.render('about', {
-// 		author: "The awesome programmer",
-// 		values: [1, 2, 3, 4, 5, 6]
-// 	});
-// });
-
-// router.get('/about', (req, res) => {
-// 	const author = 'Denzel Washington';
-// 	let success_msg = 'Success message';
-// 	let error_msg = 'Error message using error_msg';
-// 	res.render('about', {
-// 		author: author,
-// 		success_msg: success_msg,
-// 		error_msg: error_msg
-// 	})
-// });
-
 router.get("/contactus", function (req, res) {
 	console.log("Contact Us page accessed");
 	return res.render("user/contactus", {
