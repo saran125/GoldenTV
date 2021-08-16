@@ -8,7 +8,6 @@ const router = Router();
 export default router;
 import date from 'date-and-time';
 
-//STAFF
 router.get("/chooseeditsongstable", chooseeditsongstable);
 router.get("/chooseeditsongstable-data", chooseeditsongstable_data);
 router.get("/createsong", createsong_page);
@@ -121,8 +120,13 @@ async function createsong_process(req, res) {
 		}
 		console.log(uploadedFiles[0]);
 
+		const now = new Date();
+		const DateNow = date.format(now, "YYYY/MM/DD HH:mm:ss");
+
 		if (uploadedFiles.length == 1) {
 			const createsongs = await ModelSongInfo.create({
+				"dateCreated": req.body.dateCreated,
+				"dateUpdated": DateNow,
 				"song_uuid": req.body.song_uuid,
 				"admin_uuid": req.user.uuid,
 				"songimage": String(uploadedFiles[0]),
@@ -211,7 +215,7 @@ async function updatesong_process(req, res) {
 		});
 		song.save();
 		console.log(`Description created: $(movie.email)`);
-		return res.redirect("/song/chooseeditsongstable");
+		return res.redirect("/prod/list");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.song_uuid}`);
@@ -230,14 +234,18 @@ async function updatesong_process(req, res) {
 async function deletesong(req, res, next) {
 	try {
 		const tid = String(req.params.song_uuid);
-		// if (tid == undefined)
-		// 	throw new HttpError(400, "Target not specified");
 		const target = await ModelSongInfo.findByPk(tid);
-		// if (target == null)
-		// 	throw new HttpError(410, "User doesn't exists");
+		const songimage = './public/uploads/' + target['songimage'];
+		fs.unlink(songimage, function (err) {
+			if (err) {
+				throw err
+			} else {
+				console.log("Successfully deleted the file.")
+			}
+		})
 		target.destroy();
 		console.log(`Deleted song: ${tid}`);
-		return res.redirect("/song/chooseeditsongstable");
+		return res.redirect("/prod/list");
 	}
 	catch (error) {
 		console.error(`Failed to delete`)

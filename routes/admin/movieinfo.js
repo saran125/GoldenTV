@@ -153,8 +153,8 @@ async function createmovie_process(req, res, next) {
 				const createmovies = await ModelMovieInfo.create({
 					"movie_uuid": req.body.movie_uuid,
 					"admin_uuid": req.user.uuid,
-					"moviereleasedate": date.format(new Date(req.body.moviereleasedate[i]), 'MMM DD, YYYY HH:mm:ss'),
-					"movieenddate": date.format(new Date(req.body.movieenddate[i]), 'MMM DD, YYYY HH:mm:ss'),
+					"moviereleasedate": date.format(new Date(req.body.moviereleasedate[i]), "YYYY/MM/DD HH:mm:ss"),
+					"movieenddate": date.format(new Date(req.body.movieenddate[i]), "YYYY/MM/DD HH:mm:ss"),
 					"movieimage": uploadedFiles[i],
 					"moviename": req.body.moviename[i],
 					"movieagerating": req.body.movieagerating[i],
@@ -279,12 +279,15 @@ async function updatemovie_process(req, res) {
 async function deletemovie(req, res, next) {
 	try {
 		const tid = String(req.params.movie_uuid);
-		// if (tid == undefined)
-		// 	throw new HttpError(400, "Target not specified");
 		const target = await ModelMovieInfo.findByPk(tid);
-		// movieimage = target.movieimage
-		// if (target == null)
-		// 	throw new HttpError(410, "User doesn't exists");
+		const movieimage = './public/uploads/' + target['movieimage'];
+		fs.unlink(movieimage, function (err) {
+			if (err) {
+				throw err
+			} else {
+				console.log("Successfully deleted the file.")
+			}
+		})
 		target.destroy();
 		console.log(`Deleted movie: ${tid}`);
 		return res.redirect("/prod/list");

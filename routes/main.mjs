@@ -35,20 +35,21 @@ import review from '../routes/user/review.mjs';
 router.use("/review", review);
 router.use("/faq", Routerfaq);
 router.use("/admin", Admin);
-//Staff
+//All
 router.use("/", HomeInfo);
-//Staff
+//All
 router.use("/prod", Prodlist);
 //Staff
 router.use("/room", RoomInfo);
 //Staff
-router.use("/movie", MovieInfo);
+router.use("/prod/movie", MovieInfo);
 //Staff
-router.use("/song", SongInfo);
+router.use("/prod/song", SongInfo);
 router.use('/user', User);
 router.use('/ticket', ticket);
 router.use("/payment", payment);
 router.use("/counter", counter);
+
 router.get("/paymentOption", async function (req, res) {
 	console.log("Choosing payment method");
 	return res.render('user/PaymentOption');
@@ -142,48 +143,6 @@ function roleResult(role) {
 	return [user, admin];
 }
 
-// router.get ("/axios-test",  example_axios);
-
-// /**
-//  * Example of making a http request
-//  * Request (External) -> Data (IN Server) -> Post Processing -> Data (OUT Server, aka response) -> Used somewhere else (Your button, 3rd party RSS???)
-//  * Store limited access tokens without exposing credentials.
-//  * @param {import('express').Request}  req 
-//  * @param {import('express').Response} res 
-//  */
-//  async function example_axios(req, res) {
-// 	axios({
-// 		url:    "https://developers.onemap.sg/privateapi/auth/post/getToken",
-// 		method: "POST",
-// 		data:   {
-// 			"email":    "root@mail.com",
-// 			"password": ""
-// 		}
-// 	}).then(function (response) {
-// 		console.log(response.data);
-// 		return res.json(response.data);
-// 	});
-// }
-
-// const expressJson = express.json(); 
-// const bodyParser  = express.urlencoded({extended: true}); 
-// router.use([expressJson, bodyParser]);
-
-
-// /**
-//  * Renders the edithomebestreleases page
-//  * @param {Request}  req Express Request handle
-//  * @param {Response} res Express Response handle
-//  */
-// // ---------------- 
-// //	TODO:	Common URL paths here
-// async function editmovie_page(req, res) {
-// 	console.log("Prod List Edit Movie page accessed");
-// 	return res.render('updatemovies', {
-
-// 	});
-// };
-
 router.get("/about", async function (req, res) {
 	console.log("About page accessed");
 	return res.render('about', {
@@ -203,21 +162,6 @@ router.get('/about', (req, res) => {
 	})
 });
 
-router.get("/businessstatistics", businessstatistics_page);
-
-/**
- * Renders the edithomebestreleases page
- * @param {Request}  req Express Request handle
- * @param {Response} res Express Response handle
- */
-// ---------------- 
-//	TODO:	Common URL paths here
-async function businessstatistics_page (req, res) {
-	console.log("Business Statistics page accessed");
-	return res.render('businessstatistics', {
-		
-	});
-};
 router.get("/contactus", function (req, res) {
 	console.log("Contact Us page accessed");
 	return res.render("user/contactus", {
