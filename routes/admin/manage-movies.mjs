@@ -17,6 +17,7 @@ router.get("/api/list", api_list);
  * @param {import('express').Response} res 
  * @param {import('express').NextFunction} next
  */
+// table data 
  async function api_list(req, res, next) {
 	try{ 
 		let pageSize  = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;

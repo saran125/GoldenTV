@@ -29,8 +29,20 @@ router.get("/deletemovie/:movie_uuid", deletemovie);
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only manager or staff can access 
 async function chooseeditmoviestable(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	return res.render('admin/movies/chooseeditmoviestable');
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 }
 
 /**
@@ -100,9 +112,21 @@ async function chooseeditmoviestable_data(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only staff or manager can access
 async function createmovie_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	console.log("Prod List Choose Edit Movie page accessed");
 	return res.render('admin/movies/createmovies');
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 };
 
 /**
@@ -181,7 +205,13 @@ async function createmovie_process(req, res, next) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only staff or admin can access
 async function updatemovie_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	const tid = String(req.params.movie_uuid);
 	const movie = await ModelMovieInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
@@ -199,6 +229,12 @@ async function updatemovie_page(req, res) {
 			movieenddate: endDate
 		}
 	);
+	}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 };
 
 /**

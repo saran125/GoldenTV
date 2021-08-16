@@ -172,8 +172,15 @@ async function home_page(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// admin to edit
 async function edithomedescription_page(req, res) {
-	console.log("Home Description page accessed");
+	console.log("Home editing page accessed");
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		// check whether the user is staff or manager
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	const homedes = await ModelHomeInfo.findOne({
 		where: {
 			"homeinfo_uuid": "test"
@@ -184,6 +191,12 @@ async function edithomedescription_page(req, res) {
 		{
 			homedes: homedes
 		});
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 };
 
 /**
@@ -191,6 +204,8 @@ async function edithomedescription_page(req, res) {
 * @param {Request}  req Express Request handle
 * @param {Response} res Express Response handle
 */
+
+// post might be difficult to access
 async function edithomedescription_process(req, res) {
 	try {
 		const homedes = await ModelHomeInfo.findOne({
@@ -225,21 +240,33 @@ async function edithomedescription_process(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// get method.. only admins can accessed
 async function edithomeimagepolicy_page(req, res, next) {
 	console.log("Home Policy page accessed");
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	const homeimagepolicy = await ModelHomeInfo.findOne({
 		where: {
 			"homeinfo_uuid": "test"
 		}
 	});
 	return res.render('admin/home/edithomeimagepolicy', { homeimagepolicy: homeimagepolicy });
-};
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};};
 
 /**
  * Renders the login page
  * @param {Request}  req Express Request handle
  * @param {Response} res Express Response handle
  */
+// post method 
 async function edithomeimagepolicy_process(req, res, next) {
 	try {
 		const homeimageFile = req.files.homeimage[0];

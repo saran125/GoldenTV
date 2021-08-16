@@ -12,7 +12,7 @@ const router = Router();
 export default router;
 
 /**
- * Regular expressions for form testing
+ * Regular expressions for  testing
  **/
 const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 //	Min 3 character, must start with alphabet
@@ -150,9 +150,20 @@ async function register_page(req, res) {
 	console.log("Register page accessed");
 	return res.render('auth/register');
 }
+// access by manager only
 async function user (req, res){
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	console.log("new users");
 	return res.render("auth/add_users");
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 }
 async function user_process(req, res){
 	console.log("adding new staff")

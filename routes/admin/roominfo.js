@@ -53,9 +53,20 @@ async function viewrooms(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+// only staff or manager can access
 async function chooseeditroomstable(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	console.log("Rooms Data Table accessed");
 	return res.render('admin/rooms/chooseeditroomstable');
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 }
 
 /**
@@ -129,9 +140,20 @@ async function chooseeditroomstable_data(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+// only staff or manager can access
 async function createroom_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	console.log("Add Rooms page accessed");
 	return res.render('admin/rooms/createrooms');
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 }
 
 /**
@@ -192,11 +214,21 @@ async function createroom_process(req, res, next) {
  * @param {Request}  req Express Request handle
  * @param {Response} res Express Response handle
  */
+// only staff or manager can access
 async function updateroom_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	const tid = String(req.params.room_uuid);
 	const room = await ModelRoomInfo.findByPk(tid);
 	console.log("Update Rooms accessed");
 	return res.render('admin/rooms/updaterooms', { room: room });
+}
+		else { return res.render('404'); }}
+	catch (error) {
+	return res.render('404');
+};
 }
 
 /**
@@ -275,9 +307,13 @@ async function deleteroom(req, res, next) {
 		return next(error);
 	}
 }
-
+// only the staff or manager can access
 async function ticket_detail(req, res) {
-	// console.log('Description created: $(booking.choice)');
+	
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if(req.user.role == 'staff' || req.user.role == 'manager'){
 	try {
 		console.log(req.params);
 		const ticket = await ModelRoomInfo.findOne({
@@ -290,4 +326,10 @@ async function ticket_detail(req, res) {
 	catch (error) {
 		console.error(error);
 	}
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 }

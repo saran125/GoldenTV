@@ -53,11 +53,6 @@ router.get("/paymentOption", async function (req, res) {
 	console.log("Choosing payment method");
 	return res.render('user/PaymentOption');
 });
-// router.get("*", notfound_page);
-// function notfound_page(req, res) {
-// 	console.log("Home page accessed");
-// 	return res.render('404');
-// }
 /**
  * @param database {ORM.Sequelize}
  */
@@ -108,10 +103,6 @@ router.use(methodOverride('_method'));
 
 // router.get ("/axios-test",  example_axios);
 
-class UserRole {
-	static get Admin() { return "admin"; }
-	static get User()  { return "user";  }
-}
 // router.use(ensure_auth);
 // router.use(ensure_admin);
 
@@ -128,18 +119,6 @@ class UserRole {
     else {
         return next();
     }
-}
-function roleResult(role) {
-	if (role == 'admin') { // if it is admin, return true
-		var user = false;
-		var admin = true;
-	}
-	else if (role == 'customer') {
-		// if it is user, return true
-		var user = true;
-		var admin = false;
-	}
-	return [user, admin];
 }
 
 // router.get ("/axios-test",  example_axios);
@@ -170,38 +149,6 @@ function roleResult(role) {
 // router.use([expressJson, bodyParser]);
 
 
-// /**
-//  * Renders the edithomebestreleases page
-//  * @param {Request}  req Express Request handle
-//  * @param {Response} res Express Response handle
-//  */
-// // ---------------- 
-// //	TODO:	Common URL paths here
-// async function editmovie_page(req, res) {
-// 	console.log("Prod List Edit Movie page accessed");
-// 	return res.render('updatemovies', {
-
-// 	});
-// };
-
-router.get("/about", async function (req, res) {
-	console.log("About page accessed");
-	return res.render('about', {
-		author: "The awesome programmer",
-		values: [1, 2, 3, 4, 5, 6]
-	});
-});
-
-router.get('/about', (req, res) => {
-	const author = 'Denzel Washington';
-	let success_msg = 'Success message';
-	let error_msg = 'Error message using error_msg';
-	res.render('about', {
-		author: author,
-		success_msg: success_msg,
-		error_msg: error_msg
-	})
-});
 
 router.get("/businessstatistics", businessstatistics_page);
 
@@ -230,3 +177,9 @@ router.get("/chatbot", function (req, res) {
 
 	});
 });
+
+router.get("*", notfound_page);
+function notfound_page(req, res) {
+	console.log("Home page accessed");
+	return res.render('404');
+}

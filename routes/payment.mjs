@@ -32,8 +32,10 @@ let price = 0;
  */
 async function page_generate(req, res) {
 	const details = await ModelRoomInfo.findByPk(req.params.room_id);
-	// try {
-		// let user = req.user.uuid;
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if(req.user.role == 'customer'){
 		console.log(req.params);
 		console.log(req.params.promo);
 		let price = 0;
@@ -62,9 +64,11 @@ async function page_generate(req, res) {
 	}
 	let cents = price*100;
 		return res.render('user/payment', {cents,choice:req.params.choice, price, details,time:req.params.time,date:req.params.date })
-	// catch(error){
-	// 	return res.render('404');
-	// };
+}
+		else { return res.render('404');}}
+	catch(error){
+		return res.render('404');
+	};
 
 } 
 /**
@@ -372,6 +376,10 @@ const now = new Date();
 const DateNow = date.format(now, 'DD/MM/YYYY');
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 router.get("/success/:choice/:price/:room_id/:date/:time",async function (req, res, next) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'customer') {
 	console.log("ticket page accessed");
 	const room = await ModelRoomInfo.findOne({
 			where: {
@@ -799,6 +807,12 @@ a {
 	console.log('Payment is succeed')
 	return res.render('success', { choice:req.params.choice, time:req.params.time, date:req.params.date,room, price:req.params.price
 	});
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 });
 router.get("/cancel", (req, res) => {
 	console.log("Payment is Cancalled");

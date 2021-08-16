@@ -7,9 +7,14 @@ const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
 router.get("/users", users);
-router.get("/users", users);
 router.get("/users-data", users_data);
+
+// get by manager only
  async function users (req, res) {
+     try {
+         let user = req.user.uuid;
+         console.log(user);
+         if (req.user.role == 'manager') {
     const users = await ModelUser.count({
         raw: true
     });
@@ -35,6 +40,12 @@ router.get("/users-data", users_data);
         manager: manager.count
     })
 }
+		else { return res.render('404'); }}
+	catch (error) {
+    return res.render('404');
+};
+}
+// data
 async function users_data(req, res) {
     let pageSize = parseInt(req.query.limit);
     let offset = parseInt(req.query.offset);
@@ -75,6 +86,7 @@ async function users_data(req, res) {
         rows: pageContents,
     });
 };
+// post method
 router.post("/delete/:uuid", async function (req, res) {
     console.log("contents deleted")
     console.log(req.body);

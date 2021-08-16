@@ -28,8 +28,21 @@ router.get("/deletesong/:song_uuid", deletesong);
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only staff or manager can access
 async function chooseeditsongstable(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	return res.render('admin/songs/chooseeditsongstable');
+
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 }
 
 /**
@@ -99,11 +112,22 @@ async function chooseeditsongstable_data(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+// only staff or manager can access
 async function createsong_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	console.log("Prod List Create Songs page accessed");
 	return res.render('admin/songs/createsongs', {
 
 	});
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 };
 
 /**
@@ -165,11 +189,22 @@ async function createsong_process(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only staff or manager can access
 async function updatesong_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	const tid = String(req.params.song_uuid);
 	const song = await ModelSongInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
 	return res.render('admin/songs/updatesong', { song: song });
+}
+		else { return res.render('404'); }}
+	catch (error) {
+	return res.render('404');
+};
 };
 
 /**
@@ -228,8 +263,6 @@ async function updatesong_process(req, res) {
  * @param {import('express').NextFunction} next
  */
 async function deletesong(req, res, next) {
-	try {
-		const tid = String(req.params.song_uuid);
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
 		const target = await ModelSongInfo.findByPk(tid);
@@ -238,10 +271,4 @@ async function deletesong(req, res, next) {
 		target.destroy();
 		console.log(`Deleted song: ${tid}`);
 		return res.redirect("/song/chooseeditsongstable");
-	}
-	catch (error) {
-		console.error(`Failed to delete`)
-		error.code = (error.code) ? error.code : 500;
-		return next(error);
-	}
 }

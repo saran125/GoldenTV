@@ -49,8 +49,12 @@ router.get("/retrievecustomerreview/:type/:id",async function(req, res){
 	}
 	
 });
-
+// cutomer have to login bef give review
 router.get("/create/:type/:id", async function (req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'customer') {
     console.log("review page accessed");
 	let movie = false;
 	let song = false;
@@ -73,7 +77,14 @@ router.get("/create/:type/:id", async function (req, res) {
 		console.log('feedback for songs')
 		return res.render('user/create', {room, detail, type: req.params.type, id: req.params.id });
 	}
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 });
+
 router.post("/create/:type/:id", async function (req, res) {
     const roomlist = await ModelReview.create({
         "rating": req.body.Rating,
@@ -107,14 +118,6 @@ async function view_reviewpage(req, res) {
 	}
   }
 
-router.get("/table",async function(req, res) {
-	console.log("table contents received")
-	console.log(req.body);
-});
-router.get("/table-data",async function(req, res){
-	console.log("table-data contents received")
-	console.log(req.body);
-});
 router.post("/deletereview/:uuid", async function (req, res){
 	console.log("contents deleted")
 	console.log(req.body);

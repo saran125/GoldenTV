@@ -59,6 +59,8 @@ function option_page(req, res, next) {
  * @param {Request}  req Express Request handle
  * @param {Response} res Express Response handle
  */
+
+// post method
 async function option_process(req, res) {
     try {
         var fileKeys = req.files;
@@ -173,24 +175,6 @@ async function deleteoption(req, res, next) {
         return next(error);
     }
 };
-
-    // console.log("contents deleted")
-    // console.log(req.body);
-    // ModelRoomInfo.findOne({
-    //     where: {
-    //         room_uuid: req.params.room_uuid
-    //     },
-    // }).then((option) => {
-    //     if (option != null) {
-    //         ModelRoomInfo.destroy({
-    //             where: {
-    //                 room_uuid: req.params.room_uuid
-    //             }
-
-    //         })
-    //         return res.redirect("/admin/viewoption");
-    //     }
-    // });
 
 
 async function updateoption_page(req, res) {

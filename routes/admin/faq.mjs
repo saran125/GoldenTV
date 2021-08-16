@@ -51,53 +51,50 @@ router.post("/faq", async function (req, res) {
 	}
 
 });
-// router.get("/faq", async function faq(req, res) {
-// 	// res.sendFile("dynamic/uploads/{{ }}");
-// 	const homedes = await ModelFaq.findOne({
-// 		where: {
-// 			"questions": "Is this good?"
-// 		}
-// 	});
-// 	console.log("Home page accessed");
-// 	return res.render('home', {
-// 		homedescription: homedes.homedescription,
-	                   
-// 		questions: "Ending in 2 days!",
-// 		answers: "Coming Soon!",
-	
-// 	});
-
-// });
-
 /**
  * Renders the retrieve page
  * @param {import('express')Request}  req Express Request handle
  * @param {import('express')Response} res Express Response handle
  */
+// admins to see
  async function view_faqpage(req, res) {
 	console.log("retrieve page accessed");
+	 try {
+		 let user = req.user.uuid;
+		 console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager' ) {
 	try {
 	  return res.render("admin/retrievefaq", {
 	  });
-	} catch (error) {
+	} 
+	catch (error) {
 	  console.error("Failed to accesss retrieve faq page");
 	  console.error(error);
 	  return res.status(500).end();
 	}
-  }
-  
-router.get("/table",async function(req, res) {
-	console.log("table contents received")
-	console.log(req.body);
-});
-router.get("/table-data",async function(req, res){
-	console.log("table-data contents received")
-	console.log(req.body);
-});
+	}
+		 else { return res.render('404'); }
+	 }
+	 catch (error) {
+		 return res.render('404');
+	 };
+}
+// admin 
 router.get("/updatefaq/:questions",async function(req, res){
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager' ) {
 	console.log("Update Faq rendered")
 	return res.render("admin/updatefaq",{questions:req.params.questions})
+		}
+	else { return res.render('404'); }
+		}
+	catch (error) {
+			return res.render('404');
+		};
 });
+// post method cannot access easily
 router.post("/updatefaq/:questions", async function (req, res) {
 	console.log("update faq contents received");
 	console.log(req.body);
@@ -124,7 +121,12 @@ router.post("/updatefaq/:questions", async function (req, res) {
 		return res.redirect("/faq/retrievefaq");
 	}
 });
+// get method easy to access
 router.get("/deletefaq/:questions", async function (req, res){
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff'|| req.user.role == 'manager') {
 	console.log("contents deleted")
 	console.log(req.body);
 	ModelFaq.findOne({
@@ -143,6 +145,12 @@ router.get("/deletefaq/:questions", async function (req, res){
 	}
 	
 });
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 });
 router.get("/cfaq", async function faq(req, res) {
 	// res.sendFile("dynamic/uploads/{{ }}");
