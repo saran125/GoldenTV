@@ -383,7 +383,8 @@ router.get("/success/:choice/:price/:room_id/:date/:time",async function (req, r
 			room_id: req.params.room_id,
 			choice: req.params.choice,
 			date: req.params.date,
-			time: req.params.time
+			time: req.params.time,
+			"price":price
 		});
 		console.log(ticket);
 	const accessToken = await oAuth2Client.getAccessToken();
@@ -399,9 +400,9 @@ router.get("/success/:choice/:price/:room_id/:date/:time",async function (req, r
 		},
 	}); 
 		const mailOptions = { 
-		from: 'Golden TV <no-reply>',
+		from: 'Golden TV ',
 		to: req.user.email,
-		subject: 'Booking Confirmation',
+		subject: 'Booking Details',
 			html: `<style>
     /* -------------------------------------
     GLOBAL

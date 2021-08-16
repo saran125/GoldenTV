@@ -30,12 +30,11 @@ export class ModelReview extends Model {
 			"verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false },
 			"rating"     : { type: DataTypes.FLOAT(5), allowNUll: false },
 			"feedback"   : {type: DataTypes.STRING(128), allowNull: false},
-
-			"TypeReview" : {type: DataTypes.STRING(128), allowNull: false},
+			"type_id": { type: DataTypes.STRING(128), allowNull: true },
+			"TypeReview" : {type: DataTypes.ENUM('Movie','Karaoke','Room'), allowNull: false},
 			"reply" : {type: DataTypes.STRING(128), allowNull: true},
 			"user_id": { type: DataTypes.CHAR(36), allowNull: true, defaultValue: null },
 			
-
 		}, {
 			"sequelize": database,
 			"modelName": "Review",

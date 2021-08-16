@@ -37,9 +37,11 @@
 </style>
 </head>
 <body>
-  
 {{> navbar}}
-<h1 class="display-4" style="text-align:center; color: gold">Reply</h1>
+<h1 style="justify-content: center;color:gold">Reviews for {{feedback.TypeReview}}: {{#if movie}}{{detail.moviename}}{{/if}}{{#if room}}{{detail.roomname}}{{/if}}{{#if
+  song}}{{detail.songname}}{{/if}}</h1>
+  <h3 style="color: gold;">Review by {{user.name}}</h3>
+  <h3 style="color: gold;">Email: {{user.email}}</h3>
 <form action="/review/replyreview/{{feedback.uuid}}" method="post">
 <button class="collapsible">{{feedback.feedback}}</button>
 <div class="content">

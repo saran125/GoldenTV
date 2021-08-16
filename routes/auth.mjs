@@ -39,57 +39,94 @@ router.post("/add/user", user_process);
 router.get("/forgot-password", (req, res, next)=> {
 	console.log("Forgot password page accessed.");
 	return res.render('auth/forgot-password');
-})
-router.post("/forgot-password", (req, res, next)=> {
-	const email = req.body;
-	const user = ModelUser.findByPk(email)
-	const secret = JWT_SECRET + user.password;
-	if (!user){
-		res.send("Invalid");
-		return;
-	}
-	const payload = {
-		email: user.email,
-		id: user.uuid
-	}
-	const token = jwt.sign(payload, secret, {expiresIn:'15m'})
-	const link = `http://localhost:3000/auth/reset-password/${user.id}/${token}`
-	console.log(link);
-	send_resetlink(user.uuid, user.name, user.email, link);
-	res.send('Password reset link has been sent to your email.')
 });
-router.get("/reset-password/:id/:token", (req, res, next)=> {
-	const {id, token} = req.params;
-	const user = ModelUser.findByPk(user.uuid);
-	const secret = JWT_SECRET + user.password;
-	if (!user){
-		res.send("Invalid");
-		return;
+router.post("/forgot-password", async function (req, res, next){
+	let errors = [];
+	try{
+	if (!regexEmail.test(req.body.email)) {
+		errors = errors.concat({ text: "Invalid email address!" });
+	}
+	else {
+		const user = await ModelUser.findOne({ where: { email: req.body.email } });
+		if (user === null) {
+			errors = errors.concat({ text: "This email is not registered!" });
+			return res.render('auth/forgot-password', { errors: errors });
+		}
+	}}
+	catch (error) {
+		console.error("There is errors with the forgot form body.");
+		console.error(error);
+		return res.render('auth/forgot-password', { errors: errors });
 	}
 	try{
-		const payload = jwt.verify(token, secret);
-		res.render('/auth/reset-password', {email: user.email})
-	}catch(error){
+	const user = await ModelUser.findOne({ where: { email: req.body.email } });
+	// const payload = {
+	// 	email: user.email,
+	// 	id: user.uuid
+	// }
+	await send_resetlink(user.name, user.email, user.uuid);
+	flashMessage(res, 'success', 'Successfully Sent Password reset link to your email. Please It!', 'fas fa-sign-in-alt', true);
+	return res.redirect("/auth/login");}
+		catch (error) {
+		//	Else internal server error
+		console.error(`Failed to create a new user: ${req.body.email} `);
+		console.error(error);
+		return res.status(500).end();
+	}
+
+});
+router.get("/reset-password/:token", async function (req, res, next){
+	const token = req.params.token;
+	console.log('password reseting page accesed')
+	let uuid = null;
+	let errors = [];
+	try {
+		const payload = JWT.verify(token, 'the-key');
+		uuid = payload.uuid;
+		console.log(uuid);
+	}
+	catch (error) {
+		console.error(`The token is invalid`);
+		console.error(error);
+		return res.sendStatus(400).end();
+	}
+	try{
+		const user = await ModelUser.findByPk(uuid);
+		console.log(user);
+		return res.render('auth/reset-password', {email: user.email, user})
+	}
+	catch(error){
 		console.log(error);
 	}
 });
-router.post("/reset-password/:id/:token", (req, res, next)=> {
-	const {id, token} = req.params;
+router.post("/reset-password/:id", async function (req, res, next){
+	const id = req.params.id;
 	const {password, password2} = req.body;
-	const user = ModelUser.findByPk(user.uuid);
-	const secret = JWT_SECRET + user.password;
-	if (!user){
-		res.send("Invalid");
-		return;
-	}
+	const user = await ModelUser.findByPk(id);
 	try{
-		const payload = jwt.verify(token, secret);
-		// update user password
-		if (password === password2){
-			Hash.sha256().update(password).digest("hex");
-			user.password = password;
+		if (!regexPwd.test(req.body.password)) {
+			errors = errors.concat({ text: "Password requires minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one symbol!" });
 		}
-		res.render('/auth/reset-password', {email: user.email})
+		else if (req.body.password !== req.body.password2) {
+			errors = errors.concat({ text: "Password do not match!" });
+		}}
+	catch (error) {
+			console.error("There is errors with the registration form body.");
+			console.error(error);
+			return res.render('/', { errors: errors });
+		}
+		try{
+			const user = await ModelUser.findByPk(id);
+			const update = await ModelUser.update({
+				password: Hash.sha256().update(req.body.password).digest("hex")
+			}, {
+				where: {
+					uuid: id
+				}
+			});
+			user.save();
+			flashMessage(res, 'success', 'Successfully created an account. Please verify your email and login', 'fas fa-sign-in-alt', true);
+		return res.render('auth/login', )
 	}catch(error){
 		console.log(error);
 	}
@@ -210,7 +247,6 @@ async function register_process(req, res) {
 		console.error(error);
 		return res.render('auth/register', { errors: errors });
 	}
-
 	//	Create new user, now that all the test above passed
 	try {
 		const user = await ModelUser.create({
@@ -230,6 +266,7 @@ async function register_process(req, res) {
 		return res.status(500).end();
 	}
 };
+// google api
 const CLIENT_ID = '606882834321-g960n5vid466qrmtpcrvno3n8mm97ui0.apps.googleusercontent.com'
 const CLEINT_SECRET = 'ddcxoBS7eD1MK4iMlqSHItvq'
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
@@ -241,9 +278,10 @@ const oAuth2Client = new google.auth.OAuth2(
 );
 import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
+import { uuid } from 'uuidv4';
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-async function send_resetlink(uid, email, name, link){
+async function send_resetlink(name,email,id){
 	const accessToken = await oAuth2Client.getAccessToken();
 	const transport = nodemailer.createTransport({
 		service: 'gmail',
@@ -256,30 +294,104 @@ async function send_resetlink(uid, email, name, link){
 			accessToken: accessToken,
 		},
 	});
+
+
+
+
+	const token = JWT.sign({
+		uuid: id
+	}, 'the-key', {
+		// expire in 5mins
+		expiresIn: '300000'
+	});
+	console.log("Password email reset link sent ready...")
 	return transport.sendMail({
 		to: email,
 		from: 'Golden Tv',
-		subject: `Verify your email`,
-		html: `<img id="imgborder" class="logo" style="width: 85px;" src="https://micdn-13a1c.kxcdn.com/images/sg/content-images/movie_cinemaxx_rebands_to_cinepolis.jpg">
+		subject: `Reset Password`,
+		html: `
 		<hr>
-		 <h1>Hello, ${name}</h1>
-        <h5 class="text-muted mb-2">
-		Thank you for
-        choosing Golden Tv, to make
-        full use of our
-        features,
-        verify your email address.
-        Please verify in 5min!
-        </h5>
-        <a href="${link}"><button type="button" class="btn btn-dark">Reset your password</button></a>
-		<br>
-		<br>
-		Or, copy and paste the following URL into your browser:
-		<a href="${link}">${link}</a>
+
+<!doctype html>
+<html lang="en-US">
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="description" content="Reset Password Email Template.">
+    <style type="text/css">
+        a:hover {text-decoration: underline !important;}
+    </style>
+</head>
+
+<body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
+    <!--100% body table-->
+    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
+        style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
+        <tr>
+            <td>
+                <table style="background-color: #f2f3f8; max-width:670px;  margin:0 auto;" width="100%" border="0"
+                    align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="height:80px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                          <a href="http://localhost:3000/" title="logo" target="_blank">
+                            <img id="imgborder" class="logo" style="width: 85px;" src="https://micdn-13a1c.kxcdn.com/images/sg/content-images/movie_cinemaxx_rebands_to_cinepolis.jpg">
+                          </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:20px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                style="max-width:670px;background:#fff; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+                                <tr>
+                                    <td style="height:40px;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0 35px;">
+                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Hello Saran, You have
+                                            requested to reset your password</h1>
+                                        <span
+                                            style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                                        <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
+                                            We cannot simply send you your old password. A unique link to reset your
+                                            password has been generated for you. To reset your password, click the
+                                            following link and follow the instructions.
+                                        </p>
+                                        <a href="http://localhost:3000/auth/reset-password/${token}"
+                                            style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
+                                            Password</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height:40px;">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    <tr>
+                        <td style="height:20px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>Golden TV</strong></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:80px;">&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!--/100% body table-->
+</body>
+
+</html>
 		`
-		// await hbsRender.render(`${process.cwd()}/templates/layouts/email-verify.handlebars`, {
-		// 	token: token
-		// })
 	});
 }
 
@@ -325,9 +437,6 @@ async function send_verification(uid, email, name) {
 		Or, copy and paste the following URL into your browser:
 		<a href="http://localhost:3000/auth/verify/${token}">http://localhost:3000/auth/verify/${token}</a>
 		`
-		// await hbsRender.render(`${process.cwd()}/templates/layouts/email-verify.handlebars`, {
-		// 	token: token
-		// })
 	});
 }
 async function verify_process(req, res) {

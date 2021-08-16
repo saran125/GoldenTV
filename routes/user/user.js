@@ -140,7 +140,7 @@ async function creview_data(req, res) {
                 [Op.or]: {
                     rating: { [Op.substring]: search },
                     feedback: { [Op.substring]: search },
-                    
+                type_id: { [Op.substring]: search },
                 },
             }
             : undefined;
