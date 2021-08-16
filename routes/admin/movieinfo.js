@@ -229,7 +229,10 @@ async function updatemovie_process(req, res) {
 				update_image.image = movie.movieimage; //select NO file
 			}
 		}
+		const now = new Date();
+		const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
 		movie.update({
+			"DateUpdated": DateNow,
 			"admin_uuid": req.user.uuid,
 			"moviereleasedate": startDate,
 			"movieenddate": endDate,
