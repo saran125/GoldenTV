@@ -13,6 +13,15 @@
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
 <script
   src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script
+  src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.10.21/tableExport.min.js"></script>
+
+
 <style>
   * {
     color: gold;
@@ -168,10 +177,6 @@
     font-size: 12.5px;
   }
 
-  input.form-control.search-input {
-    width: 165px;
-  }
-
   .dropdown-menu.show,
   .dropdown-menu.dropdown-menu-right.show,
   .dropdown-item {
@@ -233,7 +238,7 @@
   }
 
   div.fixed-table-toolbar {
-    width: 1000px;
+    width: 1100px;
   }
 </style>
 
@@ -241,7 +246,6 @@
 {{>navbar}}
 
 {{#if (cmp_ne user.role "staff") }}
-
 <div style="padding: 10px;">
   <h1>Movies</h1>
 </div>
@@ -356,184 +360,177 @@
 <div class="blackbox" style="height: 100px;"></div>
 
 {{else}}
-<div class="List" style="padding-left: 35px;">
-  {{!-- <h3>Book a room now for singing/watching movies!</h3> --}}
-  <div class="ListTable1">
-    <div class="blackblock"></div>
-    <h1>Movie Data Table</h1>
-    <div style="float: left; padding-top: 10px;" class="CreateMoviesAndSongs">
-      <div class="submit">
-        <form action="../prod/movie/createmovie">
-          <input type="submit" value="Add Movie" class="btn btn-outline-warning">
-        </form>
-      </div>
-      <div class="blackblock"></div>
-    </div>
+<div class="blackblock"></div>
 
-    <div id="toolbar" class="select">
-      <select class="form-control" style="color: #000000;">
-        <option value="" style="color: #000000;">Export Basic</option>
-        <option value="all" style="color: #000000;">Export All</option>
-        <option value="selected" style="color: #000000;">Export Selected</option>
-      </select>
-    </div>
+<h1>Movie Data Table</h1>
 
-    {{!-- <table id="table" data-show-footer="true" data-show-toggle="true" data-toolbar="#toolbar" data-toggle="table"
-      data-url="/room/chooseeditroomstable-data" data-search="true" data-pagination="true" data-height="600"
-      data-total-field="total" data-silent-sort="false" data-data-field="rows" data-side-pagination="server"
-      data-sort-name="location" data-server-sort="true" data-addrbar="true" data-show-export="true"
-      data-filter-control="true" data-show-columns="true" data-show-columns-toggle-all="true"
-      data-click-to-select="true" data-show-columns-search="true" data-page-list="[5, 10, 25, 50, all]"
-      data-show-custom-view="true" data-show-refresh="true"> --}}
-
-      <table id="id" data-show-footer="true" data-show-export="true" data-show-toggle="true" data-toggle="table"
-        data-search="true" data-pagination="true" data-total-field="total" data-data-field="rows"
-        data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="moviename" data-height="600"
-        data-silent-sort="false" data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}}
-        data-pagination="true" data-page-list="[5, 10, 25, 50, 100, All]" data-show-refresh="true"
-        data-show-columns="true" data-show-columns-search="true" ata-addrbar="true"
-        data-url="/prod/movie/chooseeditmoviestable-data">
-        <thead>
-          <tr>
-            <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter1">Creation Date</th>
-            <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-            <th data-formatter="table_row_image2">Movie Poster</th>
-            <th data-field="moviename" data-sortable="true">Name</th>
-            <th data-field="movieagerating" data-sortable="true">Age Rating</th>
-            <th data-field="movieduration" data-sortable="true">Duration</th>
-            <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
-
-            <th data-field="moviereleasedate" data-sortable="true">Start Release</th>
-            <th data-field="movieenddate" data-sortable="true">End Release</th>
-
-            <th data-formatter="table_row_edit2">Edit</th>
-          </tr>
-        </thead>
-      </table>
-  </div>
-
-  <div class="List" style="height: 200px;"> </div>
-
-  <div class="ListTable2">
-    <h1>Song Data Table</h1>
-    <div style="float: left; padding-top: 10px;" class="CreateMoviesAndSongs">
-      <div class="submit">
-        <form action="../prod/song/createsong">
-          <input type="submit" value="Add Song" class="btn btn-outline-warning">
-        </form>
-      </div>
-      <div class="blackblock1"></div>
-    </div>
-    <table width="100%" data-show-footer="true" data-show-toggle="true" data-cookie-id-table="saveId" id="id"
-      data-toolbar="#toolbar" data-footer-formatter="nameFormatter2" data-show-export="true" data-toggle="table"
-      data-search="true" data-pagination="true" data-total-field="total" data-data-field="rows"
-      data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="songname" data-height="600"
-      data-silent-sort="false" data-server-sort="true" data-search="true" {{!-- data-page-number="50" --}}
-      data-pagination="true" data-page-list="[5, 10, 25, 50, 100, All]" data-show-refresh="true"
-      data-show-columns="true" data-show-columns-search="true" data-addrbar="true"
-      data-url="/prod/song/chooseeditsongstable-data">
-      <thead>
-        <tr>
-          <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter2">Creation Date</th>
-          <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-          <th data-formatter="table_row_image3">Song Poster</th>
-          <th data-field="songname" data-sortable="true">Name</th>
-          <th data-field="songagerating" data-sortable="true">Age Rating</th>
-          <th data-field="songduration" data-sortable="true">Duration</th>
-          <th data-field="songgenre" data-sortable="true">Genre(s)</th>
-          <th data-formatter="table_row_edit3">Edit</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
+<div class="submit">
+  <form action="../prod/movie/createmovie">
+    <input type="submit" value="Add Movie" class="btn btn-outline-warning">
+  </form>
 </div>
+
+<div class="blackblock"></div>
+<div id="toolbar" style="left: 10px;" class="select">
+  <select class="form-control" style="color: #000000;">
+    <option value="" style="color: #000000;">Export Basic</option>
+    <option value="all" style="color: #000000;">Export All</option>
+    <option value="selected" style="color: #000000;">Export Selected</option>
+  </select>
+</div>
+
+<table id="table1" data-toolbar="#toolbar" data-show-export="true" data-show-toggle="true" data-toggle="table"
+  data-search="true" data-pagination="true" data-total-field="total" data-data-field="rows"
+  data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="moviename" data-height="600"
+  data-silent-sort="false" data-server-sort="true" data-search="true" data-show-custom-view="true"
+  data-pagination="true" data-page-list="[5, 10, 25, 50, 100, All]" data-show-refresh="true" data-show-columns="true"
+  data-show-columns-search="true" data-addrbar="true" data-url="/prod/movie/chooseeditmoviestable-data">
+  <thead>
+    <tr>
+      <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter1">Creation Date</th>
+      <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+      <th data-field="moviename" data-sortable="true">Name</th>
+      <th data-field="movieagerating" data-sortable="true">Age Rating</th>
+      <th data-field="movieduration" data-sortable="true">Duration</th>
+      <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
+      <th data-field="moviereleasedate" data-sortable="true">Start Release</th>
+      <th data-field="movieenddate" data-sortable="true">End Release</th>
+      <th></th>
+      <th data-formatter="table_row_image2">Movie Poster</th>
+      <th data-formatter="table_row_edit2">Edit</th>
+    </tr>
+  </thead>
+</table>
+
+<h1 style="padding-top: 25px;">Song Data Table</h1>
+
+<div class="submit">
+  <form action="../prod/song/createsong">
+    <input type="submit" value="Add Song" class="btn btn-outline-warning">
+  </form>
+</div>
+<div class="blackblock1"></div>
+
+<div class="blackblock"></div>
+<div id="toolbar2" style="left: 10px;" class="select">
+  <select class="form-control" style="color: #000000;">
+    <option value="" style="color: #000000;">Export Basic</option>
+    <option value="all" style="color: #000000;">Export All</option>
+    <option value="selected" style="color: #000000;">Export Selected</option>
+  </select>
+</div>
+
+<table id="table2" data-toolbar="#toolbar2" width="100%" data-show-toggle="true" data-cookie-id-table="saveId"
+  data-footer-formatter="nameFormatter2" data-show-export="true" data-toggle="table" data-search="true"
+  data-pagination="true" data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true"
+  data-side-pagination="server" data-sort-name="songname" data-height="600" data-silent-sort="false"
+  data-server-sort="true" data-search="true" data-pagination="true" data-page-list="[5, 10, 25, 50, 100, All]"
+  data-show-refresh="true" data-show-columns="true" data-show-columns-search="true" data-addrbar="true"
+  data-url="/prod/song/chooseeditsongstable-data">
+  <thead>
+    <tr>
+      <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter2">Creation Date</th>
+      <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+      <th data-field="songname" data-sortable="true">Name</th>
+      <th data-field="songagerating" data-sortable="true">Age Rating</th>
+      <th data-field="songduration" data-sortable="true">Duration</th>
+      <th data-field="songgenre" data-sortable="true">Genre(s)</th>
+      <th></th>
+      <th data-formatter="table_row_image3">Song Poster</th>
+      <th data-formatter="table_row_edit3">Edit</th>
+    </tr>
+  </thead>
+</table>
 {{/if}}
+
+
 
 {{#if (cmp_eq user.role "manager") }}
-<div class="List" style="padding-left: 35px;">
-  {{!-- <h3>Book a room now for singing/watching movies!</h3> --}}
-  <div class="ListTable1">
-    <div class="blackblock"></div>
-    <h1>Movie Data Table</h1>
+<div class="blackblock"></div>
 
-    <div style="float: left; padding-top: 10px;" class="CreateMoviesAndSongs">
-      <div class="submit">
-        <form action="../prod/movie/createmovie">
-          <input type="submit" value="Add Movie" class="btn btn-outline-warning">
-        </form>
-      </div>
-      <div class="blackblock"></div>
-    </div>
-    {{!-- <div id="toolbar" class="select">
-      <select class="form-control">
-        <option value="">Export Basic</option>
-        <option value="all">Export All</option>
-        <option value="selected">Export Selected</option>
-      </select>
-    </div> --}}
-    <table id="id" data-show-export="true" data-show-footer="true" data-toggle="table" data-search="true"
-      data-pagination="true" data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true"
-      data-side-pagination="server" data-sort-name="moviename" data-height="600" data-silent-sort="false"
-      data-server-sort="true" data-search="true" data-pagination="true" data-page-list="[5, 10, 25, 50, 100, All]"
-      data-show-refresh="true" data-show-columns="true" data-show-columns-search="true" ata-addrbar="true"
-      data-url="/prod/movie/chooseeditmoviestable-data">
-      <thead>
-        <tr>
-          <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter1">Creation Date</th>
-          <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-          <th data-formatter="table_row_image2">Movie Poster</th>
-          <th data-field="moviename" data-sortable="true">Name</th>
-          <th data-field="movieagerating" data-sortable="true">Age Rating</th>
-          <th data-field="movieduration" data-sortable="true">Duration</th>
-          <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
+<h1>Movie Data Table</h1>
 
-          <th data-field="moviereleasedate" data-sortable="true">Start Release</th>
-          <th data-field="movieenddate" data-sortable="true">End Release</th>
-
-          <th data-formatter="table_row_edit2">Edit</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
-
-  <div class="blackblock" style="height: 125px;"> </div>
-
-  <div class="ListTable2">
-    <h1>Song Data Table</h1>
-    <div style="float: left; padding-top: 10px;" class="CreateMoviesAndSongs">
-      <div class="submit">
-        <form action="../prod/song/createsong">
-          <input type="submit" value="Add Song" class="btn btn-outline-warning">
-        </form>
-      </div>
-      <div class="blackblock1"></div>
-    </div>
-    <table width="100%" data-show-footer="true" data-cookie-id-table="saveId" id="id"
-      data-toggle="table" data-search="true" data-pagination="true" data-total-field="total"
-      data-data-field="rows" data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="songname"
-      data-height="600" data-silent-sort="false" data-server-sort="true" data-search="true" data-pagination="true"
-      data-page-list="5, 10, 25, 50, 100, All]" data-show-refresh="true" data-show-columns="true"
-      data-show-columns-search="true" data-addrbar="true" data-url="/prod/song/chooseeditsongstable-data">
-      <thead>
-        <tr>
-          <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter1">Creation Date</th>
-          <th data-field="dateUpdated" data-sortable="true">Update Date</th>
-          <th data-formatter="table_row_image3">Song Poster</th>
-          <th data-field="songname" data-sortable="true">Name</th>
-          <th data-field="songagerating" data-sortable="true">Age Rating</th>
-          <th data-field="songduration" data-sortable="true">Duration</th>
-          <th data-field="songgenre" data-sortable="true">Genre(s)</th>
-          <th data-formatter="table_row_edit3">Edit</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
+<div class="submit">
+  <form action="../prod/movie/createmovie">
+    <input type="submit" value="Add Movie" class="btn btn-outline-warning">
+  </form>
 </div>
-{{/if}}
 
+<div class="blackblock"></div>
+<div id="toolbar" style="left: 10px;" class="select">
+  <select class="form-control" style="color: #000000;">
+    <option value="" style="color: #000000;">Export Basic</option>
+    <option value="all" style="color: #000000;">Export All</option>
+    <option value="selected" style="color: #000000;">Export Selected</option>
+  </select>
+</div>
+
+<table id="table1" data-toolbar="#toolbar" data-show-export="true" data-show-toggle="true" data-toggle="table"
+  data-search="true" data-pagination="true" data-total-field="total" data-data-field="rows"
+  data-show-columns-toggle-all="true" data-side-pagination="server" data-sort-name="moviename" data-height="600"
+  data-silent-sort="false" data-server-sort="true" data-search="true" data-show-custom-view="true"
+  data-pagination="true" data-page-list="[5, 10, 25, 50, 100, All]" data-show-refresh="true" data-show-columns="true"
+  data-show-columns-search="true" data-addrbar="true" data-url="/prod/movie/chooseeditmoviestable-data">
+  <thead>
+    <tr>
+      <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter1">Creation Date</th>
+      <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+      <th data-field="moviename" data-sortable="true">Name</th>
+      <th data-field="movieagerating" data-sortable="true">Age Rating</th>
+      <th data-field="movieduration" data-sortable="true">Duration</th>
+      <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
+      <th data-field="moviereleasedate" data-sortable="true">Start Release</th>
+      <th data-field="movieenddate" data-sortable="true">End Release</th>
+      <th></th>
+      <th data-formatter="table_row_image2">Movie Poster</th>
+      <th data-formatter="table_row_edit2">Edit</th>
+    </tr>
+  </thead>
+</table>
+
+<h1 style="padding-top: 25px;">Song Data Table</h1>
+
+<div class="submit">
+  <form action="../prod/song/createsong">
+    <input type="submit" value="Add Song" class="btn btn-outline-warning">
+  </form>
+</div>
+<div class="blackblock1"></div>
+
+<div class="blackblock"></div>
+<div id="toolbar2" style="left: 10px;" class="select">
+  <select class="form-control" style="color: #000000;">
+    <option value="" style="color: #000000;">Export Basic</option>
+    <option value="all" style="color: #000000;">Export All</option>
+    <option value="selected" style="color: #000000;">Export Selected</option>
+  </select>
+</div>
+
+<table id="table2" data-toolbar="#toolbar2" width="100%" data-show-toggle="true" data-cookie-id-table="saveId"
+  data-footer-formatter="nameFormatter2" data-show-export="true" data-toggle="table" data-search="true"
+  data-pagination="true" data-total-field="total" data-data-field="rows" data-show-columns-toggle-all="true"
+  data-side-pagination="server" data-sort-name="songname" data-height="600" data-silent-sort="false"
+  data-server-sort="true" data-search="true" data-pagination="true" data-page-list="[5, 10, 25, 50, 100, All]"
+  data-show-refresh="true" data-show-columns="true" data-show-columns-search="true" data-addrbar="true"
+  data-url="/prod/song/chooseeditsongstable-data">
+  <thead>
+    <tr>
+      <th data-field="dateCreated" data-sortable="true" data-footer-formatter="nameFormatter2">Creation Date</th>
+      <th data-field="dateUpdated" data-sortable="true">Update Date</th>
+      <th data-field="songname" data-sortable="true">Name</th>
+      <th data-field="songagerating" data-sortable="true">Age Rating</th>
+      <th data-field="songduration" data-sortable="true">Duration</th>
+      <th data-field="songgenre" data-sortable="true">Genre(s)</th>
+      <th></th>
+      <th data-formatter="table_row_image3">Song Poster</th>
+      <th data-formatter="table_row_edit3">Edit</th>
+    </tr>
+  </thead>
+</table>
+{{/if}}
 <script>
 
-  var $table = $('#table')
+  var $table = $('#table1')
   $(function () {
     $('#toolbar').find('select').change(function () {
       $table.bootstrapTable('destroy').bootstrapTable({
@@ -559,32 +556,35 @@
             title: 'Update Date'
           },
           {
-            field: 'roomname',
+            field: 'moviename',
             title: 'Name'
           },
           {
-            field: 'roomsize',
-            title: 'Size'
+            field: 'movieagerating',
+            title: 'Age Rating'
           },
           {
-            field: 'roomprice',
-            title: 'Price'
+            field: 'movieduration',
+            title: 'Duration'
           },
           {
-            field: 'roominfo',
-            title: 'Information'
+            field: 'moviegenre',
+            title: 'Genres(s)'
           },
           {
-            field: 'location',
-            title: 'Location'
+            field: 'moviereleasedate',
+            title: 'Start Release'
           },
           {
-            formatter: 'table_row_image',
-            title: 'Image',
-            height: 200
+            field: 'movieenddate',
+            title: 'End Release'
           },
           {
-            formatter: 'table_row_edit',
+            formatter: 'table_row_image2',
+            title: 'Movie Poster'
+          },
+          {
+            formatter: 'table_row_edit2',
             title: 'Edit'
           }
         ]
@@ -592,14 +592,60 @@
     }).trigger('change')
   })
 
-  function nameFormatter1(data) {
-    return data.length + " Movies in Total";
-  }
-
-  function nameFormatter2(data) {
-    return data.length + " Songs in Total";
-  }
-
+  var $table2 = $('#table2')
+  $(function () {
+    $('#toolbar').find('select').change(function () {
+      $table2.bootstrapTable('destroy').bootstrapTable({
+        exportDataType: $(this).val(),
+        exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
+        exportOptions: {
+          modifier: {
+            page: 'current'
+          }
+        },
+        columns: [
+          {
+            field: 'state',
+            checkbox: true,
+            visible: $(this).val() === 'selected'
+          },
+          {
+            field: 'dateCreated',
+            title: 'Creation Date'
+          },
+          {
+            field: 'dateUpdated',
+            title: 'Update Date'
+          },
+          {
+            field: 'songname',
+            title: 'Name'
+          },
+          {
+            field: 'songagerating',
+            title: 'Age Rating'
+          },
+          {
+            field: 'songduration',
+            title: 'Duration'
+          },
+          {
+            field: 'songgenre',
+            title: 'Genres(s)'
+          },
+          {
+            formatter: 'table_row_image3',
+            title: 'Song Poster'
+          },
+          {
+            formatter: 'table_row_edit3',
+            title: 'Edit'
+          }
+        ]
+      })
+    }).trigger('change')
+  })
+  
   function customViewFormatter2(data) {
     var template = $('#profileTemplate2').html()
     var view = ''
