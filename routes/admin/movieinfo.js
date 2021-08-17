@@ -73,6 +73,8 @@ async function chooseeditmoviestable_data(req, res) {
 				"movieimage": { [Op.substring]: search },
 				"moviename": { [Op.substring]: search },
 				"movieagerating": { [Op.substring]: search },
+				"moviereleasedate": { [Op.substring]: search },
+				"movieenddate": { [Op.substring]: search },
 				"movieduration": { [Op.substring]: search },
 				"moviegenre": { [Op.substring]: search },
 				"movie_uuid": { [Op.substring]: req.body.movie_uuid }

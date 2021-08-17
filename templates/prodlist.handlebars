@@ -262,6 +262,8 @@
         <th data-field="dateUpdated" data-sortable="true">Update Date</th>
         <th data-formatter="table_row_image2">Movie Poster</th>
         <th data-field="moviename" data-sortable="true">Name</th>
+        <th data-field="moviereleasedate" data-sortable="true">Release Date</th>
+        <th data-field="movieendate" data-sortable="true">End Date</th>
         <th data-field="movieagerating" data-sortable="true">Age Rating</th>
         <th data-field="movieduration" data-sortable="true">Duration</th>
         <th data-field="moviegenre" data-sortable="true">Genre(s)</th>
@@ -281,6 +283,8 @@
               <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Duration: %movieduration% Minutes
               </p>
               <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Genre: %moviegenre%</p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Released: %moviereleasedate%</p>
+              <p class="mb-0 text-truncated" style="width:175px; font-size: 13px;">Ends: %movieenddate%</p>
               <div style="padding-top: 10px;">
                 <div class="button">
                   <a style="font-size: 12px; color: black" class="btn btn-warning">Age Rating: %movieagerating%</a>
@@ -655,6 +659,8 @@
         .replace('%movieimage%', row.movieimage)
         .replace('%movieagerating%', row.movieagerating)
         .replace('%movieduration%', row.movieduration)
+        .replace('%moviereleasedate%', row.moviereleasedate)
+        .replace('%movieenddate%', row.movieenddate)
         .replace('%moviegenre%', row.moviegenre)
         .replace('%movieuuid%', row.movie_uuid)
         .replace('%id%', row.movie_uuid)
