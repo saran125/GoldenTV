@@ -99,6 +99,14 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
+								{{#if (cmp_eq user.role "manager") }}
+				<li class="nav-item">
+					<a class="nav-link" href="/counter/users">Users</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/room/chooseeditroomstable">Rooms</a>
+				</li>
+				{{/if}}
 				{{#if (cmp_ne user.role "staff") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/room/list">Booking</a>
@@ -107,6 +115,7 @@
 					<a class="nav-link" href="/prod/list">Movies/Songs</a>
 				</li>
 				{{/if}}
+				
 				{{#if (cmp_eq user.role "staff") }}
 				<li class="nav-item">
 					<a class="nav-link" href="/prod/list">Movies/Songs</a>
@@ -140,14 +149,7 @@
 				</li>
 				<a href="/admin/viewoption" class="nav-link">Manage all the Options</a>
 				{{/if}} --}}
-				{{#if (cmp_eq user.role "manager") }}
-				<li class="nav-item">
-					<a class="nav-link" href="/counter/users">Users</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/room/chooseeditroomstable">Rooms</a>
-				</li>
-				{{/if}}
+
 				<li class="nav-item">
 					<a class="nav-link" href="/contactus">About Us</a>
 				</li>

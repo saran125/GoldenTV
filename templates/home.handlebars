@@ -147,6 +147,13 @@
       </form>
     </div>
     {{/if}}
+    {{#if (cmp_eq user.role "manager") }}
+    <div class="homecontentedit1">
+      <form action="../edithomedes">
+        <input type="submit" value="Edit" class="btn btn-outline-warning">
+      </form>
+    </div>
+    {{/if}}
   </div>
 
   <div class="homeimageandpolicy">
@@ -156,6 +163,13 @@
     <div class="homeimagedes">
       {{ homepolicy }}
       {{#if (cmp_eq user.role "staff") }}
+      <div class="homecontentedit2">
+        <form action="../edithomeimagepolicy">
+          <input type="submit" value="Edit" class="btn btn-outline-warning">
+        </form>
+      </div>
+      {{/if}}
+      {{#if (cmp_eq user.role "manager") }}
       <div class="homecontentedit2">
         <form action="../edithomeimagepolicy">
           <input type="submit" value="Edit" class="btn btn-outline-warning">
