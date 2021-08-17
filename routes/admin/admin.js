@@ -529,6 +529,7 @@ async function update_promo(req, res) {
         return res.render('404');
     };
 };
+// post method 
 async function update_promo_process(req, res) {
     console.log("updated Option page accessed");
     try {
