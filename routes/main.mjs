@@ -176,57 +176,58 @@ async function home_page(req, res) {
 		Newest.push(release);
 	}
 
-	var countdown1 = -1;
-	var countdown2 = -1;
-	var countdown3 = -1;
-	var countdown4 = -1;
-	var release_img1 = "No-Image-PlaceHolder.png";
-	var release_img2 = "No-Image-PlaceHolder.png";
-	var release_img3 = "No-Image-PlaceHolder.png";
-	var release_img4 = "No-Image-PlaceHolder.png";
+	if (Newest.length == 1) {
+		const NewestAgain = Newest.sort();
 
-	const NewestAgain = Newest.sort();
-
-	if (NewestAgain.length != 0) {
-
-		if (NewestAgain.length == 1) {
-			countdown1 = NewestAgain[0]._countdown;
-			release_img1 = NewestAgain[0]._image;
-		}
-		if (NewestAgain.length == 2) {
-
-			countdown1 = NewestAgain[0]._countdown;
-			countdown2 = NewestAgain[1]._countdown;
-			release_img1 = NewestAgain[0]._image;
-			release_img2 = NewestAgain[1]._image;
-		}
-
-		if (NewestAgain.length == 3) {
-
-			countdown1 = NewestAgain[0]._countdown;
-			countdown2 = NewestAgain[1]._countdown;
-			countdown3 = NewestAgain[2]._countdown;
-			release_img1 = NewestAgain[0]._image;
-			release_img2 = NewestAgain[1]._image;
-			release_img3 = NewestAgain[2]._image;
-		}
-		if (NewestAgain.length == 4) {
-			countdown1 = NewestAgain[0]._countdown;
-			countdown2 = NewestAgain[1]._countdown;
-			countdown3 = NewestAgain[2]._countdown;
-			countdown4 = NewestAgain[3]._countdown;
-			release_img1 = NewestAgain[0]._image;
-			release_img2 = NewestAgain[1]._image;
-			release_img3 = NewestAgain[2]._image;
-			release_img4 = NewestAgain[3]._image;
-		}
+		var countdown1 = NewestAgain[0]._countdown;
+		var countdown2 = -1;
+		var countdown3 = -1;
+		var countdown4 = -1;
+		var release_img1 = NewestAgain[0]._image;
+		var release_img2 = "No-Image-PlaceHolder.png";
+		var release_img3 = "No-Image-PlaceHolder.png";
+		var release_img4 = "No-Image-PlaceHolder.png";
 	}
+	if (Newest.length == 2) {
+		const NewestAgain = Newest.sort();
+		var countdown1 = NewestAgain[0]._countdown;
+		var countdown2 = NewestAgain[1]._countdown;
+		var countdown3 = -1;
+		var countdown4 = -1;
+		var release_img1 = NewestAgain[0]._image;
+		var release_img2 = NewestAgain[1]._image;
+		var release_img3 = "No-Image-PlaceHolder.png";
+		var release_img4 = "No-Image-PlaceHolder.png";
+	}
+
+	if (Newest.length == 3) {
+		const NewestAgain = Newest.sort();
+		var countdown1 = NewestAgain[0]._countdown;
+		var countdown2 = NewestAgain[1]._countdown;
+		var countdown3 = NewestAgain[2]._countdown;
+		var countdown4 = -1;
+		var release_img1 = NewestAgain[0]._image;
+		var release_img2 = NewestAgain[1]._image;
+		var release_img3 = NewestAgain[2]._image;
+		var release_img4 = "No-Image-PlaceHolder.png";
+	}
+	else {
+		const NewestAgain = Newest.sort();
+		var countdown1 = NewestAgain[0]._countdown;
+		var countdown2 = NewestAgain[1]._countdown;
+		var countdown3 = NewestAgain[2]._countdown;
+		var countdown4 = NewestAgain[3]._countdown;
+		var release_img1 = NewestAgain[0]._image;
+		var release_img2 = NewestAgain[1]._image;
+		var release_img3 = NewestAgain[2]._image;
+		var release_img4 = NewestAgain[3]._image;
+	}
+
 	return res.render('home', {
 		homedescription: homeinfo.homedescription,
 		homepolicy: homeinfo.homepolicy,
 		homeimage: homeinfo.homeimage,
 		homepolicyimage: homeinfo.homepolicyimage,
-		homeinfo_uuid: "test",
 		release_img1: release_img1,
 		release_img2: release_img2,
 		release_img3: release_img3,
@@ -237,7 +238,6 @@ async function home_page(req, res) {
 		countdown4: countdown4
 	});
 }
-
 
 router.get("/contactus", function (req, res) {
 	console.log("Contact Us page accessed");

@@ -10,11 +10,6 @@ const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
 export default router;
 
-router.get("/", home_page);
-router.get("/home", async function (req, res) {
-	return res.redirect("/");
-});
-
 router.get("/edithomedes", edithomedescription_page);
 router.post("/edithomedes", edithomedescription_process);
 router.get("/edithomeimagepolicy", edithomeimagepolicy_page);
@@ -24,115 +19,6 @@ router.post("/edithomeimagepolicy",
 		{ name: 'homepolicyimage', maxCount: 1 },
 	]),
 	edithomeimagepolicy_process);
-
-/**
- * Renders the home page
- * @param {Request}  req Express Request handle
- * @param {Response} res Express Response handle
- */
-// ---------------- 
-//	TODO:	Common URL paths here
-async function home_page(req, res) {
-
-	class Release {
-		constructor(newly, countdown, image) {
-			this._newly = newly;
-			this._countdown = countdown;
-			this._image = image;
-		}
-		get newly() { return this._newly; }
-		set newly(newly) { this._newly = newly; }
-
-		get countdown() { return this._countdown; }
-		set countdown(countdown) { this._countdown = countdown; }
-
-		get image() { return this._image; }
-		set image(image) { this._image = image; }
-	};
-
-	const homeinfo = await ModelHomeInfo.findOne({
-		where: {
-			"homeinfo_uuid": "test"
-		}
-	});
-
-	const movieinfo = await ModelMovieInfo.findAll();
-
-	const Newest = []; //Display Newly Created, Display Countdown and Image
-
-	for (let i = 0; i < movieinfo.length; i++) {
-		const countDownDate = new Date(movieinfo[i].moviereleasedate).getTime();
-		var now = new Date().getTime();
-		var distance1 = countDownDate - now;
-
-		const countDownCreation = new Date(movieinfo[i].dateCreated).getTime();
-		var now = new Date().getTime();
-		var distance2 = countDownCreation - now;
-
-		const release = new Release(distance2, distance1, movieinfo[i].movieimage);
-		Newest.push(release);
-	}
-
-	var countdown1 = -1;
-	var countdown2 = -1;
-	var countdown3 = -1;
-	var countdown4 = -1;
-	var release_img1 = "No-Image-PlaceHolder.png";
-	var release_img2 = "No-Image-PlaceHolder.png";
-	var release_img3 = "No-Image-PlaceHolder.png";
-	var release_img4 = "No-Image-PlaceHolder.png";
-
-	const NewestAgain = Newest.sort();
-
-	if (NewestAgain.length != 0) {
-
-		if (NewestAgain.length == 1) {
-			countdown1 = NewestAgain[0]._countdown;
-			release_img1 = NewestAgain[0]._image;
-		}
-		if (NewestAgain.length == 2) {
-
-			countdown1 = NewestAgain[0]._countdown;
-			countdown2 = NewestAgain[1]._countdown;
-			release_img1 = NewestAgain[0]._image;
-			release_img2 = NewestAgain[1]._image;
-		}
-
-		if (NewestAgain.length == 3) {
-
-			countdown1 = NewestAgain[0]._countdown;
-			countdown2 = NewestAgain[1]._countdown;
-			countdown3 = NewestAgain[2]._countdown;
-			release_img1 = NewestAgain[0]._image;
-			release_img2 = NewestAgain[1]._image;
-			release_img3 = NewestAgain[2]._image;
-		}
-		if (NewestAgain.length == 4) {
-			countdown1 = NewestAgain[0]._countdown;
-			countdown2 = NewestAgain[1]._countdown;
-			countdown3 = NewestAgain[2]._countdown;
-			countdown4 = NewestAgain[3]._countdown;
-			release_img1 = NewestAgain[0]._image;
-			release_img2 = NewestAgain[1]._image;
-			release_img3 = NewestAgain[2]._image;
-			release_img4 = NewestAgain[3]._image;
-		}
-	}
-	return res.render('home', {
-		homedescription: homeinfo.homedescription,
-		homepolicy: homeinfo.homepolicy,
-		homeimage: homeinfo.homeimage,
-		homepolicyimage: homeinfo.homepolicyimage,
-		release_img1: release_img1,
-		release_img2: release_img2,
-		release_img3: release_img3,
-		release_img4: release_img4,
-		countdown1: countdown1,
-		countdown2: countdown2,
-		countdown3: countdown3,
-		countdown4: countdown4
-	});
-}
 
 /**
  * Renders the edithomedes page
@@ -150,16 +36,16 @@ async function edithomedescription_page(req, res) {
 		console.log(user);
 		// check whether the user is staff or manager
 		if (req.user.role == 'staff' || req.user.role == 'manager') {
-	const homedes = await ModelHomeInfo.findOne({
-		where: {
-			"homeinfo_uuid": "test"
-		}
-	});
+			const homedes = await ModelHomeInfo.findOne({
+				where: {
+					"homeinfo_uuid": "test"
+				}
+			});
 
-	return res.render('admin/home/edithomedescription',
-		{
-			homedes: homedes
-		});
+			return res.render('admin/home/edithomedescription',
+				{
+					homedes: homedes
+				});
 		}
 		else { return res.render('404'); }
 	}
@@ -217,18 +103,19 @@ async function edithomeimagepolicy_page(req, res, next) {
 		let user = req.user.uuid;
 		console.log(user);
 		if (req.user.role == 'staff' || req.user.role == 'manager') {
-	const homeimagepolicy = await ModelHomeInfo.findOne({
-		where: {
-			"homeinfo_uuid": "test"
-		}
-	});
-	return res.render('admin/home/edithomeimagepolicy', { homeimagepolicy: homeimagepolicy });
+			const homeimagepolicy = await ModelHomeInfo.findOne({
+				where: {
+					"homeinfo_uuid": "test"
+				}
+			});
+			return res.render('admin/home/edithomeimagepolicy', { homeimagepolicy: homeimagepolicy });
 		}
 		else { return res.render('404'); }
 	}
 	catch (error) {
 		return res.render('404');
-	};};
+	};
+};
 
 /**
  * Renders the login page
