@@ -28,7 +28,9 @@ router.get("/register", register_page);
 router.post("/register", register_process);
 router.get("/verify/:token", verify_process);
 router.get("/profile", profile_page);
-router.post("/profile", profile_process);
+router.post("/profile", profile_process);9
+router.get("/updateprofile", updateprofile_page);
+router.put("/updateprofile/:uuid", updateprofile_processs);
 router.get('/add/user', user);
 router.post("/add/user", user_process);
 /**
@@ -184,7 +186,7 @@ async function login_process(req, res, next) {
 		// }
 
 		if (!regexPwd.test(req.body.password)) {
-			errors = errors.concat({ text: "Password Requires minimum 8 characters, at least 1 Uppercase letter, 1 Lowercase Letter, 1 number and 1 Special Character!" });
+			errors = errors.concat({ text: "Email or Password is incorrect." });
 		}
 
 		if (errors.length > 0) {
@@ -505,6 +507,51 @@ async function profile_process(req, res){
 
 
 }
+async function updateprofile_page(req, res){
+	const tid = String(req.user.uuid);
+	const user = await ModelUser.findByPk(tid);
+	console.log("Update Profile page accessed");
+	return res.render("auth/updateprofile",
+			{ user: user }
+		);
+}
+
+async function updateprofile_processs(req, res){
+	try{
+		let update_image = {};
+		const tid = String(req.user.uuid);
+		const user = await ModelUser.findByPk(tid);
+		const profilepic = './public/uploads/' + user['profilepic'];
+		if (req.file != null && typeof req.file == 'object') {
+			if (Object.keys(req.file).length != 0) { //select file
+				fs.unlink(profilepic, function (err) {
+					if (err) {
+						throw err
+					} else {
+						console.log("Successfully deleted the file.")
+					}
+				})
+				update_image.image = req.file.filename;
+			}
+			else {
+				update_image.image = user.profilepic; //select NO file
+			}
+		}
+		user.update({
+			"name":req.user.name,
+			"email":req.user.email,
+			"profilepic":update_image.image
+		});
+		user.save();
+		return res.redirect("/auth/profile");
+	}
+	catch(error){
+		console.error(`Failed to update user ${req.body.user.name}`);
+	}
+
+
+}
+
 
 router.get("/logout", async function (req, res) {
 	req.session.destroy((err) => {
