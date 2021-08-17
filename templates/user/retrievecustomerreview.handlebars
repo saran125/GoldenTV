@@ -47,7 +47,7 @@
 </div>
 {{else}}
                         <div class="submit">
-                          <form action="../auth/login">
+                          <form action="/auth/login">
                             <input type="submit" value="Login to give review!" class="btn btn-outline-warning">
                           </form>
                         </div>
@@ -113,6 +113,7 @@
     var template = $('#profileTemplate').html()
     var view = ''
     $.each(data, function (i, row) {
+      console.log(row.uuid)
       view += template.replace('%NAME%', row.TypeReview)
         .replace('%rating%', row.rating)
         .replace('%feedback%', row.feedback)
