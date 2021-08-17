@@ -137,6 +137,8 @@ router.get("/home", async function (req, res) {
 		console.log(customer_name);
 		value()
 	})
+
+	
 		ModelRoomInfo.sync({ alert: true }).then(() => {
 			return ModelRoomInfo.findAll({ attributes: ['roomname'] });
 		}).then((data) => {
