@@ -1,16 +1,17 @@
 import { Router } from 'express';
 import { Op } from '../data/database.mjs';
 import { flashMessage } from '../utils/flashmsg.mjs'
-// import { UploadFile, UploadTo, DeleteFile, DeleteFilePath } from '../utils/multer.mjs';
-// import axios from 'axios';
 import Review from '../routes/user/review.mjs';
 import path from 'path';
 import fs from 'fs';
+import ORM from "sequelize";
 import express from 'express';
 import methodOverride from 'method-override';
 import payment from '../routes/payment.mjs';
 import { ModelReview } from '../data/review.mjs';
 import { ModelUser } from '../data/user.mjs';
+import { ModelHomeInfo } from '../data/homeinfo.mjs';
+import { ModelMovieInfo } from '../data/movieinfo.mjs';
 import RouterReview from './user/review.mjs';
 import Routerfaq from './admin/faq.mjs';
 import fileUpload from 'express-fileupload';
@@ -89,7 +90,6 @@ export function initialize_models(database) {
 // ---------------- 
 //	TODO: Attach additional routers here
 import RouterAuth from './auth.mjs'
-import { ModelMovieInfo } from '../data/movieinfo.mjs';
 router.use("/auth", RouterAuth);
 
 // // Body parser middleware to parse HTTP body to read post data
@@ -122,6 +122,122 @@ router.use(methodOverride('_method'));
         return next();
     }
 }
+
+router.get("/", home_page);
+router.get("/home", async function (req, res) {
+	return res.redirect("/");
+});
+
+/**
+ * Renders the home page
+ * @param {Request}  req Express Request handle
+ * @param {Response} res Express Response handle
+ */
+// ---------------- 
+//	TODO:	Common URL paths here
+async function home_page(req, res) {
+
+	class Release {
+		constructor(newly, countdown, image) {
+			this._newly = newly;
+			this._countdown = countdown;
+			this._image = image;
+		}
+		get newly() { return this._newly; }
+		set newly(newly) { this._newly = newly; }
+
+		get countdown() { return this._countdown; }
+		set countdown(countdown) { this._countdown = countdown; }
+
+		get image() { return this._image; }
+		set image(image) { this._image = image; }
+	};
+
+	const homeinfo = await ModelHomeInfo.findOne({
+		where: {
+			"homeinfo_uuid": "test"
+		}
+	});
+
+	const movieinfo = await ModelMovieInfo.findAll();
+
+	const Newest = []; //Display Newly Created, Display Countdown and Image
+
+	for (let i = 0; i < movieinfo.length; i++) {
+		const countDownDate = new Date(movieinfo[i].moviereleasedate).getTime();
+		var now = new Date().getTime();
+		var distance1 = countDownDate - now;
+
+		const countDownCreation = new Date(movieinfo[i].dateCreated).getTime();
+		var now = new Date().getTime();
+		var distance2 = countDownCreation - now;
+
+		const release = new Release(distance2, distance1, movieinfo[i].movieimage);
+		Newest.push(release);
+	}
+
+	var countdown1 = -1;
+	var countdown2 = -1;
+	var countdown3 = -1;
+	var countdown4 = -1;
+	var release_img1 = "No-Image-PlaceHolder.png";
+	var release_img2 = "No-Image-PlaceHolder.png";
+	var release_img3 = "No-Image-PlaceHolder.png";
+	var release_img4 = "No-Image-PlaceHolder.png";
+
+	const NewestAgain = Newest.sort();
+
+	if (NewestAgain.length != 0) {
+
+		if (NewestAgain.length == 1) {
+			countdown1 = NewestAgain[0]._countdown;
+			release_img1 = NewestAgain[0]._image;
+		}
+		if (NewestAgain.length == 2) {
+
+			countdown1 = NewestAgain[0]._countdown;
+			countdown2 = NewestAgain[1]._countdown;
+			release_img1 = NewestAgain[0]._image;
+			release_img2 = NewestAgain[1]._image;
+		}
+
+		if (NewestAgain.length == 3) {
+
+			countdown1 = NewestAgain[0]._countdown;
+			countdown2 = NewestAgain[1]._countdown;
+			countdown3 = NewestAgain[2]._countdown;
+			release_img1 = NewestAgain[0]._image;
+			release_img2 = NewestAgain[1]._image;
+			release_img3 = NewestAgain[2]._image;
+		}
+		if (NewestAgain.length == 4) {
+			countdown1 = NewestAgain[0]._countdown;
+			countdown2 = NewestAgain[1]._countdown;
+			countdown3 = NewestAgain[2]._countdown;
+			countdown4 = NewestAgain[3]._countdown;
+			release_img1 = NewestAgain[0]._image;
+			release_img2 = NewestAgain[1]._image;
+			release_img3 = NewestAgain[2]._image;
+			release_img4 = NewestAgain[3]._image;
+		}
+	}
+	return res.render('home', {
+		homedescription: homeinfo.homedescription,
+		homepolicy: homeinfo.homepolicy,
+		homeimage: homeinfo.homeimage,
+		homepolicyimage: homeinfo.homepolicyimage,
+		homeinfo_uuid: "test",
+		release_img1: release_img1,
+		release_img2: release_img2,
+		release_img3: release_img3,
+		release_img4: release_img4,
+		countdown1: countdown1,
+		countdown2: countdown2,
+		countdown3: countdown3,
+		countdown4: countdown4
+	});
+}
+
 
 router.get("/contactus", function (req, res) {
 	console.log("Contact Us page accessed");
