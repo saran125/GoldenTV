@@ -30,7 +30,7 @@ router.get("/register", register_page);
 router.post("/register", register_process);
 router.get("/verify/:token", verify_process);
 router.get("/profile", profile_page);
-router.post("/profile", profile_process);9
+router.post("/profile", profile_process);
 router.get("/updateprofile", updateprofile_page);
 router.put("/updateprofile/:uuid", updateprofile_processs);
 router.get("/deleteuser/:uuid", deleteuser);
