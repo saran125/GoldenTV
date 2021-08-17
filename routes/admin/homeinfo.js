@@ -11,10 +11,6 @@ const router = Router();
 export default router;
 
 router.get("/", home_page);
-router.get("/home", async function (req, res) {
-	return res.redirect("/");
-});
-
 router.get("/edithomedes", edithomedescription_page);
 router.post("/edithomedes", edithomedescription_process);
 router.get("/edithomeimagepolicy", edithomeimagepolicy_page);
