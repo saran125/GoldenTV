@@ -119,10 +119,14 @@ router.use(methodOverride('_method'));
         return next();
     }
 }
+let amount = [];
 let name = []
 router.get("/", home_page);
 let customer_name = [];
 router.get("/home", async function (req, res) {
+	amount = [];
+	name = [];
+	customer_name = [];
 	ModelUser.sync({ alert: true }).then(() => {
 		return ModelUser.findAll({ attributes: ['name'], where: { role: 'customer' } });
 	}).then((data) => {
@@ -130,6 +134,7 @@ router.get("/home", async function (req, res) {
 			customer_name.push(element.toJSON().name);
 			console.log(element.toJSON().name);
 		})
+		console.log(customer_name);
 		value()
 	})
 		ModelRoomInfo.sync({ alert: true }).then(() => {
@@ -141,11 +146,13 @@ router.get("/home", async function (req, res) {
 				hello.push(element.toJSON().roomname);
 				console.log(element.toJSON().roomname);
 			})
+			console.log(name);
 			return res.redirect("/");
+			
 		})
 });
 
-let amount = [];
+
 async function value(){
 		for (let i = 0; i < customer_name.length; i++) {
 			const user = await ModelUser.findOne({ where: { name: customer_name[i], role: "customer" } });
