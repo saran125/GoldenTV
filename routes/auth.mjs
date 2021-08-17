@@ -105,6 +105,7 @@ router.get("/reset-password/:token", async function (req, res, next){
 	}
 });
 router.post("/reset-password/:id", async function (req, res, next){
+	let errors = [];
 	const id = req.params.id;
 	const {password, password2} = req.body;
 	const user = await ModelUser.findByPk(id);
@@ -123,7 +124,7 @@ router.post("/reset-password/:id", async function (req, res, next){
 		try{
 			const user = await ModelUser.findByPk(id);
 			const update = await ModelUser.update({
-				password: Hash.sha256().update(req.body.password).digest("hex")
+				password: Hash.sha256().update(req.body.password1).digest("hex")
 			}, {
 				where: {
 					uuid: id
