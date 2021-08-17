@@ -392,8 +392,18 @@ async function user_data(req, res) {
 
 };
 function promo(req, res) {
+    try {
+        let user = req.user.uuid;
+        console.log(user);
+        if (req.user.role == 'staff' || req.user.role == 'manager') {
     console.log("promo code page accessed");
     return res.render('admin/promo_code');
+        }
+        else { return res.render('404'); }
+    }
+    catch (error) {
+        return res.render('404');
+    };
 };
 
 async function promo_data(req, res) {
@@ -444,6 +454,10 @@ async function promo_data(req, res) {
 }
 async function deletepromo(req, res, next) {
     try {
+        let user = req.user.uuid;
+        console.log(user);
+        if (req.user.role == 'staff' || req.user.role == 'manager') {
+    try {
         const tid = String(req.params.promo_id);
         const target = await Modelpromo.findByPk(tid);
         target.destroy();
@@ -455,10 +469,25 @@ async function deletepromo(req, res, next) {
         error.code = (error.code) ? error.code : 500;
         return next(error);
     }
+    }
+        else { return res.render('404'); }
+    }
+    catch (error) {
+        return res.render('404');
+    };
 };
 function add_promo(req, res){
+    try {
+        let user = req.user.uuid;
+        console.log(user);
+        if (req.user.role == 'staff' || req.user.role == 'manager') {
     console.log('addin promo code');
     return res.render('admin/add_promo');
+}
+		else { return res.render('404'); }}
+	catch (error) {
+    return res.render('404');
+};
 }
 
 async function promo_process(req, res){
@@ -485,12 +514,21 @@ async function promo_process(req, res){
     return res.redirect('/admin/promo');
 }
 async function update_promo(req, res) {
+    try {
+        let user = req.user.uuid;
+        console.log(user);
+        if (req.user.role == 'staff' || req.user.role == 'manager') {
     const tid = String(req.params.promo_id);
     const promo = await Modelpromo.findByPk(tid);
     console.log("update Promo Code page accessed");
     return res.render('admin/update_promo', {promo});
+        }
+        else { return res.render('404'); }
+    }
+    catch (error) {
+        return res.render('404');
+    };
 };
-
 async function update_promo_process(req, res) {
     console.log("updated Option page accessed");
     try {

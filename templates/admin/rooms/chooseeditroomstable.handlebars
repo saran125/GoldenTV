@@ -88,6 +88,11 @@
             <form action="../room/createrooms">
                 <input type="submit" value="Add Rooms" class="btn btn-outline-warning">
             </form>
+            {{#if (cmp_eq user.role "manager") }}
+            <form action="/rooms/chart">
+                <input type="submit" value="Room chart" class="btn btn-outline-warning">
+            </form>
+            {{/if}}
         </div>
         <div id="toolbar" class="select">
             <select class="form-control" style="color: #000000;">
