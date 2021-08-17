@@ -12,9 +12,9 @@ export default router;
 import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 const CLIENT_ID = '606882834321-g960n5vid466qrmtpcrvno3n8mm97ui0.apps.googleusercontent.com';
-const CLEINT_SECRET = 'ddcxoBS7eD1MK4iMlqSHItvq';
+const CLEINT_SECRET = 'K8h_BPNEEODlMANw1uueD0IM';
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
-const REFRESH_TOKEN = '1//04kNCsE6pIn8-CgYIARAAGAQSNwF-L9Ir4cYR9uueroLFBr7H2IPRf_f7M00FGbkFTpOmQvKkDdbSvEiqyr_2kEZa5lkRSXG7yr4';
+const REFRESH_TOKEN = '1//04oD9XpKmvyYOCgYIARAAGAQSNwF-L9IruXKPRKKl1dnfMJGZRXlccxmQxub8JabPtXvr3Hs4SfH-vEMUq20VQwH5A6sGzLEPHkk';
 const oAuth2Client = new google.auth.OAuth2(
 	CLIENT_ID,
 	CLEINT_SECRET,

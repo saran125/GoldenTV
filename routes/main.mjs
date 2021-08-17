@@ -347,8 +347,8 @@ router.get("/customers/chart", async function (req, res) {
 	};
 });
 
-// router.get("*", notfound_page);
-// function notfound_page(req, res) {
-// 	console.log("Home page accessed");
-// 	return res.render('404');
-// }
+router.get("*", notfound_page);
+function notfound_page(req, res) {
+	console.log("Home page accessed");
+	return res.render('404');
+}
