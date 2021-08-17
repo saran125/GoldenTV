@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { flashMessage } from '../utils/flashmsg.mjs';
 import { ModelUser } from '../data/user.mjs';
+import { upload } from '../utils/multer.mjs';
 import Hash from 'hash.js';
 import session from 'express-session';
 import mysql from 'mysql';
@@ -8,6 +9,7 @@ import Passport from 'passport';
 import ExpressHBS from 'express-handlebars';
 const hbsRender = ExpressHBS.create({});
 import JWT from 'jsonwebtoken';
+import fs from 'fs';
 const router = Router();
 export default router;
 
@@ -31,6 +33,7 @@ router.get("/profile", profile_page);
 router.post("/profile", profile_process);9
 router.get("/updateprofile", updateprofile_page);
 router.put("/updateprofile/:uuid", updateprofile_processs);
+router.get("/deleteuser/:uuid", deleteuser);
 router.get('/add/user', user);
 router.post("/add/user", user_process);
 /**
@@ -562,6 +565,39 @@ async function updateprofile_processs(req, res){
 	}
 
 
+}
+/**
+ * Deletes a specific user
+ * @param {import('express').Request} req 
+ * @param {import('express').Response} res 
+ * @param {import('express').NextFunction} next
+ */
+ async function deleteuser(req, res, next) {
+	try {
+		const tid = String(req.user.uuid);
+		const target = await ModelUser.findByPk(tid);
+		const profilepic = './public/uploads/' + target['profilepic'];
+		fs.unlink(profilepic, function (err) {
+			if (err) {
+				throw err
+			} else {
+				console.log("Successfully deleted the file.")
+			}
+		})
+		req.session.destroy((err) => {
+			if (err) {
+				return console.log(err);
+			}
+		})
+		target.destroy();
+		console.log(`Deleted user: ${tid}`);
+		return res.redirect("/home");
+	}
+	catch (error) {
+		console.error(`Failed to delete`)
+		error.code = (error.code) ? error.code : 500;
+		return next(error);
+	}
 }
 
 
