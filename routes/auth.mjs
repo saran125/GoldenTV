@@ -31,7 +31,7 @@ router.post("/register", register_process);
 router.get("/verify/:token", verify_process);
 router.get("/profile", profile_page);
 router.post("/profile", profile_process);
-router.get("/updateprofile", updateprofile_page);
+router.get("/updateprofile/:uuid", updateprofile_page);
 router.put("/updateprofile/:uuid", updateprofile_processs);
 router.get("/deleteuser/:uuid", deleteuser);
 router.get('/add/user', user);
@@ -105,6 +105,7 @@ router.get("/reset-password/:token", async function (req, res, next){
 	}
 });
 router.post("/reset-password/:id", async function (req, res, next){
+	let errors = [];
 	const id = req.params.id;
 	const {password, password2} = req.body;
 	const user = await ModelUser.findByPk(id);
@@ -123,7 +124,7 @@ router.post("/reset-password/:id", async function (req, res, next){
 		try{
 			const user = await ModelUser.findByPk(id);
 			const update = await ModelUser.update({
-				password: Hash.sha256().update(req.body.password).digest("hex")
+				password: Hash.sha256().update(req.body.password1).digest("hex")
 			}, {
 				where: {
 					uuid: id
@@ -529,7 +530,7 @@ async function updateprofile_page(req, res){
 	const tid = String(req.user.uuid);
 	const user = await ModelUser.findByPk(tid);
 	console.log("Update Profile page accessed");
-	return res.render("auth/updateprofile",
+	return res.render("auth/updateprofile/:uuid",
 			{ user: user }
 		);
 }
@@ -565,6 +566,7 @@ async function updateprofile_processs(req, res){
 	}
 	catch(error){
 		console.error(`Failed to update user ${req.body.user.name}`);
+		return res.render('404');
 	}
 
 
