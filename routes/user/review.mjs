@@ -2,6 +2,9 @@ import { Router } from 'express';
 import { flashMessage } from '../../utils/flashmsg.mjs'
 import {ModelReview} from '../../data/review.mjs';
 import {ModelUser} from '../../data/user.mjs';
+import { ModelRoomInfo } from '../../data/roominfo.mjs';
+import { ModelMovieInfo } from '../../data/movieinfo.mjs';
+import { ModelSongInfo } from '../../data/songinfo.mjs';
 import ORM from 'sequelize';
 const { Sequelize, DataTypes, Model, Op } = ORM;
 const router = Router();
@@ -20,28 +23,79 @@ const oAuth2Client = new google.auth.OAuth2(
 
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 router.get("/retrievereview", view_reviewpage);
-router.get("/retrievecustomerreview/:TypeReview",async function(req, res){
+router.get("/retrievecustomerreview/:type/:id",async function(req, res){
 	console.log("Retrieve customer rendered")
-	return res.render("user/retrievecustomerreview",{TypeReview:req.params.TypeReview})
+	let movie = false;
+	let song = false;
+	let room = false;
+	console.log(`${req.params.id}`);
+	if (req.params.type == 'Movie') {
+		const detail = await ModelMovieInfo.findByPk(req.params.id);
+		console.log('feedback for movie')
+		movie = true
+		return res.render("user/retrievecustomerreview", {movie, type: req.params.type, detail, id: req.params.id  });
+	}
+	if (req.params.type == 'Karaoke') {
+		const detail = await ModelSongInfo.findByPk(req.params.id);
+		console.log('feedback for songs')
+		song = true
+		return res.render("user/retrievecustomerreview", {song, type: req.params.type, detail, id: req.params.id  });
+	}
+	if (req.params.type == 'Room') {
+		const detail = await ModelRoomInfo.findByPk(req.params.id);
+		console.log('feedback for rooms')
+		room = true
+		return res.render("user/retrievecustomerreview", {room, type: req.params.type, detail,id:req.params.id  });
+	}
+	
+});
+// cutomer have to login bef give review
+router.get("/create/:type/:id", async function (req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'customer') {
+    console.log("review page accessed");
+	let movie = false;
+	let song = false;
+	let room = false;
+	if(req.params.type == 'Movie'){
+		movie = true
+		const detail = await ModelMovieInfo.findByPk(req.params.id);
+		console.log('feedback for movie')
+		return res.render('user/create', {movie, detail,type:req.params.type,id:req.params.id});
+	}
+	if (req.params.type == 'Karaoke') {
+		song = true
+		const detail = await ModelSongInfo.findByPk(req.params.id);
+		console.log('feedback for songs')
+		return res.render('user/create', {song, detail, type: req.params.type, id: req.params.id });
+	}
+	if (req.params.type == 'Room') {
+		room = true
+		const detail = await ModelRoomInfo.findByPk(req.params.id);
+		console.log('feedback for songs')
+		return res.render('user/create', {room, detail, type: req.params.type, id: req.params.id });
+	}
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 });
 
-router.get("/create/:type", async function (req, res) {
-    console.log("review page accessed");
-    return res.render('user/create',{detail:req.params.type});
-});
-router.post("/create/:type", async function (req, res) {
+router.post("/create/:type/:id", async function (req, res) {
     const roomlist = await ModelReview.create({
         "rating": req.body.Rating,
         "feedback": req.body.feedback,
         "TypeReview": req.params.type,
+		"type_id":req.params.id,
 		"user_id":req.user.uuid,
     });
     console.log("review contents received");
     console.log(roomlist);
     let errors = [];
-    //	Check your Form contents
-    //	Basic IF ELSE STUFF no excuse not to be able to do this alone
-    //	Common Sense
     if (errors.length > 0) {
         flashMessage(res, 'error', 'Invalid review!', 'fas fa-sign-in-alt', true);
         return res.redirect(req.originalUrl);
@@ -64,14 +118,6 @@ async function view_reviewpage(req, res) {
 	}
   }
 
-router.get("/table",async function(req, res) {
-	console.log("table contents received")
-	console.log(req.body);
-});
-router.get("/table-data",async function(req, res){
-	console.log("table-data contents received")
-	console.log(req.body);
-});
 router.post("/deletereview/:uuid", async function (req, res){
 	console.log("contents deleted")
 	console.log(req.body);
@@ -92,20 +138,6 @@ router.post("/deletereview/:uuid", async function (req, res){
 });
 });
 //retrieve and delete for customer review
-
-
-async function view_customerreview(req, res) {
-	console.log("retrieve review page accessed");
-	try {
-	  return res.render("user/retrievecustomerreview", {
-	  });
-	} catch (error) {
-	  console.error("Failed to accesss retrieve review page");
-	  console.error(error);
-	  return res.status(500).end();
-	}
-  }
-
 router.post("/deletereview/:uuid", async function (req, res){
 	console.log("contents deleted")
 	console.log(req.body);
@@ -128,15 +160,36 @@ router.post("/deletereview/:uuid", async function (req, res){
 });
 router.get("/replyreview/:feedback",async function(req, res){
 	console.log("Reply reviewrendered")
-	const Reply= await ModelReview.findOne(	
+	const feedback= await ModelReview.findOne(	
 	{
 		where:{
 			uuid : req.params.feedback
 		}
 	});
-	const user = await ModelUser.findByPk(Reply.user_id);
+	
+	const user = await ModelUser.findByPk(feedback.user_id);
 	console.log(user);
-	return res.render("admin/replyreview",{feedback:Reply, user})
+	let movie = false;
+	let song = false;
+	let room = false;
+	if (feedback.TypeReview == 'Movie') {
+		movie = true
+		const detail = await ModelMovieInfo.findByPk(feedback.type_id);
+		console.log('feedback for movie')
+		return res.render("admin/replyreview", { feedback, user,movie,detail })
+	}
+	if (feedback.TypeReview == 'Karaoke') {
+		song = true
+		const detail = await ModelSongInfo.findByPk(feedback.type_id);
+		console.log('feedback for songs')
+		return res.render("admin/replyreview", { feedback, user, song, detail })
+	}
+	if (feedback.TypeReview == 'Room') {
+		room = true
+		const detail = await ModelRoomInfo.findByPk(feedback.type_id);
+		console.log('feedback for songs')
+		return res.render("admin/replyreview", { feedback, user, room, detail })
+	}
 });
 router.post("/replyreview/:feedback", async function (req, res) {
 	console.log("Reply reviewrendered");

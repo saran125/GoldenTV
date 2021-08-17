@@ -1,19 +1,21 @@
 import { Router } from 'express';
 import { Op } from '../data/database.mjs';
 import { flashMessage } from '../utils/flashmsg.mjs'
-// import { UploadFile, UploadTo, DeleteFile, DeleteFilePath } from '../utils/multer.mjs';
-// import axios from 'axios';
 import Review from '../routes/user/review.mjs';
 import path from 'path';
 import fs from 'fs';
+import ORM from "sequelize";
 import express from 'express';
 import methodOverride from 'method-override';
 import payment from '../routes/payment.mjs';
 import { ModelReview } from '../data/review.mjs';
 import { ModelUser } from '../data/user.mjs';
+import { ModelHomeInfo } from '../data/homeinfo.mjs';
+import { ModelMovieInfo } from '../data/movieinfo.mjs';
 import RouterReview from './user/review.mjs';
 import Routerfaq from './admin/faq.mjs';
 import fileUpload from 'express-fileupload';
+import Routerchatbot from './user/chatbot.js';
 // import RouterRoomReview from './roomreview.mjs';
 // const exphbs = require('express-handlebars');
 const router = Router();
@@ -35,29 +37,25 @@ import review from '../routes/user/review.mjs';
 router.use("/review", review);
 router.use("/faq", Routerfaq);
 router.use("/admin", Admin);
-//Staff
+//All
 router.use("/", HomeInfo);
-//Staff
+//All
 router.use("/prod", Prodlist);
 //Staff
 router.use("/room", RoomInfo);
 //Staff
-router.use("/movie", MovieInfo);
+router.use("/prod/movie", MovieInfo);
 //Staff
-router.use("/song", SongInfo);
+router.use("/prod/song", SongInfo);
 router.use('/user', User);
 router.use('/ticket', ticket);
 router.use("/payment", payment);
 router.use("/counter", counter);
+
 router.get("/paymentOption", async function (req, res) {
 	console.log("Choosing payment method");
 	return res.render('user/PaymentOption');
 });
-// router.get("*", notfound_page);
-// function notfound_page(req, res) {
-// 	console.log("Home page accessed");
-// 	return res.render('404');
-// }
 /**
  * @param database {ORM.Sequelize}
  */
@@ -92,7 +90,6 @@ export function initialize_models(database) {
 // ---------------- 
 //	TODO: Attach additional routers here
 import RouterAuth from './auth.mjs'
-import { ModelMovieInfo } from '../data/movieinfo.mjs';
 router.use("/auth", RouterAuth);
 
 // // Body parser middleware to parse HTTP body to read post data
@@ -108,10 +105,6 @@ router.use(methodOverride('_method'));
 
 // router.get ("/axios-test",  example_axios);
 
-class UserRole {
-	static get Admin() { return "admin"; }
-	static get User()  { return "user";  }
-}
 // router.use(ensure_auth);
 // router.use(ensure_admin);
 
@@ -129,95 +122,123 @@ class UserRole {
         return next();
     }
 }
-function roleResult(role) {
-	if (role == 'admin') { // if it is admin, return true
-		var user = false;
-		var admin = true;
-	}
-	else if (role == 'customer') {
-		// if it is user, return true
-		var user = true;
-		var admin = false;
-	}
-	return [user, admin];
-}
 
-// router.get ("/axios-test",  example_axios);
-
-// /**
-//  * Example of making a http request
-//  * Request (External) -> Data (IN Server) -> Post Processing -> Data (OUT Server, aka response) -> Used somewhere else (Your button, 3rd party RSS???)
-//  * Store limited access tokens without exposing credentials.
-//  * @param {import('express').Request}  req 
-//  * @param {import('express').Response} res 
-//  */
-//  async function example_axios(req, res) {
-// 	axios({
-// 		url:    "https://developers.onemap.sg/privateapi/auth/post/getToken",
-// 		method: "POST",
-// 		data:   {
-// 			"email":    "root@mail.com",
-// 			"password": ""
-// 		}
-// 	}).then(function (response) {
-// 		console.log(response.data);
-// 		return res.json(response.data);
-// 	});
-// }
-
-// const expressJson = express.json(); 
-// const bodyParser  = express.urlencoded({extended: true}); 
-// router.use([expressJson, bodyParser]);
-
-
-// /**
-//  * Renders the edithomebestreleases page
-//  * @param {Request}  req Express Request handle
-//  * @param {Response} res Express Response handle
-//  */
-// // ---------------- 
-// //	TODO:	Common URL paths here
-// async function editmovie_page(req, res) {
-// 	console.log("Prod List Edit Movie page accessed");
-// 	return res.render('updatemovies', {
-
-// 	});
-// };
-
-router.get("/about", async function (req, res) {
-	console.log("About page accessed");
-	return res.render('about', {
-		author: "The awesome programmer",
-		values: [1, 2, 3, 4, 5, 6]
-	});
+router.get("/", home_page);
+router.get("/home", async function (req, res) {
+	return res.redirect("/");
 });
-
-router.get('/about', (req, res) => {
-	const author = 'Denzel Washington';
-	let success_msg = 'Success message';
-	let error_msg = 'Error message using error_msg';
-	res.render('about', {
-		author: author,
-		success_msg: success_msg,
-		error_msg: error_msg
-	})
-});
-
-router.get("/businessstatistics", businessstatistics_page);
 
 /**
- * Renders the edithomebestreleases page
+ * Renders the home page
  * @param {Request}  req Express Request handle
  * @param {Response} res Express Response handle
  */
 // ---------------- 
 //	TODO:	Common URL paths here
-async function businessstatistics_page (req, res) {
-	console.log("Business Statistics page accessed");
-	return res.render('businessstatistics', {
-		
+async function home_page(req, res) {
+
+	class Release {
+		constructor(newly, countdown, image) {
+			this._newly = newly;
+			this._countdown = countdown;
+			this._image = image;
+		}
+		get newly() { return this._newly; }
+		set newly(newly) { this._newly = newly; }
+
+		get countdown() { return this._countdown; }
+		set countdown(countdown) { this._countdown = countdown; }
+
+		get image() { return this._image; }
+		set image(image) { this._image = image; }
+	};
+
+	const homeinfo = await ModelHomeInfo.findOne({
+		where: {
+			"homeinfo_uuid": "test"
+		}
 	});
-};
+
+	const movieinfo = await ModelMovieInfo.findAll();
+
+	const Newest = []; //Display Newly Created, Display Countdown and Image
+
+	for (let i = 0; i < movieinfo.length; i++) {
+		const countDownDate = new Date(movieinfo[i].moviereleasedate).getTime();
+		var now = new Date().getTime();
+		var distance1 = countDownDate - now;
+
+		const countDownCreation = new Date(movieinfo[i].dateCreated).getTime();
+		var now = new Date().getTime();
+		var distance2 = countDownCreation - now;
+
+		const release = new Release(distance2, distance1, movieinfo[i].movieimage);
+		Newest.push(release);
+	}
+
+	var countdown1 = -1;
+	var countdown2 = -1;
+	var countdown3 = -1;
+	var countdown4 = -1;
+	var release_img1 = "No-Image-PlaceHolder.png";
+	var release_img2 = "No-Image-PlaceHolder.png";
+	var release_img3 = "No-Image-PlaceHolder.png";
+	var release_img4 = "No-Image-PlaceHolder.png";
+
+	const NewestAgain = Newest.sort();
+
+	if (NewestAgain.length != 0) {
+
+		if (NewestAgain.length == 1) {
+			countdown1 = NewestAgain[0]._countdown;
+			release_img1 = NewestAgain[0]._image;
+		}
+		if (NewestAgain.length == 2) {
+
+			countdown1 = NewestAgain[0]._countdown;
+			countdown2 = NewestAgain[1]._countdown;
+			release_img1 = NewestAgain[0]._image;
+			release_img2 = NewestAgain[1]._image;
+		}
+
+		if (NewestAgain.length == 3) {
+
+			countdown1 = NewestAgain[0]._countdown;
+			countdown2 = NewestAgain[1]._countdown;
+			countdown3 = NewestAgain[2]._countdown;
+			release_img1 = NewestAgain[0]._image;
+			release_img2 = NewestAgain[1]._image;
+			release_img3 = NewestAgain[2]._image;
+		}
+		if (NewestAgain.length == 4) {
+			countdown1 = NewestAgain[0]._countdown;
+			countdown2 = NewestAgain[1]._countdown;
+			countdown3 = NewestAgain[2]._countdown;
+			countdown4 = NewestAgain[3]._countdown;
+			release_img1 = NewestAgain[0]._image;
+			release_img2 = NewestAgain[1]._image;
+			release_img3 = NewestAgain[2]._image;
+			release_img4 = NewestAgain[3]._image;
+		}
+	}
+	return res.render('home', {
+		homedescription: homeinfo.homedescription,
+		homepolicy: homeinfo.homepolicy,
+		homeimage: homeinfo.homeimage,
+		homepolicyimage: homeinfo.homepolicyimage,
+		homeinfo_uuid: "test",
+		release_img1: release_img1,
+		release_img2: release_img2,
+		release_img3: release_img3,
+		release_img4: release_img4,
+		countdown1: countdown1,
+		countdown2: countdown2,
+		countdown3: countdown3,
+		countdown4: countdown4
+	});
+}
+
+
 router.get("/contactus", function (req, res) {
 	console.log("Contact Us page accessed");
 	return res.render("user/contactus", {
@@ -230,3 +251,9 @@ router.get("/chatbot", function (req, res) {
 
 	});
 });
+
+router.get("*", notfound_page);
+function notfound_page(req, res) {
+	console.log("Home page accessed");
+	return res.render('404');
+}

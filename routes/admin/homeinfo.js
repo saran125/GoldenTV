@@ -73,10 +73,10 @@ async function home_page(req, res) {
 		Newest.push(release);
 	}
 
-	var countdown1 = "Coming Soon...";
-	var countdown2 = "Coming Soon...";
-	var countdown3 = "Coming Soon...";
-	var countdown4 = "Coming Soon...";
+	var countdown1 = -1;
+	var countdown2 = -1;
+	var countdown3 = -1;
+	var countdown4 = -1;
 	var release_img1 = "No-Image-PlaceHolder.png";
 	var release_img2 = "No-Image-PlaceHolder.png";
 	var release_img3 = "No-Image-PlaceHolder.png";
@@ -87,66 +87,35 @@ async function home_page(req, res) {
 	if (NewestAgain.length != 0) {
 
 		if (NewestAgain.length == 1) {
-			countdown1 = "Out Now!";
-			if (NewestAgain[0]._countdown > 0) {
-				countdown1 = NewestAgain[0]._countdown;
-			}
+			countdown1 = NewestAgain[0]._countdown;
 			release_img1 = NewestAgain[0]._image;
 		}
 		if (NewestAgain.length == 2) {
-			countdown1 = "Out Now!";
-			countdown2 = "Out Now!";
-			if (NewestAgain[0]._countdown > 0) {
-				countdown1 = NewestAgain[0]._countdown;
-				countdown2 = NewestAgain[1]._countdown;
-			}
+
+			countdown1 = NewestAgain[0]._countdown;
+			countdown2 = NewestAgain[1]._countdown;
 			release_img1 = NewestAgain[0]._image;
 			release_img2 = NewestAgain[1]._image;
 		}
+
 		if (NewestAgain.length == 3) {
-			if (NewestAgain[0]._countdown > 0) {
-				countdown1 = NewestAgain[0]._countdown;
-				countdown2 = NewestAgain[1]._countdown;
-				countdown3 = NewestAgain[2]._countdown;
-			}
-			else {
-				countdown1 = "Out Now!";
-				countdown2 = "Out Now!";
-				countdown3 = "Out Now!";
-			}
+
+			countdown1 = NewestAgain[0]._countdown;
+			countdown2 = NewestAgain[1]._countdown;
+			countdown3 = NewestAgain[2]._countdown;
 			release_img1 = NewestAgain[0]._image;
 			release_img2 = NewestAgain[1]._image;
 			release_img3 = NewestAgain[2]._image;
 		}
-		else {
-			if (NewestAgain[0]._countdown > 0) {
-				countdown1 = NewestAgain[0]._countdown;
-			}
-			else {
-				countdown1 = "Out Now!";
-			}
-			if (NewestAgain[1]._countdown > 0) {
-				countdown2 = NewestAgain[1]._countdown;
-			}
-			else {
-				countdown2 = "Out Now!";
-			}
-			if (NewestAgain[2]._countdown > 0) {
-				countdown3 = NewestAgain[2]._countdown;
-			}
-			else {
-				countdown3 = "Out Now!";
-			}
-			if (NewestAgain[3]._countdown > 0) {
-				countdown4 = NewestAgain[3]._countdown;
-			}
-			else {
-				countdown4 = NewestAgain[3]._countdown;
-			}
-			release_img1 = NewestAgain[3]._image;
-			release_img2 = NewestAgain[2]._image;
-			release_img3 = NewestAgain[1]._image;
-			release_img4 = NewestAgain[0]._image;
+		if (NewestAgain.length == 4) {
+			countdown1 = NewestAgain[0]._countdown;
+			countdown2 = NewestAgain[1]._countdown;
+			countdown3 = NewestAgain[2]._countdown;
+			countdown4 = NewestAgain[3]._countdown;
+			release_img1 = NewestAgain[0]._image;
+			release_img2 = NewestAgain[1]._image;
+			release_img3 = NewestAgain[2]._image;
+			release_img4 = NewestAgain[3]._image;
 		}
 	}
 	return res.render('home', {
@@ -172,8 +141,15 @@ async function home_page(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// admin to edit
 async function edithomedescription_page(req, res) {
-	console.log("Home Description page accessed");
+	console.log("Home editing page accessed");
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		// check whether the user is staff or manager
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	const homedes = await ModelHomeInfo.findOne({
 		where: {
 			"homeinfo_uuid": "test"
@@ -184,6 +160,12 @@ async function edithomedescription_page(req, res) {
 		{
 			homedes: homedes
 		});
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 };
 
 /**
@@ -191,6 +173,8 @@ async function edithomedescription_page(req, res) {
 * @param {Request}  req Express Request handle
 * @param {Response} res Express Response handle
 */
+
+// post might be difficult to access
 async function edithomedescription_process(req, res) {
 	try {
 		const homedes = await ModelHomeInfo.findOne({
@@ -225,21 +209,33 @@ async function edithomedescription_process(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// get method.. only admins can accessed
 async function edithomeimagepolicy_page(req, res, next) {
 	console.log("Home Policy page accessed");
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	const homeimagepolicy = await ModelHomeInfo.findOne({
 		where: {
 			"homeinfo_uuid": "test"
 		}
 	});
 	return res.render('admin/home/edithomeimagepolicy', { homeimagepolicy: homeimagepolicy });
-};
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};};
 
 /**
  * Renders the login page
  * @param {Request}  req Express Request handle
  * @param {Response} res Express Response handle
  */
+// post method 
 async function edithomeimagepolicy_process(req, res, next) {
 	try {
 		const homeimageFile = req.files.homeimage[0];

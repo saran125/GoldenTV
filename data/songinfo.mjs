@@ -1,6 +1,9 @@
 import ORM from 'sequelize'
 const { Sequelize, DataTypes, Model } = ORM;
+import date from 'date-and-time';
 
+const now = new Date();
+const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
 /**
  * A database entity model that represents contents in the database.
  * This model is specifically designed for users
@@ -16,8 +19,8 @@ export class ModelSongInfo extends Model {
 	static initialize(database) {
 		ModelSongInfo.init({
 			"song_uuid": { type: DataTypes.CHAR(36), primaryKey: true, defaultValue: DataTypes.UUIDV4 },
-			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
-			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
+			"dateCreated": { type: DataTypes.DATE(), allowNull: false, defaultValue: DateNow },
+			"dateUpdated": { type: DataTypes.DATE(), allowNull: false, defaultValue: DateNow },
 			"admin_uuid": { type: DataTypes.CHAR(36), defaultValue: DataTypes.UUIDV4 },
 			"songimage": { type: DataTypes.STRING(650), allowNull: false },
 			"songname": { type: DataTypes.STRING(650), allowNull: false },
@@ -45,7 +48,7 @@ export class ModelSongInfo extends Model {
 	**/
 	static _auto_update_timestamp(instance, options) {
 		// @ts-ignore
-		instance.dateUpdated = Sequelize.literal('CURRENT_TIMESTAMP');
+		instance.dateUpdated = DateNow;
 	}
 
 	get song_uuid() { return this.getDataValue("song_uuid"); }

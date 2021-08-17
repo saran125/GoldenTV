@@ -258,7 +258,8 @@ async function generate_review(database, options) {
 			"rating": '3',
 			"feedback": "good",
 			"TypeReview":"Movie",
-			"user_id":"iwbhb"
+			"user_id":"iwbhb",
+			"type_id":"0000000000000000"
 		};
 		//	Find for existing account with the same id, create or update
 		var account = await ModelReview.findOne({ where: { "uuid": root_parameters.uuid } });

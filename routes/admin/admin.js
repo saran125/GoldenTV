@@ -59,6 +59,8 @@ function option_page(req, res, next) {
  * @param {Request}  req Express Request handle
  * @param {Response} res Express Response handle
  */
+
+// post method
 async function option_process(req, res) {
     try {
         var fileKeys = req.files;
@@ -124,12 +126,6 @@ async function option_data(req, res) {
                     roomimage: { [Op.substring]: search },
                     location: { [Op.substring]: search },
                     "admin_id": { [Op.substring]: req.user.uuid }
-
-                    // location: { [Op.substring]: search },
-                    // time: { [Op.substring]: search },
-                    // date: { [Op.substring]: search },
-                    // roomtype: { [Op.substring]: search },
-                    // price: { [Op.substring]: search },
                 },
             }
             : undefined;
@@ -179,24 +175,6 @@ async function deleteoption(req, res, next) {
         return next(error);
     }
 };
-
-    // console.log("contents deleted")
-    // console.log(req.body);
-    // ModelRoomInfo.findOne({
-    //     where: {
-    //         room_uuid: req.params.room_uuid
-    //     },
-    // }).then((option) => {
-    //     if (option != null) {
-    //         ModelRoomInfo.destroy({
-    //             where: {
-    //                 room_uuid: req.params.room_uuid
-    //             }
-
-    //         })
-    //         return res.redirect("/admin/viewoption");
-    //     }
-    // });
 
 
 async function updateoption_page(req, res) {
@@ -311,6 +289,7 @@ async function retrieve_data(req, res) {
 
 async function review_data(req, res) {
     try {
+        console.log(req.params);
         console.log('retriving data');
         let pageSize = parseInt(req.query.limit);
         let offset = parseInt(req.query.offset);
@@ -329,7 +308,7 @@ async function review_data(req, res) {
                 [Op.or]: {
                     rating: { [Op.substring]: search },
                     feedback: { [Op.substring]: search },
-
+                    type_id: { [Op.substring]: search }
                 },
             }
             : undefined;

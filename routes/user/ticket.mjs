@@ -10,8 +10,17 @@ export default router;
 router.get("/ticketlist", tickettable);
 router.get("/tickettable-data", tickettable_data);
 async function tickettable(req, res) {
+    try {
+        let user = req.user.uuid;
+        console.log(user);
+        if (req.user.role == 'customer') {
     console.log(req.user.uuid);
     return res.render('user/tickets');
+}
+		else { return res.render('404'); }}
+	catch (error) {
+    return res.render('404');
+};
 };
 async function tickettable_data(req, res) {
     let pageSize = parseInt(req.query.limit);
@@ -73,6 +82,10 @@ router.get("/view/:uuid/:room_id", async function (req, res, next) {
     const tid = req.params.uuid;
     console.log("ticket page accessed");
     try {
+        let user = req.user.uuid;
+        console.log(user);
+        if (req.user.role == 'customer') {
+    try {
         if (tid == undefined) {
             throw new HttpError(400, "Target user id is invalid");
         }
@@ -111,6 +124,12 @@ router.get("/view/:uuid/:room_id", async function (req, res, next) {
         console.log(error);
         return next(error);
     }
+        }
+        else { return res.render('404'); }
+    }
+    catch (error) {
+        return res.render('404');
+    };
 });
 router.get("/delete/:room_id/:uuid", async function (req, res) {
     console.log("tickets deleted")

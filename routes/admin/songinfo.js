@@ -6,8 +6,8 @@ import ORM from "sequelize";
 const { Op } = ORM;
 const router = Router();
 export default router;
+import date from 'date-and-time';
 
-//STAFF
 router.get("/chooseeditsongstable", chooseeditsongstable);
 router.get("/chooseeditsongstable-data", chooseeditsongstable_data);
 router.get("/createsong", createsong_page);
@@ -27,8 +27,21 @@ router.get("/deletesong/:song_uuid", deletesong);
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only staff or manager can access
 async function chooseeditsongstable(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	return res.render('admin/songs/chooseeditsongstable');
+
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 }
 
 /**
@@ -98,11 +111,22 @@ async function chooseeditsongstable_data(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+// only staff or manager can access
 async function createsong_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	console.log("Prod List Create Songs page accessed");
 	return res.render('admin/songs/createsongs', {
 
 	});
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 };
 
 /**
@@ -120,8 +144,13 @@ async function createsong_process(req, res) {
 		}
 		console.log(uploadedFiles[0]);
 
+		const now = new Date();
+		const DateNow = date.format(now, "YYYY/MM/DD HH:mm:ss");
+
 		if (uploadedFiles.length == 1) {
 			const createsongs = await ModelSongInfo.create({
+				"dateCreated": DateNow,
+				"dateUpdated": DateNow,
 				"song_uuid": req.body.song_uuid,
 				"admin_uuid": req.user.uuid,
 				"songimage": String(uploadedFiles[0]),
@@ -164,11 +193,22 @@ async function createsong_process(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only staff or manager can access
 async function updatesong_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	const tid = String(req.params.song_uuid);
 	const song = await ModelSongInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
 	return res.render('admin/songs/updatesong', { song: song });
+}
+		else { return res.render('404'); }}
+	catch (error) {
+	return res.render('404');
+};
 };
 
 /**
@@ -198,7 +238,10 @@ async function updatesong_process(req, res) {
 				update_songimage.image = song.songimage; //select NO file
 			}
 		}
+		const now = new Date();
+		const DateNow = date.format(now, "YYYY/MM/DD HH:mm:ss");
 		song.update({
+			"dateUpdated": DateNow,
 			"songimage": update_songimage.image,
 			"songname": req.body.songname,
 			"songagerating": req.body.songagerating,
@@ -206,14 +249,14 @@ async function updatesong_process(req, res) {
 			"songgenre": req.body.songgenre
 		});
 		song.save();
-		console.log('Description created: $(movie.email)');
-		return res.redirect("/song/chooseeditsongstable");
+		console.log(`Description created: $(movie.email)`);
+		return res.redirect("/prod/list");
 	}
 	catch (error) {
 		console.error(`Failed to update user ${req.body.song_uuid}`);
-		// console.error(error);
-		// const song = await ModelSongInfo.findByPk(tid);
-		return res.render("admin/songs/updatesong");
+		const tid = String(req.params.song_uuid);
+		const song = await ModelSongInfo.findByPk(tid);
+		return res.render("admin/songs/updatesong", { song: song });
 	}
 }
 
@@ -224,17 +267,23 @@ async function updatesong_process(req, res) {
  * @param {import('express').NextFunction} next
  */
 async function deletesong(req, res, next) {
-	try {
-		const tid = String(req.params.song_uuid);
 		// if (tid == undefined)
 		// 	throw new HttpError(400, "Target not specified");
-
+	try {
+		const tid = String(req.params.song_uuid);
 		const target = await ModelSongInfo.findByPk(tid);
-		// if (target == null)
-		// 	throw new HttpError(410, "User doesn't exists");
+		const songimage = './public/uploads/' + target['songimage'];
+		fs.unlink(songimage, function (err) {
+			if (err) {
+				throw err
+			} else {
+				console.log("Successfully deleted the file.")
+			}
+		})
 		target.destroy();
 		console.log(`Deleted song: ${tid}`);
 		return res.redirect("/song/chooseeditsongstable");
+
 	}
 	catch (error) {
 		console.error(`Failed to delete`)

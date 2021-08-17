@@ -29,6 +29,10 @@ async function booking_process(req, res) {
     }
 }
 async function booking_page(req, res) {
+    try {
+        let user = req.user.uuid;
+        console.log(user);
+        if (req.user.role == 'customer') {
     console.log("booking page accessed");
     console.log(req.params.id);
     const room = await ModelRoomInfo.findOne({where:{
@@ -68,6 +72,12 @@ async function booking_page(req, res) {
         return res.render('user/booking', {
              choice:req.params.choice, room, small, medium, large,s,m,l
         });    
+        }
+        else { return res.render('404'); }
+    }
+    catch (error) {
+        return res.render('404');
+    };
 };
 
 router.post("/date", async function (req, res){
@@ -140,7 +150,7 @@ async function creview_data(req, res) {
                 [Op.or]: {
                     rating: { [Op.substring]: search },
                     feedback: { [Op.substring]: search },
-                    
+                type_id: { [Op.substring]: search },
                 },
             }
             : undefined;

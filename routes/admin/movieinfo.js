@@ -29,8 +29,20 @@ router.get("/deletemovie/:movie_uuid", deletemovie);
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only manager or staff can access 
 async function chooseeditmoviestable(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	return res.render('admin/movies/chooseeditmoviestable');
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 }
 
 /**
@@ -58,6 +70,7 @@ async function chooseeditmoviestable_data(req, res) {
 			[Op.or]: {
 				"dateCreated": { [Op.substring]: search },
 				"dateUpdated": { [Op.substring]: search },
+				"movieimage": { [Op.substring]: search },
 				"moviename": { [Op.substring]: search },
 				"movieagerating": { [Op.substring]: search },
 				"movieduration": { [Op.substring]: search },
@@ -100,9 +113,21 @@ async function chooseeditmoviestable_data(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only staff or manager can access
 async function createmovie_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	console.log("Prod List Choose Edit Movie page accessed");
 	return res.render('admin/movies/createmovies');
+		}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 };
 
 /**
@@ -121,15 +146,20 @@ async function createmovie_process(req, res, next) {
 		}
 		console.log(uploadedFiles[0]);
 
+		const now = new Date();
+		const DateNow = date.format(now, "YYYY/MM/DD HH:mm:ss");
+
 		const start = new Date(req.body.moviereleasedate);
 		const end = new Date(req.body.movieenddate);
 
-		const startDate = date.format(start, 'MMM DD, YYYY HH:mm:ss');
-		const endDate = date.format(end, 'MMM DD, YYYY HH:mm:ss');
+		const startDate = date.format(start, "YYYY/MM/DD HH:mm:ss");
+		const endDate = date.format(end, "YYYY/MM/DD HH:mm:ss");
 
 		if (uploadedFiles.length == 1) {
 			// const movieimageFile = req.file[0];
 			const createmovies = await ModelMovieInfo.create({
+				"dateCreated": DateNow,
+				"dateUpdated": DateNow,
 				"movie_uuid": req.body.movie_uuid,
 				"admin_uuid": req.user.uuid,
 				"moviereleasedate": startDate,
@@ -148,8 +178,8 @@ async function createmovie_process(req, res, next) {
 				const createmovies = await ModelMovieInfo.create({
 					"movie_uuid": req.body.movie_uuid,
 					"admin_uuid": req.user.uuid,
-					"moviereleasedate": date.format(new Date(req.body.moviereleasedate[i]), 'MMM DD, YYYY HH:mm:ss'),
-					"movieenddate": date.format(new Date(req.body.movieenddate[i]), 'MMM DD, YYYY HH:mm:ss'),
+					"moviereleasedate": date.format(new Date(req.body.moviereleasedate[i]), "YYYY/MM/DD HH:mm:ss"),
+					"movieenddate": date.format(new Date(req.body.movieenddate[i]), "YYYY/MM/DD HH:mm:ss"),
 					"movieimage": uploadedFiles[i],
 					"moviename": req.body.moviename[i],
 					"movieagerating": req.body.movieagerating[i],
@@ -176,7 +206,13 @@ async function createmovie_process(req, res, next) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
+
+// only staff or admin can access
 async function updatemovie_page(req, res) {
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+		if (req.user.role == 'staff' || req.user.role == 'manager') {
 	const tid = String(req.params.movie_uuid);
 	const movie = await ModelMovieInfo.findByPk(tid);
 	console.log("Prod List RoomsInfo page accessed");
@@ -194,6 +230,12 @@ async function updatemovie_page(req, res) {
 			movieenddate: endDate
 		}
 	);
+	}
+		else { return res.render('404'); }
+	}
+	catch (error) {
+		return res.render('404');
+	};
 };
 
 /**
@@ -230,9 +272,9 @@ async function updatemovie_process(req, res) {
 			}
 		}
 		const now = new Date();
-		const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
+		const DateNow = date.format(now, "YYYY/MM/DD HH:mm:ss");
 		movie.update({
-			"DateUpdated": DateNow,
+			"dateUpdated": DateNow,
 			"admin_uuid": req.user.uuid,
 			"moviereleasedate": startDate,
 			"movieenddate": endDate,
@@ -246,18 +288,22 @@ async function updatemovie_process(req, res) {
 		return res.redirect("/prod/list");
 	}
 	catch (error) {
-		console.error(`Failed to update user ${req.body.movie_uuid}`);
-		// console.error(error);
-		// const movieimage = './public/uploads/' + movie['movieimage'];
-		// fs.unlink(movieimage, function(err) {
-		// 	if (err) {
-		// 	  throw err
-		// 	} else {
-		// 	  console.log("Successfully deleted the file.")
-		// 	}
-		//   })
-		// const movie  = await ModelMovieInfo.findByPk(tid);
-		return res.render("admin/movies/updatemovie");
+		const tid = String(req.params.movie_uuid);
+		const movie = await ModelMovieInfo.findByPk(tid);
+		console.log("Prod List RoomsInfo page accessed");
+		// "2021-08-29T02:09"
+		const start = new Date(movie.moviereleasedate);
+		const end = new Date(movie.movieenddate);
+	
+		const startDate = date.format(start, 'YYYY-MM-DDTHH:mm');
+		const endDate = date.format(end, 'YYYY-MM-DDTHH:mm');
+		console.log(error);
+		return res.render("admin/movies/updatemovie",
+		{
+			movie: movie,
+			moviestartdate: startDate,
+			movieenddate: endDate
+		});
 	}
 }
 
@@ -270,12 +316,15 @@ async function updatemovie_process(req, res) {
 async function deletemovie(req, res, next) {
 	try {
 		const tid = String(req.params.movie_uuid);
-		// if (tid == undefined)
-		// 	throw new HttpError(400, "Target not specified");
 		const target = await ModelMovieInfo.findByPk(tid);
-		// movieimage = target.movieimage
-		// if (target == null)
-		// 	throw new HttpError(410, "User doesn't exists");
+		const movieimage = './public/uploads/' + target['movieimage'];
+		fs.unlink(movieimage, function (err) {
+			if (err) {
+				throw err
+			} else {
+				console.log("Successfully deleted the file.")
+			}
+		})
 		target.destroy();
 		console.log(`Deleted movie: ${tid}`);
 		return res.redirect("/prod/list");
