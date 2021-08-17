@@ -292,7 +292,7 @@
 
               <h6>Book For:</h6>
               <div class="submit">
-                <form action="/user/booking/Movie/%id%">
+                <form action="/user/booking/Movie/%movie_id%">
                   <input style=" padding-top: 2px; width:83px;" type="submit" value="Movie"
                     class="btn btn-outline-warning">
                 </form>
@@ -333,6 +333,7 @@
         .replace('%info%', row.roominfo)
         .replace('%name%', row.roomname)
         .replace('%id%', row.room_uuid)
+        .replace('%movie_id%', row.room_uuid)
         .replace('%uuid%', row.room_uuid)
         .replace("%type%", "Room");
     })

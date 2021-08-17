@@ -51,7 +51,7 @@ async function chooseeditsongstable(req, res) {
  */
 // ---------------- 
 //	TODO:	Common URL paths here
-async function chooseeditsongstable_data(req, res) {
+async function chooseeditsongstable_data(req, res,next) {
 	try {
 		let pageSize = parseInt(req.query.limit);    //(req.query.pageSize)? req.query.pageSize : 10;
 		let offset = parseInt(req.query.offset);   //page * pageSize;
