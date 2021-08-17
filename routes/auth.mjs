@@ -31,7 +31,7 @@ router.post("/register", register_process);
 router.get("/verify/:token", verify_process);
 router.get("/profile", profile_page);
 router.post("/profile", profile_process);
-router.get("/updateprofile/:uuid", updateprofile_page);
+router.get("/updateprofile", updateprofile_page);
 router.put("/updateprofile/:uuid", updateprofile_processs);
 router.get("/deleteuser/:uuid", deleteuser);
 router.get('/add/user', user);
@@ -530,11 +530,17 @@ async function updateprofile_page(req, res){
 	const tid = String(req.user.uuid);
 	const user = await ModelUser.findByPk(tid);
 	console.log("Update Profile page accessed");
-	return res.render("auth/updateprofile/:uuid",
+	return res.render("auth/updateprofile",
 			{ user: user }
 		);
 }
 
+
+/**
+ * 
+ * @param {import('express').Request}  req 
+ * @param {import('express').Response} res 
+ */
 async function updateprofile_processs(req, res){
 	try{
 		let update_image = {};
