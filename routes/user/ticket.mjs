@@ -104,7 +104,8 @@ router.get("/view/:uuid/:room_id", async function (req, res, next) {
         Location: "+ room.location+"\
         time: "+ target_user.time+"\
         date: "+ target_user.date +"\
-        roomtype: "+ target_user.roomtype +"\
+        roomtype: "+ room.roomsize+"\
+        roomname: "+ room.roomname +"\
         price: "+ target_user.price;
        
         if (target_user == null) {
