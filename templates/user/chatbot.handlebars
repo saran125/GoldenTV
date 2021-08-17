@@ -1,17 +1,19 @@
 <!doctype html>
+{{> navbar}}
 <html>
   <head>
     <title>ChatBot</title>
     <style>
-      * { padding: 0; box-sizing: border-box; }
+      * { padding: 0; }
       body {
         font: 19px Helvetica, Arial;
-        padding-left:20%;
-        padding-right:20%;
+        padding-left:10%;
+        padding-right:10%;
+        
       }
       #f { background: #000; position: fixed; bottom: 1%; left:20%; right:20%; border:1px solid black; }
-      #f input { border: 2px solid black; width:80%; font-size:120%; }
-      #f button { background: rgb(130, 224, 255); border:2px solid black; margin-right:0; width:20%;font-size:120%;}
+      #f input { border: 3px solid black; width:80%; font-size:120%; }
+      #f button { background: rgb(202, 182, 2); border:2px solid black; margin-right:0; width:20%;font-size:120%;}
       #messages { list-style-type: none; padding: 0; padding-bottom: 3%;}
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; text-align:right; }
