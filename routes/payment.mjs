@@ -392,7 +392,7 @@ router.get("/success/:choice/:price/:room_id/:date/:time",async function (req, r
 			choice: req.params.choice,
 			date: req.params.date,
 			time: req.params.time,
-			"price":price
+			price:req.params.price
 		});
 		console.log(ticket);
 	const accessToken = await oAuth2Client.getAccessToken();

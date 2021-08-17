@@ -7,7 +7,7 @@ const { Sequelize, DataTypes, Model } = ORM;
 **/
 import date from 'date-and-time';
 const now = new Date();
-const DateNow = date.format(now, 'MM DD, YYYY HH:mm:ss');
+const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
 export class Modelpromo extends Model {
     /**
      * Initializer of the model

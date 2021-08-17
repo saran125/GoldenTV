@@ -7,7 +7,7 @@ const { Sequelize, DataTypes, Model } = ORM;
 **/
 import date from 'date-and-time';
 const now = new Date();
-const DateNow = date.format(now, 'MMM DD, YYYY HH:mm:ss');
+const DateNow = date.format(now, 'YYYY/MM/DD HH:mm:ss');
 export class Modelticket extends Model {
     /**
      * Initializer of the model
