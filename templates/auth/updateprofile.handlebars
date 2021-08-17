@@ -1,27 +1,32 @@
 <link rel="stylesheet" href="/public/css/profile.css">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 <style>
-	body {
-		background-color: black;
-		color: black;
-	}
+  body {
+    background-color: black;
+    color: black;
+  }
 
-	* {
-		color: black;
-	}
+  * {
+    color: black;
+  }
+
   .submit {
     margin-bottom: auto;
   }
+
   .btn#query {
     background-color: aqua;
   }
+
   .btn#delete {
     background-color: rgb(235, 38, 23);
   }
-  </style>
+</style>
+
 <body>
- 
-    {{> navbar}}
+
+  {{> navbar}}
+  <form method="POST" action="/auth/updateprofile/{{ user.uuid }}?_method=PUT" enctype="multipart/form-data">
     <!-- Header -->
     <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-color:black;">
       <!-- Mask -->
@@ -31,7 +36,7 @@
         <div class="row">
           <div class="col-lg-7 col-md-10">
             <p>User Profile</p>
-            
+
             <h1 class="display-2 text-white">Hello {{ user.name }}</h1>
           </div>
         </div>
@@ -43,15 +48,16 @@
         <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
           <div class="card card-profile shadow">
             <div class="row justify-content-center">
-                <div class="card-profile-image">
-                  <div style="margin: 10%;">
-                  <img id="imagedisplay" src="/public/uploads/{{ user.profilepic }}" alt="" class="border img-thumbnail img-fluid"
-      style="width:200px; border-radius:50%;">
-      <input type="file" id="profilepic"
-      onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
-      name="profilepic" value="{{ user.profilepic }}">
-      </div>
+
+              <div class="card-profile-image">
+                <div style="margin: 10%;">
+                  <img id="imagedisplay" src="/public/uploads/{{ user.profilepic }}" alt=""
+                    class="border img-thumbnail img-fluid" style="width:200px; border-radius:50%;">
+                  <input type="file" id="profilepic"
+                    onchange="document.getElementById('imagedisplay').src = window.URL.createObjectURL(this.files[0])"
+                    name="profilepic" value="{{ user.profilepic }}">
                 </div>
+              </div>
             </div>
             <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
               <div class="d-flex justify-content-between">
@@ -85,46 +91,48 @@
               </div>
             </div>
             <div class="card-body">
-              <form method="POST" action="/auth/updateprofile/{{ user.uuid }}?_method=PUT">
-                <h6 class="heading-small text-muted mb-4">User information</h6>
-                <div class="pl-lg-4">
-                  <div class="row">
-                    
-                    <div class="col-lg-6">
-                      <div class="form-group focused">
-                        <label class="form-control-label" for="input-username">Username</label>
-                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ user.name }}" required >
-                      </div>
+
+              <h6 class="heading-small text-muted mb-4">User information</h6>
+              <div class="pl-lg-4">
+                <div class="row">
+
+                  <div class="col-lg-6">
+                    <div class="form-group focused">
+                      <label class="form-control-label" for="input-username">Username</label>
+                      <input type="text" id="input-username" class="form-control form-control-alternative" name="name"
+                        placeholder="Username" value="{{ user.name }}" required>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-email">Email address</label>
-                        <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="Email" value="{{ user.email }}" required>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="submit">
-                  <button class="btn" id="query" type="submit">Submit</button>
-                  </div>
-                  <div>
-                   <button class="btn" id="delete"><a href="/auth/deleteuser/{{ user.uuid }}"  data-toggle="confirmation"
-                            data-title="Confirm delete?">
-			<i class="fa fa-trash"></i>Delete Account
-		</a></button>
-                  </div>
-              </form>
                 </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email">Email address</label>
+                      <input type="email" id="input-email" class="form-control form-control-alternative" name="email"
+                        placeholder="Email" value="{{ user.email }}" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="submit">
+                  <button class="btn" id="query" type="submit">Submit</button>
+                </div>
+                <div>
+                  <button class="btn" id="delete"><a href="/auth/deleteuser/{{ user.uuid }}" data-toggle="confirmation"
+                      data-title="Confirm delete?">
+                      <i class="fa fa-trash"></i>Delete Account
+                    </a></button>
+                </div>
+  </form>
+  </div>
 
-                
 
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
+
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+
   <footer class="footer">
     <div class="row align-items-center justify-content-xl-between">
       <div class="col-xl-6 m-auto text-center">

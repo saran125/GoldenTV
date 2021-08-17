@@ -141,20 +141,6 @@ async function edithomeimagepolicy_process(req, res, next) {
 			homepolicyimage: homepolicyimageFile.filename
 		});
 		homeimagepolicy.save();
-		fs.unlink(homeimage, function (err) {
-			if (err) {
-				throw err
-			} else {
-				console.log("Successfully deleted the file.")
-			}
-		})
-		fs.unlink(homepolicyimage, function (err) {
-			if (err) {
-				throw err
-			} else {
-				console.log("Successfully deleted the file.")
-			}
-		})
 		console.log('Description created: $(homeimagepolicy.email)');
 		return res.redirect("/");
 	}

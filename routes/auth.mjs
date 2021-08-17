@@ -30,7 +30,7 @@ router.get("/register", register_page);
 router.post("/register", register_process);
 router.get("/verify/:token", verify_process);
 router.get("/profile", profile_page);
-router.post("/profile", profile_process);9
+router.post("/profile", profile_process);
 router.get("/updateprofile", updateprofile_page);
 router.put("/updateprofile/:uuid", updateprofile_processs);
 router.get("/deleteuser/:uuid", deleteuser);
@@ -116,7 +116,7 @@ router.post("/reset-password/:id", async function (req, res, next){
 			errors = errors.concat({ text: "Password do not match!" });
 		}}
 	catch (error) {
-			console.error("There is errors with the registration form body.");
+			console.error("There is errors with the reset password form.");
 			console.error(error);
 			return res.render('/', { errors: errors });
 		}
@@ -130,7 +130,10 @@ router.post("/reset-password/:id", async function (req, res, next){
 				}
 			});
 			user.save();
-			flashMessage(res, 'success', 'Successfully created an account. Please verify your email and login', 'fas fa-sign-in-alt', true);
+			if (req.session){
+				req.session.destroy();
+			}
+			flashMessage(res, 'success', 'Successfully changed password. ', 'fas fa-sign-in-alt', true);
 		return res.render('auth/login', )
 	}catch(error){
 		console.log(error);
@@ -553,8 +556,8 @@ async function updateprofile_processs(req, res){
 			}
 		}
 		user.update({
-			"name":req.user.name,
-			"email":req.user.email,
+			"name":req.body.name,
+			"email":req.body.email,
 			"profilepic":update_image.image
 		});
 		user.save();
