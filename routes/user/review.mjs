@@ -321,3 +321,67 @@ body {
 		return res.redirect("/review/retrievereview");
 	}
 });
+
+router.get("/updatecustomerreview/:uuid",async function(req, res){
+	try {
+		let user = req.user.uuid;
+		console.log(user);
+	
+	return res.render("user/updatecustomerreview", {
+		id:req.params.uuid});
+	
+		
+		}
+	catch (error) {
+			return res.render('404');
+		};
+});
+
+// post method cannot access easily
+router.post("/updatecustomerreview/:uuid", async function (req, res) {
+	console.log("update review contents received");
+	console.log(req.body);
+	const UCR = await ModelReview.update({
+		"rating"		: req.body.Rating,
+		"feedback"      : req.body.feedback,
+	},{
+		where:{
+			uuid : req.params.uuid
+		}
+	}); 
+
+	console.log("Update customer review contents received");
+	console.log(UCR);
+	let errors = [];
+	//	Check your Form contents
+	//	Basic IF ELSE STUFF no excuse not to be able to do this alone
+	//	Common Sense
+	if (errors.length > 0) {
+		flashMessage(res, 'error', 'Invalid update!', 'fas fa-sign-in-alt', true);
+		return res.redirect(req.originalUrl);
+	}
+	else {
+		
+		return res.redirect("/home")
+	}
+});
+router.post("/deletecustomerreview/:uuid", async function (req, res){
+	console.log("contents deleted")
+	console.log(req.body);
+	ModelReview.findOne({
+		where: {
+			uuid:req.params.uuid
+		},
+	}).then((creview)=>{
+		if (creview != null){
+		ModelReview.destroy({
+			where:{
+				uuid:req.params.uuid
+			}
+			
+		})
+		return res.redirect("/home");
+	}
+	
+});
+});

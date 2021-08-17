@@ -29,6 +29,7 @@ export class ModelUser extends Model {
 			"dateUpdated": { type: DataTypes.DATE(),      allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
 			"name"       : { type: DataTypes.STRING(64),  allowNull: false },
 			"email"      : { type: DataTypes.STRING(128), allowNull: false },
+			"profilepic" : { type: DataTypes.STRING(650), allowNull: true, defaultValue:"defaultpic.jpg"},
 			"password"   : { type: DataTypes.STRING(64),  allowNull: false },
 			"role"       : { type: DataTypes.ENUM(UserRole.User, UserRole.Staff, UserRole.Manger), defaultValue: "customer", allowNull: false },
 			"verified"   : { type: DataTypes.BOOLEAN,     allowNull: false, defaultValue: false }
