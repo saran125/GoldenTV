@@ -268,7 +268,6 @@ async function register_process(req, res) {
 		await send_verification(user.uuid, user.email, user.name);
 		flashMessage(res, 'success', 'Successfully created an account. Please verify your email and login', 'fas fa-sign-in-alt', true);
 		return res.redirect("/auth/login");
-
 	}
 	catch (error) {
 		//	Else internal server error

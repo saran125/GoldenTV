@@ -15,6 +15,8 @@ import RouterReview from './user/review.mjs';
 import Routerfaq from './admin/faq.mjs';
 import fileUpload from 'express-fileupload';
 import Routerchatbot from './user/chatbot.js';
+import {ModelRoomInfo} from '../data/roominfo.mjs';
+import {Modelticket} from '../data/tickets.mjs';
 // import RouterRoomReview from './roomreview.mjs';
 // const exphbs = require('express-handlebars');
 const router = Router();
@@ -170,13 +172,16 @@ router.use(methodOverride('_method'));
 // 	})
 // });
 
-router.get("/contactus", function (req, res) {
+router.get("/contactus", async function (req, res) {
+	room();
+	total_price();
 	console.log("Contact Us page accessed");
 	return res.render("user/contactus", {
 
 	});
 });
 router.get("/chatbot", function (req, res) {
+	customer();
 	console.log("Chatbot page accessed");
 	return res.render("user/chatbot", {
 
@@ -188,3 +193,85 @@ router.get("/chatbot", function (req, res) {
 // 	console.log("Home page accessed");
 // 	return res.render('404');
 // }
+let name = []
+function room(){
+ModelRoomInfo.sync({ alert: true }).then(() => {
+	return ModelRoomInfo.findAll({ attributes: ['roomname'] });
+}).then((data) => {
+	data.forEach(element => {
+		name.push(element.toJSON().roomname);
+		console.log(element.toJSON().roomname);
+	})
+})}
+router.get("/rooms/chart", async function(req,res){
+	console.log("accessing chart");
+	const DATA_COUNT = await ModelRoomInfo.findAndCountAll({raw:true});
+	console.log(DATA_COUNT.count);
+	console.log(name);
+	let movie = [];
+	let karaoke = [];
+	let roomname = [];
+	for(let i = 0; i< DATA_COUNT.count; i++ ){
+		const location = await ModelRoomInfo.findOne({where:{roomname:name[i]}});
+		const m = await Modelticket.findAndCountAll({ where: { room_id: location.room_uuid, choice:'Movie'} });
+		const s = await Modelticket.findAndCountAll({ where: { room_id: location.room_uuid, choice:'Karaoke' } });
+		movie.push(m.count);
+		karaoke.push(s.count);
+		console.log(m);
+		roomname.push(name[i]);
+	}
+	console.log(movie);
+	console.log(karaoke);
+	const labels = roomname;
+	
+	return res.render('chart',{label:labels, movie:movie, song:karaoke});
+});
+let customer_name = []
+let amount = [];
+async function total_price(){
+	console.log('can access chart')
+for (let i = 0; i < customer_name.length; i++) {
+	const user = await ModelUser.findOne({ where: { name: customer_name[i], role: "customer" } });
+	console.log(user.name);
+	let price = 0;
+	let each_amount = [];
+	Modelticket.sync({ alert: true }).then(() => {
+		return Modelticket.findAll({ attributes: ['price'], where: { user_id: user.uuid } });
+	}).then((data) => {
+		data.forEach(element => {
+			each_amount.push(element.toJSON().price);
+			console.log(element.toJSON().price);
+		})
+		for (let e = 0; e < each_amount.length; e++) {
+			price += each_amount[e]
+		}
+		amount.push(price);
+		console.log(price);
+	})
+}
+}
+function customer() {
+	ModelUser.sync({ alert: true }).then(() => {
+		return ModelUser.findAll({ attributes: ['name'], where: { role: 'customer' } });
+	}).then((data) => {
+		data.forEach(element => {
+			customer_name.push(element.toJSON().name);
+			console.log(element.toJSON().name);
+		})
+	})
+}
+router.get("/customers/chart", async function (req, res) {
+	console.log("accessing chart");
+	console.log(customer_name);
+	console.log(amount);
+	let spend = [];
+	let names = [];
+	const data_count = await ModelUser.findAndCountAll({ where:{role:'customer'} });
+	for(let i = 0; i <data_count.count;i++){
+		spend.push(customer_name[i]);
+		names.push(amount[i])
+	}
+	const labels = spend;
+	const data = names;
+	return res.render('customer', { label: labels, data: data});
+});
