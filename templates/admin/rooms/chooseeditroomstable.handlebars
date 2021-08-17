@@ -84,7 +84,6 @@
     <div class="ListTable1">
         <div class="blackblock"></div>
         <h1>Rooms Data Table</h1>
-        {{!-- <button><a class="nav-link" href="/admin/option">Add more Option</a></button> --}}
         <div class="submit">
             <form action="../room/createrooms">
                 <input type="submit" value="Add Rooms" class="btn btn-outline-warning">
@@ -102,14 +101,14 @@
                 <option value="selected" style="color: #000000;">Export Selected</option>
             </select>
         </div>
-        <table id="table" data-show-footer="true" data-toggle="table" data-url="/room/chooseeditroomstable-data"
-            data-search="true" data-pagination="true" data-height="600" data-total-field="total"
-            data-silent-sort="false" data-data-field="rows" data-side-pagination="server" data-sort-name="location"
-            data-server-sort="true" data-addrbar="true" data-show-export="true" data-filter-control="true"
-            data-show-columns="true" data-show-columns-toggle-all="true" data-click-to-select="true"
-            data-show-columns-search="true" data-minimum-count-columns="2" data-show-pagination-switch="true"
-            data-page-list="[5, 10, 25, 50, all]" data-show-custom-view="true" data-show-fullscreen="true"
-            data-show-refresh="true">
+
+        <table id="table" data-show-footer="true" data-show-toggle="true" data-toolbar="#toolbar" data-toggle="table"
+            data-url="/room/chooseeditroomstable-data" data-search="true" data-pagination="true" data-height="600"
+            data-total-field="total" data-silent-sort="false" data-data-field="rows" data-side-pagination="server"
+            data-sort-name="location" data-server-sort="true" data-addrbar="true" data-show-export="true"
+            data-filter-control="true" data-show-columns="true" data-show-columns-toggle-all="true"
+            data-click-to-select="true" data-show-columns-search="true" data-page-list="[5, 10, 25, 50, all]"
+            data-show-custom-view="true" data-show-refresh="true">
 
             <thead>
                 <tr>
@@ -123,7 +122,8 @@
                     <th data-field="location" data-sortable="true">Location</th>
                     <th></th>
                     <th data-formatter="table_row_edit">Edit</th>
-                    <th data-formatter="table_row_image" data-sortable="true" data-footer-formatter="nameFormatter1">Image</th>
+                    <th data-formatter="table_row_image" data-sortable="true" data-footer-formatter="nameFormatter1">
+                        Image</th>
                     {{#if (cmp_eq user.role "manager") }}
                     <th data-field="action" data-formatter="tickets">Ticket Details</th>
                     {{/if}}

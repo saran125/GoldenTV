@@ -70,6 +70,7 @@ async function chooseeditmoviestable_data(req, res) {
 			[Op.or]: {
 				"dateCreated": { [Op.substring]: search },
 				"dateUpdated": { [Op.substring]: search },
+				"movieimage": { [Op.substring]: search },
 				"moviename": { [Op.substring]: search },
 				"movieagerating": { [Op.substring]: search },
 				"movieduration": { [Op.substring]: search },
