@@ -282,7 +282,7 @@ async function deletesong(req, res, next) {
 		})
 		target.destroy();
 		console.log(`Deleted song: ${tid}`);
-		return res.redirect("/song/chooseeditsongstable");
+		return res.redirect("/prod/list");
 
 	}
 	catch (error) {
